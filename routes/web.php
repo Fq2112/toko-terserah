@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'akun'], function () {
 
+    Auth::routes();
     Route::group(['namespace' => 'Auth'], function () {
 
         Route::get('cek/{username}', [
@@ -32,7 +33,7 @@ Route::group(['prefix' => 'akun'], function () {
             'as' => 'logout'
         ]);
 
-        Route::post('password/reset/{token}', [
+        Route::post('password/reset/{token?}', [
             'uses' => 'ResetPasswordController@showResetForm',
             'as' => 'password.request'
         ]);

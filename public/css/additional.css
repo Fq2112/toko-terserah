@@ -448,6 +448,11 @@
     background-color: rgba(91, 179, 0, 0.5);
 }
 
+.form-control:disabled, button:disabled {
+    cursor: no-drop !important;
+    opacity: .6 !important;
+}
+
 .btn-primary {
     background-color: #5bb300;
     border-color: #488f00;

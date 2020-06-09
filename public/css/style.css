@@ -673,12 +673,12 @@ h2.text-heading.coffee-color:after {
     color: #999;
 }
 
-.bg-dark-red {
+.bg-dark-green {
     background: #262934;
     color: #999;
 }
 
-.bg-dark-red p {
+.bg-dark-green p {
     color: #5bb300;
 }
 
@@ -736,20 +736,6 @@ h2.text-heading.coffee-color:after {
 
 .bg-dark-grey {
     background: #383838 !important;
-}
-
-.login-bg {
-    background: #fff;
-    color: #777;
-    border-radius: 10px 50px;
-}
-
-.login-bg-default {
-    background: #fff;
-    color: #777;
-    padding: 20px;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
 }
 
 .shop-btn {
@@ -1225,8 +1211,8 @@ h2.text-heading.coffee-color:after {
     font-size: 14px;
 }
 
-.btn.btn-dark-red {
-    background: #f1372a;
+.btn.btn-dark-green {
+    background: #5bb300;
     font-family: 'Raleway', sans-serif;
     color: #fff;
     border-color: #fff;
@@ -5023,7 +5009,7 @@ a.search-bgdark:hover {
     content: '';
     margin: 0 auto;
     width: 50px;
-    border-bottom: 2px solid #f1372a;
+    border-bottom: 2px solid #5bb300;
     bottom: 0 !important;
     display: block;
     padding-top: 5px;
@@ -5346,15 +5332,15 @@ a.search-bgdark:hover {
 }
 
 .features-2.apps .icon-border {
-    border: 2px solid #f1372a;
+    border: 2px solid #5bb300;
 }
 
 .features-2.apps .icon-border i {
-    color: #f1372a;
+    color: #5bb300;
 }
 
 .features-2.apps:hover .hexagon .icon-border {
-    background: #f1372a;
+    background: #5bb300;
     border-radius: 50%;
 }
 
@@ -7401,38 +7387,6 @@ a.search-bgdark:hover {
     -o-transform: translate(0px, -10px);
     transform: translate(0px, -10px);
 }
-
-.login {
-    margin: 0;
-    padding: 20px;
-    border-radius: 10px 50px;
-    -webkit-box-shadow: 0px 0px 13px 0px rgba(222, 222, 222, 1);
-    -moz-box-shadow: 0px 0px 13px 0px rgba(222, 222, 222, 1);
-    box-shadow: 0px 0px 13px 0px rgba(222, 222, 222, 1);
-    border-top: 3px solid #5bb300;
-}
-
-.login h4 {
-    padding-bottom: 20px !important;
-    color: #5bb300;
-}
-
-.login label {
-    font-family: "Raleway", Arial, sans-serif;
-    font-weight: 400;
-    padding-top: -20px !important;
-    margin-top: -20px !important;
-}
-
-.login a {
-    color: #5bb300 !important;
-    margin-left: 10px;
-}
-
-.login a:hover {
-    color: #000 !important;
-}
-
 
 /* ===========================
     Our Advantages
@@ -20529,7 +20483,7 @@ right connector from last child*/
 
 .bg-slidebg:before {
     content: "";
-    background: #f1372a;
+    background: #5bb300;
     position: absolute;
     top: 0;
     left: 0;
@@ -20600,7 +20554,7 @@ right connector from last child*/
     margin: 0 auto;
     display: block;
     padding: 10px;
-    border: 2px dashed #f1372a;
+    border: 2px dashed #5bb300;
     border-radius: 50%;
 }
 
@@ -20684,7 +20638,7 @@ right connector from last child*/
 }
 
 .apps-video .apps-videolink i {
-    color: #f1372a;
+    color: #5bb300;
     font-size: 100px;
     padding: 0;
     margin: 0;

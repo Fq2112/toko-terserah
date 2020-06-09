@@ -252,7 +252,7 @@
     </footer>
 </div>
 
-{{--@include('layouts.partials._signUpIn')--}}
+@include('layouts.partials._signUpIn')
 
 <div id="gotoTop" class="fa fa-arrow-up"></div>
 <div class="myProgress">

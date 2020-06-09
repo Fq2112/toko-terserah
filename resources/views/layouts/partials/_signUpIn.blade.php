@@ -62,8 +62,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input id="btn_login" class="btn btn-dark-red btn-login" type="submit"
-                                               value="MASUK">
+                                        <button id="btn_login" class="btn btn-dark-green btn-login" type="submit">MASUK</button>
                                     </div>
                                 </div>
                             </form>
@@ -146,8 +145,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input id="btn_register" class="btn btn-dark-red btn-register" type="submit"
-                                               value="BUAT AKUN" disabled>
+                                        <button id="btn_register" class="btn btn-dark-green btn-register" type="submit"
+                                                disabled>BUAT AKUN</button>
                                     </div>
                                 </div>
                             </form>
@@ -185,8 +184,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input class="btn btn-dark-red btn-login" type="submit"
-                                               value="Kirim tautan reset kata sandi">
+                                        <button class="btn btn-dark-green btn-login" type="submit">
+                                            Kirim tautan reset kata sandi</button>
                                     </div>
                                 </div>
                             </form>
@@ -208,8 +207,7 @@
                         <div id="forg_errorAlert"></div>
                         <div class="form">
                             <form id="form-recovery" method="post" accept-charset="UTF-8" class="form-horizontal"
-                                  action="{{route('password.request',
-                                  ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
+                                  action="{{route('password.request', ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
                                 @csrf
                                 <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
                                     <div class="col-lg-12">
@@ -245,8 +243,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input class="btn btn-dark-red btn-login btn-password" type="submit"
-                                               value="reset kata sandi">
+                                        <button class="btn btn-dark-green btn-login btn-password" type="submit">
+                                            reset kata sandi</button>
                                     </div>
                                 </div>
                             </form>
