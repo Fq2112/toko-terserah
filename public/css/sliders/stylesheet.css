@@ -1,0 +1,51 @@
+.gallery {} .gallery .previews,
+.gallery .full,
+.gallery .desc {
+    float: left;
+    margin-right: 10px;
+}
+.gallery .desc,
+.gallery .full {
+    width: 350px;
+    font-size: 12px;
+}
+.gallery .desc,
+.gallery .full.width-size {
+    width: 430px;
+    height: 367px;
+}
+.gallery .desc h2 {
+    margin-top: 0;
+}
+.gallery .previews a {
+    display: block;
+    margin-bottom: 10px;
+}
+.gallery .full,
+.gallery .full img {
+	text-align: center;
+	margin: 0 auto;
+    height: auto;
+}
+.gallery .previews a,
+.gallery .full {
+    border: 2px solid #eee;
+}
+.gallery .previews a:hover,
+.gallery .previews a.selected {
+    border: 2px solid #5bb300;
+}
+.color-blue a.selected,
+.previews a:hover {
+    border: 2px solid #1071dc !important;
+}
+.gallery .full img:hover {
+    cursor: pointer;
+}
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}

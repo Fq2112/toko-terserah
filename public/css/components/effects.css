@@ -1,0 +1,6500 @@
+/*
+--------------------------------------------------------
+
+Item Information
+
+--------------------------------------------------------
+
+Author: IncisiveStudio
+Author UI: http://IncisiveStudio.com
+Item Name: Sinister
+Description: CSS Animation and Effects
+Version: 1.6.4
+
+-------------------------------------------------------- */
+
+.ImageWrapper {
+    -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    -ms-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    -o-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/*  =============================================
+Button Layout and Color Scheme
+============================================= */
+
+.WhiteRounded {
+    background-color: #ffffff;
+    border: medium none;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+}
+
+.WhiteRounded > a {
+    color: #222222;
+    display: block;
+    font-weight: normal;
+}
+
+.RedRounded {
+    background-color: #D8322B;
+    border: medium none;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+}
+
+.RedRounded > a {
+    color: #FFFFFF;
+    display: block;
+    font-weight: normal;
+}
+
+.BlackRounded {
+    background-color: #222222;
+    border: medium none;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+}
+
+.BlackRounded > a {
+    color: #ffffff;
+    display: block;
+    font-weight: normal;
+}
+
+.WhiteHollowRounded {
+    border: 1px solid #ffffff;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.WhiteHollowRounded > a {
+    color: #ffffff;
+    display: block;
+    font-weight: normal;
+}
+
+.BlackHollowRounded {
+    border: 1px solid #222222;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.BlackHollowRounded > a {
+    color: #222222;
+    display: block;
+    font-weight: normal;
+}
+
+.WhiteSquare {
+    background-color: #ffffff;
+    border: medium none;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px;
+    border-radius: 4px 4px 4px;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+}
+
+.WhiteSquare > a {
+    color: #222222;
+    display: block;
+    font-weight: normal;
+}
+
+.BlackSquare {
+    background-color: #222222;
+    border: medium none;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px;
+    border-radius: 4px 4px 4px;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, .1);
+}
+
+.BlackSquare > a {
+    color: #ffffff;
+    display: block;
+    font-weight: normal;
+}
+
+.WhiteHollowSquare {
+    border: 1px solid #ffffff;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px;
+    border-radius: 4px 4px 4px;
+}
+
+.WhiteHollowSquare > a {
+    color: #ffffff;
+    display: block;
+    font-weight: normal;
+}
+
+.BlackHollowSquare {
+    border: 1px solid #222222;
+    display: inline-block !important;
+    float: none !important;
+    font-size: 14px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 2px;
+    text-align: center;
+    width: 40px;
+    -webkit-border-radius: 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px;
+    border-radius: 4px 4px 4px;
+}
+
+.BlackHollowSquare > a {
+    color: #222222;
+    display: block;
+    font-weight: normal;
+}
+
+.VisibleButtons {
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+}
+
+.VisibleImageOverlay {
+    position: absolute;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: .6;
+    visibility: visible;
+}
+
+
+/*  =============================================
+Overlay Effects
+============================================= */
+
+.ImageWrapper .ImageOverlayH {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayH {
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayHe {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 0;
+    display: block;
+    height: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayHe {
+    height: 100%;
+    top: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayLi:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayLi:after {
+    top: -50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayLi:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    bottom: -100%;
+    height: 100%;
+    content: "";
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayLi:before {
+    bottom: -50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayBe:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -ms-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayBe:after {
+    top: 50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayBe:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    bottom: -100%;
+    height: 100%;
+    content: "";
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -ms-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayBe:before {
+    bottom: 50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayB {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 0;
+}
+
+.ImageWrapper:hover .ImageOverlayB {
+    left: 0;
+    width: 100%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayC:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    right: -100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayC:after {
+    right: -50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayC:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    left: -100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayC:before {
+    left: -50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayN:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    right: -100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -ms-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayN:after {
+    right: 50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayN:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    content: "";
+    display: block;
+    left: -100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -ms-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayN:before {
+    left: 50%;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayO {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    left: -100%;
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayO {
+    left: 0;
+    top: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayF {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    right: -100%;
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayF {
+    right: 0;
+    top: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayNe {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    left: -100%;
+    opacity: 0;
+    position: absolute;
+    bottom: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayNe {
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayNa {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    right: -100%;
+    opacity: 0;
+    position: absolute;
+    bottom: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayNa {
+    bottom: 0;
+    right: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayMg {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayMg {
+    top: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayAl {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    bottom: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayAl {
+    bottom: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlaySi {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    right: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlaySi {
+    right: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayP {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    left: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+}
+
+.ImageWrapper:hover .ImageOverlayP {
+    left: 0;
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayS {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    -webkit-transform: rotate(180deg) scale(0);
+    -moz-transform: rotate(180deg) scale(0);
+    -ms-transform: rotate(180deg) scale(0);
+    -o-transform: rotate(180deg) scale(0);
+    transform: rotate(180deg) scale(0);
+}
+
+.ImageWrapper:hover .ImageOverlayS {
+    -webkit-transform: rotate(0deg) scale(1);
+    -moz-transform: rotate(0deg) scale(1);
+    -ms-transform: rotate(0deg) scale(1);
+    -o-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayCl {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: block;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    -webkit-transform: rotate(-180deg) scale(0);
+    -moz-transform: rotate(-180deg) scale(0);
+    -ms-transform: rotate(-180deg) scale(0);
+    -o-transform: rotate(-180deg) scale(0);
+    transform: rotate(-180deg) scale(0);
+}
+
+.ImageWrapper:hover .ImageOverlayCl {
+    -webkit-transform: rotate(0deg) scale(1);
+    -moz-transform: rotate(0deg) scale(1);
+    -ms-transform: rotate(0deg) scale(1);
+    -o-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayArLeft:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    top: -50%;
+    -webkit-transition: all 0.2s ease 0s;
+    -moz-transition: all 0.2s ease 0s;
+    -ms-transition: all 0.2s ease 0s;
+    -o-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+    width: 100%;
+    height: 100%;
+    left: -100%;
+    overflow: hidden;
+}
+
+.ImageWrapper .ImageOverlayArLeft:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: all 0.2s ease .2s;
+    -moz-transition: all 0.2s ease .2s;
+    -ms-transition: all 0.2s ease .2s;
+    -o-transition: all 0.2s ease .2s;
+    transition: all 0.2s ease .2s;
+    width: 100%;
+    height: 100%;
+    left: -100%;
+    overflow: hidden;
+}
+
+.ImageWrapper .ImageOverlayArRight:before {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    top: -50%;
+    -webkit-transition: all 0.2s ease .3s;
+    -moz-transition: all 0.2s ease .3s;
+    -ms-transition: all 0.2s ease .3s;
+    -o-transition: all 0.2s ease .3s;
+    transition: all 0.2s ease .3s;
+    width: 100%;
+    height: 100%;
+    right: -100%;
+    overflow: hidden;
+}
+
+.ImageWrapper .ImageOverlayArRight:after {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: all 0.2s ease .5s;
+    -moz-transition: all 0.2s ease .5s;
+    -ms-transition: all 0.2s ease .5s;
+    -o-transition: all 0.2s ease .5s;
+    transition: all 0.2s ease .5s;
+    width: 100%;
+    height: 100%;
+    right: -100%;
+    overflow: hidden;
+}
+
+.ImageWrapper:hover .ImageOverlayArLeft:before,
+.ImageWrapper:hover .ImageOverlayArLeft:after {
+    opacity: 1;
+    left: 50%;
+}
+
+.ImageWrapper:hover .ImageOverlayArRight:before,
+.ImageWrapper:hover .ImageOverlayArRight:after {
+    opacity: 1;
+    right: 50%;
+}
+
+.ImageWrapper .ImageOverlayK {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -ms-transform-origin: top left;
+    -o-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .ImageOverlayK {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayCa {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: top right;
+    -moz-transform-origin: top right;
+    -ms-transform-origin: top right;
+    -o-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .ImageOverlayCa {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlaySc {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: bottom left;
+    -moz-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    -o-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .ImageOverlaySc {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 1;
+}
+
+.ImageWrapper .ImageOverlayTi {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: bottom right;
+    -moz-transform-origin: bottom right;
+    -ms-transform-origin: bottom right;
+    -o-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .ImageOverlayTi {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 1;
+}
+
+
+/*  =============================================
+Background Transform
+============================================= */
+
+.GrayScale {
+    -webkit-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+    filter: gray;
+    -webkit-filter: grayscale(100%);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=60);
+    opacity: .6;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.GrayScale:hover {
+    -webkit-filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+    -webkit-filter: grayscale(0%);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+.BackgroundS img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundS:hover img {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.BackgroundRR img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundRR:hover img {
+    -webkit-transform: rotate(-10deg) scale(1.4);
+    -moz-transform: rotate(-10deg) scale(1.4);
+    -ms-transform: rotate(-10deg) scale(1.4);
+    -o-transform: rotate(-10deg) scale(1.4);
+    transform: rotate(-10deg) scale(1.4);
+}
+
+.BackgroundR img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundR:hover img {
+    -webkit-transform: rotate(10deg) scale(1.4);
+    -moz-transform: rotate(10deg) scale(1.4);
+    -ms-transform: rotate(10deg) scale(1.4);
+    -o-transform: rotate(10deg) scale(1.4);
+    transform: rotate(10deg) scale(1.4);
+}
+
+.BackgroundRS img {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundRS:hover img {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    transform: scale(1.0);
+}
+
+.BackgroundF img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundF:hover img {
+    opacity: 0;
+}
+
+.BackgroundFS img {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    transform: scale(1.0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundFS:hover img {
+    -webkit-transform: scale(10);
+    -moz-transform: scale(10);
+    -ms-transform: scale(10);
+    -o-transform: scale(10);
+    transform: scale(10);
+    opacity: 0;
+}
+
+.BackgroundFRS img {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    transform: scale(1.0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.BackgroundFRS:hover img {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    opacity: 0;
+}
+
+.SquareCircle {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.SquareCircle:hover {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.CircleSquare {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.CircleSquare:hover {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+}
+
+
+/*  =============================================
+Cubic Effects
+============================================= */
+
+.ImageWrapper .CStyleH {
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -o-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+}
+
+.ImageWrapper:hover .CStyleH {
+    margin-top: -20px;
+    opacity: 1;
+    top: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .CStyleHe {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -o-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+}
+
+.ImageWrapper:hover .CStyleHe {
+    margin-bottom: -20px;
+    opacity: 1;
+    bottom: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .CStyleLi {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: right;
+    right: 0;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -o-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+}
+
+.ImageWrapper:hover .CStyleLi {
+    margin-right: -42px;
+    opacity: 1;
+    right: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .CStyleBe {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: left;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -o-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+}
+
+.ImageWrapper:hover .CStyleBe {
+    margin-left: -42px;
+    opacity: 1;
+    left: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .CStyleB {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transform: scale(0.2);
+    -moz-transform: scale(0.2);
+    -ms-transform: scale(0.2);
+    -o-transform: scale(0.2);
+    transform: scale(0.2);
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    -o-transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+    transition: all 400ms cubic-bezier(1.000, -0.600, 0.570, -0.150);
+}
+
+.ImageWrapper:hover .CStyleB {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.ImageWrapper .CStyleC span {
+    position: absolute;
+}
+
+.ImageWrapper .CStyleC span:nth-of-type(1) {
+    bottom: 50%;
+    top: 50%;
+    left: 0;
+    margin: -20px 0 0 -68px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 400ms cubic-bezier(1.000, 0, 0.570, 0) !important;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -o-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+}
+
+.ImageWrapper .CStyleC span:nth-of-type(2) {
+    bottom: 50%;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    margin: -20px 0 0 -20px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .CStyleC span:nth-of-type(3) {
+    bottom: 50%;
+    top: 50%;
+    right: 0;
+    margin: -20px -68px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 400ms cubic-bezier(1.000, 0, 0.570, 0) !important;
+    -webkit-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -moz-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -ms-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    -o-transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+    transition: all 400ms cubic-bezier(1.000, -0.360, 0.570, -0.150)!important;
+}
+
+.ImageWrapper:hover .CStyleC span:nth-of-type(1) {
+    left: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .CStyleC span:nth-of-type(2) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.ImageWrapper:hover .CStyleC span:nth-of-type(3) {
+    right: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*  =============================================
+Button Effects
+============================================= */
+
+.ImageWrapper .StyleH {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleH {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ImageWrapper .StyleHe {
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleHe {
+    margin-top: -20px;
+    opacity: 1;
+    top: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .StyleLi {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleLi {
+    margin-bottom: -20px;
+    opacity: 1;
+    bottom: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .StyleBe {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    text-align: right;
+    right: 0;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleBe {
+    margin-right: -42px;
+    opacity: 1;
+    right: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .StyleB {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    text-align: left;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleB {
+    margin-left: -42px;
+    opacity: 1;
+    left: 50%;
+    visibility: visible;
+}
+
+.ImageWrapper .StyleC {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transform: scale(0.2);
+    -moz-transform: scale(0.2);
+    -ms-transform: scale(0.2);
+    -o-transform: scale(0.2);
+    transform: scale(0.2);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleC {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.ImageWrapper .StyleN {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    visibility: visible;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleN {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.ImageWrapper .StyleO span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleO span:nth-of-type(1) {
+    bottom: 50%;
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleO span:nth-of-type(2) {
+    bottom: 50%;
+    top: 50%;
+    right: 50%;
+    margin: -20px -42px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleO span:nth-of-type(1) {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.ImageWrapper:hover .StyleO span:nth-of-type(2) {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.ImageWrapper .StyleF {
+    visibility: hidden;
+    -webkit-transform: scale(0.5) rotateX(360deg);
+    -moz-transform: scale(0.5) rotateX(360deg);
+    -ms-transform: scale(0.5) rotateX(360deg);
+    -o-transform: scale(0.5) rotateX(360deg);
+    transform: scale(0.5) rotateX(360deg);
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleF {
+    opacity: 1;
+    -webkit-transform: scale(1) rotateX(0deg);
+    -moz-transform: scale(1) rotateX(0deg);
+    -ms-transform: scale(1) rotateX(0deg);
+    -o-transform: scale(1) rotateX(0deg);
+    transform: scale(1) rotateX(0deg);
+    visibility: visible;
+}
+
+.ImageWrapper .StyleNe {
+    visibility: hidden;
+    margin: 0;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleNe {
+    opacity: 1;
+    -webkit-transform: rotateY(360deg);
+    -moz-transform: rotateY(360deg);
+    -ms-transform: rotateY(360deg);
+    -o-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+    visibility: visible;
+}
+
+.ImageWrapper .StyleNa {
+    visibility: hidden;
+    -webkit-transform: scale(0.2) rotateY(360deg);
+    -moz-transform: scale(0.2) rotateY(360deg);
+    -ms-transform: scale(0.2) rotateY(360deg);
+    -o-transform: scale(0.2) rotateY(360deg);
+    transform: scale(0.2) rotateY(360deg);
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleNa {
+    opacity: 1;
+    -webkit-transform: scale(1) rotateY(0deg);
+    -moz-transform: scale(1) rotateY(0deg);
+    -ms-transform: scale(1) rotateY(0deg);
+    -o-transform: scale(1) rotateY(0deg);
+    transform: scale(1) rotateY(0deg);
+    visibility: visible;
+}
+
+.ImageWrapper .StyleMg span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleMg span:nth-of-type(1) {
+    bottom: 50%;
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -82px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleMg span:nth-of-type(2) {
+    bottom: 50%;
+    top: 50%;
+    right: 50%;
+    margin: -20px -82px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleMg span:nth-of-type(1) {
+    margin: -20px 0 0 -42px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleMg span:nth-of-type(2) {
+    margin: -20px -42px 0 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleAl span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleAl span:nth-of-type(1) {
+    top: 0;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleAl span:nth-of-type(2) {
+    bottom: 0;
+    right: 50%;
+    margin: 0 -42px -20px 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleAl span:nth-of-type(1) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleAl span:nth-of-type(2) {
+    bottom: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleSi span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleSi span:nth-of-type(1) {
+    bottom: 0;
+    left: 50%;
+    margin: 0 0 -20px -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleSi span:nth-of-type(2) {
+    top: 0;
+    right: 50%;
+    margin: -20px -42px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleSi span:nth-of-type(1) {
+    bottom: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleSi span:nth-of-type(2) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleP span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleP span:nth-of-type(1) {
+    top: 0;
+    left: 0;
+    margin: -40px 0 0 -40px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleP span:nth-of-type(2) {
+    bottom: 0;
+    right: 0;
+    margin: 0 -40px -40px 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleP span:nth-of-type(1) {
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleP span:nth-of-type(2) {
+    bottom: 50%;
+    right: 50%;
+    margin: 0 -42px -20px 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleS span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleS span:nth-of-type(1) {
+    bottom: 0;
+    left: 0;
+    margin: -40px 0 0 -40px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleS span:nth-of-type(2) {
+    top: 0;
+    right: 0;
+    margin: 0 -40px -40px 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleS span:nth-of-type(1) {
+    bottom: 50%;
+    left: 50%;
+    margin: 0 0 -20px -42px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleS span:nth-of-type(2) {
+    top: 50%;
+    right: 50%;
+    margin: -20px -42px 0 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleCl {
+    visibility: hidden;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    margin-top: -20px;
+    visibility: visible;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleCl {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateX(360deg);
+    -moz-transform: rotateX(360deg);
+    -ms-transform: rotateX(360deg);
+    -o-transform: rotateX(360deg);
+    transform: rotateX(360deg);
+}
+
+.ImageWrapper .StyleAr span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleAr span:nth-of-type(1) {
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0.2) rotate(0deg);
+    -moz-transform: scale(0.2) rotate(0deg);
+    -ms-transform: scale(0.2) rotate(0deg);
+    -o-transform: scale(0.2) rotate(0deg);
+    transform: scale(0.2) rotate(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleAr span:nth-of-type(2) {
+    top: 50%;
+    bottom: 50%;
+    right: 50%;
+    margin: -20px -42px -0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0.2) rotate(0deg);
+    -moz-transform: scale(0.2) rotate(0deg);
+    -ms-transform: scale(0.2) rotate(0deg);
+    -o-transform: scale(0.2) rotate(0deg);
+    transform: scale(0.2) rotate(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleAr span:nth-of-type(1) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(360deg);
+    -moz-transform: scale(1) rotate(360deg);
+    -ms-transform: scale(1) rotate(360deg);
+    -o-transform: scale(1) rotate(360deg);
+    transform: scale(1) rotate(360deg);
+}
+
+.ImageWrapper:hover .StyleAr span:nth-of-type(2) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(360deg);
+    -moz-transform: scale(1) rotate(360deg);
+    -ms-transform: scale(1) rotate(360deg);
+    -o-transform: scale(1) rotate(360deg);
+    transform: scale(1) rotate(360deg);
+}
+
+.ImageWrapper .StyleK span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleK span:nth-of-type(1) {
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleK span:nth-of-type(2) {
+    top: 50%;
+    bottom: 50%;
+    right: 50%;
+    margin: -20px -42px -0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleK span:nth-of-type(1) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: rotateY(360deg);
+    -moz-transform: rotateY(360deg);
+    -ms-transform: rotateY(360deg);
+    -o-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+}
+
+.ImageWrapper:hover .StyleK span:nth-of-type(2) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: rotateY(360deg);
+    -moz-transform: rotateY(360deg);
+    -ms-transform: rotateY(360deg);
+    -o-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+}
+
+.ImageWrapper .StyleCa span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleCa span:nth-of-type(1) {
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    margin: -20px 0 0 -42px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0.2) rotateY(0deg);
+    -moz-transform: scale(0.2) rotateY(0deg);
+    -ms-transform: scale(0.2) rotateY(0deg);
+    -o-transform: scale(0.2) rotateY(0deg);
+    transform: scale(0.2) rotateY(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleCa span:nth-of-type(2) {
+    top: 50%;
+    bottom: 50%;
+    right: 50%;
+    margin: -20px -42px -0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0.2) rotateY(0deg);
+    -moz-transform: scale(0.2) rotateY(0deg);
+    -ms-transform: scale(0.2) rotateY(0deg);
+    -o-transform: scale(0.2) rotateY(0deg);
+    transform: scale(0.2) rotateY(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleCa span:nth-of-type(1) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1) rotateY(360deg);
+    -moz-transform: scale(1) rotateY(360deg);
+    -ms-transform: scale(1) rotateY(360deg);
+    -o-transform: scale(1) rotateY(360deg);
+    transform: scale(1) rotateY(360deg);
+}
+
+.ImageWrapper:hover .StyleCa span:nth-of-type(2) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1) rotateY(360deg);
+    -moz-transform: scale(1) rotateY(360deg);
+    -ms-transform: scale(1) rotateY(360deg);
+    -o-transform: scale(1) rotateY(360deg);
+    transform: scale(1) rotateY(360deg);
+}
+
+.ImageWrapper .StyleSc span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleSc span:nth-of-type(1) {
+    bottom: 50%;
+    top: 50%;
+    left: 0;
+    margin: -20px 0 0 -68px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleSc span:nth-of-type(2) {
+    top: 0;
+    right: 50%;
+    left: 50%;
+    margin: -20px 0 0 -20px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleSc span:nth-of-type(3) {
+    bottom: 50%;
+    top: 50%;
+    right: 0;
+    margin: -20px -68px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleSc span:nth-of-type(1) {
+    left: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleSc span:nth-of-type(2) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleSc span:nth-of-type(3) {
+    right: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleTi span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleTi span:nth-of-type(1) {
+    bottom: 50%;
+    top: 50%;
+    left: 0;
+    margin: -20px 0 0 -68px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleTi span:nth-of-type(2) {
+    bottom: 50%;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    margin: -20px 0 0 -20px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper .StyleTi span:nth-of-type(3) {
+    bottom: 50%;
+    top: 50%;
+    right: 0;
+    margin: -20px -68px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .StyleTi span:nth-of-type(1) {
+    left: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleTi span:nth-of-type(2) {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.ImageWrapper:hover .StyleTi span:nth-of-type(3) {
+    right: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper .StyleV span {
+    position: absolute;
+}
+
+.ImageWrapper .StyleV span:nth-of-type(1) {
+    top: 0;
+    left: 50%;
+    margin: -20px 0 0 -68px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .2s;
+    -moz-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .2s;
+    -ms-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .2s;
+    -o-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .2s;
+    transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .2s;
+}
+
+.ImageWrapper .StyleV span:nth-of-type(2) {
+    top: 0;
+    left: 50%;
+    margin: -20px 0 0 -20px;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .3s;
+    -moz-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .3s;
+    -ms-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .3s;
+    -o-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .3s;
+    transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .3s;
+}
+
+.ImageWrapper .StyleV span:nth-of-type(3) {
+    top: 0;
+    right: 50%;
+    margin: -20px -68px 0 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .4s;
+    -moz-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .4s;
+    -ms-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .4s;
+    -o-transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .4s;
+    transition: all 200ms cubic-bezier(0.000, 1.135, 0.730, 1.405) .4s;
+}
+
+.ImageWrapper:hover .StyleV span:nth-of-type(1) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleV span:nth-of-type(2) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.ImageWrapper:hover .StyleV span:nth-of-type(3) {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*  =============================================
+Plus Button Effects
+============================================= */
+
+.ImageWrapper .PStyleH {
+    background: url(../assets/images/plus.png) no-repeat scroll center center / 60px 60px #222222;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    z-index: 9999;
+}
+
+.ImageWrapper:hover .PStyleH {
+    opacity: .6;
+    visibility: visible;
+}
+
+.ImageWrapper .PStyleHe {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll center center / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleHe {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+}
+
+.ImageWrapper .PStyleLi {
+    -webkit-transform: scale(0.5) rotateY(180deg);
+    -moz-transform: scale(0.5) rotateY(180deg);
+    -ms-transform: scale(0.5) rotateY(180deg);
+    -o-transform: scale(0.5) rotateY(180deg);
+    transform: scale(0.5) rotateY(180deg);
+    background: url(../assets/images/plus.png) no-repeat scroll center center / 60px 60px #222222;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    z-index: 9999;
+}
+
+.ImageWrapper:hover .PStyleLi {
+    opacity: .6;
+    -webkit-transform: scale(1) rotateY(0deg);
+    -moz-transform: scale(1) rotateY(0deg);
+    -ms-transform: scale(1) rotateY(0deg);
+    -o-transform: scale(1) rotateY(0deg);
+    transform: scale(1) rotateY(0deg);
+    visibility: visible;
+}
+
+.ImageWrapper .PStyleBe {
+    -webkit-transform: scale(0.5) rotateX(180deg);
+    -moz-transform: scale(0.5) rotateX(180deg);
+    -ms-transform: scale(0.5) rotateX(180deg);
+    -o-transform: scale(0.5) rotateX(180deg);
+    transform: scale(0.5) rotateX(180deg);
+    background: url(../assets/images/plus.png) no-repeat scroll center center / 60px 60px #222222;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    z-index: 9999;
+}
+
+.ImageWrapper:hover .PStyleBe {
+    opacity: .6;
+    -webkit-transform: scale(1) rotateX(0deg);
+    -moz-transform: scale(1) rotateX(0deg);
+    -ms-transform: scale(1) rotateX(0deg);
+    -o-transform: scale(1) rotateX(0deg);
+    transform: scale(1) rotateX(0deg);
+    visibility: visible;
+}
+
+.ImageWrapper .PStyleB {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: top left;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleB {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+.ImageWrapper .PStyleC {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: top right;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleC {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+.ImageWrapper .PStyleN {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleN {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+.ImageWrapper .PStyleO {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleO {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+.ImageWrapper .PStyleF {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: top center;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleF {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+.ImageWrapper .PStyleNe {
+    position: absolute;
+    background: url(../assets/images/plus.png) no-repeat scroll top left / 100% 100% #222222;
+    width: 100%;
+    height: 100%;
+    z-index: 199;
+    -webkit-background-origin: padding-box, padding-box;
+    -moz-background-origin: padding-box, padding-box;
+    -ms-background-origin: padding-box, padding-box;
+    -o-background-origin: padding-box, padding-box;
+    background-origin: padding-box, padding-box;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    -webkit-background-size: 10px 10px, 100% 100%;
+    -moz-background-size: 10px 10px, 100% 100%;
+    -ms-background-size: 10px 10px, 100% 100%;
+    -o-background-size: 10px 10px, 100% 100%;
+    background-size: 10px 10px, 100% 100%;
+    opacity: 0;
+    top: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .PStyleNe {
+    opacity: .6;
+    -webkit-background-size: 60px 60px, 100% 100%;
+    -moz-background-size: 60px 60px, 100% 100%;
+    -ms-background-size: 60px 60px, 100% 100%;
+    -o-background-size: 60px 60px, 100% 100%;
+    background-size: 60px 60px, 100% 100%;
+    visibility: visible;
+    background-position: center center;
+}
+
+
+/*  =============================================
+Content Transform
+============================================= */
+
+.ContentWrapperH .ContentH {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperH:hover .ContentH {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ContentWrapperH .ContentH .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperH .ContentH .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperH .ContentH .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperH .ContentH .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperH .ContentH .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperHe .ContentHe {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: scale(0.0);
+    -moz-transform: scale(0.0);
+    -ms-transform: scale(0.0);
+    -o-transform: scale(0.0);
+    transform: scale(0.0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperHe:hover .ContentHe {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    transform: scale(1.0);
+}
+
+.ContentWrapperHe .ContentHe .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperHe .ContentHe .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperHe .ContentHe .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperHe .ContentHe .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperHe .ContentHe .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperLi img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperLi:hover img {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+}
+
+.ContentWrapperLi .ContentLi {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperLi:hover .ContentLi {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
+
+.ContentWrapperLi .ContentLi .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperLi .ContentLi .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperLi .ContentLi .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperLi .ContentLi .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperLi .ContentLi .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperBe img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    opacity: 1;
+}
+
+.ContentWrapperBe:hover img {
+    -webkit-transform: scale(10);
+    -moz-transform: scale(10);
+    -ms-transform: scale(10);
+    -o-transform: scale(10);
+    transform: scale(10);
+    opacity: 0;
+}
+
+.ContentWrapperBe .ContentBe {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperBe:hover .ContentBe {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ContentWrapperBe .ContentBe .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperBe .ContentBe .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperBe .ContentBe .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperBe .ContentBe .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperBe .ContentBe .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperB img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperB:hover img {
+    -webkit-transform: translateY(100%);
+    -moz-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    -o-transform: translateY(100%);
+    transform: translateY(100%);
+}
+
+.ContentWrapperB .ContentB {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: -100%;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperB:hover .ContentB {
+    opacity: 1;
+    visibility: visible;
+    top: 0;
+}
+
+.ContentWrapperB .ContentB .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperB .ContentB .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperB .ContentB .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperB .ContentB .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperB .ContentB .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperC img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperC:hover img {
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+.ContentWrapperC .ContentC {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    bottom: -100%;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperC:hover .ContentC {
+    opacity: 1;
+    visibility: visible;
+    bottom: 0;
+}
+
+.ContentWrapperC .ContentC .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperC .ContentC .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperC .ContentC .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperC .ContentC .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperC .ContentC .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperN img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperN:hover img {
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+.ContentWrapperN .ContentN {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    right: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperN:hover .ContentN {
+    opacity: 1;
+    visibility: visible;
+    right: 0;
+}
+
+.ContentWrapperN .ContentN .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperN .ContentN .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperN .ContentN .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperN .ContentN .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperN .ContentN .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperO img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperO:hover img {
+    -webkit-transform: translateX(100%);
+    -moz-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    -o-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+.ContentWrapperO .ContentO {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperO:hover .ContentO {
+    opacity: 1;
+    visibility: visible;
+    left: 0;
+}
+
+.ContentWrapperO .ContentO .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperO .ContentO .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperO .ContentO .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperO .ContentO .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperO .ContentO .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperF img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperF:hover img {
+    -webkit-transform: translateX(20%);
+    -moz-transform: translateX(20%);
+    -ms-transform: translateX(20%);
+    -o-transform: translateX(20%);
+    transform: translateX(20%);
+}
+
+.ContentWrapperF .ContentF {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 50%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: perspective(600px) rotateY(90deg);
+    -moz-transform: perspective(600px) rotateY(90deg);
+    -ms-transform: perspective(600px) rotateY(90deg);
+    -o-transform: perspective(600px) rotateY(90deg);
+    transform: perspective(600px) rotateY(90deg);
+    -webkit-transform-origin: left center 0;
+    -moz-transform-origin: left center 0;
+    -ms-transform-origin: left center 0;
+    -o-transform-origin: left center 0;
+    transform-origin: left center 0;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperF:hover .ContentF {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: perspective(600px) rotateY(0deg);
+    -moz-transform: perspective(600px) rotateY(0deg);
+    -ms-transform: perspective(600px) rotateY(0deg);
+    -o-transform: perspective(600px) rotateY(0deg);
+    transform: perspective(600px) rotateY(0deg);
+}
+
+.ContentWrapperF .ContentF .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperF .ContentF .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperF .ContentF .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperNe img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperNe:hover img {
+    -webkit-transform: translateY(20%);
+    -moz-transform: translateY(20%);
+    -ms-transform: translateY(20%);
+    -o-transform: translateY(20%);
+    transform: translateY(20%);
+}
+
+.ContentWrapperNe .ContentNe {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 50%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: perspective(600px) rotateX(-90deg);
+    -moz-transform: perspective(600px) rotateX(-90deg);
+    -ms-transform: perspective(600px) rotateX(-90deg);
+    -o-transform: perspective(600px) rotateX(-90deg);
+    transform: perspective(600px) rotateX(-90deg);
+    -webkit-transform-origin: center top 0;
+    -moz-transform-origin: center top 0;
+    -ms-transform-origin: center top 0;
+    -o-transform-origin: center top 0;
+    transform-origin: center top 0;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperNe:hover .ContentNe {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: perspective(600px) rotateX(0deg);
+    -moz-transform: perspective(600px) rotateX(0deg);
+    -ms-transform: perspective(600px) rotateX(0deg);
+    -o-transform: perspective(600px) rotateX(0deg);
+    transform: perspective(600px) rotateX(0deg);
+}
+
+.ContentWrapperNe .ContentNe .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperNe .ContentNe .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperNe .ContentNe .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperNa img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperNa:hover img {
+    -webkit-transform: translateX(-20%);
+    -moz-transform: translateX(-20%);
+    -ms-transform: translateX(-20%);
+    -o-transform: translateX(-20%);
+    transform: translateX(-20%);
+}
+
+.ContentWrapperNa .ContentNa {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 50%;
+    height: 100%;
+    display: block;
+    top: 0;
+    right: 0;
+    -webkit-transform: perspective(600px) rotateY(-90deg);
+    -moz-transform: perspective(600px) rotateY(-90deg);
+    -ms-transform: perspective(600px) rotateY(-90deg);
+    -o-transform: perspective(600px) rotateY(-90deg);
+    transform: perspective(600px) rotateY(-90deg);
+    -webkit-transform-origin: right center 0;
+    -moz-transform-origin: right center 0;
+    -ms-transform-origin: right center 0;
+    -o-transform-origin: right center 0;
+    transform-origin: right center 0;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperNa:hover .ContentNa {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: perspective(600px) rotateY(0deg);
+    -moz-transform: perspective(600px) rotateY(0deg);
+    -ms-transform: perspective(600px) rotateY(0deg);
+    -o-transform: perspective(600px) rotateY(0deg);
+    transform: perspective(600px) rotateY(0deg);
+}
+
+.ContentWrapperNa .ContentNa .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperNa .ContentNa .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperNa .ContentNa .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperMg img {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperMg:hover img {
+    -webkit-transform: translateY(-20%);
+    -moz-transform: translateY(-20%);
+    -ms-transform: translateY(-20%);
+    -o-transform: translateY(-20%);
+    transform: translateY(-20%);
+}
+
+.ContentWrapperMg .ContentMg {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 50%;
+    display: block;
+    bottom: 0;
+    left: 0;
+    -webkit-transform: perspective(600px) rotateX(90deg);
+    -moz-transform: perspective(600px) rotateX(90deg);
+    -ms-transform: perspective(600px) rotateX(90deg);
+    -o-transform: perspective(600px) rotateX(90deg);
+    transform: perspective(600px) rotateX(90deg);
+    -webkit-transform-origin: center bottom 0;
+    -moz-transform-origin: center bottom 0;
+    -ms-transform-origin: center bottom 0;
+    -o-transform-origin: center bottom 0;
+    transform-origin: center bottom 0;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperMg:hover .ContentMg {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: perspective(600px) rotateY(0deg);
+    -moz-transform: perspective(600px) rotateY(0deg);
+    -ms-transform: perspective(600px) rotateY(0deg);
+    -o-transform: perspective(600px) rotateY(0deg);
+    transform: perspective(600px) rotateY(0deg);
+}
+
+.ContentWrapperMg .ContentMg .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperMg .ContentMg .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperMg .ContentMg .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperAl .ContentAl {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateY(0deg) scale(0.0);
+    -moz-transform: rotateY(0deg) scale(0.0);
+    -ms-transform: rotateY(0deg) scale(0.0);
+    -o-transform: rotateY(0deg) scale(0.0);
+    transform: rotateY(0deg) scale(0.0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperAl:hover .ContentAl {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateY(360deg) scale(.9);
+    -moz-transform: rotateY(360deg) scale(.9);
+    -ms-transform: rotateY(360deg) scale(.9);
+    -o-transform: rotateY(360deg) scale(.9);
+    transform: rotateY(360deg) scale(.9);
+}
+
+.ContentWrapperAl .ContentAl .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperAl .ContentAl .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperAl .ContentAl .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperAl .ContentAl .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperAl .ContentAl .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperSi .ContentSi {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateX(0deg) scale(0.0);
+    -moz-transform: rotateX(0deg) scale(0.0);
+    -ms-transform: rotateX(0deg) scale(0.0);
+    -o-transform: rotateX(0deg) scale(0.0);
+    transform: rotateX(0deg) scale(0.0);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperSi:hover .ContentSi {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateX(360deg) scale(.9);
+    -moz-transform: rotateX(360deg) scale(.9);
+    -ms-transform: rotateX(360deg) scale(.9);
+    -o-transform: rotateX(360deg) scale(.9);
+    transform: rotateX(360deg) scale(.9);
+}
+
+.ContentWrapperSi .ContentSi .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperSi .ContentSi .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperSi .ContentSi .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperSi .ContentSi .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperSi .ContentSi .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperP .ContentP {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateY(0deg) scale(.9);
+    -moz-transform: rotateY(0deg) scale(.9);
+    -ms-transform: rotateY(0deg) scale(.9);
+    -o-transform: rotateY(0deg) scale(.9);
+    transform: rotateY(0deg) scale(.9);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperP:hover .ContentP {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateY(360deg) scale(.9);
+    -moz-transform: rotateY(360deg) scale(.9);
+    -ms-transform: rotateY(360deg) scale(.9);
+    -o-transform: rotateY(360deg) scale(.9);
+    transform: rotateY(360deg) scale(.9);
+}
+
+.ContentWrapperP .ContentP .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperP .ContentP .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperP .ContentP .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperP .ContentP .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperP .ContentP .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperS .ContentS {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateX(0deg) scale(.9);
+    -moz-transform: rotateX(0deg) scale(.9);
+    -ms-transform: rotateX(0deg) scale(.9);
+    -o-transform: rotateX(0deg) scale(.9);
+    transform: rotateX(0deg) scale(.9);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperS:hover .ContentS {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateX(360deg) scale(.9);
+    -moz-transform: rotateX(360deg) scale(.9);
+    -ms-transform: rotateX(360deg) scale(.9);
+    -o-transform: rotateX(360deg) scale(.9);
+    transform: rotateX(360deg) scale(.9);
+}
+
+.ContentWrapperS .ContentS .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperS .ContentS .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperS .ContentS .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperS .ContentS .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperS .ContentS .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperCl {
+    overflow: visible !important;
+}
+
+.ContentWrapperCl img {
+    position: relative;
+    z-index: 455;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCl:hover img {
+    -webkit-transform: translateY(-40%);
+    -moz-transform: translateY(-40%);
+    -ms-transform: translateY(-40%);
+    -o-transform: translateY(-40%);
+    transform: translateY(-40%);
+}
+
+.ContentWrapperCl .ContentCl {
+    position: absolute;
+    background: #ffffff;
+    opacity: 1;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCl:hover .ContentCl {
+    visibility: visible;
+}
+
+.ContentWrapperCl .ContentCl .Content {
+    position: absolute;
+    top: 65%;
+    display: block;
+    width: 100%;
+}
+
+.ContentWrapperCl .ContentCl .Content h2 {
+    font: bold 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 2px;
+    text-align: center;
+}
+
+.ContentWrapperCl .ContentCl .Content .ReadMore {
+    margin: 8px auto;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    width: 80px;
+}
+
+.ContentWrapperCl .ContentCl .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperAr {
+    overflow: visible !important;
+}
+
+.ContentWrapperAr img {
+    position: relative;
+    z-index: 455;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperAr:hover img {
+    -webkit-transform: translateY(40%);
+    -moz-transform: translateY(40%);
+    -ms-transform: translateY(40%);
+    -o-transform: translateY(40%);
+    transform: translateY(40%);
+}
+
+.ContentWrapperAr .ContentAr {
+    position: absolute;
+    background: #ffffff;
+    opacity: 1;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperAr:hover .ContentAr {
+    visibility: visible;
+}
+
+.ContentWrapperAr .ContentAr .Content {
+    position: absolute;
+    top: 5%;
+    display: block;
+    width: 100%;
+}
+
+.ContentWrapperAr .ContentAr .Content h2 {
+    font: bold 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 2px;
+    text-align: center;
+}
+
+.ContentWrapperAr .ContentAr .Content .ReadMore {
+    margin: 8px auto;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    width: 80px;
+}
+
+.ContentWrapperAr .ContentAr .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperK {
+    overflow: visible !important;
+}
+
+.ContentWrapperK img {
+    position: relative;
+    z-index: 455;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperK:hover img {
+    -webkit-transform: translateX(-20%);
+    -moz-transform: translateX(-20%);
+    -ms-transform: translateX(-20%);
+    -o-transform: translateX(-20%);
+    transform: translateX(-20%);
+}
+
+.ContentWrapperK .ContentK {
+    position: absolute;
+    background: #ffffff;
+    opacity: 1;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperK:hover .ContentK {
+    visibility: visible;
+}
+
+.ContentWrapperK .ContentK .Content {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.ContentWrapperK .ContentK .Content ul {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.ContentWrapperK .ContentK .Content ul li {
+    margin: 14px 16px;
+}
+
+.ContentWrapperK .ContentK .Content ul li a {
+    font-size: 21px;
+    color: #a9a9a9;
+}
+
+.ContentWrapperCa {
+    overflow: visible !important;
+}
+
+.ContentWrapperCa img {
+    position: relative;
+    z-index: 455;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCa:hover img {
+    -webkit-transform: translateX(20%);
+    -moz-transform: translateX(20%);
+    -ms-transform: translateX(20%);
+    -o-transform: translateX(20%);
+    transform: translateX(20%);
+}
+
+.ContentWrapperCa .ContentCa {
+    position: absolute;
+    background: #ffffff;
+    opacity: 1;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCa:hover .ContentCa {
+    visibility: visible;
+}
+
+.ContentWrapperCa .ContentCa .Content {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.ContentWrapperCa .ContentCa .Content ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ContentWrapperCa .ContentCa .Content ul li {
+    margin: 14px 16px;
+}
+
+.ContentWrapperCa .ContentCa .Content ul li a {
+    font-size: 21px;
+    color: #a9a9a9;
+}
+
+.ContentWrapperSc .ContentSc {
+    position: absolute;
+    background: #ffffff;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: -100%;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperSc:hover .ContentSc {
+    visibility: visible;
+    top: 0;
+}
+
+.ContentWrapperSc .ContentSc .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperSc .ContentSc .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperSc .ContentSc .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperSc .ContentSc .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperSc .ContentSc .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperTi .ContentTi {
+    position: absolute;
+    background: #ffffff;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperTi:hover .ContentTi {
+    visibility: visible;
+    left: 0;
+}
+
+.ContentWrapperTi .ContentTi .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperTi .ContentTi .Content h2 {
+    font-family: "open Sans",Arial,sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #0088cc;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperTi .ContentTi .Content p {
+    font-family: "open Sans",Arial,sans-serif;
+    color: #777;
+}
+
+.ContentWrapperTi .ContentTi .Content .ReadMore {
+    float: right;
+}
+
+.ContentWrapperV .ContentV {
+    position: absolute;
+    background: #ffffff;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    right: -100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperV:hover .ContentV {
+    visibility: visible;
+    right: 0;
+}
+
+.ContentWrapperV .ContentV .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperV .ContentV .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperV .ContentV .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperV .ContentV .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperV .ContentV .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperCr .ContentCr {
+    position: absolute;
+    background: #ffffff;
+    visibility: hidden;
+    width: 100%;
+    height: 0;
+    display: block;
+    bottom: -100%;
+    left: 0;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCr:hover .ContentCr {
+    visibility: visible;
+    height: 100%;
+    bottom: 0;
+}
+
+.ContentWrapperCr .ContentCr .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperCr .ContentCr .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperCr .ContentCr .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperCr .ContentCr .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperCr .ContentCr .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperMn .ContentMn {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -ms-transform-origin: top left;
+    -o-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperMn:hover .ContentMn {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.ContentWrapperMn .ContentMn .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperMn .ContentMn .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperMn .ContentMn .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperMn .ContentMn .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperMn .ContentMn .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperFe .ContentFe {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    right: 0;
+    -webkit-transform-origin: top right;
+    -moz-transform-origin: top right;
+    -ms-transform-origin: top right;
+    -o-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperFe:hover .ContentFe {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.ContentWrapperFe .ContentFe .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperFe .ContentFe .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperFe .ContentFe .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperFe .ContentFe .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperFe .ContentFe .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperCo .ContentCo {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: bottom left;
+    -moz-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    -o-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCo:hover .ContentCo {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.ContentWrapperCo .ContentCo .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperCo .ContentCo .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperCo .ContentCo .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperCo .ContentCo .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperCo .ContentCo .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperNi .ContentNi {
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    right: 0;
+    -webkit-transform-origin: bottom right;
+    -moz-transform-origin: bottom right;
+    -ms-transform-origin: bottom right;
+    -o-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform-style: preserve-3D;
+    -moz-transform-style: preserve-3D;
+    -ms-transform-style: preserve-3D;
+    -o-transform-style: preserve-3D;
+    transform-style: preserve-3D;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperNi:hover .ContentNi {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.ContentWrapperNi .ContentNi .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperNi .ContentNi .Content h2 {
+    font: 16px'Source Sans Pro', Arial, sans-serif;
+    color: #8CA757;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperNi .ContentNi .Content p {
+    font: normal 12px'Source Sans Pro';
+    color: #666666;
+}
+
+.ContentWrapperNi .ContentNi .Content .ReadMore {
+    float: right;
+    margin: 16px 0 0;
+    background: #D1CDC3;
+    background: -moz-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D1CDC3), color-stop(100%, #C9C5BA));
+    background: -webkit-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -o-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: -ms-linear-gradient(top, #D1CDC3 0%, #C9C5BA 100%);
+    background: linear-gradient(to bottom, #D1CDC3 0%, #C9C5BA 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#D1CDC3', endColorstr='#C9C5BA', GradientType=0);
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -ms-border-radius: 2px 2px 2px 2px;
+    -o-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    -webkit-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -ms-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.ContentWrapperNi .ContentNi .Content .ReadMore a {
+    color: #757167;
+    padding: 6px 16px;
+    display: block;
+    font: normal 12px'Source Sans Pro';
+}
+
+.ContentWrapperCu img {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCu:hover img {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.ContentWrapperCu .ContentCu {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    background: #0088cc;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperCu:hover .ContentCu {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+}
+
+.ContentWrapperCu .ContentCu .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperCu .ContentCu .Content h2 {
+    font-family: "open Sans",Arial,sans-serif;
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+    color: #fff;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperCu .ContentCu .Content p {
+    font-family: "open Sans",Arial,sans-serif;
+    text-align: center;
+    color: #fff;
+}
+
+.ContentWrapperZn img {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperZn:hover img {
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+
+.ContentWrapperZn .ContentZn {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ContentWrapperZn:hover .ContentZn {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+
+.ContentWrapperZn .ContentZn .Content {
+    position: absolute;
+    top: 10%;
+    padding: 0 10px;
+}
+
+.ContentWrapperZn .ContentZn .Content h2 {
+    font-family: "open Sans",Arial,sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #0088cc;
+    padding: 0 0 6px;
+}
+
+.ContentWrapperZn .ContentZn .Content p {
+    font-family: "open Sans",Arial,sans-serif;
+    color: #777;
+}
+
+/*  =============================================
+Ribbons
+============================================= */
+
+.ImageWrapper .RibbonCTL .Triangle:after {
+    border-right: 35px solid rgba(0, 0, 0, 0);
+    border-top: 35px solid #FFFFFF;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.ImageWrapper .RibbonCTL .Sign {
+    top: 2px;
+    left: 2px;
+    position: absolute;
+    z-index: 999;
+}
+
+.ImageWrapper .RibbonCTL .Sign a {
+    color: #666666;
+}
+
+.ImageWrapper .RibbonCTL {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .RibbonCTL {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ImageWrapper .RibbonCTR .Triangle:after {
+    border-left: 35px solid rgba(0, 0, 0, 0);
+    border-top: 35px solid #FFFFFF;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+    top: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.ImageWrapper .RibbonCTR .Sign {
+    top: 2px;
+    right: 2px;
+    position: absolute;
+    z-index: 999;
+}
+
+.ImageWrapper .RibbonCTR .Sign a {
+    color: #666666;
+}
+
+.ImageWrapper .RibbonCTR {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .RibbonCTR {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ImageWrapper .RibbonCBL .Triangle:after {
+    border-right: 35px solid rgba(0, 0, 0, 0);
+    border-bottom: 35px solid #FFFFFF;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.ImageWrapper .RibbonCBL .Sign {
+    bottom: 1px;
+    left: 1px;
+    position: absolute;
+    z-index: 999;
+}
+
+.ImageWrapper .RibbonCBL .Sign a {
+    color: #666666;
+}
+
+.ImageWrapper .RibbonCBL {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .RibbonCBL {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ImageWrapper .RibbonCBR .Triangle:after {
+    border-left: 35px solid rgba(0, 0, 0, 0);
+    border-bottom: 35px solid #FFFFFF;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.ImageWrapper .RibbonCBR .Sign {
+    bottom: 1px;
+    right: 1px;
+    position: absolute;
+    z-index: 999;
+}
+
+.ImageWrapper .RibbonCBR .Sign a {
+    color: #666666;
+}
+
+.ImageWrapper .RibbonCBR {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.ImageWrapper:hover .RibbonCBR {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/*  =============================================
+Transparent Background
+============================================= */
+
+.TBlack {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, .8) !important;
+}
+
+.TWhite {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, .8) !important;
+}
+
+
+
+.titlep {
+    letter-spacing: 0px;
+    padding-bottom: 60px;
+    font-size: 18px;
+}
+
+.breath {
+    padding-top: 80px;
+}
+
+.topinfo {
+    position: absolute;
+    bottom: 1px;
+    left: 96px;
+}
+
+.page-header {
+    display: inline-block;
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 12px
+}
+
+.modal-content {
+    color: #000;
+}
+
+.modal-body p {
+    letter-spacing: 0px;
+    text-transform: none;
+    font-size: 16px;
+}
+
+.navbar-inverse {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid #fff;
+}
+
+ul.nav.navbar-nav {
+    float: right;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
+
+
+/* remove bootstrap padding so images sit right next to each other with no gaps */
+
+
+/* general styling for all the hovers */
+
+.hover {
+    float: left;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    cursor: default;
+}
+
+.hover .img-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.hover .cart-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.hover img {
+    display: block;
+    position: relative;
+}
+
+.hover h2 {
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    font-size: 17px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hover button.info {
+    display: inline-block;
+    text-decoration: none;
+    padding: 7px 14px;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid #fff;
+    margin: 50px 0 0 0;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+.hover button.info:hover {
+    box-shadow: 0 0 5px #fff;
+}
+
+
+/* styling to remove box shadow and border from buttons for last few effects */
+
+.hover button.nullbutton {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.hover button.nullbutton:hover {
+    box-shadow: none;
+}
+
+
+/* remove the blue line that shows on modal buttons after you have open and close a modal */
+
+.modal-open .modal,
+button:focus {
+    outline: none!important
+}
+
+
+/* styling so when hovering over a div that opens a modal the cursor changes to a pointer */
+
+.point {
+    cursor: pointer;
+}
+
+
+/* effect hover 1 */
+
+.ehover1 img {
+    transition: all 0.4s linear;
+    -moz-transition: all 0.4s linear;
+    -o-transition: all 0.4s linear;
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear;
+}
+
+.ehover1 .img-overlay {
+    opacity: 0;
+    background-color: rgba(1, 149, 223, 0.7);
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.ehover1 h2 {
+    -moz-transform: translatey(-100px);
+    -ms-transform: translatey(-100px);
+    -o-transform: translatey(-100px);
+    -webkit-transform: translatey(-100px);
+    transform: translatey(-100px);
+    opacity: 0;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.ehover1 button.info {
+    opacity: 0;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.ehover1:hover img {
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.ehover1:hover .img-overlay {
+    opacity: 1;
+}
+
+.ehover1:hover h2,
+.ehover1:hover button.info {
+    opacity: 1;
+    -moz-transform: translatey(0);
+    -ms-transform: translatey(0);
+    -o-transform: translatey(0);
+    -webkit-transform: translatey(0);
+    transform: translatey(0);
+}
+
+.ehover1:hover button.info {
+    -moz-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+
+/* effect hover 2 */
+
+.ehover2 img {
+    transition: all 0.2s ease-in;
+}
+
+.ehover2 .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+    opacity: 0;
+    transform: translate(460px, -100px) rotate(180deg);
+    transition: all 0.2s 0.4s ease-in-out;
+}
+
+.ehover2 button.info {
+    transform: translateY(-200px);
+    transition: all 0.2s ease-in-out;
+}
+
+.ehover2:hover .img-overlay {
+    opacity: 1;
+    transition-delay: 0s;
+    transform: translate(0px, 0px);
+}
+
+.ehover2:hover h2 {
+    transform: translateY(0px);
+    transition-delay: 0.5s;
+}
+
+.ehover2:hover button.info {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+}
+
+
+/* effect hover 3 */
+
+.ehover3 img {
+    transition: all 0.4s ease-in;
+}
+
+.ehover3 button.info,
+.ehover3 h2 {
+    transform: scale(0.7);
+    transition: all 0.4s ease-in;
+    opacity: 0;
+}
+
+.ehover3:hover img {
+    filter: grayscale(1) blur(3px);
+    -webkit-filter: grayscale(1) blur(3px);
+    transform: scale(1.2);
+}
+
+.ehover3:hover button.info,
+.ehover3:hover h2 {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* effect hover 4 */
+
+.ehover4 h2 {
+    transform: translateY(55px);
+    transition: all 0.4s ease-in-out;
+}
+
+.ehover4:hover h2 {
+    transform: translateY(15px);
+}
+
+.ehover4 .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+    transition: all 0.4s ease-in-out;
+}
+
+.ehover4:hover .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+}
+
+.ehover4 button.info {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.4s ease-in-out;
+    font-weight: normal;
+    border: 1px solid white;
+    width: 85%;
+    height: 85%;
+    margin: -50px 0 0;
+}
+
+.ehover4:hover button.info {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* effect 4 transitionV2 */
+
+.ehover42 h2 {
+    transform: translateY(55px);
+    transition: all 0.4s cubic-bezier(0.88, -0.99, 0, 1.81);
+}
+
+.ehover42:hover h2 {
+    transform: translateY(15px);
+}
+
+.ehover42 .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+    transition: all 0.4s cubic-bezier(0.88, -0.99, 0, 1.81);
+}
+
+.ehover42:hover .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+}
+
+.ehover42 button.info {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.4s cubic-bezier(0.88, -0.99, 0, 1.81);
+    font-weight: normal;
+    border: 1px solid white;
+    width: 85%;
+    height: 85%;
+    margin: -50px 0 0;
+}
+
+.ehover42:hover button.info {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* effect hover 1 v2 */
+
+.ehover1v2 img {
+    transition: all 0.4s cubic-bezier(0.88, -0.99, 0, 1.81);
+}
+
+.ehover1v2 .img-overlay {
+    opacity: 0;
+    background-color: rgba(1, 149, 223, 0.7);
+    transition: all 0.4s cubic-bezier(0.88, -0.99, 0, 1.81);
+}
+
+.ehover1v2 h2 {
+    -moz-transform: translatey(-100px);
+    -ms-transform: translatey(-100px);
+    -o-transform: translatey(-100px);
+    -webkit-transform: translatey(-100px);
+    transform: translatey(-100px);
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.88, -0.99, 0, 1.81);
+}
+
+.ehover1v2 button.info {
+    opacity: 0;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.ehover1v2:hover img {
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.ehover1v2:hover .img-overlay {
+    opacity: 1;
+}
+
+.ehover1v2:hover h2,
+.ehover1v2:hover button.info {
+    opacity: 1;
+    -moz-transform: translatey(0);
+    -ms-transform: translatey(0);
+    -o-transform: translatey(0);
+    -webkit-transform: translatey(0);
+    transform: translatey(0);
+}
+
+.ehover1v2:hover button.info {
+    -moz-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+
+/* effect hover 5 */
+
+.ehover5 h2,
+.ehover5 img {
+    transition: all 0.4s ease-in-out;
+}
+
+.ehover5 img {
+    transform: scale(1.1);
+}
+
+.ehover5:hover img {
+    transform: scale(1);
+}
+
+.ehover5 .img-overlay {
+    transition: all 0.4s ease-in-out;
+}
+
+.ehover5:hover .img-overlay {
+    background-color: rgba(1, 149, 223, 0.7);
+}
+
+.ehover5 button.info {
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.4s ease-in-out;
+    font-weight: normal;
+    border: 1px solid white;
+    width: 85%;
+    position: absolute;
+    top: -8%;
+    left: 8%;
+    right: 8%;
+    bottom: 8%;
+}
+
+.ehover5:hover button.info {
+    opacity: 1;
+    transform: scale(1);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.ehover5 button.info:hover {
+    box-shadow: none;
+}
+
+
+/* effect hover 6 */
+
+.ehover6 .rotate {
+    transform: rotate(-45deg);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.ehover6 hr {
+    width: 50%;
+    opacity: 0;
+}
+
+.ehover6 hr:nth-child(2) {
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate(0deg) scale3d(0, 0, 1);
+    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale3d(0, 0, 1);
+}
+
+.ehover6 hr:nth-child(3) {
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate(90deg) scale3d(0, 0, 1);
+    transform: translate3d(-50%, -50%, 0) rotate(90deg) scale3d(0, 0, 1);
+}
+
+.ehover6 h2,
+.ehover6 hr {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.group1,
+.group2 {
+    left: 50%;
+    position: absolute;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+    /* take out of production */
+    letter-spacing: 0px;
+}
+
+.group1 {
+    top: 40%;
+}
+
+.group2 {
+    top: 55%;
+}
+
+.ehover6 h2 {
+    width: 100%;
+}
+
+.ehover6 p {
+    width: 30%;
+    text-transform: none;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.ehover6 p a {
+    color: #fff;
+}
+
+.ehover6 p a:hover,
+.ehover6 p a:focus {
+    opacity: 0.6;
+}
+
+.ehover6 a i {
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.group1 a:first-child i {
+    -webkit-transform: translate3d(-60px, -60px, 0) rotate(45deg) scale(2);
+    transform: translate3d(-60px, -60px, 0) rotate(45deg) scale(2);
+}
+
+.group1 a:nth-child(2) i {
+    -webkit-transform: translate3d(60px, -60px, 0) rotate(45deg) scale(2);
+    transform: translate3d(60px, -60px, 0) rotate(45deg) scale(2);
+}
+
+.group2 a:first-child i {
+    -webkit-transform: translate3d(-60px, 60px, 0) rotate(45deg) scale(2);
+    transform: translate3d(-60px, 60px, 0) rotate(45deg) scale(2);
+}
+
+.group2 a:nth-child(2) i {
+    -webkit-transform: translate3d(60px, 60px, 0) rotate(45deg) scale(2);
+    transform: translate3d(60px, 60px, 0) rotate(45deg) scale(2);
+}
+
+.ehover6:hover h2 {
+    opacity: 0;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+    transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+}
+
+.ehover6:hover hr:nth-child(2) {
+    opacity: 1;
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate(0deg) scale3d(1, 1, 1);
+    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale3d(1, 1, 1);
+}
+
+.ehover6:hover hr:nth-child(3) {
+    opacity: 1;
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate(90deg) scale3d(1, 1, 1);
+    transform: translate3d(-50%, -50%, 0) rotate(90deg) scale3d(1, 1, 1);
+}
+
+.ehover6:hover .group1 i:empty,
+.ehover6:hover .group2 i:empty {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(45deg) scale(1);
+    /* just because it's stronger than nth-child */
+    opacity: 1;
+}
+
+.ehover6 img {
+    transform: scale(1.1);
+    transition: all 0.35s;
+}
+
+.ehover6:hover img {
+    transform: scale(1);
+    filter: brightness(0.7);
+    -webkit-filter: brightness(0.7);
+}
+
+
+/* effect hover 7 */
+
+.ehover7 h2,
+.ehover7 p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+}
+
+.ehover7 .img-overlay::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 60%;
+    border: 2px solid #fff;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -45deg) scale3d(0, 0, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -45deg) scale3d(0, 0, 1);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+}
+
+.ehover7 p {
+    width: 20%;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.ehover7 p a {
+    color: #fff;
+}
+
+.ehover7 p a:hover,
+.ehover7 p a:focus {
+    opacity: 0.6;
+}
+
+.ehover7 a i {
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    padding: 0px 5px;
+}
+
+.ehover7 p a:first-child i {
+    -webkit-transform: translate3d(-60px, -60px, 0);
+    transform: translate3d(-60px, -60px, 0);
+}
+
+.ehover7 p a:nth-child(2) i {
+    -webkit-transform: translate3d(60px, -60px, 0);
+    transform: translate3d(60px, -60px, 0);
+}
+
+.ehover7 p a:nth-child(3) i {
+    -webkit-transform: translate3d(-60px, 60px, 0);
+    transform: translate3d(-60px, 60px, 0);
+}
+
+.ehover7 p a:nth-child(4) i {
+    -webkit-transform: translate3d(60px, 60px, 0);
+    transform: translate3d(60px, 60px, 0);
+}
+
+.ehover7:hover .img-overlay::before {
+    opacity: 1;
+    background-color: rgba(1,149,223, 0.7);
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -135deg) scale3d(1, 1, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -135deg) scale3d(1, 1, 1);
+}
+
+.ehover7:hover h2 {
+    opacity: 0;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+    transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+}
+
+.ehover7:hover p i:empty {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    /* just because it's stronger than nth-child */
+    opacity: 1;
+}
+
+
+/* effect hover 8 */
+
+.ehover8 hr {
+    width: 40%;
+    opacity: 0;
+    border: 1px solid #FFF;
+}
+
+.ehover8 hr:nth-child(3) {
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 90deg) scale3d(0, 0, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 90deg) scale3d(0, 0, 1);
+}
+
+.ehover8 hr:nth-child(4) {
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg) scale3d(0, 0, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg) scale3d(0, 0, 1);
+}
+
+.ehover8 h2,
+.ehover8 hr {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.set1,
+.set2 {
+    left: 50%;
+    position: absolute;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+}
+
+.set1 {
+    top: 40%;
+}
+
+.set2 {
+    top: 60%;
+}
+
+.ehover8 p {
+    width: 30%;
+    text-transform: none;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.ehover8 p a {
+    color: #fff;
+}
+
+.ehover8 p a:hover,
+.ehover8 p a:focus {
+    opacity: 0.6;
+}
+
+.ehover8 a i {
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.set1 a:first-child i {
+    -webkit-transform: translate3d(-60px, -60px, 0);
+    transform: translate3d(-60px, -60px, 0);
+}
+
+.set1 a:nth-child(2) i {
+    -webkit-transform: translate3d(60px, -60px, 0);
+    transform: translate3d(60px, -60px, 0);
+}
+
+.set2 a:first-child i {
+    -webkit-transform: translate3d(-60px, 60px, 0);
+    transform: translate3d(-60px, 60px, 0);
+}
+
+.set2 a:nth-child(2) i {
+    -webkit-transform: translate3d(60px, 60px, 0);
+    transform: translate3d(60px, 60px, 0);
+}
+
+.ehover8:hover h2 {
+    opacity: 0;
+    -webkit-transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+    transform: translate3d(-50%, -50%, 0) scale3d(0.8, 0.8, 1);
+}
+
+.ehover8:hover hr:nth-child(3) {
+    opacity: 1;
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -90deg) scale3d(1, 1, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -90deg) scale3d(1, 1, 1);
+}
+
+.ehover8:hover hr:nth-child(4) {
+    opacity: 1;
+    -webkit-transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -180deg) scale3d(1, 1, 1);
+    transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, -180deg) scale3d(1, 1, 1);
+}
+
+.ehover8:hover .set1 i:empty,
+.ehover8:hover .set2 i:empty {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    /* just because it's stronger than nth-child */
+    opacity: 1;
+}
+
+
+/* effect hover 9 */
+
+.ehover9 .img-overlay {
+    background-color: rgba(1,149,223, 0.7);
+    top: -200px;
+    opacity: 0;
+    transition: all 0.1s ease-out 0.5s;
+}
+
+.ehover9 h2 {
+    transform: translateY(-200px);
+    transition: all ease-in-out 0.1s;
+    transition-delay: 0.3s;
+}
+
+.ehover9 button.info {
+    transform: translateY(-200px);
+    color: #000;
+    border: 1px solid #000;
+    transition: all ease-in-out 0.3s;
+}
+
+.ehover9:hover .img-overlay {
+    opacity: 1;
+    top: 0px;
+    transition-delay: 0s
+}
+
+.ehover9:hover h2 {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+}
+
+.ehover9:hover button.info {
+    transform: translateY(0px);
+    box-shadow: 0 0 5px #000;
+    color: #000;
+    border: 1px solid #000;
+    transition-delay: 0.3s;
+}
+
+
+/* effect hover 10 */
+
+.effect-10 img {
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+}
+
+.effect-10:hover img {
+    -webkit-transform: translate3d(0, -10%, 0);
+    transform: translate3d(0, -10%, 0);
+}
+
+.effect-10 .cart-overlay {
+    top: auto;
+    bottom: 0;
+    padding: 1em;
+    height: 150px;
+    background: rgba(255,255,255,0.5);
+    color: #3c4a50;
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+}
+
+.effect-10 a.info {
+    float: left;
+    margin: 0px;
+    color: #fff;
+    font-size: 14px;
+    background: #5bb300;
+    padding: 7px 10px;
+    border-radius: 3px;
+}
+
+.effect-10 p.icon-links a {
+    float: right;
+    color: #5bb300;
+    font-size: 1.4em;
+}
+
+.effect-10:hover p.icon-links a:hover,
+.effect-10:hover p.icon-links a:focus {
+    color: #252d31;
+}
+
+.effect-10 button,
+.effect-10 p.icon-links a {
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: translate3d(0, 200%, 0);
+    transform: translate3d(0, 200%, 0);
+}
+
+.effect-10 p.icon-links a span::before {
+    display: inline-block;
+    padding: 8px 10px;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.effect-10 button {
+    display: inline-block;
+}
+
+.effect-10:hover .cart-overlay,
+.effect-10:hover button,
+.effect-10:hover p.icon-links a {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.effect-10:hover h2 {
+    -webkit-transition-delay: 0.05s;
+    transition-delay: 0.05s;
+}
+
+.effect-10:hover p.icon-links a:nth-child(3) {
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+}
+
+.effect-10:hover p.icon-links a:nth-child(2) {
+    -webkit-transition-delay: 0.15s;
+    transition-delay: 0.15s;
+}
+
+.effect-10:hover p.icon-links a:first-child {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+
+/* effect 11 */
+
+.ehover11 {
+    background: -webkit-linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
+    background: linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
+}
+
+.ehover11 img {
+    width: -webkit-calc(100% + 60px);
+    width: calc(100% + 60px);
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.45s;
+    transition: opacity 0.35s, transform 0.45s;
+    -webkit-transform: translate3d(-40px, 0, 0);
+    transform: translate3d(-40px, 0, 0);
+    max-width: none;
+}
+
+.ehover11 .img-overlay::before {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    border: 1px solid #fff;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.45s;
+    transition: opacity 0.35s, transform 0.45s;
+    -webkit-transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
+}
+
+.ehover11 .img-overlay {
+    padding: 3em;
+    text-align: left;
+}
+
+.ehover11 h2 {
+    background-color: transparent;
+    padding: 15% 0 10px 0;
+    text-align: left;
+}
+
+.ehover11 button.info {
+    color: #FFF;
+    opacity: 0;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.45s;
+    transition: opacity 0.35s, transform 0.45s;
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+}
+
+.ehover11:hover img {
+    opacity: 0.6;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.ehover11:hover .img-overlay::before,
+.ehover11:hover button.info {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* effect 12 */
+
+.ehover12 {
+    background: #42b078;
+}
+
+.ehover12 img {
+    max-width: none;
+    width: -webkit-calc(100% + 20px);
+    width: calc(100% + 20px);
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.ehover12:hover img {
+    opacity: 0.4;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.ehover12 .img-overlay {
+    padding: 50px 20px;
+}
+
+.ehover12 h2 {
+    position: relative;
+    overflow: hidden;
+    padding: 0.5em 0;
+    background-color: transparent;
+}
+
+.ehover12 h2::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    content: '';
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+}
+
+.ehover12:hover h2::after {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.ehover12 button {
+    color: #FFF;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.ehover12:hover button {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* effect 13 */
+
+.ehover13 img {
+    transition: all 0.35s;
+}
+
+.ehover13:hover img {
+    filter: brightness(0.6);
+    -webkit-filter: brightness(0.6);
+}
+
+.ehover13 .img-overlay {
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    border-bottom: 1px solid #FFF;
+    border-top: 1px solid #FFF;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+}
+
+.ehover13:hover .img-overlay {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.ehover13 button {
+    color: #0088cc;
+    padding: 1em 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+}
+
+.ehover13 h2 {
+    background-color: transparent;
+    color: #fff;
+    font-weight: 800;
+    padding: 1em 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+
+.ehover13:hover button,
+.ehover13:hover h2 {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* effect 14 */
+
+.ehover14 img {
+    transition: all 0.35s;
+}
+
+.ehover14:hover img {
+    filter: brightness(1.4);
+    -webkit-filter: brightness(1.4);
+}
+
+.ehover14 .img-overlay {
+    opacity: 0;
+    width: 55%;
+    height: 55%;
+    left: 22%;
+    top: 20%;
+    border-radius: 50%;
+    border: 2px solid #FFF;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(50%, 50%, 0);
+    transform: translate3d(50%, 50%, 0);
+}
+
+.ehover14:hover .img-overlay {
+    background-color: rgba(1,149,223, 0.7);
+}
+
+.ehover14 button {
+    color: #FFF;
+    padding: 1em 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-150%, -400%, 0);
+    transform: translate3d(-150%, -400%, 0);
+}
+
+.ehover14 h2 {
+    background-color: transparent;
+    color: #FFF;
+    padding: 1em 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-150%, -400%, 0);
+    transform: translate3d(-150%, -400%, 0);
+}
+
+.ehover14:hover button,
+.ehover14:hover h2,
+.ehover14:hover .img-overlay {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
