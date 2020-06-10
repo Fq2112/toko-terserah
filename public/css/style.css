@@ -224,6 +224,10 @@ p.text-title {
     font-weight: 600;
 }
 
+.strong-error {
+    color: #a94442 !important;
+}
+
 .strong-color {
     color: #fdc716 !important;
 }
@@ -433,7 +437,7 @@ h2.text-heading.coffee-color:after {
 }
 
 .bg-color-blue {
-    background: url(images/bg/bg-action.jpg) no-repeat fixed center !important;
+    background: url(../images/bg/bg-action.jpg) no-repeat fixed center !important;
 }
 
 .none-style {
@@ -2346,7 +2350,7 @@ a.search-bgdark:hover {
 .slider-bg-2:before {
     content: '';
     width: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(images/overlay-pattern-1.png);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(../images/overlay-pattern-1.png);
     position: absolute;
     opacity: 0.9;
     top: 0;
@@ -3551,7 +3555,7 @@ a.search-bgdark:hover {
     News header
 ================================*/
 .news-bg {
-    background: url(images/bg.png);
+    background: url(../images/bg.png);
 }
 
 .news-header-1 .top-bar {
@@ -4865,7 +4869,7 @@ a.search-bgdark:hover {
     top: 0;
     right: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.1) url(images/overlay-pattern-1.png);
+    background: rgba(0, 0, 0, 0.1) url(../images/overlay-pattern-1.png);
 }
 
 .page-video video {
@@ -4892,7 +4896,7 @@ a.search-bgdark:hover {
     top: 0;
     right: 0;
     left: 0;
-    background: url(images/overlay-pattern-1.png);
+    background: url(../images/overlay-pattern-1.png);
     z-index: 10;
 }
 
@@ -5583,7 +5587,7 @@ a.search-bgdark:hover {
 
 .features-box-6 .box-1 {
     position: relative;
-    background: url(images/blog/600x400/17.jpg) no-repeat;
+    background: url(../images/blog/600x400/17.jpg) no-repeat;
     padding: 70px;
     width: 100%;
     height: 100%;
@@ -5621,7 +5625,7 @@ a.search-bgdark:hover {
 
 .features-box-6 .box-2 {
     position: relative;
-    background: url(images/blog/600x400/16.jpg) no-repeat;
+    background: url(../images/blog/600x400/16.jpg) no-repeat;
     padding: 70px;
 }
 
@@ -5658,7 +5662,7 @@ a.search-bgdark:hover {
 
 .features-box-6 .box-3 {
     position: relative;
-    background: url(images/projects/570x342/9.jpg) no-repeat;
+    background: url(../images/projects/570x342/9.jpg) no-repeat;
     padding: 70px;
 }
 
@@ -5723,7 +5727,7 @@ a.search-bgdark:hover {
 
 .about-company {
     padding: 70px 0;
-    background: url(images/bg/bg-about.jpg) repeat;
+    background: url(../images/bg/bg-about.jpg) repeat;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -6288,7 +6292,7 @@ a.search-bgdark:hover {
 }
 
 .wesay {
-    background: url(images/bg/bg-says.jpg) top center;
+    background: url(../images/bg/bg-says.jpg) top center;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -6297,7 +6301,7 @@ a.search-bgdark:hover {
 
 .wesay2 {
     padding: 50px 0 60px;
-    background: url(images/bg/bg-says.jpg) top center;
+    background: url(../images/bg/bg-says.jpg) top center;
 }
 
 .wesay2 h2 {
@@ -6320,7 +6324,7 @@ a.search-bgdark:hover {
 
 .wesay.dark-background {
     padding: 200px 0;
-    background: url(images/bg/clients-bg.jpg);
+    background: url(../images/bg/clients-bg.jpg);
     background-size: cover;
     background-position: left top;
     background-repeat: no-repeat, repeat;
@@ -6328,7 +6332,7 @@ a.search-bgdark:hover {
 }
 
 .wesay.dark-background::before {
-    background: rgba(0, 0, 0, 0.5) url(images/overlay-pattern-1.png);
+    background: rgba(0, 0, 0, 0.5) url(../images/overlay-pattern-1.png);
     position: absolute;
     top: 0;
     right: 0;
@@ -6813,7 +6817,7 @@ a.search-bgdark:hover {
 }
 
 .contact-us {
-    background: url(images/bg/bg-footer.jpg) top center;
+    background: url(../images/bg/bg-footer.jpg) top center;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -6932,7 +6936,7 @@ a.search-bgdark:hover {
 }
 
 .our-works2.bg-color {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%), url('images/bg-pattern.jpg');
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%), url('../images/bg-pattern.jpg');
     background-position: center;
     background-size: cover;
     position: relative;
@@ -7490,7 +7494,7 @@ a.search-bgdark:hover {
 }
 
 .our-client.bg-1 {
-    background-image: url(images/slider/car-bg-3.jpg);
+    background-image: url(../images/slider/car-bg-3.jpg);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -7967,14 +7971,14 @@ a.search-bgdark:hover {
 ============================*/
 
 .why-choose {
-    background: url(images/slideshow/bg.jpg);
+    background: url(../images/slideshow/bg.jpg);
     -webkit-background-size: cover;
     background-size: cover;
     overflow: hidden;
 }
 
 .why-choose-2 {
-    background: url(images/layer-slider/6.jpg);
+    background: url(../images/layer-slider/6.jpg);
     -webkit-background-size: cover;
     background-size: cover;
     position: relative;
@@ -9350,7 +9354,7 @@ a.search-bgdark:hover {
 }
 
 .bg-action {
-    background: url(images/bg/bg-action.jpg) bottom no-repeat;
+    background: url(../images/bg/bg-action.jpg) bottom no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -9464,14 +9468,14 @@ a.search-bgdark:hover {
 ===================================*/
 
 .fun-fact {
-    background: url(images/bg/bg-fact.jpg) top center no-repeat;
+    background: url(../images/bg/bg-fact.jpg) top center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
 }
 
 .fun-fact.medical-fact {
-    background: url(images/slider/slider-bg10.jpg) top center no-repeat;
+    background: url(../images/slider/slider-bg10.jpg) top center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -9490,7 +9494,7 @@ a.search-bgdark:hover {
 }
 
 .fun-fact.education-fact {
-    background: url(images/slider/education-bg-3.jpg) top center no-repeat;
+    background: url(../images/slider/education-bg-3.jpg) top center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -9578,7 +9582,7 @@ a.search-bgdark:hover {
 }
 
 .fun-fact.fun-style.bg-3 {
-    background-image: url(images/slider/slider-bg24.jpg);
+    background-image: url(../images/slider/slider-bg24.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -9842,24 +9846,24 @@ a.search-bgdark:hover {
 }
 
 .wesay-light {
-    background: url(images/bg/bg-about.jpg) center center repeat;
+    background: url(../images/bg/bg-about.jpg) center center repeat;
     background-attachment: scroll;
     padding: 40px 0 100px;
 }
 
 .wesay-light-2 {
-    background: url(images/bg/bg-fact-2.jpg) center center repeat;
+    background: url(../images/bg/bg-fact-2.jpg) center center repeat;
     padding: 40px 0 100px;
     position: relative;
 }
 
 .wesay-light-2.background-image {
-    background: url(images/shop/large/lr3-1920x620.jpg);
+    background: url(../images/shop/large/lr3-1920x620.jpg);
     position: relative;
 }
 
 .wesay-light-2.background-image-2 {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%), url('images/slider/travel-bg-2.jpg');
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%), url('../images/slider/travel-bg-2.jpg');
     position: relative;
 }
 
@@ -9926,7 +9930,7 @@ a.search-bgdark:hover {
 }
 
 .wesay-light-3 {
-    background: url(images/bg/bg-fact-3.jpg) center center repeat;
+    background: url(../images/bg/bg-fact-3.jpg) center center repeat;
     padding: 150px 0 150px;
     position: relative;
 }
@@ -9944,7 +9948,7 @@ a.search-bgdark:hover {
 }
 
 .wesay-light-3.testimonials-bg {
-    background: url(images/slider/slider-bg8.jpg) center center repeat;
+    background: url(../images/slider/slider-bg8.jpg) center center repeat;
     position: relative;
 }
 
@@ -10005,7 +10009,7 @@ a.search-bgdark:hover {
 .breadcrumbs {
     width: 100%;
     height: 100%;
-    background: url(images/slider/home-6-slider-3.jpg) no-repeat;
+    background: url(../images/slider/home-6-slider-3.jpg) no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -10022,7 +10026,7 @@ a.search-bgdark:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.1) url(images/overlay-pattern-1.png);
+    background: rgba(0, 0, 0, 0.1) url(../images/overlay-pattern-1.png);
     position: absolute;
 }
 
@@ -10079,7 +10083,7 @@ a.search-bgdark:hover {
 
 .page-header-1 {
     padding: 20px 0;
-    background: url(images/page-header/header-bg.jpg);
+    background: url(../images/page-header/header-bg.jpg);
 }
 
 .page-header-1 h2 {
@@ -10218,7 +10222,7 @@ a.search-bgdark:hover {
 
 .page-header-4 {
     padding: 20px 0;
-    background: url(images/page-header/header-bg.jpg);
+    background: url(../images/page-header/header-bg.jpg);
 }
 
 .page-header-4 ul {
@@ -10276,7 +10280,7 @@ a.search-bgdark:hover {
 
 .page-header-5 {
     padding: 20px 0;
-    background: url(images/pattern.png);
+    background: url(../images/pattern.png);
 }
 
 .page-header-5 h2 {
@@ -10312,7 +10316,7 @@ a.search-bgdark:hover {
 
 .page-header-6 {
     padding: 300px 0 80px 0;
-    background: url(images/blog/6.jpg);
+    background: url(../images/blog/6.jpg);
     position: relative;
 }
 
@@ -14025,7 +14029,7 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
 .event-bg {
     width: 100%;
     height: 100%;
-    background: url(images/bg/event-bg.jpg) no-repeat center center fixed;
+    background: url(../images/bg/event-bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -14042,7 +14046,7 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: url(images/overlay-pattern-1.png);
+    background: url(../images/overlay-pattern-1.png);
     position: absolute;
 }
 
@@ -14214,7 +14218,7 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
 
 .useful {
     padding: 65px 30px;
-    background: url(images/bg/bg-link.jpg) center center no-repeat;
+    background: url(../images/bg/bg-link.jpg) center center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     color: #999;
@@ -14245,7 +14249,7 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
 }
 
 .useful.bg {
-    background: url(images/slider/img_slider1_slide3.jpg) center center no-repeat;
+    background: url(../images/slider/img_slider1_slide3.jpg) center center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     position: relative;
@@ -16066,7 +16070,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h1:after {
@@ -16077,7 +16081,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h2 {
@@ -16096,7 +16100,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h2:after {
@@ -16107,7 +16111,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h3 {
@@ -16126,7 +16130,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h3:after {
@@ -16137,7 +16141,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h4 {
@@ -16156,7 +16160,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h4:after {
@@ -16167,7 +16171,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h5 {
@@ -16186,7 +16190,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h5:after {
@@ -16197,7 +16201,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h6 {
@@ -16216,7 +16220,7 @@ h4.title-block {
     width: 100%;
     margin-left: -100%;
     margin-right: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 .shortcodes-heading-style-16 h6:after {
@@ -16227,7 +16231,7 @@ h4.title-block {
     width: 100%;
     margin-right: -100%;
     margin-left: 10px;
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 /*=======================================
@@ -17490,7 +17494,7 @@ hr.style10 {
 
 hr.style11 {
     height: 6px;
-    background: url(images/hr-11.png) repeat-x 0 0;
+    background: url(../images/hr-11.png) repeat-x 0 0;
     border: 0;
     margin-bottom: 50px;
 }
@@ -17498,7 +17502,7 @@ hr.style11 {
 
 hr.style12 {
     height: 6px;
-    background: url(images/hr-12.png) repeat-x 0 0;
+    background: url(../images/hr-12.png) repeat-x 0 0;
     border: 0;
     margin-bottom: 50px;
 }
@@ -18707,7 +18711,7 @@ a.text-line-through {
 =====================================*/
 
 .coming-soon {
-    background: url(images/coming.jpg) no-repeat center center;
+    background: url(../images/coming.jpg) no-repeat center center;
     -webkit-background-size: cover;
     background-size: cover;
     height: 100vh;
@@ -19815,14 +19819,14 @@ table.fully .color {
 }
 
 .clients-testimonials.bg1 {
-    background: linear-gradient(to top, rgba(34, 149, 237, 0.8) 0%, rgba(34, 149, 237, 0.9) 100%), url(images/slider/car-bg-4.jpg);
+    background: linear-gradient(to top, rgba(34, 149, 237, 0.8) 0%, rgba(34, 149, 237, 0.9) 100%), url(../images/slider/car-bg-4.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 .clients-testimonials.bg2 {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(images/slider/slide-3.jpg);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(../images/slider/slide-3.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -20049,7 +20053,7 @@ table.fully .color {
 
 .progress-area.style-1 {
     padding: 120px 0;
-    background-image: url(images/slider/slide-3.jpg);
+    background-image: url(../images/slider/slide-3.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -20121,7 +20125,7 @@ table.fully .color {
 }
 
 .download {
-    background: linear-gradient(to top, rgba(241, 74, 62, 0.5) 0%, rgba(216, 66, 55, 0.9) 100%), url(images/slider/slider-bg11.jpg);
+    background: linear-gradient(to top, rgba(241, 74, 62, 0.5) 0%, rgba(216, 66, 55, 0.9) 100%), url(../images/slider/slider-bg11.jpg);
     padding: 80px 0;
 }
 
@@ -20704,7 +20708,7 @@ right connector from last child*/
 }
 
 .apps-price.style-1 {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/slider/slider-bg4.jpg');
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/slider/slider-bg4.jpg');
     background-size: cover;
     background-position: center;
     border-top: none;
@@ -21354,7 +21358,7 @@ right connector from last child*/
 /* ---------------- **!--Form Elements ------------------- */
 
 .coffee-reservation {
-    background: url(images/slider/slider-bg13.jpg);
+    background: url(../images/slider/slider-bg13.jpg);
     -webkit-background-size: cover;
     background-size: cover;
     background-attachment: fixed;
@@ -21369,7 +21373,7 @@ right connector from last child*/
     top: 0;
     bottom: 0;
     left: 0;
-    background: url(images/overlay-pattern-1.png);
+    background: url(../images/overlay-pattern-1.png);
     position: absolute;
 }
 
@@ -21531,7 +21535,7 @@ right connector from last child*/
     height: 40px;
     text-align: center;
     margin: auto;
-    background-image: url(images/support/coffee/divider.png);
+    background-image: url(../images/support/coffee/divider.png);
     background-repeat: no-repeat;
     background-position: center top;
 }
@@ -21683,14 +21687,14 @@ right connector from last child*/
     width: 100%;
     height: 100%;
     position: relative;
-    background: url(images/slider/slider-bg14.jpg) no-repeat;
+    background: url(../images/slider/slider-bg14.jpg) no-repeat;
     position: relative;
 }
 
 #section-menu:before {
     content: '';
     width: 100%;
-    background: url(images/overlay-pattern-1.png);
+    background: url(../images/overlay-pattern-1.png);
     position: absolute;
     opacity: 0.9;
     top: 0;
@@ -21830,7 +21834,7 @@ h2.font-nothing-you-could-do {
     padding: 0;
     top: 0;
     left: 0;
-    background: url(images/slider/new-bg2.jpg) no-repeat;
+    background: url(../images/slider/new-bg2.jpg) no-repeat;
     position: absolute;
 }
 
@@ -22108,7 +22112,7 @@ h2.font-nothing-you-could-do {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%), url('images/slider/travel-bg-3.jpg') no-repeat;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%), url('../images/slider/travel-bg-3.jpg') no-repeat;
     position: absolute
 }
 
@@ -22276,7 +22280,7 @@ h2.font-nothing-you-could-do {
         rgba(0, 0, 0, 0.45),
         rgba(0, 0, 0, 0.45)
     ),
-    url(images/slider/travel-bg.jpg);
+    url(../images/slider/travel-bg.jpg);
     background-position: center;
     background-size: cover;
     position: absolute;
@@ -22365,7 +22369,7 @@ h2.font-nothing-you-could-do {
 .wrapper-sale {
     padding: 0;
     margin: 0;
-    background-image: url(images/slider/travel-bg-2.jpg);
+    background-image: url(../images/slider/travel-bg-2.jpg);
     background-position: center;
     background-size: cover;
     padding-top: 50px;
@@ -22378,7 +22382,7 @@ h2.font-nothing-you-could-do {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(images/overlay-pattern-1.png);
+    background-image: url(../images/overlay-pattern-1.png);
     position: absolute;
 }
 
@@ -22703,7 +22707,7 @@ h2.font-nothing-you-could-do {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(33, 35, 49, 0.9) 0%, rgba(33, 35, 49, 0.9) 100%), url('images/slider/education-bg.jpg') no-repeat;
+    background: linear-gradient(to bottom, rgba(33, 35, 49, 0.9) 0%, rgba(33, 35, 49, 0.9) 100%), url('../images/slider/education-bg.jpg') no-repeat;
     background-size: cover;
     position: absolute
 }
@@ -22776,7 +22780,7 @@ h2.font-nothing-you-could-do {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: url('images/slider/slide-corporate-3.jpg') no-repeat;
+    background: url('../images/slider/slide-corporate-3.jpg') no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -23139,7 +23143,7 @@ h2.font-nothing-you-could-do {
     top: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(images/slider/car-bg.jpg);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%), url(../images/slider/car-bg.jpg);
     background-position: center;
     background-size: cover;
     position: absolute;
@@ -23152,7 +23156,7 @@ h2.font-nothing-you-could-do {
     top: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(to top, rgba(238, 49, 49, 0.5) 0%, rgba(238, 49, 49, 0.9) 100%), url(images/slider/car-bg-3.jpg);
+    background: linear-gradient(to top, rgba(238, 49, 49, 0.5) 0%, rgba(238, 49, 49, 0.9) 100%), url(../images/slider/car-bg-3.jpg);
     background-position: center;
     background-size: cover;
     position: absolute;
@@ -23874,7 +23878,7 @@ span.txt-style-1 {
 .portfolio-contact {
     padding: 0;
     margin: 0;
-    background-image: url(images/slider/slider-bg6.jpg);
+    background-image: url(../images/slider/slider-bg6.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -23890,7 +23894,7 @@ span.txt-style-1 {
 }
 
 .portfolio-contact.style-1 {
-    background-image: url(images/slider/slider-bg11.jpg);
+    background-image: url(../images/slider/slider-bg11.jpg);
 }
 
 .portfolio-contact.style-1 .col-bg {
@@ -24013,7 +24017,7 @@ span.txt-style-1 {
     padding: 150px 0;
     width: 100%;
     height: 100%;
-    background-image: url(images/slider/slider-bg6.jpg);
+    background-image: url(../images/slider/slider-bg6.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -24386,7 +24390,7 @@ span.txt-style-1 {
     left: 0;
     top: 0;
     width: 100%;
-    background-image: url(images/slider/slider-bg17.jpg);
+    background-image: url(../images/slider/slider-bg17.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -24395,7 +24399,7 @@ span.txt-style-1 {
 }
 
 .blog-wrapper.bg-1:before {
-    background-image: url(images/slider/slider-bg18.jpg);
+    background-image: url(../images/slider/slider-bg18.jpg);
 }
 
 .blog-wrapper .blog-bg {
@@ -24736,7 +24740,7 @@ span.txt-style-1 {
 .ac-features .lt-box {
     padding: 80px 80px;
     margin: 0;
-    background-image: url('images/projects/600x400/16.jpg');
+    background-image: url('../images/projects/600x400/16.jpg');
     background-repeat: no-repeat;
     height: 400px;
 }
@@ -24797,7 +24801,7 @@ span.txt-style-1 {
 .ac-features .ctr-box {
     padding: 80px 80px;
     margin: 0;
-    background-image: url('images/blog/600x400/7.jpg');
+    background-image: url('../images/blog/600x400/7.jpg');
     background-repeat: no-repeat;
     width: 100%;
     height: 400px;
@@ -24817,7 +24821,7 @@ span.txt-style-1 {
 .ac-features .rgt-box {
     padding: 80px 80px;
     margin: 0;
-    background-image: url('images/projects/600x400/17.jpg');
+    background-image: url('../images/projects/600x400/17.jpg');
     background-repeat: no-repeat;
     height: 400px;
 }
@@ -24984,7 +24988,7 @@ span.txt-style-1 {
 .smt-wrapper {
     padding: 150px 0;
     margin: 0;
-    background: url(images/slider/slider-bg22.jpg);
+    background: url(../images/slider/slider-bg22.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -25917,7 +25921,7 @@ footer.footer-color8 .f-bottom p {
 
 
 footer.transparent-dark {
-    background: url(images/bg/footer-bg.jpg);
+    background: url(../images/bg/footer-bg.jpg);
     position: relative;
 }
 
@@ -25969,7 +25973,7 @@ footer.transparent-dark .footer-form :-moz-placeholder {
 =========================================*/
 
 footer.transparent-light {
-    background: url(images/bg/footer-bg.jpg);
+    background: url(../images/bg/footer-bg.jpg);
     background-position: 50% 0;
     position: relative;
 }
@@ -26071,7 +26075,7 @@ footer.transparent-light .footer-form :-moz-placeholder {
 =========================================*/
 
 footer.transparent-colored {
-    background: url(images/bg/footer-bg.jpg);
+    background: url(../images/bg/footer-bg.jpg);
     position: relative;
 }
 

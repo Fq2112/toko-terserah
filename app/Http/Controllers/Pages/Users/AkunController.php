@@ -98,7 +98,8 @@ class AkunController extends Controller
     {
         $user = Auth::user();
         $bio = $user->getBio;
-        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
+//        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
+        $address = null;
 
         return view('pages.main.users.pengaturan-akun', compact('user', 'bio', 'address'));
     }

@@ -39,7 +39,7 @@ class UserAdminSeeder extends Seeder
         for ($i = 0; $i < 3; $i++) {
             $dataUser = \App\User::create([
                 'name' => $faker->name,
-                'username' => $faker->name,
+                'username' => strtolower(str_replace(' ', '', $faker->name)),
                 'email' => $faker->safeEmail,
                 'password' => bcrypt('secret'),
                 'status' => true,

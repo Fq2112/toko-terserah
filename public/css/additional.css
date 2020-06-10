@@ -312,6 +312,10 @@
     padding-left: 3rem !important;
 }
 
+.float-right {
+    float: right !important
+}
+
 .float-left {
     float: left !important
 }
