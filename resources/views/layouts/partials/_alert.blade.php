@@ -1,58 +1,51 @@
 <script>
-    @if(session('profil'))
-    swal({
-        title: "PERHATIAN!",
-        text: "{{session('profil')}}",
-        icon: 'warning',
-        closeOnEsc: false,
-        closeOnClickOutside: false,
-    }).then((confirm) => {
-        if (confirm) {
-            swal({icon: "success", text: 'Anda akan dialihkan ke halaman Sunting Profil.', buttons: false});
-            window.location.href = '{{route('user.profil')}}';
-        }
-    });
+    @if(session('contact'))
+    swal('SUKSES!', '{{session('contact')}}', 'success');
+
+    @elseif(session('activated'))
+    swal('SUKSES!', '{{session('activated')}}', 'success');
+
+    @elseif(session('inactive'))
+    swal('KESALAHAN!', '{{session('inactive')}}', 'error');
 
     @elseif(session('signed'))
-    swal('Telah Masuk!', 'Halo {{Auth::user()->name}}! Anda telah masuk.', 'success');
+    swal('SUKSES!', 'Halo, {{Auth::guard('admin')->check() ?
+    Auth::guard('admin')->user()->name : Auth::user()->name}}! Anda telah masuk.', 'success');
+
+    @elseif(session('token'))
+    swal('KESALAHAN!', '{{session('token')}}', 'error');
 
     @elseif(session('expire'))
-    swal('Autentikasi Dibutuhkan!', '{{ session('expire') }}', 'error');
+    swal('KESALAHAN!', '{{session('expire')}}', 'error');
 
     @elseif(session('logout'))
-    swal('Telah Keluar!', '{{ session('logout') }}', 'warning');
-
-    @elseif(session('status'))
-    swal('Sukses!', '{{ session('status') }}', 'success', '3500');
-
-    @elseif(session('create'))
-    swal('Sukses!', '{{ session('create') }}', 'success');
-
-    @elseif(session('update'))
-    swal('Sukses!', '{{ session('update') }}', 'success');
-
-    @elseif(session('delete'))
-    swal('Sukses!', '{{ session('delete') }}', 'success');
+    swal('PERHATIAN!', '{{session('logout')}}', 'warning');
 
     @elseif(session('warning'))
-    swal('PERHATIAN!', '{{ session('warning') }}', 'warning');
+    swal('PERHATIAN!', '{{session('warning')}}', 'warning');
 
-    @elseif(session('gagal'))
-    swal('ERROR!', '{{ session('gagal') }}', 'error');
+    @elseif(session('register'))
+    swal('SUKSES!', '{{session('register')}}', 'success');
 
-    @elseif(session('success'))
-    swal('Sukses!', '{{ session('success') }}', 'success');
+    @elseif(session('unknown'))
+    swal('KESALAHAN!', '{{session('unknown')}}', 'error');
 
-    @elseif(session('hire_me'))
-    swal('Sukses!', '{{ session('hire_me') }}', 'success');
+    @elseif(session('add'))
+    swal('SUKSES!', '{{session('add')}}', 'success');
 
-    @elseif(session('invite_to_bid'))
-    swal('Sukses!', '{{ session('invite_to_bid') }}', 'success');
+    @elseif(session('update'))
+    swal('SUKSES!', '{{session('update')}}', 'success');
+
+    @elseif(session('delete'))
+    swal('SUKSES!', '{{session('delete')}}', 'success');
+
+    @elseif(session('error'))
+    swal('KESALAHAN!', '{{session('error')}}', 'error');
     @endif
 
     @if (count($errors) > 0)
     @foreach ($errors->all() as $error)
-    swal('Oops..!', '{{ $error }}', 'error');
+    swal('Oops..!', '{{$error}}', 'error');
     @endforeach
     @endif
 </script>

@@ -3023,11 +3023,11 @@ a.search-bgdark:hover {
     margin-left: 10px;
 }
 
-.shop-header .main-bar .nav ul {
+.shop-header .main-bar .nav ul:not(.dropdown-arrow) {
     line-height: 90px;
 }
 
-.shop-header .main-bar .nav ul a {
+.shop-header .main-bar .nav ul:not(.dropdown-arrow) a {
     display: inline;
 }
 
@@ -3048,6 +3048,19 @@ a.search-bgdark:hover {
 .shop-header .main-bar .nav li a:hover {
     background: #5bb300;
     color: #fff;
+}
+
+.shop-header .main-bar .nav ul.dropdown-arrow {
+    line-height: 40px;
+}
+
+.shop-header .main-bar .nav ul.dropdown-arrow a {
+    display: block;
+    margin-left: 0;
+}
+
+.shop-header .main-bar .nav ul.dropdown-arrow li a i {
+    margin-right: .5rem;
 }
 
 .shop-header .account {

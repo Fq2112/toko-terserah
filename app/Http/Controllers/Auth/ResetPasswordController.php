@@ -82,7 +82,7 @@ class ResetPasswordController extends Controller
             $resetter = 'admins';
 
         } else {
-            return back()->withInput($request->all())->with('recover_failed', 'message');
+            return back()->withInput($request->all())->with('recover_failed', 'Email yang Anda masukkan tidak ditemukan.');
         }
 
         $response = $this->broker($resetter)->reset(

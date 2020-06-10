@@ -333,7 +333,7 @@
     position: relative;
     display: block;
     min-height: 1.5rem;
-    /*padding-left: 1.5rem;*/
+    padding-left: 1.5rem;
 }
 
 .custom-control-inline {
@@ -377,8 +377,8 @@
 
 .custom-control-label::before {
     position: absolute;
-    top: 0.25rem;
-    left: -2rem;
+    top: 0.5rem;
+    left: -1.5rem;
     display: block;
     width: 1.5rem;
     height: 1.5rem;
@@ -393,8 +393,8 @@
 
 .custom-control-label::after {
     position: absolute;
-    top: 0.25rem;
-    left: -2rem;
+    top: 0.5rem;
+    left: -1.5rem;
     display: block;
     width: 1.5rem;
     height: 1.5rem;
@@ -449,8 +449,8 @@
 }
 
 .form-control:disabled, button:disabled {
-    cursor: no-drop !important;
-    opacity: .6 !important;
+    cursor: not-allowed !important;
+    opacity: .65 !important;
 }
 
 .btn-primary {

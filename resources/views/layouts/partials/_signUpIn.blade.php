@@ -3,12 +3,25 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" data-toc-skip>Masuk</h4>
+                <h4 class="modal-title" data-toc-skip>Sign In</h4>
             </div>
             <div class="modal-body">
                 <!-- Sign in form -->
                 <div class="box">
                     <div class="">
+                        <div class="social">
+                            <a class="btn btn-dark-green facebook py-2"
+                               href="{{route('redirect', ['provider' => 'facebook'])}}">
+                                <i class="fab fa-facebook-f mr-3"></i>FACEBOOK</a>
+                            <a class="btn btn-dark-green google py-2"
+                               href="{{route('redirect', ['provider' => 'google'])}}">
+                                <i class="fab fa-google mr-3"></i>GOOGLE</a>
+                        </div>
+                        <div class="division mb-2">
+                            <div class="line l"></div>
+                            <span>atau</span>
+                            <div class="line r"></div>
+                        </div>
                         <div class="error"></div>
                         <div class="form loginBox">
                             @if(session('success') || session('recovered'))
@@ -18,12 +31,12 @@
                                     <h4><i class="icon fa fa-check"></i> Alert!</h4>
                                     {{session('success') ? session('success') : session('recovered')}}
                                 </div>
-                            @elseif(session('error'))
+                            @elseif(session('error') || session('inactive'))
                                 <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
                                     </button>
                                     <h4><i class="icon fa fa-times"></i> Alert!</h4>
-                                    {{session('error')}}
+                                    {{session('error') ? 'Username/email atau password Anda salah.' : session('inactive')}}
                                 </div>
                             @endif
                             <form method="post" accept-charset="UTF-8" class="form-horizontal"
@@ -51,18 +64,22 @@
                                 </div>
                                 <div class="row form-group" style="font-size: 15px">
                                     <div class="col-lg-6 checkbox" style="margin: -10px 0">
-                                        <label>
-                                            <input type="checkbox" name="remember" {{old('remember') ? 'checked' : ''}}
-                                            style="position: relative"> Ingat saya
-                                        </label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="remember"
+                                                   name="remember" {{old('remember') ? 'checked' : ''}}>
+                                            <label class="custom-control-label pl-2" for="remember">Ingat saya</label>
+                                        </div>
                                     </div>
                                     <div class="col-lg-6 text-right">
-                                        <a href="javascript:openEmailModal()" style="text-decoration: none">Lupa kata sandi?</a>
+                                        <a href="javascript:openEmailModal()" style="text-decoration: none">Lupa kata
+                                            sandi?</a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button id="btn_login" class="btn btn-dark-green btn-login" type="submit">MASUK</button>
+                                        <button id="btn_login" class="btn btn-dark-green btn-login" type="submit">
+                                            MASUK
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -133,8 +150,8 @@
                                     <div class="col-lg-12" style="font-size: 14px;text-align: justify">
                                         <small>
                                             Dengan melanjutkan ini, Anda mengakui bahwa Anda menerima
-                                            <a href="{{route('ketentuan-layanan')}}" target="_blank"
-                                               style="text-decoration: none">Ketentuan Layanan</a> dan
+                                            <a href="{{route('syarat-ketentuan')}}" target="_blank"
+                                               style="text-decoration: none">Syarat & Ketentuan</a> dan
                                             <a href="{{route('kebijakan-privasi')}}" target="_blank"
                                                style="text-decoration: none">Kebijakan Privasi</a> {{env('APP_NAME')}}.
                                         </small>
@@ -145,8 +162,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button id="btn_register" class="btn btn-dark-green btn-register" type="submit"
-                                                disabled>BUAT AKUN</button>
+                                        <button id="btn_register" class="btn btn-dark-green btn-register"
+                                                type="submit" disabled>BUAT AKUN
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -207,12 +225,13 @@
                         <div id="forg_errorAlert"></div>
                         <div class="form">
                             <form id="form-recovery" method="post" accept-charset="UTF-8" class="form-horizontal"
-                                  action="{{route('password.request', ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
+                                  action="{{route('password.reset', ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
                                 @csrf
                                 <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
                                     <div class="col-lg-12">
                                         <input class="form-control" type="email" placeholder="Email" name="email"
-                                               value="{{ old('email') }}" required>
+                                               value="{{session('reset') ? session('reset')['email'] : old('email')}}"
+                                               required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         @if ($errors->has('email'))
                                             <span class="help-block">

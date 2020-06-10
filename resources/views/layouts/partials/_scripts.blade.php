@@ -19,7 +19,20 @@
 
         $(".rupiah").maskMoney({thousands: '.', decimal: ',', precision: 0});
 
-        @if(session('success') || session('error') || session('logout') || session('expire') || session('unknown') || session('recovered'))
+        function reposition() {
+            var modal = $(this),
+                dialog = modal.find('.modal-dialog');
+            modal.css('display', 'block');
+            dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+
+        $('.modal').on('show.bs.modal', reposition);
+        $(window).on('resize', function () {
+            $('.modal:visible').each(reposition);
+        });
+
+        @if(session('register') || session('error') || session('logout') || session('expire') || session('inactive') ||
+            session('unknown') || session('recovered'))
         openLoginModal();
         @elseif($errors->has('email') || $errors->has('password') || $errors->has('name'))
         openRegisterModal();
@@ -47,7 +60,7 @@
     }
 
     $("#reg_username").on('blur', function () {
-        $.get('akun/cek/' + $("#reg_username").val(), function (data) {
+        $.get('{{route('cek.username')}}?username=' + $("#reg_username").val(), function (data) {
             if (data == 1) {
                 $("#reg_errorAlert").html(
                     '<div class="alert alert-danger alert-dismissible">' +
@@ -155,7 +168,7 @@
             $('.login-footer').fadeOut('fast', function () {
                 $('.register-footer').fadeIn('fast');
             });
-            $('.modal-title').html('Buat Akun');
+            $('.modal-title').html('Sign Up');
         });
         $('.error').removeClass('alert alert-danger').html('');
     }
@@ -166,7 +179,7 @@
             $('.register-footer').fadeOut('fast', function () {
                 $('.login-footer').fadeIn('fast');
             });
-            $('.modal-title').html('Masuk');
+            $('.modal-title').html('Sign In');
         });
         $('.error').removeClass('alert alert-danger').html('');
     }
@@ -175,7 +188,7 @@
         @auth
             window.location.href = '{{route('user.wishlist')}}';
         @elseauth('admin')
-            swal('PERHATIAN!','Fitur ini khusus untuk pelanggan {{env('APP_NAME')}}.','warning');
+        swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
         @else
         openLoginModal();
         @endauth

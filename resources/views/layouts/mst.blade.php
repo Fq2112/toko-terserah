@@ -195,8 +195,8 @@
                             <ul class="contact">
                                 <li><a href="{{route('tentang')}}"><i class="fa fa-caret-right"></i> Tentang Kami</a>
                                 </li>
-                                <li><a href="{{route('ketentuan-layanan')}}"><i class="fa fa-caret-right"></i> Ketentuan
-                                        Layanan</a></li>
+                                <li><a href="{{route('syarat-ketentuan')}}"><i class="fa fa-caret-right"></i> Syarat &
+                                        Ketentuan</a></li>
                                 <li><a href="{{route('kebijakan-privasi')}}"><i class="fa fa-caret-right"></i> Kebijakan
                                         Privasi</a></li>
                                 <li><a href="{{route('kontak')}}"><i class="fa fa-caret-right"></i> Kontak</a></li>

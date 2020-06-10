@@ -20,6 +20,6 @@ class ActivationController extends Controller
 
         Auth::loginUsingId($user->id);
 
-        return redirect()->route('beranda')->with('activated', 'message');
+        return redirect()->route('beranda')->with('activated', 'Anda telah masuk.');
     }
 }

@@ -1,27 +1,23 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\Bio;
-use App\Models\SocialProvider;
+use App\Support\Role;
 use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $table = 'admins';
+
     protected $guarded = ['id'];
+
     protected $dates = ['deleted_at'];
 
     /**
@@ -33,20 +29,31 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function scopeByActivationColumns(Builder $builder, $useremail, $verifyToken)
+    /**
+     * Check whether this user is root or not
+     * @return bool
+     */
+    public function isRoot()
     {
-        return $builder->where('email', $useremail)->orwhere('username', $useremail)
-            ->where('verifyToken', $verifyToken);
+        return ($this->role == Role::ROOT);
     }
 
-    public function socialProviders()
+    /**
+     * Check whether this user is admin or not
+     * @return bool
+     */
+    public function isAdmin()
     {
-        return $this->hasMany(SocialProvider::class, 'user_id');
+        return ($this->role == Role::ADMIN);
     }
 
-    public function getBio()
+    /**
+     * Check whether this user is Owner or not
+     * @return bool
+     */
+    public function isOwner()
     {
-        return $this->hasOne(Bio::class, 'user_id');
+        return ($this->role == Role::OWNER);
     }
 
     /**
@@ -58,11 +65,11 @@ class User extends Authenticatable
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new CustomPassword($token));
+        $this->notify(new CustomPasswordAdmin($token));
     }
 }
 
-class CustomPassword extends ResetPassword
+class CustomPasswordAdmin extends ResetPassword
 {
     public function toMail($notifiable)
     {
@@ -70,7 +77,7 @@ class CustomPassword extends ResetPassword
         $email = $notifiable->getEmailForPasswordReset();
         return (new MailMessage)
             ->from(env('MAIL_USERNAME'), env('APP_TITLE'))
-            ->subject("Akun " . env('APP_NAME') . ": Reset Kata Sandi")
+            ->subject("Akun Admin " . env('APP_NAME') . ": Reset Kata Sandi")
             ->view('emails.auth.reset', compact('token', 'email'));
     }
 }

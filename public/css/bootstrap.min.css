@@ -5037,7 +5037,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 }
 
 .card {
-    
+
 }
 .card-block {
     padding-bottom: 20px;
@@ -5195,7 +5195,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
     float:none;
     display:inline-block;
     *display:inline; /* ie7 fix */
-     zoom:1; 
+     zoom:1;
 }
 .nav-tabs.centered {
     text-align: center;
@@ -7659,7 +7659,7 @@ button.close {
 .modal-title {
     font-family: 'Open Sans',Arial,sans-serif;
     text-transform: none;
-    font-size: 24px !important;
+    font-size: 22px !important;
     font-weight: 400;
     margin: 0;
     line-height: 1.42857143

@@ -1,7 +1,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scaleable=no">
-    <title>{{strtoupper(__('lang.order.invoice')).' #'.$code}}</title>
+    <title>FAKTUR #{{$code}}</title>
     <style type="text/css">
         .alert {
             padding: 15px;
@@ -386,13 +386,16 @@
                                                         <td>
                                                             <small style="line-height: 2em">
                                                                 @if($check->finish_payment == false)
-                                                                    <b style="font-size: 22px">
-                                                                        {{__('lang.mail.content.unpaid')}}</b><br>
-                                                                    {{__('lang.mail.content.unpaid2', ['datetime' => now()->formatLocalized('%d %B %Y – %H:%M')])}}
+                                                                    <b style="font-size: 22px">Mohon untuk segera
+                                                                        menyeleseaikan pembayaran Anda</b><br>
+                                                                    Checkout berhasil
+                                                                    pada {{now()->formatLocalized('%d %B %Y – %H:%M')])}}
                                                                 @else
-                                                                    <b style="font-size: 22px">
-                                                                        {{__('lang.mail.content.paid')}}</b><br>
-                                                                    {{__('lang.mail.content.paid2')}}
+                                                                    <b style="font-size: 22px">Kami akan mengeksekusi
+                                                                        produk cetak yang Anda pesan sesegera
+                                                                        mungkin</b><br>
+                                                                    Terima kasih telah menyelesaikan transaksi
+                                                                    di {{env('APP_NAME')}}
                                                                 @endif
                                                             </small>
                                                         </td>
@@ -440,9 +443,7 @@
                                                             <hr class="hr-divider">
                                                             <table>
                                                                 <tr>
-                                                                    <td><b>Subtotal ({{__('lang.cart.order.product',
-                                                                    ['qty' => count($data),
-                                                                    's' => count($data) > 1 ? 's' : null])}})</b>
+                                                                    <td><b>Subtotal ({{count($data)}} item)</b>
                                                                     </td>
                                                                     <td>&emsp;</td>
                                                                     <td align="right">
@@ -451,7 +452,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <b>{{__('lang.cart.summary.discount').' '.$discount.'%'}}</b>
+                                                                        <b>Diskon {{$discount}}%</b>
                                                                     </td>
                                                                     <td>&emsp;</td>
                                                                     <td align="right">
@@ -459,11 +460,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        <b>
-                                                                            {{__('lang.product.form.summary.ongkir')}}
-                                                                        </b>
-                                                                    </td>
+                                                                    <td><b>Ongkir</b></td>
                                                                     <td>&emsp;</td>
                                                                     <td align="right">
                                                                         <b>Rp{{number_format($ongkir,2,',','.')}}</b>
@@ -487,7 +484,7 @@
                                                     @if($check->finish_payment == false)
                                                         <tr>
                                                             <td>
-                                                                <small><b>{{__('lang.mail.content.unpaid3')}}</b></small>
+                                                                <small><b>Batas Waktu Pembayaran</b></small>
                                                                 <hr class="hr-divider">
                                                                 <span>
                                                                     {{now()->formatLocalized('%d %B %Y – %H:%M')}}
@@ -497,9 +494,9 @@
                                                     @endif
                                                     <tr>
                                                         <td>
-                                                            <small><b>{{__('lang.mail.content.payment')}}</b></small>
+                                                            <small><b>Status Pembayaran</b></small>
                                                             <hr class="hr-divider">
-                                                            <span>{{$check->finish_payment == false ? __('lang.mail.content.payment2') : __('lang.mail.content.payment3')}}</span>
+                                                            <span>{{$check->finish_payment == false ? 'Menunggu Pembayaran' : 'Pembayaran Diterima'}}</span>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -516,7 +513,8 @@
                                         <tr>
                                             <td>
                                                 <div class="alert alert-info text-center">
-                                                    {!! __('lang.mail.content.alert2') !!}
+                                                    Silahkan unduh file pdf faktur yang <b>terlampir</b> untuk melihat
+                                                    detail pesanan Anda.
                                                 </div>
                                             </td>
                                         </tr>
@@ -524,7 +522,8 @@
                                             <tr>
                                                 <td>
                                                     <div class="alert alert-warning text-center">
-                                                        {!! __('lang.mail.content.alert') !!}
+                                                        Pastikan untuk tidak menginformasikan detail pembayaran dan
+                                                        bukti kepada pihak manapun <b>kecuali</b> {{env('APP_NAME')}}.
                                                     </div>
                                                 </td>
                                             </tr>
@@ -544,9 +543,10 @@
                                                     <tr>
                                                         <td>
                                                             <small style="line-height: 2em">
-                                                                <b style="font-size: 20px">
-                                                                    {{__('lang.mail.content.dashboard')}}</b><br>
-                                                                {{__('lang.mail.content.dashboard2')}}
+                                                                <b style="font-size: 20px">Tetap awasi pesanan Anda di
+                                                                    halaman Dashboard [Riwayat Pemesanan]</b><br>
+                                                                Untuk mengalihkan Anda ke halaman tersebut, klik tombol
+                                                                Dashboard di bawah ini
                                                             </small>
                                                         </td>
                                                     </tr>
@@ -624,7 +624,7 @@
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                 <a name="Logo_1" style="display:block;" href="{{route('beranda')}}"
                                                    target="_blank">
-                                                    <img src="{{asset('images/logotype-footer.png')}}" alt="logo"
+                                                    <img src="{{asset('images/logotype.png')}}" alt="logo"
                                                          border="0" style="display:block;width: 15%;"></a>
                                             </td>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
@@ -647,6 +647,58 @@
                                            bgcolor="#1a1c21" class="full-width">
                                         <tbody>
                                         <tr>
+                                            <table width="700" border="0" align="center" cellspacing="0" cellpadding="0"
+                                                   bgcolor="#1a1c21" class="full-width">
+                                                <tbody>
+                                                <tr>
+                                                    <td valign="top" width="20" class="hide">&nbsp;</td>
+                                                    <td align="center" valign="top" width="660" bgcolor="#1a1c21">
+                                                        <div
+                                                            style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
+                                                            Unduh aplikasi kami di sini, GRATIS!
+                                                        </div>
+                                                    </td>
+                                                    <td valign="top" width="20" class="hide">&nbsp;</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" width="700">
+                                                <table width="700" border="0" align="center" cellpadding="0"
+                                                       cellspacing="0" bgcolor="#1a1c21" class="full-width">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td align="center">
+                                                            <table border="0" align="center" cellpadding="0"
+                                                                   cellspacing="0" bgcolor="#1a1c21">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td align="center" bgcolor="#1a1c21">
+                                                                        <a href="https://play.google.com/store/apps/details?id=com.tokoterserah.mobile"><img
+                                                                                class="zoom"
+                                                                                src="{{asset('images/GooglePlay.png')}}"
+                                                                                style="width: 15%"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <a href="https://itunes.apple.com/id/app/tokoterserah.com/id1143444473?mt=8"><img
+                                                                                class="zoom"
+                                                                                src="{{asset('images/AppStore.png')}}"
+                                                                                style="width: 15%"></a>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="700" border="0" align="center" cellspacing="0" cellpadding="0"
+                                           bgcolor="#1a1c21" class="full-width">
+                                        <tbody>
+                                        <tr>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                 <div style="font-size:25px;line-height:25px;">&nbsp;</div>
                                             </td>
@@ -660,7 +712,7 @@
                                         <tr>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21"
                                                 style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
-                                                {{__('lang.mail.content.footer')}}
+                                                Hubungi kami :)
                                             </td>
                                         </tr>
                                         <tr>
@@ -732,10 +784,12 @@
                                                                         bgcolor="#1a1c21">
                                                                         <a class="footerlinks" target="_blank"
                                                                            style="color:#F9F9F9; text-decoration:none;"
-                                                                           href="{{route('syarat-ketentuan')}}">{{__('lang.footer.tnc')}}</a>
+                                                                           href="{{route('syarat-ketentuan')}}">Syarat &
+                                                                            Ketentuan</a>
                                                                         <a class="footerlinks" target="_blank"
                                                                            style="color:#F9F9F9; text-decoration:none;"
-                                                                           href="{{route('kebijakan-privasi')}}">{{__('lang.footer.pp')}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                           href="{{route('kebijakan-privasi')}}">Kebijakan
+                                                                            Privasi</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -815,7 +869,7 @@
                                                                     <td align="center" class="footer-padding"
                                                                         style="font-family:Helvetica, arial,helv,sans-serif;font-size:10px; color:#949494; font-weight:bold; padding-left:20px; padding-right:20px"
                                                                         bgcolor="#1a1c21">
-                                                                        <span class="appleLinksWhite">© {{now()->format('Y').' '.env('APP_TITLE')}}. All rights reserved. Raya Kenjeran 469, Surabaya &ndash; 60134, East Java, Indonesia.</span>
+                                                                        <span class="appleLinksWhite">© {{now()->format('Y').' '.env('APP_COMPANY')}}. All rights reserved. Jalan Raya Lontar No. 46 Surabaya – 60216.</span>
                                                                         <br>
                                                                         <div id="stat-div"
                                                                              style="visibility:hidden !important;"

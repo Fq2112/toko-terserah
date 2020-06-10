@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Support\Facades\GlobalAuth;
-use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +31,9 @@ class LoginController extends Controller
     public function redirectTo()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.dashboard')->with('signed', 'message');
+            return redirect()->route('admin.dashboard')->with('signed', 'Anda telah masuk.Username/email atau password Anda salah.');
         } else {
-            return back()->with('signed', 'message');
+            return back()->with('signed', 'Anda telah masuk.');
         }
     }
 
@@ -65,7 +64,7 @@ class LoginController extends Controller
         }
 
         return back()->withInput($request->all())->with([
-            'error' => 'message'
+            'error' => 'Username/email atau password Anda salah.'
         ]);
     }
 
@@ -81,6 +80,6 @@ class LoginController extends Controller
 
         GlobalAuth::logout();
 
-        return redirect()->route('beranda')->with('logout', 'message');
+        return redirect()->route('beranda')->with('logout', 'Anda telah keluar.');
     }
 }

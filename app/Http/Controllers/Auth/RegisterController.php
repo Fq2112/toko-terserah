@@ -111,6 +111,6 @@ class RegisterController extends Controller
 
         $this->guard()->logout();
 
-        return back()->with('register', 'message');
+        return back()->with("register", "Akun " . env('APP_NAME') . " berhasil dibuat! Silahkan cek email Anda untuk mengaktivasi akun Anda.");
     }
 }

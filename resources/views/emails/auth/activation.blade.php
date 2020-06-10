@@ -216,7 +216,7 @@
                                             <td align="center" valign="top"
                                                 style="font-family:helvetica,arial,sans-serif; color:#646464; font-size:14px; line-height:22px;">
                                                 <span
-                                                    style="font-size:22px; font-weight:bold; line-height:26px;">{{__('lang.mail.content.activate')}}</span>
+                                                    style="font-size:22px; font-weight:bold; line-height:26px;">Anda hampir selesai.</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -241,8 +241,9 @@
                                             <td align="center" valign="top" style="font-family:helvetica,arial,sans-serif;
                 color:#646464; font-size:16px; line-height:22px;
                 padding-left:20px; padding-right:20px" class="body">
-                                                {!! __('lang.mail.content.activate2') !!}
-                                                <strong>{{$user->email}}</strong> {{__('lang.mail.content.activate3')}}
+                                                Untuk mengakhiri prosedur ini, kami hanya perlu memastikan bahwa<br>
+                                                alamat email: <b>{{$user->email}}</b> adalah milik Anda. Klik tautan di
+                                                bawah untuk mengaktifkan akun Anda.
                                             </td>
                                         </tr>
                                         </tbody>
@@ -270,8 +271,7 @@
                                                 style="padding-left: 20px; padding-right:20px" valign="top">
                                                 <a class="zoom" id="activate"
                                                    href="{{route('activate',['verifyToken' => $user->verifyToken,
-                                                   'email' => $user->email])}}" target="_blank">
-                                                    {{__('lang.button.activate')}}</a>
+                                                   'email' => $user->email])}}" target="_blank">AKTIVASI</a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -307,7 +307,7 @@
                                                     <tr>
                                                         <td align="center">
                                                             <span
-                                                                style="font-family : helvetica, arial; font-weight : bold; font-size: 16px; ">{{__('lang.mail.content.activate4')}}</span>
+                                                                style="font-family : helvetica, arial; font-weight : bold; font-size: 16px; ">Dimana kata sandi saya?</span>
                                                         </td>
                                                     </tr>
 
@@ -323,7 +323,7 @@
                                                          font-size: 15px;
                                                          line-height: 22px;
                                                          display: block;">
-                                                                {!! __('lang.mail.content.reset3') !!}
+                                                                Kami tidak akan membuat Anda mengingat kata sandi atau kode tertentu lainnya.<br>Cukup klik tautan dan masukkan kata sandi yang baru sesuai keinginan.
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -405,7 +405,7 @@
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                 <a name="Logo_1" style="display:block;" href="{{route('beranda')}}"
                                                    target="_blank">
-                                                    <img src="{{asset('images/logotype-footer.png')}}" alt="logo"
+                                                    <img src="{{asset('images/logotype.png')}}" alt="logo"
                                                          border="0" style="display:block;width: 15%;"></a>
                                             </td>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
@@ -428,6 +428,58 @@
                                            bgcolor="#1a1c21" class="full-width">
                                         <tbody>
                                         <tr>
+                                            <table width="700" border="0" align="center" cellspacing="0" cellpadding="0"
+                                                   bgcolor="#1a1c21" class="full-width">
+                                                <tbody>
+                                                <tr>
+                                                    <td valign="top" width="20" class="hide">&nbsp;</td>
+                                                    <td align="center" valign="top" width="660" bgcolor="#1a1c21">
+                                                        <div
+                                                            style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
+                                                            Unduh aplikasi kami di sini, GRATIS!
+                                                        </div>
+                                                    </td>
+                                                    <td valign="top" width="20" class="hide">&nbsp;</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" width="700">
+                                                <table width="700" border="0" align="center" cellpadding="0"
+                                                       cellspacing="0" bgcolor="#1a1c21" class="full-width">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td align="center">
+                                                            <table border="0" align="center" cellpadding="0"
+                                                                   cellspacing="0" bgcolor="#1a1c21">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td align="center" bgcolor="#1a1c21">
+                                                                        <a href="https://play.google.com/store/apps/details?id=com.tokoterserah.mobile"><img
+                                                                                class="zoom"
+                                                                                src="{{asset('images/GooglePlay.png')}}"
+                                                                                style="width: 15%"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <a href="https://itunes.apple.com/id/app/tokoterserah.com/id1143444473?mt=8"><img
+                                                                                class="zoom"
+                                                                                src="{{asset('images/AppStore.png')}}"
+                                                                                style="width: 15%"></a>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="700" border="0" align="center" cellspacing="0" cellpadding="0"
+                                           bgcolor="#1a1c21" class="full-width">
+                                        <tbody>
+                                        <tr>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                 <div style="font-size:25px;line-height:25px;">&nbsp;</div>
                                             </td>
@@ -441,7 +493,7 @@
                                         <tr>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21"
                                                 style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
-                                                {{__('lang.mail.content.footer')}}
+                                                Hubungi kami :)
                                             </td>
                                         </tr>
                                         <tr>
@@ -513,10 +565,12 @@
                                                                         bgcolor="#1a1c21">
                                                                         <a class="footerlinks" target="_blank"
                                                                            style="color:#F9F9F9; text-decoration:none;"
-                                                                           href="{{route('syarat-ketentuan')}}">{{__('lang.footer.tnc')}}</a>
+                                                                           href="{{route('syarat-ketentuan')}}">Syarat &
+                                                                            Ketentuan</a>
                                                                         <a class="footerlinks" target="_blank"
                                                                            style="color:#F9F9F9; text-decoration:none;"
-                                                                           href="{{route('kebijakan-privasi')}}">{{__('lang.footer.pp')}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                           href="{{route('kebijakan-privasi')}}">Kebijakan
+                                                                            Privasi</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -596,7 +650,7 @@
                                                                     <td align="center" class="footer-padding"
                                                                         style="font-family:Helvetica, arial,helv,sans-serif;font-size:10px; color:#949494; font-weight:bold; padding-left:20px; padding-right:20px"
                                                                         bgcolor="#1a1c21">
-                                                                        <span class="appleLinksWhite">© {{now()->format('Y').' '.env('APP_TITLE')}}. All rights reserved. Raya Kenjeran 469, Surabaya &ndash; 60134, East Java, Indonesia.</span>
+                                                                        <span class="appleLinksWhite">© {{now()->format('Y').' '.env('APP_COMPANY')}}. All rights reserved. Jalan Raya Lontar No. 46 Surabaya – 60216.</span>
                                                                         <br>
                                                                         <div id="stat-div"
                                                                              style="visibility:hidden !important;"

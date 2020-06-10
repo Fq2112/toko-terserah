@@ -5,59 +5,48 @@
         <li><a href="#"><i class="fa fa-box-open"></i>&ensp;Produk</a></li>
         <li>
             <div class="top-new"><p>( 0 )</p></div>
-            <a href="javascript:void(0)" onclick="showWishlist()"><i class="fa fa-heart"></i>&ensp;Wishlist</a>
+            <a href="javascript:showWishlist()"><i class="fa fa-heart"></i>&ensp;Wishlist</a>
         </li>
-        @auth
+        @if(Auth::check() || Auth::guard('admin')->check())
             <li class="menu-item-has-children avatar">
                 <a href="javascript:void(0)">
-                    <img class="img-thumbnail show_ava" src="{{Auth::user()->get_bio->foto != "" ?
-                asset('storage/users/foto/'.Auth::user()->get_bio->foto) :
-                asset('images/faces/thumbs50x50/'.rand(1,6).'.jpg')}}">
-                    <span class="show_username" style="text-transform: none">{{Auth::user()->username}}</span> <i
-                        class="fa fa-angle-down"></i></a>
-                <ul class="dropdown-menu dropdown-arrow">
-                    @if(Auth::user()->isRoot() || Auth::user()->isAdmin())
-                        <li><a href="{{route('admin.dashboard')}}"><i
-                                    class="fa fa-tachometer-alt mr-2"></i>Dashboard</a>
-                        </li>
-                    @else
-                        <li class="menu-item-has-children">
-                            <a href="#"><i class="fa fa-user-tie mr-2"></i>Dashboard Klien <i
-                                    class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-arrow">
-                                <li><a href="{{route('dashboard.klien.proyek')}}">
-                                        <i class="fa fa-business-time mr-2"></i>Tugas/Proyek</a></li>
-                                <li><a href="{{route('dashboard.klien.layanan')}}">
-                                        <i class="fa fa-tools mr-2"></i>Layanan</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children">
-                            <a href="#"><i class="fa fa-hard-hat mr-2"></i>Dashboard Pekerja <i
-                                    class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-arrow">
-                                <li><a href="{{route('dashboard.pekerja.proyek')}}">
-                                        <i class="fa fa-business-time mr-2"></i>Tugas/Proyek</a></li>
-                                <li><a href="{{route('dashboard.pekerja.layanan')}}">
-                                        <i class="fa fa-tools mr-2"></i>Layanan</a></li>
-                            </ul>
-                        </li>
+                    @if(Auth::check())
+                        <img class="img-thumbnail show_ava" src="{{Auth::user()->getBio->foto != "" ?
+                    asset('storage/users/foto/'.Auth::user()->getBio->foto) :
+                    asset('images/faces/'.rand(1,6).'.jpg')}}">
+                        <span class="show_username" style="text-transform: none">
+                        {{Auth::user()->username}}</span> <i class="fa fa-angle-down"></i>
+                    @elseif(Auth::guard('admin')->check())
+                        <img class="img-thumbnail show_ava" src="{{Auth::guard('admin')->user()->ava != "" ?
+                        asset('storage/admins/ava/'.Auth::guard('admin')->user()->ava) :
+                        asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}">
+                        <span class="show_username" style="text-transform: none">
+                            {{Auth::guard('admin')->user()->username}}</span> <i class="fa fa-angle-down"></i>
                     @endif
-                    <li><a href="{{Auth::user()->isRoot() || Auth::user()->isAdmin() ? route('admin.edit.profile') :
-                route('user.profil')}}"><i class="fa fa-user-edit mr-2"></i>Sunting Profil</a></li>
-                    <li><a href="{{Auth::user()->isRoot() || Auth::user()->isAdmin() ? route('admin.settings') :
-                route('user.pengaturan')}}"><i class="fa fa-cogs mr-2"></i>Pengaturan Akun</a></li>
+                </a>
+
+                <ul class="dropdown-menu dropdown-arrow">
                     <li>
-                        <a href="#" class="btn_signOut"><i class="fa fa-sign-out-alt"></i>&ensp;Keluar</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <a href="{{Auth::guard('admin')->check() ? route('admin.dashboard') : route('user.dashboard')}}">
+                            <i class="fa fa-tachometer-alt"></i>Dashboard</a></li>
+                    <li><a href="{{Auth::guard('admin')->check() ? route('admin.profil') : route('user.profil')}}">
+                            <i class="fa fa-user-edit"></i>Sunting Profil</a></li>
+                    <li>
+                        <a href="{{Auth::guard('admin')->check() ? route('admin.pengaturan') : route('user.pengaturan')}}">
+                            <i class="fa fa-cogs"></i>Pengaturan Akun</a></li>
+                    <li>
+                        <a href="javascript:void(0)" class="btn_signOut">
+                            <i class="fa fa-sign-out-alt"></i>Sign Out
+                        </a>
+                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     </li>
                 </ul>
             </li>
         @else
-            <li><a href="javascript:void(0)" data-toggle="modal" onclick="openRegisterModal();">
-                    <i class="fa fa-user-alt"></i>&ensp;Sign Up/In</a></li>
-        @endauth
+            <li><a href="javascript:openRegisterModal();"><i class="fa fa-user-alt"></i>&ensp;Sign Up/In</a></li>
+        @endif
     </ul>
 </nav>
 

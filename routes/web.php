@@ -13,45 +13,95 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'akun'], function () {
+Auth::routes();
 
-    Auth::routes();
-    Route::group(['namespace' => 'Auth'], function () {
+Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
 
-        Route::get('cek/{username}', [
-            'uses' => 'RegisterController@cekUsername',
-            'as' => 'cek.username'
+    Route::get('cek-username', [
+        'uses' => 'RegisterController@cekUsername',
+        'as' => 'cek.username'
+    ]);
+
+    Route::get('password/reset', [
+        'uses' => 'ResetPasswordController@showResetForm',
+        'as' => 'password.request'
+    ]);
+
+    Route::post('password/reset/submit', [
+        'uses' => 'ResetPasswordController@reset',
+        'as' => 'password.reset'
+    ]);
+
+    Route::post('login', [
+        'uses' => 'LoginController@login',
+        'as' => 'login'
+    ]);
+
+    Route::post('logout', [
+        'uses' => 'LoginController@logout',
+        'as' => 'logout'
+    ]);
+
+    Route::get('activate', [
+        'uses' => 'ActivationController@activate',
+        'as' => 'activate'
+    ]);
+
+    Route::get('login/{provider}', [
+        'uses' => 'SocialAuthController@redirectToProvider',
+        'as' => 'redirect'
+    ]);
+
+    Route::get('login/{provider}/callback', [
+        'uses' => 'SocialAuthController@handleProviderCallback',
+        'as' => 'callback'
+    ]);
+
+});
+
+Route::group(['namespace' => 'Pages'], function () {
+
+    Route::get('/', [
+        'uses' => 'MainController@beranda',
+        'as' => 'beranda'
+    ]);
+
+    Route::group(['prefix' => 'info'], function () {
+
+        Route::get('tentang-kami', [
+            'uses' => 'InfoController@tentang',
+            'as' => 'tentang'
         ]);
 
-        Route::post('masuk', [
-            'uses' => 'LoginController@login',
-            'as' => 'login'
+        Route::get('syarat-ketentuan', [
+            'uses' => 'InfoController@syaratKetentuan',
+            'as' => 'syarat-ketentuan'
         ]);
 
-        Route::post('keluar', [
-            'uses' => 'LoginController@logout',
-            'as' => 'logout'
+        Route::get('kebijakan-privasi', [
+            'uses' => 'InfoController@kebijakanPrivasi',
+            'as' => 'kebijakan-privasi'
         ]);
 
-        Route::post('password/reset/{token?}', [
-            'uses' => 'ResetPasswordController@showResetForm',
-            'as' => 'password.request'
+        Route::get('kontak', [
+            'uses' => 'InfoController@kontak',
+            'as' => 'kontak'
         ]);
 
-        Route::post('password/reset', [
-            'uses' => 'ResetPasswordController@postReset',
-            'as' => 'password.reset'
+        Route::post('kontak/kirim', [
+            'uses' => 'InfoController@kirimKontak',
+            'as' => 'kirim.kontak'
         ]);
 
     });
 
-    Route::group(['namespace' => 'Pages\Users', 'middleware' => ['auth', 'user']], function () {
+    Route::group(['namespace' => 'Users', 'prefix' => 'akun', 'middleware' => ['auth', 'user']], function () {
 
         Route::group(['prefix' => 'wishlist'], function () {
 
             Route::get('/', [
                 'uses' => 'UserController@wishlist',
-                'as' => 'user.wishlist'
+                'as' => 'user.wishlist',
             ]);
 
         });
@@ -85,19 +135,39 @@ Route::group(['prefix' => 'akun'], function () {
 
         });
 
-        Route::group(['prefix' => 'profil'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
 
             Route::get('/', [
-                'uses' => 'AkunController@profil',
-                'as' => 'user.profil'
+                'uses' => 'UserController@dashboard',
+                'as' => 'user.dashboard'
             ]);
 
-            Route::put('update', [
-                'uses' => 'AkunController@updateProfil',
-                'as' => 'user.update.profil'
+            Route::get('download/{id}/{file}', [
+                'uses' => 'UserController@downloadFile',
+                'as' => 'user.download.file'
+            ]);
+
+            Route::get('{code}/received', [
+                'uses' => 'UserController@received',
+                'as' => 'user.received'
+            ]);
+
+            Route::get('{code}/reorder', [
+                'uses' => 'UserController@reorder',
+                'as' => 'user.reorder'
             ]);
 
         });
+
+        Route::get('sunting-profil', [
+            'uses' => 'AkunController@profil',
+            'as' => 'user.profil'
+        ]);
+
+        Route::put('sunting-profil/update', [
+            'uses' => 'AkunController@updateProfil',
+            'as' => 'user.update.profil'
+        ]);
 
         Route::get('pengaturan', [
             'uses' => 'AkunController@pengaturan',
@@ -107,44 +177,6 @@ Route::group(['prefix' => 'akun'], function () {
         Route::put('pengaturan/update', [
             'uses' => 'AkunController@updatePengaturan',
             'as' => 'user.update.pengaturan'
-        ]);
-
-    });
-
-});
-
-Route::group(['prefix' => '/', 'namespace' => 'Pages'], function () {
-
-    Route::get('/', [
-        'uses' => 'MainController@beranda',
-        'as' => 'beranda'
-    ]);
-
-    Route::group(['prefix' => 'info'], function () {
-
-        Route::get('tentang-kami', [
-            'uses' => 'MainController@tentang',
-            'as' => 'tentang'
-        ]);
-
-        Route::get('ketentuan-layanan', [
-            'uses' => 'MainController@ketentuanLayanan',
-            'as' => 'ketentuan-layanan'
-        ]);
-
-        Route::get('kebijakan-privasi', [
-            'uses' => 'MainController@kebijakanPrivasi',
-            'as' => 'kebijakan-privasi'
-        ]);
-
-        Route::get('kontak-kami', [
-            'uses' => 'MainController@kontak',
-            'as' => 'kontak'
-        ]);
-
-        Route::post('kontak/kirim', [
-            'uses' => 'MainController@kirimKontak',
-            'as' => 'kirim.kontak'
         ]);
 
     });
