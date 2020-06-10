@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
 
+        Milon\Barcode\BarcodeServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -229,6 +231,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'GlobalAuth' => App\Support\Facades\GlobalAuth::class,
         'NumberShorten' => App\Support\Facades\NumberShorten::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];
