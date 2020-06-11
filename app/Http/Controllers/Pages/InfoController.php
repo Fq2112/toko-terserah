@@ -4,14 +4,52 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kontak;
+use App\Models\Testimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class InfoController extends Controller
 {
     public function tentang()
     {
-        return view('pages.info.tentang-kami');
+        $testimoni = Testimoni::where('bintang', '>', 3)->orderByDesc('id')->take(12)->get();
+        if (Auth::check()) {
+            $cek = Testimoni::where('user_id', Auth::id())->first();
+        } else {
+            $cek = null;
+        }
+
+        return view('pages.info.tentang-kami', compact('testimoni', 'cek'));
+    }
+
+    public function kirimTestimoni(Request $request)
+    {
+        if ($request->check_form == 'create') {
+            Testimoni::create([
+                'user_id' => Auth::id(),
+                'bintang' => $request->rating,
+                'deskripsi' => $request->comment,
+            ]);
+
+            return back()->with('testimoni', 'Terima kasih ' . Auth::user()->name . ' atas ulasannya! ' .
+                'Dengan begitu kami dapat berpotensi menjadi agensi yang lebih baik lagi.');
+
+        } else {
+            Testimoni::find($request->check_form)->update([
+                'bintang' => $request->rating,
+                'deskripsi' => $request->comment,
+            ]);
+
+            return back()->with('testimoni', 'Ulasan Anda berhasil diperbarui!');
+        }
+    }
+
+    public function hapusTestimoni($id)
+    {
+        Testimoni::destroy(decrypt($id));
+
+        return back()->with('testimoni', 'Ulasan Anda berhasil dihapus!');
     }
 
     public function kontak()

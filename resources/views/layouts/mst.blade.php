@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-6">
                         <div class="contacts">
-                            <p><a href="tel:+6281252658218"><i class="fa fa-phone fa-flip-horizontal pl-0"></i><b>Telepon:</b>
+                            <p><a href="tel:+628113051081"><i class="fa fa-phone fa-flip-horizontal pl-0"></i><b>Telepon:</b>
                                     +62 811-3051-081</a></p>
                             <p><a href="mailto:{{env('MAIL_USERNAME')}}"><i
                                         class="fa fa-envelope"></i><b>Email:</b> {{env('MAIL_USERNAME')}}</a></p>
@@ -79,14 +79,13 @@
                     </div>
                     <div class="col-lg-6 col-sm-6">
                         <div class="social-media">
-                            <a href="https://fb.com/ramadhanwahyu.gonzales" target="_blank">
-                                <i class="fab fa-facebook-f"></i></a>
-                            <a href="https://twitter.com/ramadhanwahyuu5" target="_blank">
-                                <i class="fab fa-twitter"></i></a>
-                            <a href="https://github.com/Ramadhan1101" target="_blank">
-                                <i class="fab fa-github"></i></a>
-                            <a href="https://instagram.com/Ramadhan_Wahyu_11" target="_blank">
-                                <i class="fab fa-instagram"></i></a>
+                            <a class="facebook" href="https://fb.com/pages/PT-Penta-Surya-Pratama/102397424580976"
+                               target="_blank">
+                                <i class="fab fa-facebook-f"
+                                   style="color:#455CA8;font-weight:900"></i>&ensp;FACEBOOK</a>
+                            <a class="instagram" href="#" target="_blank">
+                                <i class="fab fa-instagram"
+                                   style="color:#E1306C;font-weight:900"></i>&ensp;INSTAGRAM</a>
                         </div>
                     </div>
                 </div>
@@ -220,14 +219,11 @@
                                         {{env('MAIL_USERNAME')}}</a></li>
                             </ul>
                             <div class="social-media">
-                                <a href="https://fb.com/ramadhanwahyu.gonzales" target="_blank">
-                                    <i class="fab fa-facebook-f"></i></a>
-                                <a href="https://twitter.com/ramadhanwahyuu5" target="_blank">
-                                    <i class="fab fa-twitter"></i></a>
-                                <a href="https://github.com/Ramadhan1101" target="_blank">
-                                    <i class="fab fa-github"></i></a>
-                                <a href="https://instagram.com/Ramadhan_Wahyu_11" target="_blank">
-                                    <i class="fab fa-instagram"></i></a>
+                                <a class="facebook" href="https://fb.com/pages/PT-Penta-Surya-Pratama/102397424580976"
+                                   target="_blank">
+                                    <i class="fab fa-facebook-f"></i>&ensp;FACEBOOK</a>
+                                <a class="instagram" href="#" target="_blank">
+                                    <i class="fab fa-instagram"></i>&ensp;INSTAGRAM</a>
                             </div>
                         </div>
                     </div>

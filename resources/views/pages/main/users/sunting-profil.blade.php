@@ -759,7 +759,7 @@
             $("#address_settings").toggle(300);
             $(".stats_address").toggle(300);
 
-            init(-7.250445, 112.768845);
+            init(-7.2819551, 112.6569592);
             infoWindow.setContent(
                 '<div id="iw-container">' +
                 '<div class="iw-title">Alamat</div>' +

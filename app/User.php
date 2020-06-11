@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Bio;
 use App\Models\SocialProvider;
+use App\Models\Testimoni;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,6 +48,11 @@ class User extends Authenticatable
     public function getBio()
     {
         return $this->hasOne(Bio::class, 'user_id');
+    }
+
+    public function getTestimoni()
+    {
+        return $this->hasOne(Testimoni::class, 'user_id');
     }
 
     /**

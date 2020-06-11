@@ -33,8 +33,13 @@ class UserAdminSeeder extends Seeder
             'password' => bcrypt('secret'),
             'status' => true,
         ]);
-
         \App\Models\Bio::create(['user_id' => $user->id]);
+        $arr = array("3.5", "4", "4.5", "5");
+        \App\Models\Testimoni::create([
+            'user_id' => $user->id,
+            'deskripsi' => $faker->sentence,
+            'bintang' => $arr[array_rand($arr)]
+        ]);
 
         for ($i = 0; $i < 3; $i++) {
             $dataUser = \App\User::create([
@@ -45,6 +50,13 @@ class UserAdminSeeder extends Seeder
                 'status' => true,
             ]);
             \App\Models\Bio::create(['user_id' => $dataUser->id]);
+
+            $arr = array("3.5", "4", "4.5", "5");
+            \App\Models\Testimoni::create([
+                'user_id' => $dataUser->id,
+                'deskripsi' => $faker->sentence,
+                'bintang' => $arr[array_rand($arr)]
+            ]);
         }
     }
 }

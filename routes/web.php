@@ -105,10 +105,26 @@ Route::group(['namespace' => 'Pages'], function () {
 
     Route::group(['prefix' => 'info'], function () {
 
-        Route::get('tentang-kami', [
-            'uses' => 'InfoController@tentang',
-            'as' => 'tentang'
-        ]);
+        Route::group(['prefix' => 'tentang-kami'], function () {
+
+            Route::get('/', [
+                'uses' => 'InfoController@tentang',
+                'as' => 'tentang'
+            ]);
+
+            Route::post('testimoni/kirim', [
+                'middleware' => 'auth',
+                'uses' => 'InfoController@kirimTestimoni',
+                'as' => 'kirim.testimoni'
+            ]);
+
+            Route::get('testimoni/{id}/hapus', [
+                'middleware' => 'auth',
+                'uses' => 'InfoController@hapusTestimoni',
+                'as' => 'hapus.testimoni'
+            ]);
+
+        });
 
         Route::get('syarat-ketentuan', [
             'uses' => 'InfoController@syaratKetentuan',
@@ -120,15 +136,19 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'kebijakan-privasi'
         ]);
 
-        Route::get('kontak', [
-            'uses' => 'InfoController@kontak',
-            'as' => 'kontak'
-        ]);
+        Route::group(['prefix' => 'kontak'], function () {
 
-        Route::post('kontak/kirim', [
-            'uses' => 'InfoController@kirimKontak',
-            'as' => 'kirim.kontak'
-        ]);
+            Route::get('/', [
+                'uses' => 'InfoController@kontak',
+                'as' => 'kontak'
+            ]);
+
+            Route::post('kirim', [
+                'uses' => 'InfoController@kirimKontak',
+                'as' => 'kirim.kontak'
+            ]);
+
+        });
 
     });
 
