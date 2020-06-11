@@ -150,12 +150,6 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.cart',
             ]);
 
-            Route::get('edit/{id}/design', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@editDesign',
-                'as' => 'user.edit-design.cart',
-            ]);
-
             Route::put('update/{id}/order', [
                 'middleware' => 'user.bio',
                 'uses' => 'UserController@updateOrder',
@@ -240,12 +234,12 @@ Route::group(['namespace' => 'Pages'], function () {
 
         Route::group(['prefix' => 'pengaturan'], function () {
 
-            Route::get('pengaturan', [
+            Route::get('/', [
                 'uses' => 'AkunController@pengaturan',
                 'as' => 'user.pengaturan'
             ]);
 
-            Route::put('pengaturan/update', [
+            Route::put('update', [
                 'uses' => 'AkunController@updatePengaturan',
                 'as' => 'user.update.pengaturan'
             ]);
