@@ -33,7 +33,13 @@ class LoginController extends Controller
         if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard')->with('signed', 'Anda telah masuk.Username/email atau password Anda salah.');
         } else {
-            return back()->with('signed', 'Anda telah masuk.');
+            if (Auth::user()->getBio->dob != null && Auth::user()->getBio->gender != null && Auth::user()->getBio->phone != null) {
+                return back()->with('signed', 'Anda telah masuk.');
+
+            } else {
+                return back()->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
+                    env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
+            }
         }
     }
 

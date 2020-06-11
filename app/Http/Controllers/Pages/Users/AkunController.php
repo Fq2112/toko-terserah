@@ -14,18 +14,24 @@ use Illuminate\Support\Facades\Storage;
 
 class AkunController extends Controller
 {
-    public function profil()
+    public function profil(Request $request)
     {
         $user = Auth::user();
         $bio = $user->getBio;
-        $addresses = Address::where('user_id', Auth::id())->orderByDesc('id')->get();
-        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
+//        $addresses = Address::where('user_id', Auth::id())->orderByDesc('id')->get();
+        $addresses = [];
+//        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
+        $address = null;
 
-        $provinces = Province::all();
-        $occupancy = OccupancyType::all();
+//        $provinces = Province::all();
+        $provinces = [];
+//        $occupancy = OccupancyType::all();
+        $occupancy = [];
 
-        return view('pages.main.users.sunting-profile', compact('user', 'bio', 'addresses',
-            'address', 'provinces', 'occupancy'));
+        $check = $request->check;
+
+        return view('pages.main.users.sunting-profil', compact('user', 'bio', 'addresses',
+            'address', 'provinces', 'occupancy', 'check'));
     }
 
     public function updateProfil(Request $request)
@@ -39,7 +45,7 @@ class AkunController extends Controller
             'phone' => preg_replace("![^a-z0-9+]+!i", "", $request->phone),
         ]);
 
-        return back()->with('update', __('lang.profile.update-personal'));
+        return back()->with('update', 'Data personal Anda berhasil diperbarui!');
     }
 
     public function createProfilAddress(Request $request)
@@ -61,7 +67,7 @@ class AkunController extends Controller
             'is_main' => $request->has('is_main') ? $request->is_main : false,
         ]);
 
-        return back()->with('add', __('lang.profile.address') . ' [' . $request->address . '] ' . __('lang.profile.create-address'));
+        return back()->with('add', 'Alamat [' . $request->address . '] berhasil ditambahkan ke daftar alamat Anda!');
     }
 
     public function updateProfilAddress(Request $request)
@@ -83,7 +89,7 @@ class AkunController extends Controller
             'is_main' => $request->has('is_main') ? $request->is_main : false,
         ]);
 
-        return back()->with('update', __('lang.profile.address') . ' [' . $address->address . '] ' . __('lang.profile.update-address'));
+        return back()->with('update', 'Alamat [' . $address->address . '] berhasil diperbarui dari daftar alamat Anda!');
     }
 
     public function deleteProfilAddress(Request $request)
@@ -91,7 +97,7 @@ class AkunController extends Controller
         $address = Address::find($request->id);
         $address->delete();
 
-        return back()->with('delete', __('lang.profile.address') . ' [' . $address->address . '] ' . __('lang.profile.delete-address'));
+        return back()->with('delete', 'Alamat [' . $address->address . '] berhasil dihapuskan dari daftar alamat Anda!');
     }
 
     public function pengaturan()

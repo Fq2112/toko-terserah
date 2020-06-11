@@ -65,7 +65,9 @@ class SocialAuthController extends Controller
             }
             Auth::loginUsingId($user->id);
 
-            return redirect()->route('beranda')->with('signed', 'Anda telah masuk.');
+            return redirect()->route('beranda')
+                ->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
+                    env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
 
         } catch (\Exception $e) {
             return back()->with("unknown", "Silahkan masuk/daftar dengan akun " . env('APP_NAME') . ".");

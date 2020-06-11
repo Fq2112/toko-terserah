@@ -21462,14 +21462,15 @@ right connector from last child*/
 }
 
 .input-group-addon {
-    padding: 6px 15px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1;
-    color: #d3a662;
-    text-align: center;
+    /*padding: 6px 15px;*/
+    /*font-size: 16px;*/
+    /*font-weight: 400;*/
+    /*line-height: 1;*/
+    /*color: #d3a662;*/
+    /*text-align: center;*/
     background-color: transparent;
-    border: 0px;
+    color: #777;
+    /*border: 0px;*/
 }
 
 .coffee-form-control:focus {

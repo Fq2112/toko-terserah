@@ -8,6 +8,8 @@
 
         Scrollbar.initAll();
 
+        $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
 

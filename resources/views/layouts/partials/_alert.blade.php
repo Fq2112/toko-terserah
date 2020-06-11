@@ -1,5 +1,19 @@
 <script>
-    @if(session('contact'))
+    @if(session('profil'))
+    swal({
+        title: "PERHATIAN!",
+        text: "{{session('profil')}}",
+        icon: 'warning',
+        closeOnEsc: false,
+        closeOnClickOutside: false,
+    }).then((confirm) => {
+        if (confirm) {
+            swal({icon: "success", text: 'Anda akan dialihkan ke halaman Sunting Profil.', buttons: false});
+            window.location.href = '{{route('user.profil', ['check' => 'false'])}}';
+        }
+    });
+
+    @elseif(session('contact'))
     swal('SUKSES!', '{{session('contact')}}', 'success');
 
     @elseif(session('activated'))

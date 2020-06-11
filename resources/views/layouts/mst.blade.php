@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
 
+    <!-- jQuery-ui css -->
+    <link rel="stylesheet" href="{{asset('vendor/jquery-ui/jquery-ui.min.css')}}">
     <!-- Bootstrap-3.3.7 fremwork css -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/glyphicons.css')}}"/>
@@ -211,7 +213,9 @@
                                     <i class="fa fa-map-marked-alt" style="color: #fff"></i>
                                     Jl. Raya Lontar No. 46 Surabaya – 60216
                                 </li>
-                                <li><a href="tel:+628113051081"><i class="fa fa-phone"></i> +62 811-3051-081</a></li>
+                                <li><a href="tel:+628113051081"><i class="fa fa-phone fa-flip-horizontal"
+                                                                   style="padding-right: 0;padding-left: 10px;"></i> +62
+                                        811-3051-081</a></li>
                                 <li><a href="mailto:{{env('MAIL_USERNAME')}}"><i class="fa fa-envelope"></i>
                                         {{env('MAIL_USERNAME')}}</a></li>
                             </ul>
@@ -262,49 +266,8 @@
 <!-- Jquery -->
 <script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/jquery.fancybox.js')}}"></script>
-<script type="text/javascript">
-    function getTimeRemaining(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
-
-    function initializeClock(id, endtime) {
-        var clock = document.getElementById(id);
-        var daysSpan = clock.querySelector('.days');
-        var hoursSpan = clock.querySelector('.hours');
-        var minutesSpan = clock.querySelector('.minutes');
-        var secondsSpan = clock.querySelector('.seconds');
-
-        function updateClock() {
-            var t = getTimeRemaining(endtime);
-
-            daysSpan.innerHTML = t.days;
-            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-            if (t.total <= 0) {
-                clearInterval(timeinterval);
-            }
-        }
-
-        updateClock();
-        var timeinterval = setInterval(updateClock, 1000);
-    }
-
-    var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
-    initializeClock('clockdiv', deadline);
-</script>
+<!-- jQuery-ui js -->
+<script src="{{asset('vendor/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Bootstrap js -->
 <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
 <!-- Carousel Slider js -->

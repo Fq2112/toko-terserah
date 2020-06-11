@@ -100,15 +100,14 @@
                                             <td>{{$bio->dob != "" ? \Carbon\Carbon::parse($bio->dob)->format('j F Y') : '(kosong)'}}</td>
                                         </tr>
                                         <tr data-toggle="tooltip" data-placement="right" title="Telepon">
-                                            <td><i class="fa fa-phone"></i></td>
+                                            <td><i class="fa fa-phone fa-flip-horizontal"></i></td>
                                             <td>&nbsp;</td>
                                             <td>{{$bio->phone != "" ? $bio->phone : '(kosong)'}}</td>
                                         </tr>
                                         <tr data-toggle="tooltip" data-placement="right" title="Alamat Utama">
                                             <td><i class="fa fa-map-marked-alt"></i></td>
                                             <td>&nbsp;</td>
-                                            {{--<td>{{$address != "" ? $address->address.' - '.$address->postal_code.' ('.$address->getOccupancy->name.').' : '(kosong)'}}</td>--}}
-                                            <td>(kosong)</td>
+                                            <td>{{$address != "" ? $address->address.' - '.$address->postal_code.' ('.$address->getOccupancy->name.').' : '(kosong)'}}</td>
                                         </tr>
                                     </table>
                                     <hr class="stats_username" style="margin: 10px 0">
