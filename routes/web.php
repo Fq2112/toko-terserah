@@ -66,12 +66,65 @@ Route::group(['namespace' => 'Pages'], function () {
         'as' => 'beranda'
     ]);
 
+    Route::group(['prefix' => '{produk}'], function () {
+
+        Route::get('/', [
+            'uses' => 'MainController@produk',
+            'as' => 'produk'
+        ]);
+
+        Route::post('order/submit', [
+            'middleware' => ['auth', 'user', 'user.bio'],
+            'uses' => 'MainController@submitPemesanan',
+            'as' => 'produk.submit.pemesanan'
+        ]);
+
+        Route::put('order/{id}/update', [
+            'middleware' => ['auth', 'user', 'user.bio'],
+            'uses' => 'MainController@updatePemesanan',
+            'as' => 'produk.update.pemesanan'
+        ]);
+
+        Route::get('order/{id}/delete', [
+            'middleware' => ['auth', 'user', 'user.bio'],
+            'uses' => 'MainController@deletePemesanan',
+            'as' => 'produk.delete.pemesanan'
+        ]);
+
+    });
+
+    Route::get('cari/nama', [
+        'uses' => 'MainController@cariNamaProduk',
+        'as' => 'get.cari-nama.produk'
+    ]);
+
+    Route::get('cari/pengiriman', [
+        'uses' => 'MainController@cekPengirimanProduk',
+        'as' => 'get.cari-pengiriman.produk'
+    ]);
+
     Route::group(['prefix' => 'info'], function () {
 
-        Route::get('tentang-kami', [
-            'uses' => 'InfoController@tentang',
-            'as' => 'tentang'
-        ]);
+        Route::group(['prefix' => 'tentang-kami'], function () {
+
+            Route::get('/', [
+                'uses' => 'InfoController@tentang',
+                'as' => 'tentang'
+            ]);
+
+            Route::post('testimoni/kirim', [
+                'middleware' => 'auth',
+                'uses' => 'InfoController@kirimTestimoni',
+                'as' => 'kirim.testimoni'
+            ]);
+
+            Route::get('testimoni/{id}/hapus', [
+                'middleware' => 'auth',
+                'uses' => 'InfoController@hapusTestimoni',
+                'as' => 'hapus.testimoni'
+            ]);
+
+        });
 
         Route::get('syarat-ketentuan', [
             'uses' => 'InfoController@syaratKetentuan',
@@ -83,15 +136,19 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'kebijakan-privasi'
         ]);
 
-        Route::get('kontak', [
-            'uses' => 'InfoController@kontak',
-            'as' => 'kontak'
-        ]);
+        Route::group(['prefix' => 'kontak'], function () {
 
-        Route::post('kontak/kirim', [
-            'uses' => 'InfoController@kirimKontak',
-            'as' => 'kirim.kontak'
-        ]);
+            Route::get('/', [
+                'uses' => 'InfoController@kontak',
+                'as' => 'kontak'
+            ]);
+
+            Route::post('kirim', [
+                'uses' => 'InfoController@kirimKontak',
+                'as' => 'kirim.kontak'
+            ]);
+
+        });
 
     });
 
@@ -114,21 +171,25 @@ Route::group(['namespace' => 'Pages'], function () {
             ]);
 
             Route::put('update/{id}/order', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@updateOrder',
                 'as' => 'user.update-order.cart',
             ]);
 
             Route::get('delete/{id}/note', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@deleteNote',
                 'as' => 'user.delete-note.cart',
             ]);
 
             Route::get('cari/promo', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@cariPromo',
                 'as' => 'get.cari-promo.cart'
             ]);
 
             Route::post('checkout', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@checkout',
                 'as' => 'user.checkout.cart',
             ]);
@@ -143,41 +204,67 @@ Route::group(['namespace' => 'Pages'], function () {
             ]);
 
             Route::get('download/{id}/{file}', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@downloadFile',
                 'as' => 'user.download.file'
             ]);
 
             Route::get('{code}/received', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@received',
                 'as' => 'user.received'
             ]);
 
             Route::get('{code}/reorder', [
+                'middleware' => 'user.bio',
                 'uses' => 'UserController@reorder',
                 'as' => 'user.reorder'
             ]);
 
         });
 
-        Route::get('sunting-profil', [
-            'uses' => 'AkunController@profil',
-            'as' => 'user.profil'
-        ]);
+        Route::group(['prefix' => 'sunting-profil'], function () {
 
-        Route::put('sunting-profil/update', [
-            'uses' => 'AkunController@updateProfil',
-            'as' => 'user.update.profil'
-        ]);
+            Route::get('/', [
+                'uses' => 'AkunController@profil',
+                'as' => 'user.profil'
+            ]);
 
-        Route::get('pengaturan', [
-            'uses' => 'AkunController@pengaturan',
-            'as' => 'user.pengaturan'
-        ]);
+            Route::put('update', [
+                'uses' => 'AkunController@updateProfil',
+                'as' => 'user.update.profil'
+            ]);
 
-        Route::put('pengaturan/update', [
-            'uses' => 'AkunController@updatePengaturan',
-            'as' => 'user.update.pengaturan'
-        ]);
+            Route::post('address/create', [
+                'uses' => 'AkunController@createProfilAddress',
+                'as' => 'user.profil-alamat.create'
+            ]);
+
+            Route::put('address/{id}/update', [
+                'uses' => 'AkunController@updateProfilAddress',
+                'as' => 'user.profil-alamat.update'
+            ]);
+
+            Route::get('address/{id}/delete', [
+                'uses' => 'AkunController@deleteProfilAddress',
+                'as' => 'user.profil-alamat.delete'
+            ]);
+
+        });
+
+        Route::group(['prefix' => 'pengaturan'], function () {
+
+            Route::get('/', [
+                'uses' => 'AkunController@pengaturan',
+                'as' => 'user.pengaturan'
+            ]);
+
+            Route::put('update', [
+                'uses' => 'AkunController@updatePengaturan',
+                'as' => 'user.update.pengaturan'
+            ]);
+
+        });
 
     });
 

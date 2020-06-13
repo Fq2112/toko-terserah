@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Models\Alamat;
 use App\Models\Bio;
 use App\Models\SocialProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -48,6 +47,11 @@ class User extends Authenticatable
     public function getBio()
     {
         return $this->hasOne(Bio::class, 'user_id');
+    }
+
+    public function getTestimoni()
+    {
+        return $this->hasOne(Testimoni::class, 'user_id');
     }
 
     public function getAlamat()
