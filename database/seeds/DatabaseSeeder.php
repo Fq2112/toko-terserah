@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             KotaSeeder::class,
             UserAdminSeeder::class,
             KontakSeeder::class,
+            KategoriSeeder::class,
+            SubKategoriSeeder::class
         ]);
     }
 }
