@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             UserAdminSeeder::class,
             KontakSeeder::class,
             KategoriSeeder::class,
-            SubKategoriSeeder::class
+            SubKategoriSeeder::class,
+            ProdukSeeder::class
         ]);
     }
 }
