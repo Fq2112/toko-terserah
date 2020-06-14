@@ -19,6 +19,8 @@ class CreateKotasTable extends Migration
             $table->foreign('provinsi_id')->references('id')
                 ->on('provinsi');
             $table->string('nama');
+            $table->string('tipe');
+            $table->string('kode_pos');
             $table->timestamps();
         });
     }
