@@ -13,9 +13,10 @@ class CreateProduksTable extends Migration
      */
     public function up()
     {
-        Schema::create('produks', function (Blueprint $table) {
+        Schema::create('produk', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode')->nullable();
+            $table->string('barcode')->nullable()->unique();
+            $table->text('gambar');
             $table->string('kode_barang');
             $table->string('nama');
             $table->string('berat');
@@ -23,7 +24,8 @@ class CreateProduksTable extends Migration
             $table->string('stock');
             $table->text('deskripsi');
             $table->string('warna');
-
+            $table->boolean('is_diskon')->default(false);
+            $table->string('diskon')->nullable();
             $table->timestamps();
         });
     }

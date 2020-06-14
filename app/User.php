@@ -3,7 +3,10 @@
 namespace App;
 
 use App\Models\Bio;
+use App\Models\Keranjang;
+use App\Models\Pesanan;
 use App\Models\SocialProvider;
+use App\Models\Ulasan;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -56,7 +59,22 @@ class User extends Authenticatable
 
     public function getAlamat()
     {
-      return $this->hasMany(Alamat::class,'user_id');
+        return $this->hasMany(Alamat::class, 'user_id');
+    }
+
+    public function getKeranjang()
+    {
+        return $this->hasMany(Keranjang::class,'user_id');
+    }
+
+    public function getPesanan()
+    {
+        return $this->hasMany(Pesanan::class,'user_id');
+    }
+
+    public function getUlasan()
+    {
+        return $this->hasMany(Ulasan::class,'user_id');
     }
 
     /**

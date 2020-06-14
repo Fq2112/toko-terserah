@@ -13,7 +13,7 @@ class AddSubkategoriIdToProduksTable extends Migration
      */
     public function up()
     {
-        Schema::table('produks', function (Blueprint $table) {
+        Schema::table('produk', function (Blueprint $table) {
             $table->foreignId('sub_kategori_id');
             $table->foreign('sub_kategori_id')->references('id')
                 ->on('sub_kategori');
