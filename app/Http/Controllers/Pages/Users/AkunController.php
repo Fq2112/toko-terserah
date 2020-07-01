@@ -45,7 +45,7 @@ class AkunController extends Controller
             'phone' => preg_replace("![^a-z0-9+]+!i", "", $request->phone),
         ]);
 
-        return back()->with('update', 'Data personal Anda berhasil diperbarui!');
+        return redirect()->route('user.profil')->with('update', 'Data personal Anda berhasil diperbarui!');
     }
 
     public function createProfilAddress(Request $request)

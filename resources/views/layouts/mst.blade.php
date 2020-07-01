@@ -111,12 +111,14 @@
         <section class="search-bar">
             <div class="container">
                 <div class="row">
+                    @if(Request::is('/*'))
                     <div class="col-md-3">
                         <div class="categorys">
-                            <a href=""><i class="fa fa-align-justify"></i> Kategori Produk</a>
+                            <a href="#"><i class="fa fa-align-justify"></i> Kategori Produk</a>
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    @endif
+                    <div class="col-md-{{Request::is('/*') ? '9' : '12'}}">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="search-category">
@@ -124,8 +126,7 @@
                                         <div class="input-group-btn search-panel">
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
-                                                <span id="search_concept">Semua Kategori</span> <span
-                                                    class="caret"></span>
+                                                <span id="search_concept">Semua Kategori</span>&ensp;<span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-Menu" role="menu">
                                                 <li><a href="#">Accessories</a></li>
