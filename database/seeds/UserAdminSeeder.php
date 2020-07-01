@@ -57,6 +57,16 @@ class UserAdminSeeder extends Seeder
                 'deskripsi' => $faker->sentence,
                 'bintang' => $arr[array_rand($arr)]
             ]);
+
+            $kota = \App\Models\Kota::find(3);
+            \App\Models\Alamat::create([
+                'user_id' => $dataUser->id,
+                'kota_id' => $kota->id,
+                'jalan' => $faker->address,
+                'kode_pos' => $kota->kode_pos,
+                'kecamatan' => 'test kecamatan '.$kota->nama,
+                'kelurahan' => 'test kelurahan '.$kota->nama,
+            ]);
         }
     }
 }
