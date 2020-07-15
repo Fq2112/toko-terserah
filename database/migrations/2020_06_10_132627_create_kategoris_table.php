@@ -17,7 +17,7 @@ class CreateKategorisTable extends Migration
             $table->id();
             $table->string('thumb')->nullable();
             $table->string('nama');
-            $table->text('permalink');
+            $table->text('permalink')->unique();
             $table->timestamps();
         });
     }

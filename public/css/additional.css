@@ -610,3 +610,23 @@ fieldset[disabled] .btn-primary.active {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+
+ul.ui-autocomplete {
+    color: #122752;
+    border-radius: 0 0 1rem 1rem;
+}
+
+ul.ui-autocomplete .ui-menu-item .ui-state-active,
+ul.ui-autocomplete .ui-menu-item .ui-state-active:hover,
+ul.ui-autocomplete .ui-menu-item .ui-state-active:focus {
+    background: #122752;
+    color: #fff;
+    border: 1px solid #122752;
+}
+
+ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active,
+ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:hover,
+ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:focus {
+    border-radius: 0 0 1rem 1rem;
+}

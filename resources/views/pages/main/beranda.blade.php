@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <img src="{{is_null($kat->thumb) ? asset('images/placeholder.jpg') :
+                                                <img src="{{is_null($kat->thumb) ? asset('images/shop/banner-6.jpg') :
                                                 asset('storage/produk/kategori/'.$kat->thumb)}}" alt="{{$kat->nama}}">
                                             </div>
                                         </div>

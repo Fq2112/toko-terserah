@@ -69,17 +69,17 @@ Route::group(['namespace' => 'Pages'], function () {
     Route::group(['prefix' => 'cari'], function () {
 
         Route::get('/', [
-            'uses' => 'MainController@cari',
+            'uses' => 'CariController@cari',
             'as' => 'cari'
         ]);
 
         Route::get('nama', [
-            'uses' => 'MainController@cariNamaProduk',
+            'uses' => 'CariController@cariNamaProduk',
             'as' => 'get.cari-nama.produk'
         ]);
 
         Route::get('pengiriman', [
-            'uses' => 'MainController@cekPengirimanProduk',
+            'uses' => 'CariController@cekPengirimanProduk',
             'as' => 'get.cari-pengiriman.produk'
         ]);
 

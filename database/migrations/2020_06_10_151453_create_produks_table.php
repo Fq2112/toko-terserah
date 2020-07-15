@@ -19,7 +19,7 @@ class CreateProduksTable extends Migration
             $table->text('gambar');
             $table->string('kode_barang');
             $table->string('nama');
-            $table->text('permalink');
+            $table->text('permalink')->unique();
             $table->string('berat');
             $table->string('harga');
             $table->string('stock');

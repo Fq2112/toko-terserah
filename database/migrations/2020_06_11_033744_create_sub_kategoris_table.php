@@ -19,7 +19,7 @@ class CreateSubKategorisTable extends Migration
             $table->foreign('kategori_id')->references('id')
                 ->on('kategori');
             $table->string('nama');
-            $table->text('permalink');
+            $table->text('permalink')->unique();
             $table->timestamps();
         });
     }

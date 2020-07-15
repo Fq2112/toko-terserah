@@ -1,4 +1,6 @@
 <script>
+    var keyword = $("#form-cari input[name=q]"), filter = $("#form-cari input[name=kat]");
+
     $(function () {
         window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
 
@@ -20,6 +22,22 @@
         });
 
         $(".rupiah").maskMoney({thousands: '.', decimal: ',', precision: 0});
+
+        keyword.autocomplete({
+            source: function (request, response) {
+                $.getJSON('{{route('get.cari-nama.produk')}}',
+                    {kat: filter.val(), q: request.term}, function (data) {
+                        response(data);
+                    });
+            },
+            focus: function (event, ui) {
+                event.preventDefault();
+            },
+            select: function (event, ui) {
+                event.preventDefault();
+                keyword.val(ui.item.label);
+            }
+        });
 
         function reposition() {
             var modal = $(this),
@@ -47,12 +65,12 @@
 
     function cariKategori(nama, permalink) {
         $("#search_concept").text(nama);
-        $("#form-cari input[name=kat]").val(permalink);
+        filter.val(permalink);
         $("#form-cari button[type=reset]").show();
     }
 
-    $("#form-cari input[name=q]").on("keyup", function () {
-        if (!$(this).val() && $("#form-cari input[name=kat]").val() == 'semua') {
+    keyword.on("keyup", function () {
+        if (!$(this).val() && filter.val() == 'semua') {
             $("#form-cari")[0].reset();
         } else {
             $("#form-cari button[type=reset]").show();
@@ -61,7 +79,7 @@
 
     $("#form-cari").on("reset", function () {
         $("#search_concept").text('Semua Kategori');
-        $("#form-cari input[name=kat]").val('semua');
+        filter.val('semua');
         $("#form-cari button[type=reset]").hide();
     });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
+use App\Models\SubKategori;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class MainController extends Controller
 
         if ($request->hasFile('file')) {
             $this->validate($request, ['file' => 'required|mimes:jpg,jpeg,png,tiff,pdf,zip,rar|max:204800']);
-            $file = $request->file('file')->getClientOriginalName();
+            $file = $request->file('file')->getClientOriginalnama();
             $request->file('file')->storeAs('public/users/order/design/' . Auth::id(), $file);
             $link = null;
         } else {
@@ -117,7 +118,7 @@ class MainController extends Controller
             'link' => $link,
         ]);
 
-        $message = !is_null($sub) ? $sub->name : $clust->name;
+        $message = !is_null($sub) ? $sub->nama : $clust->nama;
 
         return redirect()->route('beranda')->with('order', 'Produk cetak [' . $message . '] Anda berhasil ditambahkan ke dalam keranjang belanja Anda! Apakah Anda ingin menyelesaikan pembayarannya sekarang?');
     }
@@ -128,7 +129,7 @@ class MainController extends Controller
 
         if ($request->hasFile('file')) {
             $this->validate($request, ['file' => 'required|mimes:jpg,jpeg,png,tiff,pdf,zip,rar|max:204800']);
-            $file = $request->file('file')->getClientOriginalName();
+            $file = $request->file('file')->getClientOriginalnama();
             if ($cart->file != '') {
                 Storage::delete('public/users/order/design/' . Auth::id() . '/' . $cart->file);
             }
@@ -190,7 +191,7 @@ class MainController extends Controller
             'link' => $link,
         ]);
 
-        $message = !is_null($cart->subkategori_id) ? $cart->getSubKategori->name : $cart->getCluster->name;
+        $message = !is_null($cart->subkategori_id) ? $cart->getSubKategori->nama : $cart->getCluster->nama;
 
         return redirect()->route('beranda')->with('order', 'Pesanan produk cetak [' . $message . '] Anda berhasil diperbarui! Apakah Anda ingin menyelesaikan pembayarannya sekarang?');
     }
@@ -203,64 +204,8 @@ class MainController extends Controller
         }
         $cart->delete();
 
-        $message = !is_null($cart->subkategori_id) ? $cart->getSubKategori->name : $cart->getCluster->name;
+        $message = !is_null($cart->subkategori_id) ? $cart->getSubKategori->nama : $cart->getCluster->nama;
 
         return back()->with('delete', 'Pesanan produk cetak [' . $message . '] Anda berhasil dihapuskan dari keranjang Anda!');
-    }
-
-    public function cariNamaProduk(Request $request)
-    {
-        $sub = SubKategori::where('name', 'LIKE', '%' . $request->produk . '%')->get();
-        $x = 0;
-        foreach ($sub as $row) {
-            $sub[$x] = [
-                'name' => $row->name,
-                'link' => route('produk', ['produk' => $row->permalink]),
-                'image' => asset('storage/products/banner/' . $row->banner),
-            ];
-            $x++;
-        }
-
-        $cluster = ClusterKategori::where('name', 'LIKE', '%' . $request->produk . '%')->get();
-        $y = 0;
-        foreach ($cluster as $row) {
-            $cluster[$y] = [
-                'name' => $row->name,
-                'link' => route('produk', ['produk' => $row->permalink]),
-                'image' => asset('storage/products/thumb/' . $row->thumbnail),
-            ];
-            $y++;
-        }
-
-        return collect($sub)->merge($cluster);
-    }
-
-    public function cekPengirimanProduk(Request $request)
-    {
-        $client = new \GuzzleHttp\Client([
-            'headers' => [
-                'Accept' => 'application/json',
-                'key' => env('RajaOngkir_KEY')
-            ],
-            'defaults' => [
-                'exceptions' => false
-            ]
-        ]);
-
-        try {
-            $response = $client->post('https://api.rajaongkir.com/starter/cost', [
-                'form_params' => [
-                    'origin' => 444,
-                    'destination' => $request->destination,
-                    'weight' => 2,
-                    'courier' => 'jne'
-                ]
-            ])->getBody()->getContents();
-
-            return json_decode($response, true);
-
-        } catch (ConnectException $e) {
-            return response()->json();
-        }
     }
 }
