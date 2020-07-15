@@ -66,6 +66,25 @@ Route::group(['namespace' => 'Pages'], function () {
         'as' => 'beranda'
     ]);
 
+    Route::group(['prefix' => 'cari'], function () {
+
+        Route::get('/', [
+            'uses' => 'MainController@cari',
+            'as' => 'cari'
+        ]);
+
+        Route::get('nama', [
+            'uses' => 'MainController@cariNamaProduk',
+            'as' => 'get.cari-nama.produk'
+        ]);
+
+        Route::get('pengiriman', [
+            'uses' => 'MainController@cekPengirimanProduk',
+            'as' => 'get.cari-pengiriman.produk'
+        ]);
+
+    });
+
     Route::group(['prefix' => '{produk}'], function () {
 
         Route::get('/', [
@@ -92,16 +111,6 @@ Route::group(['namespace' => 'Pages'], function () {
         ]);
 
     });
-
-    Route::get('cari/nama', [
-        'uses' => 'MainController@cariNamaProduk',
-        'as' => 'get.cari-nama.produk'
-    ]);
-
-    Route::get('cari/pengiriman', [
-        'uses' => 'MainController@cekPengirimanProduk',
-        'as' => 'get.cari-pengiriman.produk'
-    ]);
 
     Route::group(['prefix' => 'info'], function () {
 

@@ -2,7 +2,7 @@
     <ul class="main-menu">
         <li><a href="{{route('beranda')}}" class="{{Request::is('/*') ? 'active' : ''}}">
                 <i class="fa fa-home"></i>&ensp;Beranda</a></li>
-        <li><a href="#"><i class="fa fa-box-open"></i>&ensp;Produk</a></li>
+        <li><a href="{{route('cari')}}"><i class="fa fa-box-open"></i>&ensp;Produk</a></li>
         <li>
             <div class="top-new"><p>( 0 )</p></div>
             <a href="javascript:showWishlist()"><i class="fa fa-heart"></i>&ensp;Wishlist</a>
@@ -56,7 +56,7 @@
     </div>
     <div class="header-cart-item cart-dropdown">
         <span>Cart: <b>( 0 )</b></span>
-        <p><a href="">Total: <b style="text-transform: none">Rp0,00</b></a></p>
+        <p><a href="javascript:void(0)">Total: <b style="text-transform: none">Rp0,00</b></a></p>
         <div class="dropdown-content">
             @if(Auth::check() && 'data')
                 <div class="item-box green">
@@ -92,7 +92,7 @@
                         <span>$ 355</span>
                     </div>
                     <div class="cart-delete green">
-                        <a href=""><i class="fa fa-trash-o"></i></a>
+                        <a href="#"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -105,7 +105,7 @@
             @else
                 <img class="img-responsive" src="{{asset('images/empty-cart.gif')}}" alt="Empty Cart">
                 <div class="text-center">
-                    <a href="#" class="btn cart-btn mb-2">Belanja Sekarang</a>
+                    <a href="{{route('cari')}}" class="btn cart-btn mb-2">Belanja Sekarang</a>
                 </div>
             @endif
         </div>

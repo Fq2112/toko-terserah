@@ -112,55 +112,43 @@
             <div class="container">
                 <div class="row">
                     @if(Request::is('/*'))
-                    <div class="col-md-3">
-                        <div class="categorys">
-                            <a href="#"><i class="fa fa-align-justify"></i> Kategori Produk</a>
+                        <div class="col-md-3">
+                            <div class="categorys"
+                                 onclick="window.location.href='{{route('cari', ['kat' => 'semua'])}}'">
+                                <a href="{{route('cari', ['kat' => 'semua'])}}">
+                                    <i class="fa fa-align-justify"></i> Kategori Produk</a>
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="col-md-{{Request::is('/*') ? '9' : '12'}}">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="search-category">
-                                    <div class="input-group">
+                                    <form id="form-cari" action="{{route('cari')}}" class="input-group">
                                         <div class="input-group-btn search-panel">
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
-                                                <span id="search_concept">Semua Kategori</span>&ensp;<span class="caret"></span>
+                                                <span id="search_concept">Semua Kategori</span>&ensp;<span
+                                                    class="caret"></span>
                                             </button>
                                             <ul class="dropdown-Menu" role="menu">
-                                                <li><a href="#">Accessories</a></li>
-                                                <li><a href="#">Android</a></li>
-                                                <li><a href="#">Bags</a></li>
-                                                <li><a href="#">Basketball</a></li>
-                                                <li><a href="#">Beer</a></li>
-                                                <li><a href="#">Blankets</a></li>
-                                                <li><a href="#">Cake</a></li>
-                                                <li><a href="#">Computers</a></li>
-                                                <li><a href="#">Cream</a></li>
-                                                <li><a href="#">Electronis</a></li>
-                                                <li><a href="#">Fashion</a></li>
-                                                <li><a href="#">Fast Food</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                                <li><a href="#">Iphone</a></li>
-                                                <li><a href="#">Shoes</a></li>
-                                                <li><a href="#">Sports</a></li>
-                                                <li><a href="#">Stools</a></li>
-                                                <li><a href="#">T-Shirt</a></li>
-                                                <li><a href="#">Table</a></li>
-                                                <li><a href="#">Mobiles</a></li>
-                                                <li><a href="#">Necklaces</a></li>
-                                                <li><a href="#">Rings</a></li>
+                                                @foreach(\App\Models\Kategori::orderBy('nama')->get() as $row)
+                                                    <li onclick="cariKategori('{{$row->nama}}', '{{$row->permalink}}')">
+                                                        <a href="javascript:void(0)">{{$row->nama}}</a></li>
+                                                @endforeach
                                             </ul>
                                         </div>
-                                        <input type="hidden" name="search_param" value="all" id="search_param">
-                                        <input type="text" class="form-control-2" name="x" placeholder="Search term...">
+                                        <input type="hidden" name="kat" value="semua">
+                                        <input type="text" class="form-control-2" name="q" placeholder="Cari&hellip;">
                                         <span class="input-group-btn">
-                                                <button class="btn btn-default color-2" type="button"><span
-                                                        class="fa fa-search"></span>
+                                            <button class="btn btn-default" type="reset" style="display: none">
+                                                <span class="fa fa-times"></span>
                                             </button>
-                                            </span>
-                                    </div>
+                                            <button class="btn btn-default color-2" type="submit">
+                                                <span class="fa fa-search"></span>
+                                            </button>
+                                        </span>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -238,11 +226,11 @@
                             </div>
                             <div class="col-md-5">
                                 <ul class="footer-menu none-style">
-                                    <li><a href="#"><img src="{{asset('images/shop/cards/1.png')}}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{asset('images/shop/cards/2.png')}}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{asset('images/shop/cards/3.png')}}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{asset('images/shop/cards/4.png')}}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{asset('images/shop/cards/5.png')}}" alt=""></a></li>
+                                    <li data-toggle="tooltip" title="MITRA PEMBAYARAN">
+                                        <a href="https://midtrans.com/" target="_blank">
+                                            <img src="{{asset('images/midtrans.svg')}}" alt="Midtrans">
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

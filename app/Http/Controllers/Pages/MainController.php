@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,9 @@ class MainController extends Controller
 {
     public function beranda()
     {
-        return view('pages.main.beranda');
+        $kategori = Kategori::orderBy('nama')->get();
+
+        return view('pages.main.beranda', compact('kategori'));
     }
 
     public function produk(Request $request)

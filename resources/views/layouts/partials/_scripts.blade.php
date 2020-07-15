@@ -45,6 +45,26 @@
         @endif
     });
 
+    function cariKategori(nama, permalink) {
+        $("#search_concept").text(nama);
+        $("#form-cari input[name=kat]").val(permalink);
+        $("#form-cari button[type=reset]").show();
+    }
+
+    $("#form-cari input[name=q]").on("keyup", function () {
+        if (!$(this).val() && $("#form-cari input[name=kat]").val() == 'semua') {
+            $("#form-cari")[0].reset();
+        } else {
+            $("#form-cari button[type=reset]").show();
+        }
+    });
+
+    $("#form-cari").on("reset", function () {
+        $("#search_concept").text('Semua Kategori');
+        $("#form-cari input[name=kat]").val('semua');
+        $("#form-cari button[type=reset]").hide();
+    });
+
     var recaptcha_register, recaptchaCallback = function () {
         recaptcha_register = grecaptcha.render(document.getElementById('recaptcha-register'), {
             'sitekey': '{{env('reCAPTCHA_v2_SITEKEY')}}',
