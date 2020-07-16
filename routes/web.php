@@ -73,6 +73,11 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'cari'
         ]);
 
+        Route::get('data', [
+            'uses' => 'CariController@cariData',
+            'as' => 'get.cari-data.produk'
+        ]);
+
         Route::get('nama', [
             'uses' => 'CariController@cariNamaProduk',
             'as' => 'get.cari-nama.produk'

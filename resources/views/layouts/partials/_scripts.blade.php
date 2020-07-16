@@ -1,5 +1,5 @@
 <script>
-    var keyword = $("#form-cari input[name=q]"), filter = $("#form-cari input[name=kat]");
+    var keyword = $("#form-cari input[name=q]"), btn_reset = $("#form-cari button[type=reset]");
 
     $(function () {
         window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
@@ -25,10 +25,9 @@
 
         keyword.autocomplete({
             source: function (request, response) {
-                $.getJSON('{{route('get.cari-nama.produk')}}',
-                    {kat: filter.val(), q: request.term}, function (data) {
-                        response(data);
-                    });
+                $.getJSON('{{route('get.cari-nama.produk')}}', {q: request.term}, function (data) {
+                    response(data)
+                });
             },
             focus: function (event, ui) {
                 event.preventDefault();
@@ -36,6 +35,7 @@
             select: function (event, ui) {
                 event.preventDefault();
                 keyword.val(ui.item.label);
+                $("#form-cari")[0].submit();
             }
         });
 
@@ -64,23 +64,20 @@
     });
 
     function cariKategori(nama, permalink) {
-        $("#search_concept").text(nama);
-        filter.val(permalink);
-        $("#form-cari button[type=reset]").show();
+        btn_reset.show();
     }
 
     keyword.on("keyup", function () {
-        if (!$(this).val() && filter.val() == 'semua') {
+        if (!$(this).val()) {
             $("#form-cari")[0].reset();
         } else {
-            $("#form-cari button[type=reset]").show();
+            btn_reset.show();
         }
     });
 
-    $("#form-cari").on("reset", function () {
-        $("#search_concept").text('Semua Kategori');
-        filter.val('semua');
-        $("#form-cari button[type=reset]").hide();
+    btn_reset.on("click", function () {
+        keyword.removeAttr('value');
+        $(this).hide();
     });
 
     var recaptcha_register, recaptchaCallback = function () {

@@ -11,37 +11,30 @@ use Illuminate\Http\Request;
 
 class CariController extends Controller
 {
+    public function cari(Request $request)
+    {
+        $q = $request->q;
+        $title = !is_null($q) ? ' "' . $q . '" ' : ' ';
+        $kategori = Kategori::orderBy('nama')->get();
+
+        return view('pages.main.cari', compact('q', 'title', 'kategori'));
+    }
+
+    public function cariData(Request $request)
+    {
+        return;
+    }
+
     public function cariNamaProduk(Request $request)
     {
-        $kat = $request->kat;
-        $x = 0;
-        $y = 0;
+        $produk = Produk::where('nama', 'LIKE', '%' . $request->q . '%')->orderBy('nama')->get();
 
-        $sub = SubKategori::where('nama', 'LIKE', '%' . $request->q . '%')->when($kat, function ($q) use ($kat) {
-            $q->whereHas('getKategori', function ($q) use ($kat) {
-                if ($kat != 'semua') {
-                    $q->where('permalink', $kat);
-                }
-            });
-        })->orderBy('nama')->get();
-
-        $cluster = Produk::where('nama', 'LIKE', '%' . $request->q . '%')->when($kat, function ($q) use ($kat) {
-            $q->whereHas('getSubkategori', function ($q) use ($kat) {
-                $q->whereHas('getKategori', function ($q) use ($kat) {
-                    if ($kat != 'semua') {
-                        $q->where('permalink', $kat);
-                    }
-                });
-            });
-        })->orderBy('nama')->get();
-
-        $data = collect($sub)->merge($cluster);
-        foreach ($data as $row) {
+        foreach ($produk as $row) {
             $row->label = $row->nama;
             $row->q = $row->permalink;
         }
 
-        return $data;
+        return $produk;
     }
 
     public function cekPengirimanProduk(Request $request)

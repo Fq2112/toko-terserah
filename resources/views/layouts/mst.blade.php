@@ -124,30 +124,22 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="search-category">
-                                    <form id="form-cari" action="{{route('cari')}}" class="input-group">
-                                        <div class="input-group-btn search-panel">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span id="search_concept">Semua Kategori</span>&ensp;<span
-                                                    class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-Menu" role="menu">
-                                                @foreach(\App\Models\Kategori::orderBy('nama')->get() as $row)
-                                                    <li onclick="cariKategori('{{$row->nama}}', '{{$row->permalink}}')">
-                                                        <a href="javascript:void(0)">{{$row->nama}}</a></li>
-                                                @endforeach
-                                            </ul>
+                                    <form id="form-cari" action="{{route('cari')}}">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control-2" name="q"
+                                                   placeholder="Cari&hellip;"
+                                                   value="{{Request::is('cari*') ? $q : null}}"
+                                                   style="border-radius: 7px 0 0 7px">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="reset"
+                                                        style="display: {{Request::is('cari*') && !is_null($q) ? '' : 'none'}}">
+                                                    <span class="fa fa-times"></span>
+                                                </button>
+                                                <button class="btn btn-default color-2" type="submit">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </span>
                                         </div>
-                                        <input type="hidden" name="kat" value="semua">
-                                        <input type="text" class="form-control-2" name="q" placeholder="Cari&hellip;">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="reset" style="display: none">
-                                                <span class="fa fa-times"></span>
-                                            </button>
-                                            <button class="btn btn-default color-2" type="submit">
-                                                <span class="fa fa-search"></span>
-                                            </button>
-                                        </span>
                                     </form>
                                 </div>
                             </div>
