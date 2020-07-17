@@ -35,9 +35,7 @@ class CariController extends Controller
             $q->whereBetween('harga', [strrev($from), strrev($to)]);
         })->when($kat, function ($q) use ($kat) {
             $q->whereHas('getSubkategori', function ($q) use ($kat) {
-                $q->whereHas('getKategori', function ($q) use ($kat) {
-                    $q->whereIn('id', explode(',', $kat));
-                });
+                $q->whereIn('id', explode(',', $kat));
             });
         })->when($sort, function ($q) use ($sort) {
             if($sort == 'harga-asc') {

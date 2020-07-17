@@ -52,7 +52,7 @@
     height: 30px;
     top: 10px;
     left: 10px !important;
-    background: #0088cc;
+    background: #5bb300;
     position: absolute;
     border-radius: 5px;
 }
@@ -62,7 +62,7 @@
     display: block;
     border-style: solid;
     border-width: 4px;
-    border-color: #3187f2 transparent transparent transparent;
+    border-color: #70db00 transparent transparent transparent;
     position: absolute;
     left: calc(50% - 4px);
     top: 100%;
@@ -99,7 +99,7 @@
 
 .item-product:hover,
 .item-product:hover .shop-btn {
-    border: 1px solid #0088cc !important;
+    border: 1px solid #5bb300 !important;
 }
 
 .item-product .product-thumb:hover {
@@ -126,11 +126,11 @@
 }
 
 .item-product h4 a:hover {
-    color: #16bdfa;
+    color: #82ff00;
 }
 
 .item-product .rating {
-    color: #16bdfa;
+    color: #82ff00;
     margin-bottom: 5px;
 }
 
@@ -630,7 +630,7 @@ strong.strong-pink {
     height: 30px;
     top: 10px;
     left: 10px !important;
-    background: #0088cc;
+    background: #5bb300;
     position: absolute;
     border-radius: 5px;
 }
@@ -640,7 +640,7 @@ strong.strong-pink {
     display: block;
     border-style: solid;
     border-width: 4px;
-    border-color: #3187f2 transparent transparent transparent;
+    border-color: #70db00 transparent transparent transparent;
     position: absolute;
     left: calc(50% - 4px);
     top: 100%;

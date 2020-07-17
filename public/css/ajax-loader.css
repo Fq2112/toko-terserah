@@ -47,7 +47,7 @@
     to {
         -webkit-transform: scale(1, 1);
         opacity: 1;
-        border: 3px solid #122752;
+        border: 3px solid #5bb300;
     }
 }
 
@@ -60,7 +60,7 @@
     to {
         transform: scale(1, 1);
         opacity: 1;
-        border: 3px solid #122752;
+        border: 3px solid #5bb300;
     }
 }
 
@@ -68,7 +68,7 @@
     from {
         -webkit-transform: scale(1, 1);
         opacity: 1;
-        border: 3px solid #122752;
+        border: 3px solid #5bb300;
     }
     to {
         -webkit-transform: scale(1.5, 1.5);
@@ -81,7 +81,7 @@
     from {
         -webkit-transform: scale(1, 1);
         opacity: 1;
-        border: 3px solid #122752;
+        border: 3px solid #5bb300;
     }
     to {
         -webkit-transform: scale(1.5, 1.5);

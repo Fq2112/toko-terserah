@@ -24,10 +24,12 @@ class ProdukSeeder extends Seeder
     {
         $faker = Factory::create('id_ID');
         foreach (static::ProdukArray as $item) {
+            $cek = rand(0, 1) ? true : false;
+
             \App\Models\Produk::create([
                 'nama' => $item,
                 'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($item)),
-                'gambar' => $faker->imageUrl('https://picsum.photos/200/300'),
+                'gambar' => 'placeholder.jpg',
                 'kode_barang' => 'HT' . $faker->numerify('###'),
                 'berat' => rand(50, 150),
                 'stock' => rand(10, 100),
@@ -35,7 +37,9 @@ class ProdukSeeder extends Seeder
                 'warna' => 'Merah',
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
-                'harga' => rand(1000, 100000)
+                'harga' => rand(1000, 100000),
+                'is_diskon' => $cek,
+                'diskon' => $cek == true ? rand(10, 50) : null
             ]);
         }
     }

@@ -1,5 +1,5 @@
 <script>
-    var keyword = $("#form-cari input[name=q]"), btn_reset = $("#form-cari button[type=reset]");
+    var keyword = $("#keyword"), btn_reset = $("#btn_reset");
 
     $(function () {
         window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
@@ -23,6 +23,7 @@
 
         $(".rupiah").maskMoney({thousands: '.', decimal: ',', precision: 0});
 
+        @if(!Request::is('cari*'))
         keyword.autocomplete({
             source: function (request, response) {
                 $.getJSON('{{route('get.cari-nama.produk')}}', {q: request.term}, function (data) {
@@ -35,11 +36,11 @@
             select: function (event, ui) {
                 event.preventDefault();
                 keyword.val(ui.item.label);
-                @if(Request::is('/*'))
-                $("#form-cari")[0].submit();
-                @endif
+                window.location.href = '{{route('cari')}}?q=' + keyword.val();
             }
         });
+
+        @endif
 
         function reposition() {
             var modal = $(this),
@@ -65,13 +66,10 @@
         @endif
     });
 
-    function cariKategori(nama, permalink) {
-        btn_reset.show();
-    }
-
+    @if(!Request::is('cari*'))
     keyword.on("keyup", function () {
         if (!$(this).val()) {
-            $("#form-cari")[0].reset();
+            $(this).removeAttr('value');
         } else {
             btn_reset.show();
         }
@@ -81,14 +79,15 @@
         keyword.removeAttr('value');
         $(this).hide();
     });
+        @endif
 
     var recaptcha_register, recaptchaCallback = function () {
-        recaptcha_register = grecaptcha.render(document.getElementById('recaptcha-register'), {
-            'sitekey': '{{env('reCAPTCHA_v2_SITEKEY')}}',
-            'callback': 'enable_btnRegister',
-            'expired-callback': 'disabled_btnRegister'
-        });
-    };
+            recaptcha_register = grecaptcha.render(document.getElementById('recaptcha-register'), {
+                'sitekey': '{{env('reCAPTCHA_v2_SITEKEY')}}',
+                'callback': 'enable_btnRegister',
+                'expired-callback': 'disabled_btnRegister'
+            });
+        };
 
     function enable_btnRegister() {
         $("#btn_register").removeAttr('disabled');
@@ -261,6 +260,28 @@
         } else if (decimal && (keychar == ".")) {
             return true;
         } else return false;
+    }
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
     }
 
     var title = document.getElementsByTagName("title")[0].innerHTML;

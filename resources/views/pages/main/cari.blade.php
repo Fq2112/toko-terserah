@@ -41,7 +41,7 @@
     <section class="page-content page-sidebar none-padding">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-3">
+                <div class="col-sm-5 col-md-4 col-lg-3">
                     <div class="sidebar">
                         <div class="widget">
                             <h4>Kategori Produk</h4>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8 col-md-8 col-lg-9">
+                <div class="col-sm-7 col-md-8 col-lg-9">
                     <h2>Hasil Pencarian</h2>
                     <div class="top-filter">
                         <p class="woocommerce-result-count">Menampilkan <b>1 - 6</b> dari <b>10</b> produk</p>
@@ -75,7 +75,9 @@
                             </select>
                         </form>
                     </div>
-                    <img src="{{asset('images/empty-cart.gif')}}" class="img-responsive ajax-loader">
+                    <div class="ajax-loader" style="display: none">
+                        <div class="preloader4"></div>
+                    </div>
                     <div class="row" id="search-result"></div>
                     <div class="row text-right">
                         <div class="col-lg-12 myPagination text-right">
@@ -91,12 +93,27 @@
 @push('scripts')
     <script src="{{asset('vendor/ion-rangeslider/js/ion.rangeslider.min.js')}}"></script>
     <script>
-        var sort = $("#sort"), kat = $("#sub"), harga = $("#harga"), $kat = '{{$kat}}', $harga = '',
-            range_max = parseInt('{{abs(round((\App\Models\Produk::getMahal() + 500), -3))}}') + 10000;
+        var keyword = $("#keyword"), btn_reset = $("#btn_reset"),
+            sort = $("#sort"), kat = $("#sub"), harga = $("#harga"),
+            $sort = '', $kat = '{{$kat}}', $harga = '',
+            range_max = parseInt('{{abs(round((\App\Models\Produk::getMahal() + 500), -3))}}');
 
         $(function () {
-            $('.ajax-loader').hide();
-            $('#search-result, .myPagination').show();
+            keyword.autocomplete({
+                source: function (request, response) {
+                    $.getJSON('{{route('get.cari-nama.produk')}}', {q: request.term}, function (data) {
+                        response(data)
+                    });
+                },
+                focus: function (event, ui) {
+                    event.preventDefault();
+                },
+                select: function (event, ui) {
+                    event.preventDefault();
+                    keyword.val(ui.item.label);
+                    loadData();
+                }
+            });
 
             sort.select2({
                 placeholder: "-- Urutkan Berdasarkan --",
@@ -117,7 +134,7 @@
                 min: 0,
                 max: range_max,
                 from: parseInt('{{abs(round((\App\Models\Produk::getMurah() + 500), -3))}}'),
-                to: parseInt('{{abs(round((\App\Models\Produk::getMurah() + 500), -3))}}') + 25000,
+                to: range_max,
                 drag_interval: true,
                 prefix: 'Rp',
                 prettify_separator: '.',
@@ -127,33 +144,45 @@
                         harga.data("ionRangeSlider").update({max: range_max});
                     }
 
-                    if (data.from > 0) {
-                        resetter(1, data.from, data.to);
-                    } else {
-                        resetter(0);
-                    }
+                    $harga = data.from + '-' + data.to;
+                    loadData();
                 }
             });
 
             @if(!is_null($kat))
             kat.val($kat.split(',')).change();
             @endif
+
+            loadData();
         });
 
-        function resetter(check, from, to) {
-            if(check == 1) {
-                $harga = from + '-' + to;
-                loadData();
+        keyword.on("keyup", function () {
+            if (!$(this).val()) {
+                $(this).removeAttr('value');
             } else {
-                $harga = '';
-                range_max = parseInt('{{abs(round((\App\Models\Produk::getMahal() + 500), -3))}}') + 10000;
-                harga.data("ionRangeSlider").update({
-                    max: range_max,
-                    from: parseInt('{{abs(round((\App\Models\Produk::getMurah() + 500), -3))}}'),
-                    to: parseInt('{{abs(round((\App\Models\Produk::getMurah() + 500), -3))}}') + 25000,
-                });
+                btn_reset.show();
             }
-        }
+
+            loadData();
+        });
+
+        btn_reset.on("click", function () {
+            keyword.removeAttr('value');
+            $(this).hide();
+
+            loadData();
+        });
+
+        kat.on('change', function () {
+            if ($(this).find('option:selected').length > 0) {
+                $kat = $(this).val().join(',');
+            }
+            loadData();
+        });
+
+        sort.on('change', function () {
+            loadData();
+        });
 
         function loadData() {
             clearTimeout(this.delay);
@@ -161,7 +190,7 @@
                 $.ajax({
                     url: "{{route('get.cari-data.produk')}}",
                     type: "GET",
-                    data: {kat: kat.val(), q: keyword.val(), harga: $harga, sort: sort.val()},
+                    data: {kat: $kat, q: keyword.val(), harga: $harga, sort: sort.val()},
                     beforeSend: function () {
                         $('.ajax-loader').show();
                         $('#search-result, .myPagination').hide();
@@ -171,7 +200,6 @@
                         $('#search-result, .myPagination').show();
                     },
                     success: function (data) {
-                        console.log(data);
                         successLoad(data);
                     },
                     error: function () {
@@ -183,11 +211,13 @@
         }
 
         $('.myPagination ul').on('click', 'li', function () {
-            $('html,body').animate({scrollTop: $("#myTab").offset().top}, 500);
+            $('html,body').animate({scrollTop: $(".page-content").offset().top}, 500);
+
             var $url, page = $(this).children().text(),
                 active = $(this).parents("ul").find('.active').eq(0).text(),
                 hellip_prev = $(this).closest('.hellip_prev').next().find('a').text(),
                 hellip_next = $(this).closest('.hellip_next').prev().find('a').text();
+
             if (page > 0) {
                 $url = "{{url('/cari/data')}}" + '?page=' + page;
             }
@@ -216,7 +246,7 @@
                 $.ajax({
                     url: $url,
                     type: "GET",
-                    data: {kat: kat.val(), q: keyword.val(), harga: $harga, sort: sort.val()},
+                    data: {kat: $kat, q: keyword.val(), harga: $harga, sort: sort.val()},
                     beforeSend: function () {
                         $('.ajax-loader').show();
                         $('#search-result, .myPagination').hide();
@@ -237,37 +267,43 @@
         });
 
         function successLoad(data, page) {
-            var $result = '', pagination = '', $page = '', $_kat = '', $_harga = '', $_sort = '';
-            $.each(data.data, function (i, val) {
-                $result +=
-                    '<div class="col-md-3">\n' +
-                    '                            <div class="item-product first">\n' +
-                    '                                <div class="product-thumb">\n' +
-                    '                                    <div class="midd">\n' +
-                    '                                        <a href="product.html"><img src="images/shop/1.jpg" alt=""></a>\n' +
-                    '                                        <div class="n-content">\n' +
-                    '                                            <p>New</p>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </div>\n' +
-                    '                                <div class="info-product">\n' +
-                    '                                    <h4><a href="product.html">Dictum spsuming</a></h4>\n' +
-                    '                                    <div class="rating">\n' +
-                    '                                        <i class="fa fa-star"></i>\n' +
-                    '                                        <i class="fa fa-star"></i>\n' +
-                    '                                        <i class="fa fa-star"></i>\n' +
-                    '                                        <i class="fa fa-star"></i>\n' +
-                    '                                        <i class="fa fa-star-o"></i>\n' +
-                    '                                    </div>\n' +
-                    '                                    <p class="price">$430</p>\n' +
-                    '                                    <div class="add-cart">\n' +
-                    '                                        <a href="#" class="shop-btn">Add to Cart</a>\n' +
-                    '                                    </div>\n' +
-                    '                                </div>\n' +
-                    '                            </div>\n' +
-                    '                        </div>';
-            });
+            var $result = '', $img = '', $route_detail = '', $disc_elm = '', price = 0, $price = '',
+                pagination = '', $page = '', $_kat = '', $_harga = '', $_sort = '';
+
+            if (data.data.length > 0) {
+                $.each(data.data, function (i, val) {
+                    $img = '{{asset('storage/produk/thumb')}}/' + val.gambar;
+                    $route_detail = '{{url('/')}}/' + val.permalink;
+
+                    price = val.is_diskon == 1 ? parseInt(val.harga - (val.harga * val.diskon / 100)) : 0;
+
+                    $disc_elm = val.is_diskon == 1 ? '<div class="n-content"><p>-' + val.diskon + '%</p></div>' : '';
+                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(price, 2, ",", ".") + '</p>' +
+                        '<s>Rp' + number_format(val.harga, 2, ",", ".") + '</s>' :
+                        '<p class="price mb-0">Rp' + number_format(val.harga, 2, ",", ".") + '</p>';
+
+                    $result +=
+                        '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                        '<div class="item-product first" style="cursor: pointer" ' +
+                        'onclick="window.location.href=\'' + $route_detail + '\'">' +
+                        '<div class="product-thumb">' +
+                        '<div class="midd"><a href="' + $route_detail + '">' +
+                        '<img src="' + $img + '" alt="' + val.nama + '"></a>' + $disc_elm + '</div></div>' +
+                        '<div class="info-product pt-0">' +
+                        '<h4><a href="' + $route_detail + '">' + val.nama + '</a></h4>' +
+                        '<div class="rating">' +
+                        '<i class="fa fa-star"></i>' +
+                        '<i class="fa fa-star"></i>' +
+                        '<i class="fa fa-star"></i>' +
+                        '<i class="fa fa-star"></i>' +
+                        '<i class="far fa-star"></i>' +
+                        '</div>' + $price + '</div></div></div>';
+                });
+            } else {
+                $result += '<div class="col-lg-12"><img src="{{asset('images/empty-cart.gif')}}" alt="Empty"></div>'
+            }
             $("#search-result").empty().append($result);
+
             if (data.last_page >= 1) {
                 if (data.current_page > 4) {
                     pagination += '<li class="page-item first">' +
@@ -315,16 +351,17 @@
                 }
             }
             $('.myPagination ul').html(pagination);
+
             if (page != "" && page != undefined) {
                 $page = '&page=' + page;
             }
-            if (!kat.val()) {
-                $_kat = '&kat=' + kat.val();
+            if (kat.find('option:selected').length > 0) {
+                $_kat = '&kat=' + $kat;
             }
-            if($harga != '') {
+            if ($harga != '') {
                 $_harga = '&harga=' + $harga;
             }
-            if(!sort.val()) {
+            if (sort.val() != '') {
                 $_sort = '&sort=' + sort.val();
             }
             window.history.replaceState("", "", '{{url('/cari')}}?q=' + keyword.val() + $_kat + $_harga + $_sort + $page);
