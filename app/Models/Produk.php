@@ -19,4 +19,14 @@ class Produk extends Model
     {
         return $this->hasMany(Keranjang::class,'produk_id');
     }
+
+    public static function getMurah()
+    {
+        return Produk::orderBy('harga')->first()->harga;
+    }
+
+    public static function getMahal()
+    {
+        return Produk::orderByDesc('harga')->first()->harga;
+    }
 }

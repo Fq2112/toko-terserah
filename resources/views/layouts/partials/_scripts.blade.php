@@ -35,7 +35,9 @@
             select: function (event, ui) {
                 event.preventDefault();
                 keyword.val(ui.item.label);
+                @if(Request::is('/*'))
                 $("#form-cari")[0].submit();
+                @endif
             }
         });
 
