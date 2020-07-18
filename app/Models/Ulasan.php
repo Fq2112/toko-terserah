@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ulasan extends Model
 {
-    protected $table = 'ulasan';
+    protected $table = 'ulasans';
 
     protected $guarded = ['id'];
 
     public function getUser()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getProduk()
+    {
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 }

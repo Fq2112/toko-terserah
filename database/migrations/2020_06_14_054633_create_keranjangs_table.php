@@ -22,8 +22,8 @@ class CreateKeranjangsTable extends Migration
             $table->foreign('produk_id')->references('id')
                 ->on('produk');
             $table->string('qty');
-            $table->string('total');
             $table->string('berat');
+            $table->string('total');
             $table->boolean('isCheckOut')->default(false);
             $table->timestamps();
         });

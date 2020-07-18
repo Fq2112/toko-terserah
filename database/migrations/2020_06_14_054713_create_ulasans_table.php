@@ -15,12 +15,12 @@ class CreateUlasansTable extends Migration
     {
         Schema::create('ulasans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('keranjang_id');
-            $table->foreign('keranjang_id')->references('id')
-                ->on('keranjang');
+            $table->foreignId('produk_id');
+            $table->foreign('produk_id')->references('id')
+                ->on('produk');
             $table->text('deskripsi')->nullable();
             $table->text('gambar')->nullable();
-            $table->decimal('bintang');
+            $table->decimal('bintang', 8, 1);
             $table->timestamps();
         });
     }

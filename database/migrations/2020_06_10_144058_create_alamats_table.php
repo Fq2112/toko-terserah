@@ -21,12 +21,15 @@ class CreateAlamatsTable extends Migration
             $table->foreignId('kota_id');
             $table->foreign('kota_id')->references('id')
                 ->on('kota');
-            $table->string('jalan');
+
+            $table->string('nama');
+            $table->string('telp');
+            $table->string('alamat');
+            $table->text('lat')->nullable();
+            $table->text('long')->nullable();
             $table->string('kode_pos');
-            $table->string('kecamatan');
-            $table->string('kelurahan');
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
+            $table->boolean('isUtama')->default(false);
+
             $table->timestamps();
         });
     }

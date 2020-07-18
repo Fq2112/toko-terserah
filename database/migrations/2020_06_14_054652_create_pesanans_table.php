@@ -18,17 +18,23 @@ class CreatePesanansTable extends Migration
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users');
-            $table->foreignId('keranjang_id');
-            $table->foreign('keranjang_id')->references('id')
-                ->on('keranjang');
-            $table->foreignId('alamat_id');
-            $table->foreign('alamat_id')->references('id')
+            $table->text('keranjang_ids');
+            $table->foreignId('pengiriman_id');
+            $table->foreign('pengiriman_id')->references('id')
+                ->on('alamat');
+            $table->foreignId('penagihan_id');
+            $table->foreign('penagihan_id')->references('id')
                 ->on('alamat');
             $table->string('uni_code');
             $table->string('ongkir');
+            $table->string('durasi_pengiriman');
             $table->string('berat_barang');
             $table->string('total_harga');
             $table->text('note')->nullable();
+            $table->boolean('isLunas')->default(false);
+            $table->string('resi')->nullable()->unique();
+            $table->dateTime('tgl_pengiriman')->nullable();
+            $table->dateTime('tgl_diterima')->nullable();
             $table->timestamps();
         });
     }

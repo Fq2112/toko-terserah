@@ -17,11 +17,15 @@
         .irs-single,
         .irs-handle > i:first-child,
         .irs-handle.state_hover > i:first-child,
-        .irs-handle:hover > i:first-child { background-color: #5bb300 !important; }
+        .irs-handle:hover > i:first-child {
+            background-color: #5bb300 !important;
+        }
 
         .irs-from:before,
         .irs-to:before,
-        .irs-single:before { border-top-color: #5bb300 !important; }
+        .irs-single:before {
+            border-top-color: #5bb300 !important;
+        }
 
         .irs-single, .irs-handle {
             cursor: grab;
@@ -64,8 +68,9 @@
                 </div>
                 <div class="col-sm-7 col-md-8 col-lg-9">
                     <h2>Hasil Pencarian</h2>
-                    <div class="top-filter">
-                        <p class="woocommerce-result-count">Menampilkan <b>1 - 6</b> dari <b>10</b> produk</p>
+                    <div class="top-filter mb-3">
+                        <p class="woocommerce-result-count">
+                            Menampilkan <b id="count"></b> dari <b id="count-total"></b> produk</p>
                         <form class="woocommerce-ordering">
                             <select id="sort" name="sort">
                                 <option></option>
@@ -91,6 +96,7 @@
     </section>
 @endsection
 @push('scripts')
+    <script src="{{asset('vendor/masonry/masonry.pkgd.min.js')}}"></script>
     <script src="{{asset('vendor/ion-rangeslider/js/ion.rangeslider.min.js')}}"></script>
     <script>
         var keyword = $("#keyword"), btn_reset = $("#btn_reset"),
@@ -267,37 +273,35 @@
         });
 
         function successLoad(data, page) {
-            var $result = '', $img = '', $route_detail = '', $disc_elm = '', price = 0, $price = '',
+            var $q = '', total = '', $result = '', $disc_elm = '', $price = '',
                 pagination = '', $page = '', $_kat = '', $_harga = '', $_sort = '';
 
-            if (data.data.length > 0) {
+            $q = keyword.val() != "" ? ' untuk <b>"' + keyword.val() + '"</b>' : '';
+            if (data.total > 1) {
+                total = $.trim(data.total) ?
+                    ' (<b>' + data.from + '</b> - ' + '<b>' + data.to + '</b> dari <b>' + data.total + '</b>)' : '';
+            } else {
+                total = '';
+            }
+            $(".woocommerce-result-count").html('Menampilkan <b>' + data.total + '</b> produk' + $q + total);
+
+            if (data.total > 0) {
                 $.each(data.data, function (i, val) {
-                    $img = '{{asset('storage/produk/thumb')}}/' + val.gambar;
-                    $route_detail = '{{url('/')}}/' + val.permalink;
-
-                    price = val.is_diskon == 1 ? parseInt(val.harga - (val.harga * val.diskon / 100)) : 0;
-
                     $disc_elm = val.is_diskon == 1 ? '<div class="n-content"><p>-' + val.diskon + '%</p></div>' : '';
-                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(price, 2, ",", ".") + '</p>' +
+                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(val.disc_price, 2, ",", ".") + '</p>' +
                         '<s>Rp' + number_format(val.harga, 2, ",", ".") + '</s>' :
                         '<p class="price mb-0">Rp' + number_format(val.harga, 2, ",", ".") + '</p>';
 
                     $result +=
-                        '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                        '<div class="col-md-3 item">' +
                         '<div class="item-product first" style="cursor: pointer" ' +
-                        'onclick="window.location.href=\'' + $route_detail + '\'">' +
+                        'onclick="window.location.href=\'' + val.route_detail + '\'">' +
                         '<div class="product-thumb">' +
-                        '<div class="midd"><a href="' + $route_detail + '">' +
-                        '<img src="' + $img + '" alt="' + val.nama + '"></a>' + $disc_elm + '</div></div>' +
+                        '<div class="midd"><a href="' + val.route_detail + '">' +
+                        '<img src="' + val.dir_img + '" alt="' + val.nama + '"></a>' + $disc_elm + '</div></div>' +
                         '<div class="info-product pt-0">' +
-                        '<h4><a href="' + $route_detail + '">' + val.nama + '</a></h4>' +
-                        '<div class="rating">' +
-                        '<i class="fa fa-star"></i>' +
-                        '<i class="fa fa-star"></i>' +
-                        '<i class="fa fa-star"></i>' +
-                        '<i class="fa fa-star"></i>' +
-                        '<i class="far fa-star"></i>' +
-                        '</div>' + $price + '</div></div></div>';
+                        '<h4><a href="' + val.route_detail + '">' + val.nama + '</a></h4>' +
+                        '<div class="rating">' + val.stars + '</div>' + $price + '</div></div></div>';
                 });
             } else {
                 $result += '<div class="col-lg-12"><img src="{{asset('images/empty-cart.gif')}}" alt="Empty"></div>'
@@ -320,21 +324,21 @@
                 }
                 if (data.current_page > 4) {
                     pagination += '<li class="page-item hellip_prev">' +
-                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
+                        '<a class="page-link" style="cursor: pointer"><b>&hellip;</b></a></li>'
                 }
                 for ($i = 1; $i <= data.last_page; $i++) {
                     if ($i >= data.current_page - 3 && $i <= data.current_page + 3) {
                         if (data.current_page == $i) {
-                            pagination += '<li class="page-item active"><span class="page-link">' + $i + '</span></li>'
+                            pagination += '<li class="page-item active"><span class="page-link"><b>' + $i + '</b></span></li>'
                         } else {
                             pagination += '<li class="page-item">' +
-                                '<a class="page-link" style="cursor: pointer">' + $i + '</a></li>'
+                                '<a class="page-link" style="cursor: pointer"><b>' + $i + '</b></a></li>'
                         }
                     }
                 }
                 if (data.current_page < data.last_page - 3) {
                     pagination += '<li class="page-item hellip_next">' +
-                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
+                        '<a class="page-link" style="cursor: pointer"><b>&hellip;</b></a></li>'
                 }
                 if ($.trim(data.next_page_url)) {
                     pagination += '<li class="page-item next">' +
@@ -365,7 +369,32 @@
                 $_sort = '&sort=' + sort.val();
             }
             window.history.replaceState("", "", '{{url('/cari')}}?q=' + keyword.val() + $_kat + $_harga + $_sort + $page);
-            return false;
+
+            document.title = keyword.val() != '' ?
+                'Cari Produk "' + keyword.val() + '" dengan Harga Terbaik | {{env('APP_TITLE')}}' :
+                'Cari Produk dengan Harga Terbaik | {{env('APP_TITLE')}}';
+
+            setTimeout(function () {
+                reinitMasonry();
+            }, 600);
+        }
+
+        function reinitMasonry() {
+            var grid = $("#search-result");
+
+            // init
+            grid.masonry({
+                itemSelector: '.item'
+            });
+
+            // destroy
+            grid.masonry('destroy');
+            grid.removeData('masonry');
+
+            // re-init
+            grid.masonry({
+                itemSelector: '.item'
+            });
         }
     </script>
 @endpush

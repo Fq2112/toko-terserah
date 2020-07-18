@@ -18,8 +18,8 @@ class ProdukSeeder extends Seeder
         'Happy Tos Nacho Cheese',
         'Happy Tos SeaWeed',
         'Happy Tos Roasted Corn 150 Gr',
-
     ];
+
     public function run()
     {
         $faker = Factory::create('id_ID');
@@ -32,12 +32,34 @@ class ProdukSeeder extends Seeder
                 'gambar' => 'placeholder.jpg',
                 'kode_barang' => 'HT' . $faker->numerify('###'),
                 'berat' => rand(50, 150),
-                'stock' => rand(10, 100),
-                'deskripsi' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                'stock' => rand(0, 10),
+                'deskripsi' => $faker->paragraph,
                 'warna' => 'Merah',
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
-                'harga' => rand(1000, 100000),
+                'harga' => abs(round((rand(1000, 100000) + 500), -3)),
+                'is_diskon' => $cek,
+                'diskon' => $cek == true ? rand(10, 50) : null
+            ]);
+        }
+
+        $a = 1;
+        for ($i = 0; $i < 50; $i++) {
+            $cek = rand(0, 1) ? true : false;
+            $name = ucwords($faker->words(rand(2, 4), true)) . ' ' . $a++;
+
+            \App\Models\Produk::create([
+                'nama' => $name,
+                'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($name)),
+                'gambar' => 'placeholder.jpg',
+                'kode_barang' => substr($name, 0, 1) . $faker->numerify('###'),
+                'berat' => rand(50, 150),
+                'stock' => rand(0, 10),
+                'deskripsi' => $faker->paragraph,
+                'warna' => 'Merah',
+                'barcode' => $faker->numerify('#######'),
+                'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
+                'harga' => abs(round((rand(1000, 100000) + 500), -3)),
                 'is_diskon' => $cek,
                 'diskon' => $cek == true ? rand(10, 50) : null
             ]);

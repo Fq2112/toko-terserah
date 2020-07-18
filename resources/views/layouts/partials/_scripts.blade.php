@@ -284,6 +284,7 @@
         return s.join(dec);
     }
 
+        @if(!Request::is('cari*'))
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {
         document.title = text;
@@ -291,6 +292,7 @@
             titleScroller(text.substr(1) + text.substr(0, 1));
         }, 500);
     }(title + " ~ "));
+    @endif
 
     <!--Scroll to top button-->
     var $goToTopEl = $('#gotoTop');

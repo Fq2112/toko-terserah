@@ -597,45 +597,40 @@ ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:focus {
     border-radius: 0 0 1rem 1rem;
 }
 
-.myPagination .pagination > li > a,
-.myPagination .pagination > li > span {
-    color: #777;
-    background-color: #080808;
-    border: 1px solid #000;
-    font-weight: 600;
+.pagination > li > a,
+.pagination > li > span {
+    color: #5bb300;
+    background-color: #fff;
+    border: 1px solid #ddd;
     transition: all .3s ease-in-out;
 }
 
-.myPagination .pagination > li > a:hover,
-.myPagination .pagination > li > span:hover,
-.myPagination .pagination > li > a:focus,
-.myPagination .pagination > li > span:focus {
-    background: #488f00;
-    color: #fff;
-    border-color: #488f00;
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #488f00;
 }
 
-.myPagination .pagination > .active > a,
-.myPagination .pagination > .active > span,
-.myPagination .pagination > .active > a:hover,
-.myPagination .pagination > .active > span:hover,
-.myPagination .pagination > .active > a:focus,
-.myPagination .pagination > .active > span:focus {
-    background: #5bb300;
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    pointer-events: none;
+    background-color: #5bb300;
     color: #fff;
     border-color: #5bb300;
 }
 
-.myPagination .pagination > .disabled > a,
-.myPagination .pagination > .disabled > a:focus,
-.myPagination .pagination > .disabled > a:hover,
-.myPagination .pagination > .disabled > span,
-.myPagination .pagination > .disabled > span:focus,
-.myPagination .pagination > .disabled > span:hover {
-    background-color: #080808;
-    border-color: #000;
-    color: #777;
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover {
     pointer-events: none;
     cursor: no-drop !important;
-    opacity: 0.3;
+    opacity: 0.5;
 }

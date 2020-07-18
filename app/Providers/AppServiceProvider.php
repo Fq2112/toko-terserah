@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('GlobalAuth', 'App\Support\GlobalAuth');
         $this->app->bind('NumberShorten', 'App\Support\NumberShorten');
+        $this->app->bind('Rating', 'App\Support\Rating');
     }
 }

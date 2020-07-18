@@ -20,9 +20,4 @@ class Keranjang extends Model
     {
         return $this->belongsTo(Produk::class,'produk_id');
     }
-
-    public function getPesanan()
-    {
-        return $this->hasOne(Pesanan::class,'keranjang_id');
-    }
 }

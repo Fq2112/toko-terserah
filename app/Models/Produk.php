@@ -12,12 +12,17 @@ class Produk extends Model
 
     public function getSubkategori()
     {
-        return $this->belongsTo(SubKategori::class,'sub_kategori_id');
+        return $this->belongsTo(SubKategori::class, 'sub_kategori_id');
     }
 
-    public function getKerajang()
+    public function getKeranjang()
     {
-        return $this->hasMany(Keranjang::class,'produk_id');
+        return $this->hasMany(Keranjang::class, 'produk_id');
+    }
+
+    public function getUlasan()
+    {
+        return $this->hasMany(Ulasan::class, 'produk_id');
     }
 
     public static function getMurah()

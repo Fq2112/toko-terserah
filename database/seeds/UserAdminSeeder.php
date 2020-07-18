@@ -41,6 +41,29 @@ class UserAdminSeeder extends Seeder
             'bintang' => $arr[array_rand($arr)]
         ]);
 
+        \App\Models\Alamat::create([
+            'user_id' => $user->id,
+            'kota_id' => 409,
+            'nama' => 'Fiqy Ainuzzaqy',
+            'telp' => '081356598237',
+            'alamat' => 'Jl. Hikmat 50A Betro, Sedati, Sidoarjo',
+            'lat' => '-7.3857584',
+            'long' => '112.7574375',
+            'kode_pos' => '61253',
+            'isUtama' => true,
+        ]);
+        \App\Models\Alamat::create([
+            'user_id' => $user->id,
+            'kota_id' => 492,
+            'nama' => 'Laras Sulistyorini',
+            'telp' => '082234389870',
+            'alamat' => 'Desa Pakel, Tulungagung',
+            'lat' => '-8.1501485',
+            'long' => '111.7990778',
+            'kode_pos' => '66273',
+            'isUtama' => false,
+        ]);
+
         for ($i = 0; $i < 3; $i++) {
             $dataUser = \App\User::create([
                 'name' => $faker->name,
@@ -62,10 +85,13 @@ class UserAdminSeeder extends Seeder
             \App\Models\Alamat::create([
                 'user_id' => $dataUser->id,
                 'kota_id' => $kota->id,
-                'jalan' => $faker->address,
+                'nama' => $faker->name,
+                'telp' => $faker->phoneNumber,
+                'alamat' => $faker->address,
+                'lat' => $faker->latitude,
+                'long' => $faker->longitude,
                 'kode_pos' => $kota->kode_pos,
-                'kecamatan' => 'test kecamatan '.$kota->nama,
-                'kelurahan' => 'test kelurahan '.$kota->nama,
+                'isUtama' => rand(0, 1) ? true : false,
             ]);
         }
     }

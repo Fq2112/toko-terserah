@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\SubKategori;
+use App\Models\Ulasan;
+use App\Support\Facades\Rating;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 
@@ -28,29 +30,39 @@ class CariController extends Controller
         $keyword = $request->q;
         $harga = $request->harga;
 
-        $data = Produk::when($keyword, function ($q) use ($keyword) {
+        $data = Produk::where('stock', '>', 0)->when($keyword, function ($q) use ($keyword) {
             $q->where('nama', 'LIKE', '%' . $keyword . '%');
         })->when($harga, function ($q) use ($harga) {
-            list($to,$from) = explode('-',strrev($harga),2);
+            list($to, $from) = explode('-', strrev($harga), 2);
             $q->whereBetween('harga', [strrev($from), strrev($to)]);
         })->when($kat, function ($q) use ($kat) {
             $q->whereHas('getSubkategori', function ($q) use ($kat) {
                 $q->whereIn('id', explode(',', $kat));
             });
         })->when($sort, function ($q) use ($sort) {
-            if($sort == 'harga-asc') {
+            if ($sort == 'popularitas') {
+                $q->withCount('getKeranjang')->orderByDesc('get_keranjang_count');
+            } elseif ($sort == 'harga-asc') {
                 $q->orderBy('harga');
-            } elseif($sort == 'harga-desc') {
+            } elseif ($sort == 'harga-desc') {
                 $q->orderByDesc('harga');
             } else {
                 $q->orderBy('nama');
             }
-        })->orderBy('nama')->get();
+        })->orderBy('nama')->paginate(12)->toArray();
 
-        return response()->json([
-            'status' => true,
-            'data' => $data,
-        ], 200);
+        foreach ($data['data'] as $i => $row) {
+            $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+            $data['data'][$i] = array_merge($data['data'][$i], [
+                'dir_img' => asset('storage/produk/thumb/' . $row['gambar']),
+                'route_detail' => route('produk', ['produk' => $row['permalink']]),
+                'disc_price' => $row['is_diskon'] == true ? ceil($row['harga'] - ($row['harga'] * $row['diskon'] / 100)) : 0,
+                'rating' => count($ulasan) > 0 ? $ulasan->sum('bintang') / count($ulasan) : 0,
+                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->sum('bintang') / count($ulasan)) : Rating::stars(0)
+            ]);
+        }
+
+        return $data;
     }
 
     public function cariNamaProduk(Request $request)

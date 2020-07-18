@@ -18,7 +18,10 @@ class DatabaseSeeder extends Seeder
             KontakSeeder::class,
             KategoriSeeder::class,
             SubKategoriSeeder::class,
-            ProdukSeeder::class
+            ProdukSeeder::class,
+            KeranjangSeeder::class,
+            PesananSeeder::class,
+            UlasanSeeder::class,
         ]);
     }
 }
