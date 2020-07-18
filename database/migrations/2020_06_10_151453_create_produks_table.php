@@ -17,6 +17,7 @@ class CreateProduksTable extends Migration
             $table->id();
             $table->string('barcode')->nullable()->unique();
             $table->text('gambar');
+            $table->text('galeri')->nullable();
             $table->string('kode_barang');
             $table->string('nama');
             $table->text('permalink')->unique();

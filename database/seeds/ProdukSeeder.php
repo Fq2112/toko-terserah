@@ -52,6 +52,7 @@ class ProdukSeeder extends Seeder
                 'nama' => $name,
                 'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($name)),
                 'gambar' => 'placeholder.jpg',
+                'galeri' => ['placeholder.jpg', 'placeholder.jpg'],
                 'kode_barang' => substr($name, 0, 1) . $faker->numerify('###'),
                 'berat' => rand(50, 150),
                 'stock' => rand(0, 10),

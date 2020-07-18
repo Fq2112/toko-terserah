@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
+use App\Models\Produk;
 use App\Models\SubKategori;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
@@ -16,7 +17,20 @@ class MainController extends Controller
     {
         $kategori = Kategori::orderBy('nama')->get();
 
-        return view('pages.main.beranda', compact('kategori'));
+        $top5 = Produk::where('stock', '>', 0)->whereHas('getUlasan', function ($q) {
+            $q->where('bintang', '>=', 3);
+        })->withCount('getKeranjang')->orderByDesc('get_keranjang_count')->take(5)->get();
+        $flash = Produk::where('stock', '>', 0)
+            ->where('is_diskon', true)->inRandomOrder()->first();
+
+        $terbaru = Produk::where('stock', '>', 0)->orderByDesc('id')->take(8)->get();
+        $terlaris = Produk::where('stock', '>', 0)->withCount('getKeranjang')->orderByDesc('get_keranjang_count')->take(8)->get();
+        $unggulan = Produk::where('stock', '>', 0)->whereHas('getUlasan', function ($q) {
+            $q->where('bintang', '>=', 3);
+        })->withCount('getKeranjang')->orderByDesc('get_keranjang_count')->take(8)->get();
+
+        return view('pages.main.beranda', compact('kategori', 'top5', 'flash',
+            'terbaru', 'terlaris', 'unggulan'));
     }
 
     public function produk(Request $request)

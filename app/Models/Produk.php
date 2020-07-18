@@ -10,6 +10,8 @@ class Produk extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = ['galeri' => 'array'];
+
     public function getSubkategori()
     {
         return $this->belongsTo(SubKategori::class, 'sub_kategori_id');

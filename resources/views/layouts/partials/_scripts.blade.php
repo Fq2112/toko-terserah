@@ -284,7 +284,7 @@
         return s.join(dec);
     }
 
-        @if(!Request::is('cari*'))
+    @if(!Request::is('cari*'))
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {
         document.title = text;

@@ -1,7 +1,5 @@
 @extends('layouts.mst')
 @section('title', 'Beranda | '.env('APP_TITLE'))
-@push('styles')
-@endpush
 @section('content')
     <section>
         <div class="container">
@@ -23,7 +21,8 @@
                                                                 <li><h2><a href="{{route('cari', ['kat' =>$sub->id])}}">
                                                                             {{$sub->nama}}</a></h2></li>
                                                                 @foreach(\App\Models\Produk::where('sub_kategori_id', $sub->id)->orderBy('nama')->get() as $produk)
-                                                                    <li><a href="{{route('produk', ['produk' => $produk->permalink])}}">
+                                                                    <li>
+                                                                        <a href="{{route('produk', ['produk' => $produk->permalink])}}">
                                                                             {{$produk->nama}}</a></li>
                                                                 @endforeach
                                                             </ul>
@@ -63,60 +62,66 @@
             <div class="row">
                 <div class="col-md-3 col-lg-3">
                     <div class="row">
-                        <h2 class="title"><strong class="strong-green"><i class="fa fa-star"></i> Top 5</strong> Popular
+                        <h2 class="title">
+                            <strong class="strong-green"><i class="fa fa-star"></i> Top 5</strong> Popular
                         </h2>
                         <div id="shop" class="shop-product">
-                            <div class="top-five-popular">
-                                <div class="top-item">
-                                    <img src="{{asset('images/shop/9.jpg')}}" alt="">
-                                    <div class="content-info">
-                                        <h4>Headphone</h4>
-                                        <ul class="list-unstyled">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                        <span>$355.55</span>
+                            @foreach($top5 as $top)
+                                @php
+                                    $ulasan = $top->getUlasan;
+                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    $diskon = $top->is_diskon == true ? ceil($top->harga - ($top->harga * $top->diskon / 100)) : 0;
+                                @endphp
+                                <div class="top-five-popular"
+                                     onclick="window.location.href='{{route('produk',['produk' => $top->permalink])}}'">
+                                    <div class="top-item">
+                                        <a href="{{route('produk', ['produk' => $top->permalink])}}">
+                                            <img src="{{asset('storage/produk/thumb/'.$top->gambar)}}" alt="Thumbnail">
+                                        </a>
+                                        <div class="content-info">
+                                            <a href="{{route('produk', ['produk' => $top->permalink])}}">
+                                                <h4>{{$top->nama}}</h4>
+                                            </a>
+                                            <ul class="list-unstyled">{!! $stars !!}</ul>
+                                            @if($top->is_diskon == true)
+                                                <span>Rp{{number_format($diskon,2,',','.')}}</span>
+                                                <s>Rp{{number_format($top->harga,2,',','.')}}</s>
+                                            @else
+                                                <span>Rp{{number_format($top->harga,2,',','.')}}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="top-five-popular">
-                                <div class="top-item">
-                                    <img src="{{asset('images/shop/10.jpg')}}" alt="">
-                                    <div class="content-info">
-                                        <h4>White watch</h4>
-                                        <ul class="list-unstyled">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                        <span>$355.55</span>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 col-lg-9">
                     <div class="row">
-                        <h2 class="title"><strong class="strong-green"><i class="fa fa-history"></i> Deals</strong> of
-                            the week</h2>
+                        <h2 class="title">
+                            <strong class="strong-green"><i class="fa fa-bolt"></i> Flash</strong> Sale
+                        </h2>
                         <div class="deals">
                             <div class="col-md-7">
                                 <div class="row">
                                     <div class="left-block">
                                         <div class="gallery">
                                             <div class="previews">
-                                                <a class="selected" data-full="{{asset('images/shop/1.jpg')}}"><img src="{{asset('images/shop/small/1.jpg')}}" alt=""></a>
-                                                <a data-full="{{asset('images/shop/2.jpg')}}"><img src="{{asset('images/shop/small/2.jpg')}}" alt=""></a>
-                                                <a data-full="{{asset('images/shop/3.jpg')}}"><img src="{{asset('images/shop/small/3.jpg')}}" alt=""></a>
+                                                <a class="selected"
+                                                   data-full="{{asset('storage/produk/thumb/'.$flash->gambar)}}">
+                                                    <img width="100" alt="Thumbnail"
+                                                         src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"></a>
+                                                @if(!is_null($flash->galeri))
+                                                    @foreach($flash->galeri as $img)
+                                                        <a data-full="{{asset('storage/produk/galeri/'.$img)}}">
+                                                            <img width="100" alt="Galeri"
+                                                                 src="{{asset('storage/produk/galeri/'.$img)}}"></a>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                             <div class="full">
-                                                <img src="{{asset('images/shop/1.jpg')}}" alt="">
+                                                <img src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"
+                                                     alt="Thumbnail">
                                             </div>
                                         </div>
                                     </div>
@@ -125,36 +130,37 @@
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="right-block">
-                                        <div class="time">
+                                        {{--<div class="time">
                                             <div id="clockdiv">
                                                 <div><span class="days"></span>
-                                                    <div class="smalltext">days</div>
+                                                    <div class="smalltext">1</div>
                                                 </div>
                                                 <div><span class="hours"></span>
-                                                    <div class="smalltext">hours</div>
+                                                    <div class="smalltext">0</div>
                                                 </div>
                                                 <div><span class="minutes"></span>
-                                                    <div class="smalltext">mins</div>
+                                                    <div class="smalltext">00</div>
                                                 </div>
                                                 <div><span class="seconds"></span>
-                                                    <div class="smalltext">secs</div>
+                                                    <div class="smalltext">00</div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--}}
                                         <div class="content-info">
-                                            <h2><a href="">Peberkas tongue</a></h2>
-                                            <p>Jerky excepteur cow lorem, dolore fatback turkey shankle ut fugiat
-                                                meatloaf esse magna bresaola doner. Fatback magna ribeye lorem,
-                                                excepteur adipisicing elit </p>
+                                            <h2><a href="{{route('produk', ['produk' => $flash->permalink])}}">
+                                                    {{$flash->nama}}</a></h2>
+                                            <p>{{$flash->deskripsi}}</p>
                                             <div class="price">
-                                                <span>$37.00</span>
-                                                <span class="old-price">$37.00</span>
+                                                <span>Rp{{number_format(ceil($flash->harga - ($flash->harga * $flash->diskon / 100)), 2, ',', '.')}}</span>
+                                                <span
+                                                    class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
                                             </div>
                                             <div class="button-info">
-                                                <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to Cart</a>
-                                                <a class="info-2" href=""><i class="fa fa-heart-o"></i></a>
-                                                <a class="info-2" href=""><i class="fa fa-clone"></i></a>
-                                                <a class="info-2" href=""><i class="fa fa-search"></i></a>
+                                                <a class="info" href="#"><i
+                                                        class="fa fa-shopping-cart mr-2"></i>BELI SEKARANG</a>
+                                                <a class="info-2" href="#"><i class="fa fa-heart"></i></a>
+                                                <a class="info-2" href="{{route('cari', ['q' => $flash->nama])}}">
+                                                    <i class="fa fa-search"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -167,521 +173,144 @@
         </div>
     </section>
 
-    <!-- Banner start -->
-    <section class="banner-section wow fadeInUp" data-wow-delay=".1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="row">
-                        <div class="single-banner">
-                            <div class="overlay"></div>
-                            <p>
-                                <a href="#"><img src="{{asset('images/shop/banner.jpg')}}" alt="">
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 banner-space">
-                    <div class="row">
-                        <div class="single-banner">
-                            <div class="overlay"></div>
-                            <p>
-                                <a href="#"><img src="{{asset('images/shop/banner-2.jpg')}}" alt="">
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section start -->
     <section class="paddtop-50 wow fadeInUp" data-wow-delay=".1s" style="padding-bottom: 50px">
         <div class="container">
             <div class="row">
                 <ul class="nav nav-tabs color-5">
-                    <li class="active"><a data-toggle="tab" href="#tab-22"><i class="fa fa-home"></i> New Products</a>
+                    <li class="active">
+                        <a data-toggle="tab" href="#produk-terbaru"><i class="fa fa-history mr-2"></i>Produk Terbaru</a>
                     </li>
-                    <li><a data-toggle="tab" href="#tab-23"><i class="fa fa-film"></i> Best Seller</a>
+                    <li>
+                        <a data-toggle="tab" href="#produk-terlaris"><i class="fa fa-tags mr-2"></i>Produk Terlaris</a>
                     </li>
-                    <li><a data-toggle="tab" href="#tab-24"><i class="fa fa-film"></i> Featured Products</a>
+                    <li>
+                        <a data-toggle="tab" href="#produk-unggulan"><i class="fa fa-star mr-2"></i>Produk Unggulan</a>
                     </li>
                 </ul>
                 <div class="tab-content pane-style no-margin">
-                    <div id="tab-22" class="tab-pane fade in active">
+                    <div id="produk-terbaru" class="tab-pane fade in active">
                         <div id="Newproducts" class="shop-owl">
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/1.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Dictum spsuming</a></h4>
-                                    <div class="price">
-                                        <span>$125.50</span>
+                            @foreach($terbaru as $row)
+                                @php
+                                    $ulasan = $row->getUlasan;
+                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
+                                @endphp
+                                <div class="shop-item hover effect-10">
+                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                    @if($row->is_diskon == true)
+                                        <div class="new">
+                                            <p>-{{$row->diskon}}%</p>
+                                        </div>
+                                    @endif
+                                    <div class="stars">
+                                        <ul class="list-unstyled">
+                                            {!! $stars !!}
+                                        </ul>
+                                    </div>
+                                    <div class="info">
+                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                {{$row->nama}}</a></h4>
+                                        <div class="price">
+                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="cart-overlay">
+                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
+                                            SEKARANG</a>
+                                        <p class="icon-links">
+                                            <a href="#"><span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
+                                                    class="fa fa-search"></span></a>
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/2.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Aliquam lobortis</a></h4>
-                                    <div class="price">
-                                        <span>$37.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/4.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Lectus egestas</a></h4>
-                                    <div class="price">
-                                        <span>$110.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/3.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/5.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div id="tab-23" class="tab-pane fade">
+
+                    <div id="produk-terlaris" class="tab-pane fade">
                         <div id="bestseller" class="shop-owl">
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/2.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Dictum spsuming</a></h4>
-                                    <div class="price">
-                                        <span>$125.50</span>
+                            @foreach($terlaris as $row)
+                                @php
+                                    $ulasan = $row->getUlasan;
+                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
+                                @endphp
+                                <div class="shop-item hover effect-10">
+                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                    @if($row->is_diskon == true)
+                                        <div class="new">
+                                            <p>-{{$row->diskon}}%</p>
+                                        </div>
+                                    @endif
+                                    <div class="stars">
+                                        <ul class="list-unstyled">
+                                            {!! $stars !!}
+                                        </ul>
+                                    </div>
+                                    <div class="info">
+                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                {{$row->nama}}</a></h4>
+                                        <div class="price">
+                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="cart-overlay">
+                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
+                                            SEKARANG</a>
+                                        <p class="icon-links">
+                                            <a href="#"><span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
+                                                    class="fa fa-search"></span></a>
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/9.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Aliquam lobortis</a></h4>
-                                    <div class="price">
-                                        <span>$37.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/11.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Lectus egestas</a></h4>
-                                    <div class="price">
-                                        <span>$110.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/6.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/3.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div id="tab-24" class="tab-pane fade">
-                        <div id="featuredproducts" class="shop-owl">
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/10.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Dictum spsuming</a></h4>
-                                    <div class="price">
-                                        <span>$125.50</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/12.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Aliquam lobortis</a></h4>
-                                    <div class="price">
-                                        <span>$37.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/4.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="sale">
-                                    <p>Sale</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Lectus egestas</a></h4>
-                                    <div class="price">
-                                        <span>$110.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/10.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
-                                    </div>
-                                </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
 
-                            <div class="shop-item hover effect-10">
-                                <img src="{{asset('images/shop/3.jpg')}}" alt="">
-                                <div class="new">
-                                    <p>New</p>
-                                </div>
-                                <div class="stars">
-                                    <ul class="list-unstyled">
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                        <li><a href=""><i class="fa fa-star"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="info">
-                                    <h4><a href="">Peberkas tongue</a></h4>
-                                    <div class="price">
-                                        <span>$250.55</span>
-                                        <span class="old-price">$310.00</span>
+                    <div id="produk-unggulan" class="tab-pane fade">
+                        <div id="featuredproducts" class="shop-owl">
+                            @foreach($unggulan as $row)
+                                @php
+                                    $ulasan = $row->getUlasan;
+                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
+                                @endphp
+                                <div class="shop-item hover effect-10">
+                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                    @if($row->is_diskon == true)
+                                        <div class="new">
+                                            <p>-{{$row->diskon}}%</p>
+                                        </div>
+                                    @endif
+                                    <div class="stars">
+                                        <ul class="list-unstyled">
+                                            {!! $stars !!}
+                                        </ul>
+                                    </div>
+                                    <div class="info">
+                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                {{$row->nama}}</a></h4>
+                                        <div class="price">
+                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="cart-overlay">
+                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
+                                            SEKARANG</a>
+                                        <p class="icon-links">
+                                            <a href="#"><span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
+                                                    class="fa fa-search"></span></a>
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="cart-overlay">
-                                    <a class="info" href=""><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <p class="icon-links">
-                                        <a href="#"><span class="fa fa-shopping-cart"></span></a>
-                                        <a href="#"><span class="fa fa-heart"></span></a>
-                                        <a href="#"><span class="fa fa-search"></span></a>
-                                    </p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -689,7 +318,3 @@
         </div>
     </section>
 @endsection
-@push('scripts')
-    <script>
-    </script>
-@endpush

@@ -903,6 +903,16 @@ strong.strong-pink {
     padding: 0;
 }
 
+.top-five-popular .top-item .content-info s {
+    font-size: 14px;
+    font-family: 'Arial', Arial, sans-serif;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
 .top-five-popular .top-item:hover {
     border: 1px solid #5bb300;
 }
@@ -912,6 +922,7 @@ strong.strong-pink {
 }
 
 .top-five-popular .top-item:hover .content-info h4,
+.top-five-popular .top-item:hover .content-info s,
 .top-five-popular .top-item:hover .content-info span {
     color: #fff !important;
 }

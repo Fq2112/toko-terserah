@@ -11,9 +11,9 @@ class NumberShorten
         if (!isset($divisors)) {
             $divisors = array(
                 pow(1000, 0) => '', // 1000^0 == 1
-                pow(1000, 1) => 'K', // Thousand
-                pow(1000, 2) => app()->isLocale('id') ? 'jt' : 'M', // Million
-                pow(1000, 3) => app()->isLocale('id') ? 'M' : 'B', // Billion
+                pow(1000, 1) => 'rb', // Thousand
+                pow(1000, 2) => 'jt', // Million
+                pow(1000, 3) => 'M', // Billion
                 pow(1000, 4) => 'T', // Trillion
                 pow(1000, 5) => 'Qa', // Quadrillion
                 pow(1000, 6) => 'Qi', // Quintillion

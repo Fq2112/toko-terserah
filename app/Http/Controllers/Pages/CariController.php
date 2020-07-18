@@ -58,7 +58,7 @@ class CariController extends Controller
                 'route_detail' => route('produk', ['produk' => $row['permalink']]),
                 'disc_price' => $row['is_diskon'] == true ? ceil($row['harga'] - ($row['harga'] * $row['diskon'] / 100)) : 0,
                 'rating' => count($ulasan) > 0 ? $ulasan->sum('bintang') / count($ulasan) : 0,
-                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->sum('bintang') / count($ulasan)) : Rating::stars(0)
+                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->avg('bintang')) : Rating::stars(0)
             ]);
         }
 
