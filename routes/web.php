@@ -97,23 +97,43 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'produk'
         ]);
 
-        Route::post('order/submit', [
-            'middleware' => ['auth', 'user', 'user.bio'],
-            'uses' => 'MainController@submitPemesanan',
-            'as' => 'produk.submit.pemesanan'
-        ]);
+        Route::group(['prefix' => 'wishlist', 'middleware' => ['auth', 'user']], function () {
 
-        Route::put('order/{id}/update', [
-            'middleware' => ['auth', 'user', 'user.bio'],
-            'uses' => 'MainController@updatePemesanan',
-            'as' => 'produk.update.pemesanan'
-        ]);
+            Route::get('cek', [
+                'uses' => 'MainController@cekWishlist',
+                'as' => 'produk.cek.wishlist'
+            ]);
 
-        Route::get('order/{id}/delete', [
-            'middleware' => ['auth', 'user', 'user.bio'],
-            'uses' => 'MainController@deletePemesanan',
-            'as' => 'produk.delete.pemesanan'
-        ]);
+            Route::post('add', [
+                'uses' => 'MainController@addWishlist',
+                'as' => 'produk.add.wishlist'
+            ]);
+
+        });
+
+        Route::group(['prefix' => 'cart', 'middleware' => ['auth', 'user', 'user.bio']], function () {
+
+            Route::get('cek', [
+                'uses' => 'MainController@cekCart',
+                'as' => 'produk.cek.cart'
+            ]);
+
+            Route::post('add', [
+                'uses' => 'MainController@addCart',
+                'as' => 'produk.add.cart'
+            ]);
+
+            Route::put('{id}/update', [
+                'uses' => 'MainController@updateCart',
+                'as' => 'produk.update.cart'
+            ]);
+
+            Route::get('{id}/delete', [
+                'uses' => 'MainController@deleteCart',
+                'as' => 'produk.delete.cart'
+            ]);
+
+        });
 
     });
 

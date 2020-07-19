@@ -147,6 +147,13 @@
         </section>
 
         @yield('content')
+
+        <form id="form-cart" method="post">
+            @csrf
+            <input type="hidden" name="_method">
+            <input type="hidden" name="qty">
+            <input type="hidden" name="qty_lama">
+        </form>
     </div>
 
     <footer class="footer3">

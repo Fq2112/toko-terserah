@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Produk extends Model
 {
@@ -10,11 +11,20 @@ class Produk extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = ['galeri' => 'array'];
+    protected $casts = [
+        'galeri' => 'array',
+        'harga' => 'integer',
+        'harga_diskon' => 'integer'
+    ];
 
     public function getSubkategori()
     {
         return $this->belongsTo(SubKategori::class, 'sub_kategori_id');
+    }
+
+    public function getWishlist()
+    {
+        return $this->hasMany(Favorit::class, 'produk_id');
     }
 
     public function getKeranjang()
@@ -29,11 +39,11 @@ class Produk extends Model
 
     public static function getMurah()
     {
-        return Produk::orderBy('harga')->first()->harga;
+        return Produk::orderBy(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first()->harga;
     }
 
     public static function getMahal()
     {
-        return Produk::orderByDesc('harga')->first()->harga;
+        return Produk::orderByDesc(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first()->harga;
     }
 }

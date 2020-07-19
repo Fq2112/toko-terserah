@@ -27,6 +27,7 @@ class KategoriSeeder extends Seeder
         foreach (static::KategoriArray as $kategori) {
             \App\Models\Kategori::create([
                 'nama' => $kategori,
+                'thumb' => 'placeholder.jpg',
                 'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($kategori))
             ]);
         }

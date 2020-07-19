@@ -75,6 +75,7 @@
                             <select id="sort" name="sort">
                                 <option></option>
                                 <option value="popularitas">Popularitas</option>
+                                <option value="rating">Rating Tertinggi</option>
                                 <option value="harga-asc">Harga: rendah ke tinggi</option>
                                 <option value="harga-desc">Harga: tinggi ke rendah</option>
                             </select>
@@ -139,8 +140,8 @@
                 grid_num: 5,
                 min: 0,
                 max: range_max,
-                from: parseInt('{{abs(round((\App\Models\Produk::getMurah() + 500), -3))}}'),
-                to: range_max,
+                from: parseInt('{{\App\Models\Produk::getMurah()}}'),
+                to: parseInt('{{\App\Models\Produk::getMahal()}}'),
                 drag_interval: true,
                 prefix: 'Rp',
                 prettify_separator: '.',
@@ -288,7 +289,7 @@
             if (data.total > 0) {
                 $.each(data.data, function (i, val) {
                     $disc_elm = val.is_diskon == 1 ? '<div class="n-content"><p>-' + val.diskon + '%</p></div>' : '';
-                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(val.disc_price, 2, ",", ".") + '</p>' +
+                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(val.harga_diskon, 2, ",", ".") + '</p>' +
                         '<s>Rp' + number_format(val.harga, 2, ",", ".") + '</s>' :
                         '<p class="price mb-0">Rp' + number_format(val.harga, 2, ",", ".") + '</p>';
 

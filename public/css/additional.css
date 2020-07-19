@@ -503,14 +503,39 @@ fieldset[disabled] .btn-primary.active {
     background-color: #fff;
 }
 
-.swal-button--confirm, .swal-button--edit {
+.swal-button--confirm {
     background-color: #5bb300;
     border: 1px solid #5bb300;
     box-shadow: 0 2px 6px #70db00;
 }
 
-.swal-button--confirm:active, .swal-button--edit:active {
+.swal-button--confirm:active {
     background-color: #5bb300;
+}
+
+.swal-button--edit {
+    background-color: #f89406;
+    font-size: 12px;
+    border: 1px solid #fb9706;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 6px #ff9806;
+}
+
+.swal-button--edit:active {
+    background-color: #fb9706;
+}
+
+.swal-button--delete {
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 12px;
+    border: 1px solid #bd2130;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 6px #ff3e50;
+}
+
+.swal-button--delete:active {
+    background-color: #bd2130;
 }
 
 .load {
@@ -633,4 +658,28 @@ ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:focus {
     pointer-events: none;
     cursor: no-drop !important;
     opacity: 0.5;
+}
+
+.carts {
+    cursor: pointer;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.carts:hover {
+    background-color: #F9F9F9;
+    padding-left: 1.5rem;
+}
+
+.carts:hover .img-thumbnail {
+    border-color: #5bb300;
+}
+
+.carts:hover h2 a {
+    color: #5bb300;
+}
+
+.fancybox-overlay {
+    z-index: 9999999;
 }

@@ -1,7 +1,34 @@
 @extends('layouts.mst')
 @section('title', 'Beranda | '.env('APP_TITLE'))
+@push('styles')
+    <style>
+        section.no-banner {
+            background: url('{{asset('images/no-promotion.jpg')}}') no-repeat center;
+            -webkit-background-size: contain;
+            -moz-background-size: contain;
+            -o-background-size: contain;
+            background-size: contain;
+        }
+
+        section.no-banner .no-banner-overlay:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1) url('{{asset('images/overlay-pattern-1.png')}}');
+            position: absolute;
+            opacity: .1;
+        }
+    </style>
+@endpush
 @section('content')
-    <section>
+    <section class="{{count($banner) > 0 ? '' : 'no-banner'}}">
+        @if(count($banner) <= 0)
+            <div class="no-banner-overlay"></div>
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -31,8 +58,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <img src="{{is_null($kat->thumb) ? asset('images/shop/banner-6.jpg') :
-                                                asset('storage/produk/kategori/'.$kat->thumb)}}" alt="{{$kat->nama}}">
+                                                <img src="{{asset('storage/produk/kategori/'.$kat->thumb)}}"
+                                                     alt="{{$kat->nama}}">
                                             </div>
                                         </div>
                                     </div>
@@ -44,12 +71,13 @@
                 <div class="col-md-9">
                     <div class="top-slider-section">
                         <div id="single-slider" class="single-slider">
-                            <div class="item-image">
-                                <img src="{{asset('images/shop/sample-1.jpg')}}" alt="">
-                            </div>
-                            <div class="item-image">
-                                <img src="{{asset('images/shop/sample-2.jpg')}}" alt="">
-                            </div>
+                            @foreach($banner as $row)
+                                <div class="item-image">
+                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                        <img src="{{asset('storage/produk/banner/'.$row->banner)}}" alt="Banner">
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -63,14 +91,13 @@
                 <div class="col-md-3 col-lg-3">
                     <div class="row">
                         <h2 class="title">
-                            <strong class="strong-green"><i class="fa fa-star"></i> Top 5</strong> Popular
+                            <strong class="strong-green"><i class="fa fa-star"></i> Top 5</strong> Produk
                         </h2>
                         <div id="shop" class="shop-product">
                             @foreach($top5 as $top)
                                 @php
                                     $ulasan = $top->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                    $diskon = $top->is_diskon == true ? ceil($top->harga - ($top->harga * $top->diskon / 100)) : 0;
                                 @endphp
                                 <div class="top-five-popular"
                                      onclick="window.location.href='{{route('produk',['produk' => $top->permalink])}}'">
@@ -78,13 +105,18 @@
                                         <a href="{{route('produk', ['produk' => $top->permalink])}}">
                                             <img src="{{asset('storage/produk/thumb/'.$top->gambar)}}" alt="Thumbnail">
                                         </a>
+                                        @if($top->is_diskon == true)
+                                            <div class="new">
+                                                <p>-{{$top->diskon}}%</p>
+                                            </div>
+                                        @endif
                                         <div class="content-info">
                                             <a href="{{route('produk', ['produk' => $top->permalink])}}">
                                                 <h4>{{$top->nama}}</h4>
                                             </a>
                                             <ul class="list-unstyled">{!! $stars !!}</ul>
                                             @if($top->is_diskon == true)
-                                                <span>Rp{{number_format($diskon,2,',','.')}}</span>
+                                                <span>Rp{{number_format($top->harga_diskon,2,',','.')}}</span>
                                                 <s>Rp{{number_format($top->harga,2,',','.')}}</s>
                                             @else
                                                 <span>Rp{{number_format($top->harga,2,',','.')}}</span>
@@ -130,22 +162,6 @@
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="right-block">
-                                        {{--<div class="time">
-                                            <div id="clockdiv">
-                                                <div><span class="days"></span>
-                                                    <div class="smalltext">1</div>
-                                                </div>
-                                                <div><span class="hours"></span>
-                                                    <div class="smalltext">0</div>
-                                                </div>
-                                                <div><span class="minutes"></span>
-                                                    <div class="smalltext">00</div>
-                                                </div>
-                                                <div><span class="seconds"></span>
-                                                    <div class="smalltext">00</div>
-                                                </div>
-                                            </div>
-                                        </div>--}}
                                         <div class="content-info">
                                             <h2><a href="{{route('produk', ['produk' => $flash->permalink])}}">
                                                     {{$flash->nama}}</a></h2>
@@ -156,9 +172,15 @@
                                                     class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
                                             </div>
                                             <div class="button-info">
-                                                <a class="info" href="#"><i
-                                                        class="fa fa-shopping-cart mr-2"></i>BELI SEKARANG</a>
-                                                <a class="info-2" href="#"><i class="fa fa-heart"></i></a>
+                                                <a href="javascript:void(0)" class="info btn_cart"
+                                                   data-cek="{{route('produk.cek.cart', ['produk' => $flash->permalink])}}"
+                                                   data-name="{{$flash->nama}}"
+                                                   data-add="{{route('produk.add.cart', ['produk' => $flash->permalink])}}">
+                                                    <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                                <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                   data-cek="{{route('produk.cek.wishlist', ['produk' => $flash->permalink])}}"
+                                                   data-add="{{route('produk.add.wishlist', ['produk' => $flash->permalink])}}">
+                                                    <i class="fa fa-heart"></i></a>
                                                 <a class="info-2" href="{{route('cari', ['q' => $flash->nama])}}">
                                                     <i class="fa fa-search"></i></a>
                                             </div>
@@ -194,7 +216,6 @@
                                 @php
                                     $ulasan = $row->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
                                 @endphp
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
@@ -213,16 +234,27 @@
                                         <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
                                                 {{$row->nama}}</a></h4>
                                         <div class="price">
-                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                            @if($row->is_diskon == true)
+                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                <span
+                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @else
+                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="cart-overlay">
-                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
-                                            SEKARANG</a>
+                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
-                                            <a href="#"><span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
-                                                    class="fa fa-search"></span></a>
+                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}">
+                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>
@@ -236,7 +268,6 @@
                                 @php
                                     $ulasan = $row->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
                                 @endphp
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
@@ -255,16 +286,27 @@
                                         <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
                                                 {{$row->nama}}</a></h4>
                                         <div class="price">
-                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                            @if($row->is_diskon == true)
+                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                <span
+                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @else
+                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="cart-overlay">
-                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
-                                            SEKARANG</a>
+                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
-                                            <a href="#"><span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
-                                                    class="fa fa-search"></span></a>
+                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}">
+                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>
@@ -278,7 +320,6 @@
                                 @php
                                     $ulasan = $row->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                    $harga = $row->is_diskon == true ? ceil($row->harga - ($row->harga * $row->diskon / 100)) : $row->harga;
                                 @endphp
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
@@ -297,16 +338,27 @@
                                         <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
                                                 {{$row->nama}}</a></h4>
                                         <div class="price">
-                                            <span>Rp{{number_format($harga,2,',','.')}}</span>
+                                            @if($row->is_diskon == true)
+                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                <span
+                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @else
+                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="cart-overlay">
-                                        <a class="info" href=""><i class="fa fa-shopping-cart mr-2"></i>BELI
-                                            SEKARANG</a>
+                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
-                                            <a href="#"><span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}"><span
-                                                    class="fa fa-search"></span></a>
+                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-heart"></span></a>
+                                            <a href="{{route('cari', ['q' => $row->nama])}}">
+                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>
@@ -318,3 +370,108 @@
         </div>
     </section>
 @endsection
+@push('scripts')
+    <script>
+        $(".btn_wishlist").on("click", function () {
+                @auth
+            var route = $(this).data('add');
+
+            clearTimeout(this.delay);
+            this.delay = setTimeout(function () {
+                $.get($(this).data('cek'), function (data) {
+                    if (data.status == true) {
+                        $.ajax({
+                            url: route,
+                            type: 'post',
+                            data: {_token: '{{csrf_token()}}'},
+                            success: function (data) {
+                                if (data.status == true) {
+                                    $(".show_wishlist").text('( ' + data.total + ' )');
+                                    swal('SUKSES!', data.message, 'success');
+                                }
+                            },
+                            error: function () {
+                                swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                            }
+                        });
+                    } else {
+                        swal('PERHATIAN!', data.message, 'warning');
+                    }
+                });
+            }.bind(this), 800);
+
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
+
+            @else
+            openLoginModal();
+            @endauth
+        });
+
+        $(".btn_cart").on("click", function () {
+            var name = $(this).data('name'), cek_uri = $(this).data('cek'), add_uri = $(this).data('add');
+
+            @auth
+            swal({
+                title: "Tambah ke Cart",
+                text: "Apakah Anda yakin untuk menambahkan produk \"" + name + "\" ke dalam cart Anda?",
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya"],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then((confirm) => {
+                if (confirm) {
+                    let input = document.createElement("input");
+                    input.id = 'qty-cart';
+                    input.value = '1';
+                    input.type = 'number';
+                    input.min = '1';
+                    input.className = 'swal-content__input';
+
+                    swal({
+                        text: 'Kuantitas: ' + name,
+                        content: input,
+                        dangerMode: true,
+                        buttons: ["Batal", "Tambah ke Cart"],
+                        closeOnEsc: false,
+                        closeOnClickOutside: false,
+                    }).then(val => {
+                        if (!val) throw null;
+                        $("#form-cart input[name=_method], #form-cart input[name=qty_lama]").val(null);
+                        $("#form-cart input[name=qty]").val($("#qty-cart").val());
+                        $("#form-cart").attr('action', add_uri).submit();
+                    });
+
+                    $("#qty-cart").on('keyup', function () {
+                        var el = $(this);
+                        if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
+                            el.val(1);
+                        }
+
+                        $.get(cek_uri, function (data) {
+                            if (data.status == true) {
+                                el.attr('max', data.stock);
+                                el.parent().find('.text-danger').remove();
+
+                                if (parseInt(el.val()) > data.stock) {
+                                    el.parent().append("<p class='text-danger'>Sisa stock: <b>" + data.stock + "</b> pcs</p>");
+                                    el.val(data.stock);
+                                }
+
+                            } else {
+                                swal('PERHATIAN!', data.message, 'warning');
+                            }
+                        });
+                    });
+                }
+            });
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
+
+            @else
+            openLoginModal();
+            @endauth
+        });
+    </script>
+@endpush

@@ -10,6 +10,7 @@ use App\Models\Ulasan;
 use App\Support\Facades\Rating;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CariController extends Controller
 {
@@ -34,7 +35,7 @@ class CariController extends Controller
             $q->where('nama', 'LIKE', '%' . $keyword . '%');
         })->when($harga, function ($q) use ($harga) {
             list($to, $from) = explode('-', strrev($harga), 2);
-            $q->whereBetween('harga', [strrev($from), strrev($to)]);
+            $q->whereBetween(DB::raw("IF(is_diskon=0, harga, harga_diskon)"), [strrev($from), strrev($to)]);
         })->when($kat, function ($q) use ($kat) {
             $q->whereHas('getSubkategori', function ($q) use ($kat) {
                 $q->whereIn('id', explode(',', $kat));
@@ -42,10 +43,14 @@ class CariController extends Controller
         })->when($sort, function ($q) use ($sort) {
             if ($sort == 'popularitas') {
                 $q->withCount('getKeranjang')->orderByDesc('get_keranjang_count');
+            } elseif ($sort == 'rating') {
+                $q->withCount(['getUlasan as average_rating' => function ($q) {
+                    $q->select(DB::raw('coalesce(avg(bintang),0)'));
+                }])->orderByDesc('average_rating');
             } elseif ($sort == 'harga-asc') {
-                $q->orderBy('harga');
+                $q->orderBy(DB::raw("IF(is_diskon=0, harga, harga_diskon)"));
             } elseif ($sort == 'harga-desc') {
-                $q->orderByDesc('harga');
+                $q->orderByDesc(DB::raw("IF(is_diskon=0, harga, harga_diskon)"));
             } else {
                 $q->orderBy('nama');
             }
@@ -56,7 +61,6 @@ class CariController extends Controller
             $data['data'][$i] = array_merge($data['data'][$i], [
                 'dir_img' => asset('storage/produk/thumb/' . $row['gambar']),
                 'route_detail' => route('produk', ['produk' => $row['permalink']]),
-                'disc_price' => $row['is_diskon'] == true ? ceil($row['harga'] - ($row['harga'] * $row['diskon'] / 100)) : 0,
                 'rating' => count($ulasan) > 0 ? $ulasan->sum('bintang') / count($ulasan) : 0,
                 'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->avg('bintang')) : Rating::stars(0)
             ]);

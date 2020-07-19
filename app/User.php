@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Bio;
+use App\Models\Favorit;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\SocialProvider;
@@ -62,14 +63,19 @@ class User extends Authenticatable
         return $this->hasMany(Alamat::class, 'user_id');
     }
 
+    public function getWishlist()
+    {
+        return $this->hasMany(Favorit::class, 'user_id');
+    }
+
     public function getKeranjang()
     {
-        return $this->hasMany(Keranjang::class,'user_id');
+        return $this->hasMany(Keranjang::class, 'user_id');
     }
 
     public function getPesanan()
     {
-        return $this->hasMany(Pesanan::class,'user_id');
+        return $this->hasMany(Pesanan::class, 'user_id');
     }
 
     public function getUlasan()
