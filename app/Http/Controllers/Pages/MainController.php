@@ -23,8 +23,9 @@ class MainController extends Controller
         $top5 = Produk::where('stock', '>', 0)->withCount(['getUlasan as average_rating' => function ($q) {
             $q->select(DB::raw('coalesce(avg(bintang),0)'));
         }])->orderByDesc('average_rating')->take(5)->get();
-        $flash = Produk::where('stock', '>', 0)
-            ->where('is_diskon', true)->inRandomOrder()->first();
+
+        $cek = Produk::where('stock', '>', 0)->where('is_diskon', true)->inRandomOrder()->first();
+        $flash = !is_null($cek) ? $cek : Produk::where('stock', '>', 0)->inRandomOrder()->first();
 
         $terbaru = Produk::where('stock', '>', 0)->orderByDesc('id')->take(10)->get();
         $terlaris = Produk::where('stock', '>', 0)
@@ -40,7 +41,9 @@ class MainController extends Controller
 
     public function produk(Request $request)
     {
-        //
+        $produk = Produk::where('permalink', $request->produk)->first();
+
+        return view('pages.main.detail', compact('produk'));
     }
 
     public function cekWishlist(Request $request)

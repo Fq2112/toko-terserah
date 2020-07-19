@@ -94,7 +94,8 @@
                             <strong class="strong-green"><i class="fa fa-star"></i> Top 5</strong> Produk
                         </h2>
                         <div id="shop" class="shop-product">
-                            @foreach($top5 as $top)
+                            @php $data_top5 = count($top5) > 0 ? $top5 : \App\Models\Produk::where('stock', '>', 0)->orderByDesc('id')->take(5)->get(); @endphp
+                            @foreach($data_top5 as $top)
                                 @php
                                     $ulasan = $top->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
@@ -264,7 +265,8 @@
 
                     <div id="produk-terlaris" class="tab-pane fade">
                         <div id="bestseller" class="shop-owl">
-                            @foreach($terlaris as $row)
+                            @php $data_terlaris = count($terlaris) > 0 ? $terlaris : $terbaru; @endphp
+                            @foreach($data_terlaris as $row)
                                 @php
                                     $ulasan = $row->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
@@ -316,7 +318,8 @@
 
                     <div id="produk-unggulan" class="tab-pane fade">
                         <div id="featuredproducts" class="shop-owl">
-                            @foreach($unggulan as $row)
+                            @php $data_unggulan = count($unggulan) > 0 ? $unggulan : $terbaru; @endphp
+                            @foreach($data_unggulan as $row)
                                 @php
                                     $ulasan = $row->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
