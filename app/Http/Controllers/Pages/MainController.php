@@ -7,11 +7,11 @@ use App\Models\Favorit;
 use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\Produk;
-use App\Models\SubKategori;
+use App\Models\Ulasan;
+use App\Support\Facades\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
@@ -42,8 +42,14 @@ class MainController extends Controller
     public function produk(Request $request)
     {
         $produk = Produk::where('permalink', $request->produk)->first();
+        $ulasan = Ulasan::where('produk_id', $produk->id)->orderByDesc('id')->get();
+        $stars = Rating::stars($ulasan->avg('bintang'));
 
-        return view('pages.main.detail', compact('produk'));
+        $related = Produk::where('id', '!=', $produk->id)->whereHas('getSubkategori', function ($q) use ($produk) {
+            $q->where('id', $produk->sub_kategori_id);
+        })->orderBy('nama')->take(8)->get();
+
+        return view('pages.main.detail', compact('produk', 'ulasan', 'stars', 'related'));
     }
 
     public function cekWishlist(Request $request)

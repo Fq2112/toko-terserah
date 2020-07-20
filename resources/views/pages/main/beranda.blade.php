@@ -458,7 +458,7 @@
                                 el.parent().find('.text-danger').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
-                                    el.parent().append("<p class='text-danger'>Sisa stock: <b>" + data.stock + "</b> pcs</p>");
+                                    el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                                     el.val(data.stock);
                                 }
 

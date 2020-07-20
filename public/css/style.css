@@ -14180,18 +14180,18 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
     border-top: none;
 }
 
-.tabs-default ul {
+.tabs-default ul.title-tabs {
     overflow: hidden;
 }
 
-.tabs-default li {
+.tabs-default ul.title-tabs li {
     float: left;
     border-top: none;
     font-size: 13px;
     font-weight: 500;
 }
 
-.tabs-default li a {
+.tabs-default ul.title-tabs li a {
     color: #999;
     display: block;
     padding: 15px 18px;
@@ -14199,8 +14199,8 @@ ul.list-posts.recent-posts > li .news-info h2 a:hover {
     border-bottom: none;
 }
 
-.tabs-default li.r-tabs-state-active a,
-.tabs-default li a:hover {
+.tabs-default ul.title-tabs li.r-tabs-state-active a,
+.tabs-default ul.title-tabs li a:hover {
     color: #fff;
     background: #5bb300;
 }
@@ -18998,13 +18998,21 @@ a.text-line-through {
 }
 
 .pro-details .single-rating input[type=number] {
-    height: 33px;
+    height: 40px;
     padding: 0 10px;
     max-width: 70px;
     float: left;
     margin-right: 10px;
-    border: 1px solid #ebeced;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     outline: none;
+    -moz-transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.pro-details .single-rating input[type=number]:focus {
+    border-color: #5bb300;
 }
 
 .pro-details .single-rating .product-meta {
@@ -19058,7 +19066,7 @@ a.text-line-through {
     margin-bottom: 30px;
 }
 
-.comment-item img {
+.comment-item img:not(.galeri) {
     width: 70px;
     height: 70px;
     position: absolute;
@@ -28708,13 +28716,13 @@ footer.footer-color9 .copyright .back-top:hover a {
         width: 100%;
     }
 
-    .tabs-default li {
+    .tabs-default ul.title-tabs li {
         float: none;
         border: none;
         border-bottom: 1px solid #ebeced;
     }
 
-    .tabs-default li a {
+    .tabs-default ul.title-tabs li a {
         border: none;
     }
 

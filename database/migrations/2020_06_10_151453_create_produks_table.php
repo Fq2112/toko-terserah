@@ -27,7 +27,8 @@ class CreateProduksTable extends Migration
             $table->string('harga');
             $table->string('stock');
             $table->text('deskripsi');
-            $table->string('warna');
+            $table->text('detail');
+            $table->text('varian')->nullable();
             $table->boolean('is_diskon')->default(false);
             $table->string('diskon')->nullable();
             $table->string('harga_diskon')->nullable();

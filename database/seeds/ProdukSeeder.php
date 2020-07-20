@@ -25,7 +25,6 @@ class ProdukSeeder extends Seeder
         $faker = Factory::create('id_ID');
         foreach (static::ProdukArray as $item) {
             $cek = rand(0, 1) ? true : false;
-
             \App\Models\Produk::create([
                 'nama' => $item,
                 'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($item)),
@@ -35,7 +34,8 @@ class ProdukSeeder extends Seeder
                 'berat' => rand(50, 150),
                 'stock' => rand(0, 10),
                 'deskripsi' => $faker->paragraph,
-                'warna' => 'Merah',
+                'detail' => '<h2>Detail Produk: ' . $item . '</h2><ul><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li></ul>',
+                'varian' => $cek == true ? ['placeholder.jpg', 'placeholder.jpg', 'placeholder.jpg', 'placeholder.jpg'] : null,
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
                 'harga' => abs(round((rand(1000, 100000) + 500), -3)),
@@ -58,7 +58,8 @@ class ProdukSeeder extends Seeder
                 'berat' => rand(50, 150),
                 'stock' => rand(0, 10),
                 'deskripsi' => $faker->paragraph,
-                'warna' => 'Merah',
+                'detail' => '<h2>Detail Produk: ' . $name . '</h2><ul><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li></ul>',
+                'varian' => $cek == true ? ['placeholder.jpg', 'placeholder.jpg', 'placeholder.jpg', 'placeholder.jpg'] : null,
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
                 'harga' => abs(round((rand(1000, 100000) + 500), -3)),

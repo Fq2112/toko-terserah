@@ -12,6 +12,7 @@ class Produk extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
+        'varian' => 'array',
         'galeri' => 'array',
         'harga' => 'integer',
         'harga_diskon' => 'integer'

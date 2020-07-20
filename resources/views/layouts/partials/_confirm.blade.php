@@ -80,7 +80,7 @@
                     $("#form-cart").attr('action', edit_uri).submit();
                 });
 
-                $("#qty-cart").parent().append("<p class='text-danger'>Sisa stock: <b>" + stock + "</b> pcs</p>");
+                $("#qty-cart").parent().append("<p class='text-danger'>Tersedia: <b>" + stock + "</b> pcs</p>");
 
                 $("#qty-cart").on('keyup', function () {
                     var el = $(this);

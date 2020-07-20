@@ -16,6 +16,7 @@ class UlasanSeeder extends Seeder
             foreach ($keranjang as $val) {
                 $arr = array("3.5", "4", "4.5", "5");
                 \App\Models\Ulasan::create([
+                    'user_id' => $val->user_id,
                     'produk_id' => $val->getProduk->id,
                     'deskripsi' => \Faker\Factory::create()->paragraph,
                     'gambar' => 'placeholder.jpg',

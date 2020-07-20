@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        app()->setLocale('id');
+        \Carbon\Carbon::setLocale('id');
+        setlocale(LC_TIME, config('app.locale'));
+
         $this->app->bind('GlobalAuth', 'App\Support\GlobalAuth');
         $this->app->bind('NumberShorten', 'App\Support\NumberShorten');
         $this->app->bind('Rating', 'App\Support\Rating');

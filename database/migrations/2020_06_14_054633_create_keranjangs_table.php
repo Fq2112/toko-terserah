@@ -16,11 +16,10 @@ class CreateKeranjangsTable extends Migration
         Schema::create('keranjang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('produk_id');
-            $table->foreign('produk_id')->references('id')
-                ->on('produk');
+            $table->foreign('produk_id')->references('id')->on('produk');
+            $table->string('varian')->nullable();
             $table->string('qty');
             $table->string('berat');
             $table->string('total');
