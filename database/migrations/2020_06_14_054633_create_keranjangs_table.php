@@ -19,7 +19,6 @@ class CreateKeranjangsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('produk_id');
             $table->foreign('produk_id')->references('id')->on('produk');
-            $table->string('varian')->nullable();
             $table->string('qty');
             $table->string('berat');
             $table->string('total');

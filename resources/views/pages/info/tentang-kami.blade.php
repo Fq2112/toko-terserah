@@ -214,7 +214,7 @@
                                                       required>{{$cek != null ? $cek->deskripsi : ''}}</textarea>
                                         </div>
                                         <fieldset id="rating" class="rating" aria-required="true">
-                                            <input type="radio" id="star5" name="rating" value="5" required {{$cek != null
+                                            <input type="radio" id="star5" name="rating" value="5" {{$cek != null
                                             && $cek->bintang == '5' ? 'checked' : ''}}>
                                             <label class="full" for="star5" data-toggle="tooltip"
                                                    title="Terbaik"></label>
@@ -294,7 +294,11 @@
         $(".comment-form").on('submit', function (e) {
             e.preventDefault();
             @auth
-            $(this)[0].submit();
+            if (!$('input[name="rating"]:checked').val()) {
+                swal('PERHATIAN!', 'Field rating tidak boleh dikosongi!', 'warning');
+            } else {
+                $(this)[0].submit();
+            }
             @elseauth('admin')
             swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
             @else

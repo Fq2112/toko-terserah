@@ -25,16 +25,75 @@
             border: 1px solid #5bb300;
         }
 
-        .gallery .full {
+        #tab-deskripsi ul {
+            margin-left: 2rem;
+        }
+
+        .tabs-default ul li a span.badge {
+            background: #999;
+        }
+
+        .tabs-default ul li a:hover span.badge, .tabs-default ul li a.selected span.badge {
+            background: #fff;
+            color: #5bb300;
+            transition: all .3s ease-in-out;
+        }
+
+        .rating-input {
+            border: none;
+            float: left;
+        }
+
+        .rating-input > input {
+            display: none;
+        }
+
+        .rating-input > label:before {
+            margin: 0 5px 0 5px;
+            font-size: 1.25em;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            display: inline-block;
+            content: "\f005";
+        }
+
+        .rating-input > .half:before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            content: "\f089";
+            position: absolute;
+        }
+
+        .rating-input > label {
+            color: #ddd;
+            float: right;
+        }
+
+        .rating-input > input:checked ~ label,
+        .rating-input:not(:checked) > label:hover,
+        .rating-input:not(:checked) > label:hover ~ label {
+            color: #ffc100;
+        }
+
+        .rating-input > input:checked + label:hover,
+        .rating-input > input:checked ~ label:hover,
+        .rating-input > label:hover ~ input:checked ~ label,
+        .rating-input > input:checked ~ label:hover ~ label {
+            color: #e1a500;
+        }
+
+        .gallery.ulasan .full {
+            width: 150px;
+        }
+
+        .gallery:not(.ulasan) .full {
             width: 400px;
         }
 
-        .varian {
-            display: inline-block !important;
-        }
-
-        #tab-deskripsi ul {
-            margin-left: 2rem;
+        @media (min-width: 320px) and (max-width: 480px) {
+            .gallery:not(.ulasan) .previews, .gallery:not(.ulasan) .full {
+                float: none;
+            }
         }
     </style>
 @endpush
@@ -73,7 +132,7 @@
                                             <h3>{{$produk->nama}}</h3>
                                             <div class="single-rating">
                                                 <span>{!! $stars !!}</span>
-                                                <span><a href="javascript:ulasan()"><b>{{count($ulasan)}}</b> ulasan</a></span>
+                                                <span><a href="javascript:ulasan()"><b>{{count($produk->getUlasan)}}</b> ulasan</a></span>
                                                 <p>Tersedia: <span style="color: {{$produk->stock > 0 ? '':'#a94442'}}">
                                                         <b>{{$produk->stock}}</b> pcs</span></p>
                                                 <p>{{$produk->deskripsi}}</p>
@@ -85,19 +144,6 @@
                                                         Rp{{number_format($produk->harga,2,',','.')}}
                                                     @endif
                                                 </p>
-                                                {{--@if(!is_null($produk->varian))
-                                                    <div class="gallery">
-                                                        <div class="previews">
-                                                            @foreach($produk->varian as $img)
-                                                                <a class="varian"
-                                                                   data-full="{{asset('storage/produk/varian/'.$img)}}">
-                                                                    <img width="100" alt="Varian"
-                                                                         src="{{asset('storage/produk/varian/'.$img)}}">
-                                                                </a>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                @endif--}}
                                                 <div class="product-cart">
                                                     <form id="form-beli" method="post"
                                                           action="{{route('produk.add.cart', ['produk' => $produk->permalink])}}">
@@ -113,7 +159,7 @@
                                                         <button type="button" class="btn btn-color2 btn_wishlist"
                                                                 data-cek="{{route('produk.cek.wishlist', ['produk' => $produk->permalink])}}"
                                                                 data-add="{{route('produk.add.wishlist', ['produk' => $produk->permalink])}}"
-                                                            {{\App\Models\Favorit::where('produk_id', $produk->id)->where('user_id', Auth::id())->first() ? 'disabled' : ''}}>
+                                                            {{!is_null($cek_wishlist) ? 'disabled' : ''}}>
                                                             <i class="fa fa-heart mr-0" style="font-size: 14px"></i>
                                                         </button>
                                                     </form>
@@ -132,15 +178,148 @@
                                     <div class="product-meta">
                                         <div id="tabs-default" class="tabs-default">
                                             <ul class="title-tabs none-style">
-                                                <li><a href="#tab-deskripsi"> DETAIL PRODUK</a></li>
-                                                <li><a href="#tab-ulasan"> ULASAN ({{count($ulasan)}}) </a></li>
+                                                <li>
+                                                    <a href="#tab-deskripsi">
+                                                        <b><i class="fa fa-list-alt mr-2"></i>DETAIL PRODUK</b>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab-ulasan">
+                                                        <b><i class="fa fa-comment-alt mr-2"></i>ULASAN PRODUK</b>
+                                                        <span
+                                                            class="badge ml-2">{{count($produk->getUlasan) > 999 ? '999+' : count($produk->getUlasan)}}</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab-qna">
+                                                        <b><i class="fa fa-comments mr-2"></i>QnA PRODUK</b>
+                                                        <span
+                                                            class="badge ml-2">{{count($produk->getQnA) > 999 ? '999+' : count($produk->getQnA)}}</span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                             <div class="content-tabs">
                                                 <div id="tab-deskripsi">{!! $produk->detail !!}</div>
+
                                                 <div id="tab-ulasan">
-                                                    @if(count($ulasan) > 0)
+                                                    @if(!is_null($cek_ulasan))
                                                         <div class="comment-list">
-                                                            <h4>{{count($ulasan)}} KOMENTAR</h4>
+                                                            <h4>ULASAN SAYA</h4>
+                                                            @php
+                                                                $user = $cek_ulasan->getUser;
+                                                                $bio = $user->getBio;
+                                                                $stars = \App\Support\Facades\Rating::stars($cek_ulasan->bintang);
+                                                            @endphp
+                                                            <div class="comment-item">
+                                                                <img alt="Ava" src="{{$bio->ava != "" ?
+                                                                    asset('storage/users/ava/'.$bio->ava) :
+                                                                    asset('images/faces/'.rand(1,6).'.jpg')}}">
+                                                                <div class="box-info">
+                                                                    <div class="meta">
+                                                                        <strong>{{$user->name}}</strong> –
+                                                                        {{\Carbon\Carbon::parse($cek_ulasan->created_at)->diffForHumans()}}
+                                                                        <div class="rating">{!! $stars !!}</div>
+                                                                    </div>
+                                                                    <div class="text">
+                                                                        <p>{{$cek_ulasan->deskripsi}}</p>
+                                                                        @if(!is_null($cek_ulasan->gambar))
+                                                                            <div class="gallery ulasan">
+                                                                                <div class="full float-none m-0">
+                                                                                    <img class="galeri" alt=""
+                                                                                         src="{{asset('storage/produk/ulasan/'.$cek_ulasan->gambar)}}">
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    <div class="review mb-5">
+                                                        <h4>{{!is_null($cek_ulasan) ? 'SUNTING' : 'TULIS'}} ULASAN</h4>
+                                                        <form id="form-ulasan" class="comment-form mt-3" method="post"
+                                                              action="{{route('produk.submit.ulasan',['produk' => $produk->permalink])}}"
+                                                              enctype="multipart/form-data">
+                                                            @csrf
+                                                            <input type="hidden" name="id"
+                                                                   value="{{!is_null($cek_ulasan) ? encrypt($cek_ulasan->id) : null}}">
+                                                            <fieldset id="rating" class="rating-input mr-3"
+                                                                      aria-required="true">
+                                                                <input type="radio" id="star5" name="rating" value="5"
+                                                                    {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '5' ? 'checked' : ''}}>
+                                                                <label class="full" for="star5" data-toggle="tooltip"
+                                                                       title="Terbaik"></label>
+
+                                                                <input type="radio" id="star4half" name="rating"
+                                                                       value="4.5" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '4.5' ? 'checked' : ''}}>
+                                                                <label class="half" for="star4half"
+                                                                       data-toggle="tooltip"
+                                                                       title="Keren"></label>
+
+                                                                <input type="radio" id="star4" name="rating"
+                                                                       value="4" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '4' ? 'checked' : ''}}>
+                                                                <label class="full" for="star4" data-toggle="tooltip"
+                                                                       title="Cukup baik"></label>
+
+                                                                <input type="radio" id="star3half" name="rating"
+                                                                       value="3.5" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '3.5' ? 'checked' : ''}}>
+                                                                <label class="half" for="star3half"
+                                                                       data-toggle="tooltip"
+                                                                       title="Baik"></label>
+
+                                                                <input type="radio" id="star3" name="rating"
+                                                                       value="3" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '3' ? 'checked' : ''}}>
+                                                                <label class="full" for="star3" data-toggle="tooltip"
+                                                                       title="Standar"></label>
+
+                                                                <input type="radio" id="star2half" name="rating"
+                                                                       value="2.5" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '2.5' ? 'checked' : ''}}>
+                                                                <label class="half" for="star2half"
+                                                                       data-toggle="tooltip"
+                                                                       title="Cukup buruk"></label>
+
+                                                                <input type="radio" id="star2" name="rating"
+                                                                       value="2" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '2' ? 'checked' : ''}}>
+                                                                <label class="full" for="star2" data-toggle="tooltip"
+                                                                       title="Buruk"></label>
+
+                                                                <input type="radio" id="star1half" name="rating"
+                                                                       value="1.5" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '1.5' ? 'checked' : ''}}>
+                                                                <label class="half" for="star1half"
+                                                                       data-toggle="tooltip"
+                                                                       title="Sangat buruk"></label>
+
+                                                                <input type="radio" id="star1" name="rating"
+                                                                       value="1" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '1' ? 'checked' : ''}}>
+                                                                <label class="full" for="star1" data-toggle="tooltip"
+                                                                       title="Menyedihkan"></label>
+
+                                                                <input type="radio" id="starhalf" name="rating"
+                                                                       value="0.5" {{!is_null($cek_ulasan) && $cek_ulasan->bintang == '0.5' ? 'checked' : ''}}>
+                                                                <label class="half" for="starhalf" data-toggle="tooltip"
+                                                                       title="Sangat menyedihkan"></label>
+                                                            </fieldset>
+                                                            <input id="gambar" type="file" name="gambar"
+                                                                   accept="image/*">
+                                                            <p class="comment-form-comment">
+                                                                <textarea id="deskripsi" name="deskripsi" required
+                                                                          placeholder="Tulis ulasan Anda di sini..."
+                                                                          style="resize: vertical;height: 100px">{{!is_null($cek_ulasan) ? $cek_ulasan->deskripsi : null}}</textarea>
+                                                            </p>
+                                                            <p class="form-submit">
+                                                                <button type="submit" class="btn btn-block btn-color2">
+                                                                    <i class="fa fa-comment-alt mr-2"></i>
+                                                                    <b>{{!is_null($cek_ulasan) ? 'SIMPAN PERUBAHAN' : 'KIRIM ULASAN'}}</b>
+                                                                </button>
+                                                            </p>
+                                                        </form>
+                                                    </div>
+
+                                                    @if(count($produk->getUlasan) > 0)
+                                                        <div class="comment-list">
+                                                            <h4>{{!is_null($cek_ulasan) ? count($produk->getUlasan) - 1 : count($produk->getUlasan)}}
+                                                                ULASAN {{!is_null($cek_ulasan) ? 'LAINNYA' : ''}}</h4>
                                                             @foreach($ulasan as $row)
                                                                 @php
                                                                     $user = $row->getUser;
@@ -154,13 +333,13 @@
                                                                     <div class="box-info">
                                                                         <div class="meta">
                                                                             <strong>{{$user->name}}</strong> –
-                                                                            {{\Carbon\Carbon::parse($row->created_at)->formatLocalized('%d %B %Y')}}
+                                                                            {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}
                                                                             <div class="rating">{!! $stars !!}</div>
                                                                         </div>
                                                                         <div class="text">
                                                                             <p>{{$row->deskripsi}}</p>
                                                                             @if(!is_null($row->gambar))
-                                                                                <div class="gallery">
+                                                                                <div class="gallery ulasan">
                                                                                     <div class="full float-none m-0">
                                                                                         <img class="galeri" alt=""
                                                                                              src="{{asset('storage/produk/ulasan/'.$row->gambar)}}">
@@ -173,32 +352,114 @@
                                                             @endforeach
                                                         </div>
                                                     @endif
-                                                    <div class="review">
-                                                        <h4>TULIS ULASAN</h4>
-                                                        <div class="rating">
-                                                            {!! \App\Support\Facades\Rating::stars(5) !!}
+                                                </div>
+
+                                                <div id="tab-qna">
+                                                    @if(count($qna_ku) > 0)
+                                                        <div class="comment-list">
+                                                            <h4>{{count($qna_ku)}} PERTANYAAN SAYA</h4>
+                                                            @foreach($qna_ku as $row)
+                                                                @php
+                                                                    $user = $row->getUser;
+                                                                    $bio = $user->getBio;
+                                                                @endphp
+                                                                <div class="comment-item">
+                                                                    <img alt="Ava" src="{{$bio->ava != "" ?
+                                                                    asset('storage/users/ava/'.$bio->ava) :
+                                                                    asset('images/faces/'.rand(1,6).'.jpg')}}">
+                                                                    <div class="box-info">
+                                                                        <div class="meta">
+                                                                            <strong>{{$user->name}}</strong> –
+                                                                            {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}
+                                                                        </div>
+                                                                        <div class="text">
+                                                                            <p>{{$row->tanya}}</p>
+
+                                                                            @if(!is_null($row->jawab))
+                                                                                <div class="comment-item mb-0">
+                                                                                    <img alt="Logo"
+                                                                                         src="{{asset('images/logotype.png')}}">
+                                                                                    <div class="box-info">
+                                                                                        <div class="meta">
+                                                                                            <strong>{{env('APP_NAME')}}</strong>
+                                                                                            –
+                                                                                            {{\Carbon\Carbon::parse($row->updated_at)->diffForHumans()}}
+                                                                                        </div>
+                                                                                        <div class="text">
+                                                                                            <p>{{$row->jawab}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
-                                                        <form id="form-ulasan" action="#" class="comment-form">
-                                                            <div class="row-comment">
-                                                                <p class="col-6 comment-form-author">
-                                                                    <input id="author" name="author" type="text"
-                                                                           value="" placeholder="your name">
-                                                                </p>
-                                                                <p class="col-6 comment-form-email">
-                                                                    <input id="email" name="email" type="email" value=""
-                                                                           placeholder="your email">
-                                                                </p>
-                                                            </div>
+                                                    @endif
+
+                                                    <div class="review mb-5">
+                                                        <h4>TULIS PERTANYAAN</h4>
+                                                        <form id="form-qna" class="comment-form mt-3" method="post"
+                                                              action="{{route('produk.submit.qna',['produk' => $produk->permalink])}}">
+                                                            @csrf
                                                             <p class="comment-form-comment">
-                                                                <textarea id="comment" name="comment"
-                                                                          placeholder="your review..."></textarea>
+                                                                <textarea id="tanya" name="tanya" required
+                                                                          placeholder="Tulis pertanyaan Anda di sini..."
+                                                                          style="resize: vertical;height: 100px"></textarea>
                                                             </p>
                                                             <p class="form-submit">
-                                                                <input name="submit" type="submit" id="submit"
-                                                                       class="submit btn btn-color" value="submit">
+                                                                <button type="submit" class="btn btn-block btn-color2">
+                                                                    <i class="fa fa-comments mr-2"></i>
+                                                                    <b>KIRIM PERTANYAAN</b>
+                                                                </button>
                                                             </p>
                                                         </form>
                                                     </div>
+
+                                                    @if(count($produk->getQnA) > 0)
+                                                        <div class="comment-list">
+                                                            <h4>{{count($produk->getQnA) - count($qna_ku)}} PERTANYAAN
+                                                                {{count($qna_ku) > 0 ? 'LAINNYA' : ''}}</h4>
+                                                            @foreach($qna as $row)
+                                                                @php
+                                                                    $user = $row->getUser;
+                                                                    $bio = $user->getBio;
+                                                                @endphp
+                                                                <div class="comment-item">
+                                                                    <img alt="Ava" src="{{$bio->ava != "" ?
+                                                                    asset('storage/users/ava/'.$bio->ava) :
+                                                                    asset('images/faces/'.rand(1,6).'.jpg')}}">
+                                                                    <div class="box-info">
+                                                                        <div class="meta">
+                                                                            <strong>{{$user->name}}</strong> –
+                                                                            {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}
+                                                                        </div>
+                                                                        <div class="text">
+                                                                            <p>{{$row->tanya}}</p>
+
+                                                                            @if(!is_null($row->jawab))
+                                                                                <div class="comment-item mb-0">
+                                                                                    <img alt="Logo"
+                                                                                         src="{{asset('images/logotype.png')}}">
+                                                                                    <div class="box-info">
+                                                                                        <div class="meta">
+                                                                                            <strong>{{env('APP_NAME')}}</strong>
+                                                                                            –
+                                                                                            {{\Carbon\Carbon::parse($row->updated_at)->diffForHumans()}}
+                                                                                        </div>
+                                                                                        <div class="text">
+                                                                                            <p>{{$row->jawab}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -264,8 +525,6 @@
     <script type="text/javascript" src="{{asset('js/jquery.responsiveTabs.js')}}"></script>
     <script>
         $(function () {
-            $(".previews .varian:first-child").addClass('selected');
-
             $('#tabs-default').responsiveTabs({
                 startCollapsed: 'accordion'
             });
@@ -441,6 +700,32 @@
             @elseauth('admin')
             swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
 
+            @else
+            openLoginModal();
+            @endauth
+        });
+
+        $("#form-ulasan").on('submit', function (e) {
+            e.preventDefault();
+            @auth
+            if (!$('input[name="rating"]:checked').val()) {
+                swal('PERHATIAN!', 'Field rating tidak boleh dikosongi!', 'warning');
+            } else {
+                $(this)[0].submit();
+            }
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
+            @else
+            openLoginModal();
+            @endauth
+        });
+
+        $("#form-qna").on('submit', function (e) {
+            e.preventDefault();
+            @auth
+            $(this)[0].submit();
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
             @else
             openLoginModal();
             @endauth

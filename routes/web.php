@@ -135,6 +135,16 @@ Route::group(['namespace' => 'Pages'], function () {
 
         });
 
+        Route::post('ulasan/submit', [
+            'uses' => 'MainController@submitUlasan',
+            'as' => 'produk.submit.ulasan'
+        ]);
+
+        Route::post('qna/submit', [
+            'uses' => 'MainController@submitQnA',
+            'as' => 'produk.submit.qna'
+        ]);
+
     });
 
     Route::group(['prefix' => 'info'], function () {

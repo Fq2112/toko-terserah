@@ -7,11 +7,13 @@ use App\Models\Favorit;
 use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\Produk;
+use App\Models\QnA;
 use App\Models\Ulasan;
 use App\Support\Facades\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
@@ -43,13 +45,19 @@ class MainController extends Controller
     {
         $produk = Produk::where('permalink', $request->produk)->first();
         $ulasan = Ulasan::where('produk_id', $produk->id)->orderByDesc('id')->get();
+        $qna = QnA::where('produk_id', $produk->id)->where('user_id', '!=', Auth::id())->orderByDesc('id')->get();
+        $qna_ku = QnA::where('produk_id', $produk->id)->where('user_id', Auth::id())->orderByDesc('id')->get();
         $stars = Rating::stars($ulasan->avg('bintang'));
+
+        $cek_wishlist = Favorit::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
+        $cek_ulasan = Ulasan::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
 
         $related = Produk::where('id', '!=', $produk->id)->whereHas('getSubkategori', function ($q) use ($produk) {
             $q->where('id', $produk->sub_kategori_id);
         })->orderBy('nama')->take(8)->get();
 
-        return view('pages.main.detail', compact('produk', 'ulasan', 'stars', 'related'));
+        return view('pages.main.detail', compact('produk', 'ulasan', 'qna', 'qna_ku', 'stars',
+            'cek_wishlist', 'cek_ulasan', 'related'));
     }
 
     public function cekWishlist(Request $request)
@@ -160,5 +168,71 @@ class MainController extends Controller
         $cart->delete();
 
         return back()->with('delete', 'Produk [' . $cart->getProduk->nama . '] Anda berhasil dihapuskan dari cart Anda!');
+    }
+
+    public function submitUlasan(Request $request)
+    {
+        $produk = Produk::where('permalink', $request->produk)->first();
+
+        if (!is_null($request->id)) {
+            $ulasan = Ulasan::find(decrypt($request->id));
+
+            if ($request->hasFile('gambar')) {
+                $this->validate($request, ['gambar' => 'image|mimes:jpg,jpeg,gif,png|max:2048']);
+                $name = $request->file('gambar')->getClientOriginalName();
+                if ($ulasan->gambar != '') {
+                    Storage::delete('public/produk/ulasan/' . $ulasan->gambar);
+                }
+
+                if ($request->file('gambar')->isValid()) {
+                    $request->gambar->storeAs('public/produk/ulasan', $name);
+                }
+
+            } else {
+                $name = $ulasan->gambar;
+            }
+
+            $ulasan->update([
+                'deskripsi' => $request->deskripsi,
+                'gambar' => $name,
+                'bintang' => $request->rating,
+            ]);
+
+            return back()->with('update', 'Ulasan untuk produk [' . $produk->nama . '] berhasil diperbarui!');
+
+        } else {
+            if ($request->hasFile('gambar')) {
+                $this->validate($request, ['gambar' => 'image|mimes:jpg,jpeg,gif,png|max:2048']);
+                $name = $request->file('gambar')->getClientOriginalName();
+                if ($request->file('gambar')->isValid()) {
+                    $request->gambar->storeAs('public/produk/ulasan', $name);
+                }
+
+            } else {
+                $name = null;
+            }
+
+            Ulasan::create([
+                'user_id' => Auth::id(),
+                'produk_id' => $produk->id,
+                'deskripsi' => $request->deskripsi,
+                'gambar' => $name,
+                'bintang' => $request->rating,
+            ]);
+
+            return back()->with('add', 'Ulasan untuk produk [' . $produk->nama . '] berhasil dikirimkan!');
+        }
+    }
+
+    public function submitQnA(Request $request)
+    {
+        $produk = Produk::where('permalink', $request->produk)->first();
+        QnA::create([
+            'user_id' => Auth::id(),
+            'produk_id' => $produk->id,
+            'tanya' => $request->tanya,
+        ]);
+
+        return back()->with('add', 'Pertanyaan untuk produk [' . $produk->nama . '] berhasil dikirimkan!');
     }
 }

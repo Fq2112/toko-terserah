@@ -6,6 +6,7 @@ use App\Models\Bio;
 use App\Models\Favorit;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
+use App\Models\QnA;
 use App\Models\SocialProvider;
 use App\Models\Ulasan;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -80,7 +81,12 @@ class User extends Authenticatable
 
     public function getUlasan()
     {
-        return $this->hasMany(Ulasan::class,'user_id');
+        return $this->hasMany(Ulasan::class, 'user_id');
+    }
+
+    public function getQnA()
+    {
+        return $this->hasMany(QnA::class, 'user_id');
     }
 
     /**

@@ -28,7 +28,6 @@ class CreateProduksTable extends Migration
             $table->string('stock');
             $table->text('deskripsi');
             $table->text('detail');
-            $table->text('varian')->nullable();
             $table->boolean('is_diskon')->default(false);
             $table->string('diskon')->nullable();
             $table->string('harga_diskon')->nullable();
@@ -43,6 +42,6 @@ class CreateProduksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produks');
+        Schema::dropIfExists('produk');
     }
 }

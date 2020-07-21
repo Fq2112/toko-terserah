@@ -12,7 +12,6 @@ class Produk extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'varian' => 'array',
         'galeri' => 'array',
         'harga' => 'integer',
         'harga_diskon' => 'integer'
@@ -36,6 +35,11 @@ class Produk extends Model
     public function getUlasan()
     {
         return $this->hasMany(Ulasan::class, 'produk_id');
+    }
+
+    public function getQnA()
+    {
+        return $this->hasMany(QnA::class, 'produk_id');
     }
 
     public static function getMurah()
