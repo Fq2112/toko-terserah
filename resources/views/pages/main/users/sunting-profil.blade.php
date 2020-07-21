@@ -83,10 +83,10 @@
                                         <div class="col-lg-12 text-right">
                                             <small style="font-weight: 600">
                                                 <span id="show_personal_settings" class="float-right"
-                                                      style="cursor: pointer;color: #5bb300">
+                                                      style="cursor: pointer;color: #f89406">
                                                     <i class="fa fa-edit mr-2"></i>PERSONAL</span>
                                                 <span id="hide_personal_settings" class="float-right"
-                                                      style="color: #5bb300;cursor: pointer;display:none">
+                                                      style="color: #dc3545;cursor: pointer;display:none">
                                                     <i class="fa fa-undo mr-2"></i>BATAL</span>
                                             </small>
                                         </div>
@@ -110,7 +110,7 @@
                                         <tr data-toggle="tooltip" data-placement="right" title="Alamat Utama">
                                             <td><i class="fa fa-map-marked-alt"></i></td>
                                             <td>&nbsp;</td>
-                                            <td>{{$address != "" ? $address->address.' - '.$address->postal_code.' ('.$address->getOccupancy->name.').' : '(kosong)'}}</td>
+                                            <td>{{$address != "" ? $address->alamat.' - '.$address->kode_pos.' ('.$address->getOccupancy->name.').' : '(kosong)'}}</td>
                                         </tr>
                                     </table>
                                     <hr class="stats_personal" style="margin: 10px 0">
@@ -239,7 +239,7 @@
                                     <div class="card-title">
                                         <small id="show_background_settings">
                                             Latar Belakang
-                                            <span class="pull-right" style="cursor: pointer; color: #5bb300">
+                                            <span class="pull-right" style="cursor: pointer; color: #f89406">
                                                 <i class="fa fa-edit"></i>&nbsp;SUNTING</span>
                                         </small>
                                         <hr class="mt-0">
@@ -275,7 +275,7 @@
                                                       style="cursor: pointer;color: #5bb300">
                                                 <i class="fa fa-map-marked-alt mr-2"></i>TAMBAH</span>
                                                 <span id="hide_address_settings" class="float-right"
-                                                      style="color: #5bb300;cursor: pointer;display:none">
+                                                      style="color: #dc3545;cursor: pointer;display:none">
                                                 <i class="fa fa-undo mr-2"></i>BATAL</span>
                                             </small>
                                             <hr class="mt-0">
@@ -285,29 +285,31 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="media">
-                                                                    <img class="align-self-center" alt="icon"
-                                                                         width="100"
-                                                                         src="{{asset('images/icons/occupancy/'.$row->getOccupancy->image)}}">
+                                                                    <div class="media-left media-middle"
+                                                                         style="width: 20%">
+                                                                        <img class="media-object" alt="icon"
+                                                                             src="{{asset('images/icons/occupancy/'.$row->getOccupancy->image)}}">
+                                                                    </div>
                                                                     <div class="ml-2 media-body">
                                                                         <h5 class="mt-0 mb-1">
                                                                             <i class="fa fa-building mr-1"></i>{{$row->getOccupancy->name}}
-                                                                            {!! $row->is_main == false ? '' :
+                                                                            {!! $row->isUtama == false ? '' :
                                                                             '<span style="font-weight: 500;color: unset">[Alamat Utama]</span>'!!}
                                                                             <span class="float-right">
-                                                                            <a style="color: #5bb300;cursor: pointer;"
-                                                                               onclick="editAddress('{{$row->name}}',
-                                                                                   '{{$row->phone}}','{{$row->lat}}',
-                                                                                   '{{$row->long}}','{{$row->city_id}}',
-                                                                                   '{{$row->address}}','{{$row->postal_code}}',
+                                                                            <a style="color: #f89406;cursor: pointer;"
+                                                                               onclick="editAddress('{{$row->nama}}',
+                                                                                   '{{$row->telp}}','{{$row->lat}}',
+                                                                                   '{{$row->long}}','{{$row->kota_id}}',
+                                                                                   '{{$row->alamat}}','{{$row->kode_pos}}',
                                                                                    '{{$row->getOccupancy->id}}',
                                                                                    '{{$row->getOccupancy->name}}',
-                                                                                   '{{$row->is_main}}','{{route('user.profil-alamat.update', ['id' => $row->id])}}')">
+                                                                                   '{{$row->isUtama}}','{{route('user.profil-alamat.update', ['id' => $row->id])}}')">
                                                                                 SUNTING<i class="fa fa-edit ml-2"></i>
                                                                             </a>
                                                                             <small style="color: #7f7f7f">&nbsp;&#124;&nbsp;</small>
                                                                             <a style="color: #dc3545;cursor: pointer;"
-                                                                               onclick="deleteAddress('{{$row->is_main}}',
-                                                                                   '{{$row->getOccupancy->name}}','{{$row->address}}',
+                                                                               onclick="deleteAddress('{{$row->isUtama}}',
+                                                                                   '{{$row->getOccupancy->name}}','{{$row->alamat}}',
                                                                                    '{{route('user.profil-alamat.delete', ['id' => $row->id])}}')">
                                                                                 <i class="fa fa-eraser mr-2"></i>HAPUS
                                                                             </a>
@@ -322,7 +324,7 @@
                                                                                     <td><i class="fa fa-id-card"></i>
                                                                                     </td>
                                                                                     <td>&nbsp;</td>
-                                                                                    <td>{{$row->name}}</td>
+                                                                                    <td>{{$row->nama}}</td>
                                                                                 </tr>
                                                                                 <tr data-toggle="tooltip"
                                                                                     data-placement="left"
@@ -331,15 +333,15 @@
                                                                                         <i class="fa fa-phone fa-flip-horizontal"></i>
                                                                                     </td>
                                                                                     <td>&nbsp;</td>
-                                                                                    <td>{{$row->phone}}</td>
+                                                                                    <td>{{$row->telp}}</td>
                                                                                 </tr>
                                                                                 <tr data-toggle="tooltip"
                                                                                     data-placement="left"
                                                                                     title="Kabupaten / Kota">
                                                                                     <td><i class="fa fa-city"></i></td>
                                                                                     <td>&nbsp;</td>
-                                                                                    <td>{{$row->getCity->getProvince->name.
-                                                                                ', '.$row->getCity->name}}</td>
+                                                                                    <td>{{$row->getKota->getProvinsi->nama.
+                                                                                ', '.$row->getKota->nama}}</td>
                                                                                 </tr>
                                                                                 <tr data-toggle="tooltip"
                                                                                     data-placement="left"
@@ -348,8 +350,8 @@
                                                                                         <i class="fa fa-map-marker-alt"></i>
                                                                                     </td>
                                                                                     <td>&nbsp;</td>
-                                                                                    <td>{{$row->address.' - '.
-                                                                                $row->postal_code}}</td>
+                                                                                    <td>{{$row->alamat.' - '.
+                                                                                $row->kode_pos}}</td>
                                                                                 </tr>
                                                                             </table>
                                                                         </blockquote>
@@ -357,7 +359,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <hr class="mt-0">
+                                                        <hr class="mt-3">
                                                     @endforeach
                                                 @else
                                                     <p class="mb-0 text-justify">Mohon untuk menambahkan alamat agar
@@ -399,25 +401,25 @@
                                                 <div class="row">
                                                     <div class="col-lg-7 col-md-12 col-sm-12">
                                                         <div id="map" class="gmap img-thumbnail"
-                                                             style="height: 420px;"></div>
+                                                             style="height: 400px;"></div>
                                                     </div>
                                                     <div class="col-lg-5 col-md-12 col-sm-12">
                                                         <div class="row form-group">
                                                             <div class="col-lg-12">
-                                                                <label class="form-control-label" for="city_id">
+                                                                <label class="form-control-label" for="kota_id">
                                                                     Kabupaten / Kota <span class="required">*</span>
                                                                 </label>
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-city"></i></span>
-                                                                    <select id="city_id" name="city_id"
+                                                                    <select id="kota_id" name="kota_id"
                                                                             class="form-control use-select2" required>
                                                                         <option></option>
                                                                         @foreach($provinces as $province)
-                                                                            <optgroup label="{{$province->name}}">
-                                                                                @foreach($province->getCity as $city)
+                                                                            <optgroup label="{{$province->nama}}">
+                                                                                @foreach($province->getKota as $city)
                                                                                     <option value="{{$city->id}}">
-                                                                                        {{$city->name}}</option>
+                                                                                        {{$city->nama}}</option>
                                                                                 @endforeach
                                                                             </optgroup>
                                                                         @endforeach
@@ -434,7 +436,7 @@
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-map-marked-alt"></i></span>
                                                                     <textarea id="address_map" class="form-control"
-                                                                              placeholder="Alamat" name="address"
+                                                                              placeholder="Alamat" name="alamat"
                                                                               rows="5" spellcheck="false"
                                                                               autocomplete="off" required></textarea>
                                                                 </div>
@@ -451,7 +453,7 @@
                                                                     <input spellcheck="false" autocomplete="off"
                                                                            placeholder="Kode pos" id="postal_code"
                                                                            type="text" class="form-control"
-                                                                           name="postal_code" maxlength="5" required
+                                                                           name="kode_pos" maxlength="5" required
                                                                            onkeypress="return numberOnly(event, false)">
                                                                 </div>
                                                             </div>
@@ -480,9 +482,9 @@
                                                             <div class="col-lg-12 checkbox" style="margin: -10px 0">
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                           id="is_main" name="is_main" value="1">
+                                                                           id="isUtama" name="isUtama" value="1">
                                                                     <label class="custom-control-label pl-3"
-                                                                           for="is_main">Jadikan alamat utama</label>
+                                                                           for="isUtama">Jadikan alamat utama</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -771,9 +773,9 @@
             infoWindow.open(map, marker);
 
             $("#method, #lat, #long, #address_name, #address_phone, #address_map, #postal_code").val(null);
-            $("#city_id, #occupancy_id").val(null).trigger('change');
+            $("#kota_id, #occupancy_id").val(null).trigger('change');
             $("#form-address").attr('action', '{{route('user.profil-alamat.create')}}');
-            $("#is_main").prop('checked', false);
+            $("#isUtama").prop('checked', false);
 
             if ($("#btn_save_address").attr('disabled')) {
                 $("#btn_save_address").removeAttr('disabled');
@@ -782,8 +784,8 @@
             }
         }
 
-        function editAddress(name, phone, lat, long, city_id, address, postal_code, occupancy_id, occupancy, is_main, url) {
-            var main_str = is_main == 1 ? ' <span class="font-weight-normal">[Alamat Utama]</span>' : '';
+        function editAddress(name, phone, lat, long, kota_id, address, postal_code, occupancy_id, occupancy, isUtama, url) {
+            var main_str = isUtama == 1 ? ' <span class="font-weight-normal">[Alamat Utama]</span>' : '';
 
             $("#show_address_settings").hide();
             $("#hide_address_settings").show();
@@ -806,12 +808,12 @@
             $("#address_phone").val(phone);
             $("#address_map").val(address);
             $("#postal_code").val(postal_code);
-            $("#city_id").val(city_id).trigger('change');
+            $("#kota_id").val(kota_id).trigger('change');
             $("#occupancy_id").val(occupancy_id).trigger('change');
-            if (is_main == 1) {
-                $("#is_main").prop('checked', true);
+            if (isUtama == 1) {
+                $("#isUtama").prop('checked', true);
             } else {
-                $("#is_main").prop('checked', false);
+                $("#isUtama").prop('checked', false);
             }
 
             $("#method").val('PUT');
@@ -828,8 +830,8 @@
             $('html,body').animate({scrollTop: $("#form-address").parent().parent().parent().offset().top}, 500);
         }
 
-        function deleteAddress(is_main, occupancy, address, url) {
-            if (is_main == 1) {
+        function deleteAddress(isUtama, occupancy, address, url) {
+            if (isUtama == 1) {
                 swal('PERHATIAN!', 'Anda tidak diizinkan menghapus alamat utama Anda! Jika Anda tetap ingin menghapusnya, silahkan buat alamat baru dan jadikan sebagai alamat utama Anda terlebih dahulu.', 'warning');
             } else {
                 swal({

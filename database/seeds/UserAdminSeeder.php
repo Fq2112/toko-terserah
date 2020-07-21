@@ -51,6 +51,7 @@ class UserAdminSeeder extends Seeder
             'long' => '112.7574375',
             'kode_pos' => '61253',
             'isUtama' => true,
+            'occupancy_id' => 8
         ]);
         \App\Models\Alamat::create([
             'user_id' => $user->id,
@@ -62,6 +63,7 @@ class UserAdminSeeder extends Seeder
             'long' => '111.7990778',
             'kode_pos' => '66273',
             'isUtama' => false,
+            'occupancy_id' => 7
         ]);
 
         for ($i = 0; $i < 3; $i++) {
@@ -92,6 +94,7 @@ class UserAdminSeeder extends Seeder
                 'long' => $faker->longitude,
                 'kode_pos' => $kota->kode_pos,
                 'isUtama' => rand(0, 1) ? true : false,
+                'occupancy_id' => rand(\App\Models\OccupancyType::min('id'), \App\Models\OccupancyType::max('id'))
             ]);
         }
     }

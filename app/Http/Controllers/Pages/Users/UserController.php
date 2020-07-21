@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\Users\InvoiceMail;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Favorit;
 use App\Models\Order;
 use App\Models\PaymentCart;
 use App\Models\PromoCode;
@@ -20,6 +21,16 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function wishlist()
+    {
+        $user = Auth::user();
+        $bio = $user->getBio;
+
+        $wishlist = Favorit::where('user_id', $user->id)->orderByDesc('id')->get();
+
+        return view('pages.main.users.wishlist', compact('user', 'bio', 'wishlist'));
+    }
+
     public function cart()
     {
         $user = Auth::user();
@@ -44,20 +55,6 @@ class UserController extends Controller
 
         return view('pages.main.users.cart', compact('user', 'bio', 'carts', 'addresses',
             'a', 'b', 'c', 'd', 'e', 'total_item', 'subtotal', 'ongkir'));
-    }
-
-    public function editDesign(Request $request)
-    {
-        $cart = Cart::find($request->id);
-        $data = !is_null($cart->subkategori_id) ? $cart->getSubKategori : $cart->getCluster;
-        $specs = !is_null($cart->subkategori_id) ? $data->getSubkatSpecs : $data->getClusterSpecs;
-        $size = !is_null($cart->file) ? Storage::size('public/users/order/design/' . $cart->user_id . '/' . $cart->file) : 0;
-        $path = !is_null($cart->file) ? asset('storage/users/order/design/' . Auth::id() . '/' . $cart->file) : null;
-
-        return [
-            'is_design' => $specs->is_design == true ? 1 : 0,
-            'file' => $cart->file, 'size' => $size, 'path' => $path, 'link' => $cart->link
-        ];
     }
 
     public function updateOrder(Request $request)

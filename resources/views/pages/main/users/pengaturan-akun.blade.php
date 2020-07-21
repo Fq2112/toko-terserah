@@ -80,10 +80,10 @@
                                         <div class="col-lg-12 text-right">
                                             <small style="font-weight: 600">
                                                 <span id="show_username_settings" class="float-right"
-                                                      style="cursor: pointer;color: #5bb300">
+                                                      style="cursor: pointer;color: #f89406">
                                                     <i class="fa fa-edit mr-2"></i>USERNAME</span>
                                                 <span id="hide_username_settings" class="float-right"
-                                                      style="color: #5bb300;cursor: pointer;display:none">
+                                                      style="color: #dc3545;cursor: pointer;display:none">
                                                     <i class="fa fa-undo mr-2"></i>BATAL</span>
                                             </small>
                                         </div>
@@ -107,7 +107,7 @@
                                         <tr data-toggle="tooltip" data-placement="right" title="Alamat Utama">
                                             <td><i class="fa fa-map-marked-alt"></i></td>
                                             <td>&nbsp;</td>
-                                            <td>{{$address != "" ? $address->address.' - '.$address->postal_code.' ('.$address->getOccupancy->name.').' : '(kosong)'}}</td>
+                                            <td>{{$alamat != "" ? $alamat->alamat.' - '.$alamat->kode_pos.' ('.$alamat->getOccupancy->name.').' : '(kosong)'}}</td>
                                         </tr>
                                     </table>
                                     <hr class="stats_username" style="margin: 10px 0">
@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
 
-                                    <small style="cursor: pointer; color: #5bb300" id="show_password_settings">
+                                    <small style="cursor: pointer; color: #f89406" id="show_password_settings">
                                         Ubah Kata Sandi ?</small>
                                     <div id="password_settings" style="display: none">
                                         <div id="error_curr_pass" class="row form-group has-feedback">
@@ -284,7 +284,7 @@
                 return v === "PENGATURAN KATA SANDI" ? "Ubah Kata Sandi ?" : "PENGATURAN KATA SANDI";
             });
             if ($(this).text() === 'Ubah Kata Sandi ?') {
-                this.style.color = "#5bb300";
+                this.style.color = "#f89406";
             } else {
                 this.style.color = "#7f7f7f";
             }

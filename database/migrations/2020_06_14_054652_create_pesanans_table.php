@@ -16,15 +16,15 @@ class CreatePesanansTable extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->text('keranjang_ids');
             $table->foreignId('pengiriman_id');
-            $table->foreign('pengiriman_id')->references('id')
-                ->on('alamat');
+            $table->foreign('pengiriman_id')->references('id')->on('alamat')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('penagihan_id');
-            $table->foreign('penagihan_id')->references('id')
-                ->on('alamat');
+            $table->foreign('penagihan_id')->references('id')->on('alamat')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->string('uni_code');
             $table->string('ongkir');
             $table->string('durasi_pengiriman');

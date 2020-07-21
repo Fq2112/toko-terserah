@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubKategorisTable extends Migration
+class CreateOccupancyTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateSubKategorisTable extends Migration
      */
     public function up()
     {
-        Schema::create('sub_kategori', function (Blueprint $table) {
+        Schema::create('occupancy_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kategori_id');
-            $table->foreign('kategori_id')->references('id')->on('kategori')
-                ->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->string('nama');
-            $table->text('permalink')->unique();
+            $table->string('name');
+            $table->text('image');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateSubKategorisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_kategori');
+        Schema::dropIfExists('occupancy_types');
     }
 }

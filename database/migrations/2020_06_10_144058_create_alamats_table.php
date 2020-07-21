@@ -16,11 +16,11 @@ class CreateAlamatsTable extends Migration
         Schema::create('alamat', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('kota_id');
-            $table->foreign('kota_id')->references('id')
-                ->on('kota');
+            $table->foreign('kota_id')->references('id')->on('kota')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->string('nama');
             $table->string('telp');

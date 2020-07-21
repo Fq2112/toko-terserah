@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSubkategoriIdToProduksTable extends Migration
+class AddOccupancyIdToAlamatTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddSubkategoriIdToProduksTable extends Migration
      */
     public function up()
     {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->foreignId('sub_kategori_id');
-            $table->foreign('sub_kategori_id')->references('id')->on('sub_kategori')
+        Schema::table('alamat', function (Blueprint $table) {
+            $table->foreignId('occupancy_id');
+            $table->foreign('occupancy_id')->references('id')->on('occupancy_types')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
@@ -27,8 +27,9 @@ class AddSubkategoriIdToProduksTable extends Migration
      */
     public function down()
     {
-        Schema::table('produk', function (Blueprint $table) {
-            //
+        Schema::table('alamat', function (Blueprint $table) {
+            $table->dropColumn('occupancy_id');
+            $table->dropForeign('occupancy_id');
         });
     }
 }

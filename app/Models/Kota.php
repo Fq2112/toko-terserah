@@ -17,6 +17,6 @@ class Kota extends Model
 
     public function getAlamat()
     {
-        return $this->belongsTo(Alamat::class,'kota_id');
+        return $this->hasMany(Alamat::class, 'kota_id');
     }
 }

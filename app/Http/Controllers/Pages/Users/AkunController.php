@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pages\Users;
 
 use App\Http\Controllers\Controller;
-use App\Models\Address;
+use App\Models\Alamat;
 use App\Models\OccupancyType;
-use App\Models\Province;
+use App\Models\Provinsi;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,15 +18,11 @@ class AkunController extends Controller
     {
         $user = Auth::user();
         $bio = $user->getBio;
-//        $addresses = Address::where('user_id', Auth::id())->orderByDesc('id')->get();
-        $addresses = [];
-//        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
-        $address = null;
+        $addresses = Alamat::where('user_id', Auth::id())->orderByDesc('id')->get();
+        $address = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
 
-//        $provinces = Province::all();
-        $provinces = [];
-//        $occupancy = OccupancyType::all();
-        $occupancy = [];
+        $provinces = Provinsi::all();
+        $occupancy = OccupancyType::all();
 
         $check = $request->check;
 
@@ -50,64 +46,63 @@ class AkunController extends Controller
 
     public function createProfilAddress(Request $request)
     {
-        if ($request->is_main == 1) {
-            Address::where('user_id', Auth::id())->update(['is_main' => false]);
+        if ($request->isUtama == 1) {
+            Alamat::where('user_id', Auth::id())->update(['isUtama' => false]);
         }
 
-        Address::create([
+        Alamat::create([
             'user_id' => Auth::id(),
-            'name' => $request->address_name,
-            'phone' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
-            'city_id' => $request->city_id,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
+            'nama' => $request->address_name,
+            'telp' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
+            'kota_id' => $request->kota_id,
+            'kode_pos' => $request->kode_pos,
+            'alamat' => $request->alamat,
             'lat' => $request->lat,
             'long' => $request->long,
             'occupancy_id' => $request->occupancy_id,
-            'is_main' => $request->has('is_main') ? $request->is_main : false,
+            'isUtama' => $request->has('isUtama') ? $request->isUtama : false,
         ]);
 
-        return back()->with('add', 'Alamat [' . $request->address . '] berhasil ditambahkan ke daftar alamat Anda!');
+        return back()->with('add', 'Alamat [' . $request->alamat . '] berhasil ditambahkan ke daftar alamat Anda!');
     }
 
     public function updateProfilAddress(Request $request)
     {
-        if ($request->is_main == 1) {
-            Address::where('user_id', Auth::id())->update(['is_main' => false]);
+        if ($request->isUtama == 1) {
+            Alamat::where('user_id', Auth::id())->update(['isUtama' => false]);
         }
 
-        $address = Address::find($request->id);
+        $address = Alamat::find($request->id);
         $address->update([
-            'name' => $request->address_name,
-            'phone' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
-            'city_id' => $request->city_id,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
+            'nama' => $request->address_name,
+            'telp' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
+            'kota_id' => $request->kota_id,
+            'kode_pos' => $request->kode_pos,
+            'alamat' => $request->alamat,
             'lat' => $request->lat,
             'long' => $request->long,
             'occupancy_id' => $request->occupancy_id,
-            'is_main' => $request->has('is_main') ? $request->is_main : false,
+            'isUtama' => $request->has('isUtama') ? $request->isUtama : false,
         ]);
 
-        return back()->with('update', 'Alamat [' . $address->address . '] berhasil diperbarui dari daftar alamat Anda!');
+        return back()->with('update', 'Alamat [' . $address->alamat . '] berhasil diperbarui dari daftar alamat Anda!');
     }
 
     public function deleteProfilAddress(Request $request)
     {
-        $address = Address::find($request->id);
+        $address = Alamat::find($request->id);
         $address->delete();
 
-        return back()->with('delete', 'Alamat [' . $address->address . '] berhasil dihapuskan dari daftar alamat Anda!');
+        return back()->with('delete', 'Alamat [' . $address->alamat . '] berhasil dihapuskan dari daftar alamat Anda!');
     }
 
     public function pengaturan()
     {
         $user = Auth::user();
         $bio = $user->getBio;
-//        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
-        $address = null;
+        $alamat = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
 
-        return view('pages.main.users.pengaturan-akun', compact('user', 'bio', 'address'));
+        return view('pages.main.users.pengaturan-akun', compact('user', 'bio', 'alamat'));
     }
 
     public function updatePengaturan(Request $request)

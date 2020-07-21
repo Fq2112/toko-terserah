@@ -16,9 +16,11 @@ class CreateUlasansTable extends Migration
         Schema::create('ulasans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('produk_id');
-            $table->foreign('produk_id')->references('id')->on('produk');
+            $table->foreign('produk_id')->references('id')->on('produk')
+                ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->text('deskripsi');
             $table->text('gambar')->nullable();
             $table->decimal('bintang', 8, 1);
