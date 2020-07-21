@@ -169,8 +169,9 @@
                                             <p>{{$flash->deskripsi}}</p>
                                             <div class="price">
                                                 <span>Rp{{number_format(ceil($flash->harga - ($flash->harga * $flash->diskon / 100)), 2, ',', '.')}}</span>
-                                                <span
-                                                    class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
+                                                <span class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}
+                                                    <span class="ml-2"
+                                                          style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$produk->diskon}}%</span></span>
                                             </div>
                                             <div class="button-info">
                                                 <a href="javascript:void(0)" class="info btn_cart"
@@ -182,7 +183,8 @@
                                                    data-cek="{{route('produk.cek.wishlist', ['produk' => $flash->permalink])}}"
                                                    data-add="{{route('produk.add.wishlist', ['produk' => $flash->permalink])}}">
                                                     <i class="fa fa-heart"></i></a>
-                                                <a class="info-2" href="{{route('cari', ['q' => $flash->nama])}}">
+                                                <a class="info-2"
+                                                   href="{{route('produk', ['produk' => $flash->permalink])}}">
                                                     <i class="fa fa-search"></i></a>
                                             </div>
                                         </div>
@@ -250,12 +252,12 @@
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
+                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-search"></span></a>
                                             <a href="javascript:void(0)" class="info-2 btn_wishlist"
                                                data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
                                                data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
                                                 <span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}">
-                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>
@@ -303,12 +305,12 @@
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
+                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-search"></span></a>
                                             <a href="javascript:void(0)" class="info-2 btn_wishlist"
                                                data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
                                                data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
                                                 <span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}">
-                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>
@@ -356,12 +358,12 @@
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                         <p class="icon-links">
+                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                <span class="fa fa-search"></span></a>
                                             <a href="javascript:void(0)" class="info-2 btn_wishlist"
                                                data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
                                                data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
                                                 <span class="fa fa-heart"></span></a>
-                                            <a href="{{route('cari', ['q' => $row->nama])}}">
-                                                <span class="fa fa-search"></span></a>
                                         </p>
                                     </div>
                                 </div>

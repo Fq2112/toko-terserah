@@ -127,7 +127,7 @@ class MainController extends Controller
 
             $produk->update(['stock' => $produk->stock - $request->qty]);
 
-            return back()->with('delete', 'Kuantitas produk [' . $produk->nama . '] dari cart Anda berhasil diperbarui!');
+            return back()->with('update', 'Kuantitas produk [' . $produk->nama . '] dari cart Anda berhasil diperbarui!');
 
         } else {
             Keranjang::create([

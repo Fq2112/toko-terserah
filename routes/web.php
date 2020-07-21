@@ -205,6 +205,16 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.wishlist',
             ]);
 
+            Route::get('{id}/delete', [
+                'uses' => 'UserController@deleteWishlist',
+                'as' => 'user.delete.wishlist',
+            ]);
+
+            Route::get('mass-delete', [
+                'uses' => 'UserController@massDeleteWishlist',
+                'as' => 'user.mass-delete.wishlist',
+            ]);
+
         });
 
         Route::group(['prefix' => 'cart'], function () {

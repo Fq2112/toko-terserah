@@ -2,11 +2,15 @@
 @section('title', $produk->nama.' | '.env('APP_TITLE'))
 @push('styles')
     <style>
-        .single-price span {
+        .single-price s {
             text-decoration: line-through;
             color: #aaa !important;
             padding-left: 5px;
             font-size: 20px;
+        }
+
+        .single-price span {
+            color: #555 !important;
         }
 
         span.old-price {
@@ -139,7 +143,8 @@
                                                 <p class="single-price">
                                                     @if($produk->is_diskon == true)
                                                         Rp{{number_format($produk->harga_diskon,2,',','.')}}
-                                                        <span>Rp{{number_format($produk->harga,2,',','.')}}</span>
+                                                        <s>Rp{{number_format($produk->harga,2,',','.')}}
+                                                            <span class="ml-2">-{{$produk->diskon}}%</span></s>
                                                     @else
                                                         Rp{{number_format($produk->harga,2,',','.')}}
                                                     @endif

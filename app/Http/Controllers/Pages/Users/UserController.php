@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\Users;
 use App\Http\Controllers\Controller;
 use App\Mail\Users\InvoiceMail;
 use App\Models\Address;
+use App\Models\Alamat;
 use App\Models\Cart;
 use App\Models\Favorit;
 use App\Models\Order;
@@ -23,12 +24,27 @@ class UserController extends Controller
 {
     public function wishlist()
     {
-        $user = Auth::user();
-        $bio = $user->getBio;
+        $wishlist = Favorit::where('user_id', Auth::id())->orderByDesc('id')->get();
 
-        $wishlist = Favorit::where('user_id', $user->id)->orderByDesc('id')->get();
+        return view('pages.main.users.wishlist', compact('wishlist'));
+    }
 
-        return view('pages.main.users.wishlist', compact('user', 'bio', 'wishlist'));
+    public function deleteWishlist(Request $request)
+    {
+        $wishlist = Favorit::find(decrypt($request->id));
+        $wishlist->delete();
+
+        return back()->with('delete', 'Produk [' . $wishlist->getProduk->nama . '] Anda berhasil dihapuskan dari wishlist Anda!');
+    }
+
+    public function massDeleteWishlist()
+    {
+        $wishlist = Favorit::where('user_id', Auth::id())->get();
+        foreach ($wishlist as $row) {
+            $row->delete();
+        }
+
+        return back()->with('delete', 'Semua produk berhasil dihapuskan dari wishlist Anda!');
     }
 
     public function cart()
