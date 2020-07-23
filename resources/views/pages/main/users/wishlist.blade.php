@@ -30,11 +30,16 @@
             color: #5bb300;
         }
 
+        .single-price {
+            font-size: 16px;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+
         .single-price s {
-            text-decoration: line-through;
             color: #aaa !important;
             padding-left: 5px;
-            font-size: 20px;
+            font-size: 14px;
         }
 
         .single-price span {
@@ -43,6 +48,7 @@
 
         .btn-link {
             border: 1px solid #ccc;
+            text-decoration: none !important;
         }
 
         .content-area {
@@ -130,6 +136,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Produk</th>
+                                <th class="text-center">Diskon</th>
                                 <th class="text-center">Harga</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -140,20 +147,33 @@
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                     <td style="vertical-align: middle">
-                                        <a href="{{route('produk', ['produk' => $row->getProduk->permalink])}}">
-                                            <img class="img-responsive float-left mr-2" width="80" alt="Thumbnail"
-                                                 src="{{asset('storage/produk/thumb/'.$row->getProduk->gambar)}}">
-                                            <span class="label label-info">Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span>
-                                            <br><b>{{$row->getProduk->nama}}</b>
-                                        </a>
-                                        {{$row->getProduk->deskripsi}}
+                                        <div class="row float-left mr-0">
+                                            <div class="col-lg-12">
+                                                <a href="javascript:void(0)" id="preview{{$row->id}}"
+                                                   onclick="preview('{{$row->id}}','{{$row->getProduk->nama}}',
+                                                       '{{route('get.galeri.produk', ['produk' => $row->getProduk->permalink])}}')">
+                                                    <img width="100" alt="Thumbnail" class="img-thumbnail"
+                                                         src="{{asset('storage/produk/thumb/'.$row->getProduk->gambar)}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <span class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
+                                                Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span>
+                                        <br><a
+                                            href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
+                                        <p>{{$row->getProduk->deskripsi}}</p>
                                     </td>
                                     <td style="vertical-align: middle" align="center">
-                                        <p class="single-price">
+                                        <span
+                                            class="label label-{{$row->getProduk->is_diskon == true ? 'success' : 'default'}}">
+                                            {{$row->getProduk->is_diskon == true ? $row->getProduk->diskon : 0}}%</span>
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        <p class="single-price mb-0"
+                                           style="color: {{$row->getProduk->is_diskon == true ? '#5bb300' : ''}};">
                                             @if($row->getProduk->is_diskon == true)
                                                 Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
-                                                <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}
-                                                    <span class="ml-2">-{{$row->getProduk->diskon}}%</span></s>
+                                                <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
                                             @else
                                                 Rp{{number_format($row->getProduk->harga,2,',','.')}}
                                             @endif
@@ -162,7 +182,7 @@
                                     <td style="vertical-align: middle" align="center">
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-link btn-sm"
+                                                <button class="btn btn-color2 btn-sm" style="border-radius:4px 0 0 4px;"
                                                         data-toggle="tooltip" title="Tambah ke Cart"
                                                         {{$row->getProduk->stock > 0 ? '' : 'disabled'}}
                                                         onclick="tambahCart('{{$row->getProduk->nama}}',
@@ -170,7 +190,7 @@
                                                             '{{route('produk.add.cart', ['produk' => $row->getProduk->permalink])}}')">
                                                     <i class="fa fa-shopping-cart" style="margin-right: 0"></i>
                                                 </button>
-                                                <button class="btn btn-link btn-sm"
+                                                <button class="btn btn-color5 btn-sm" style="border-radius:0 4px 4px 0;"
                                                         data-toggle="tooltip" title="Hapus Wishlist"
                                                         onclick="hapusWishlist('{{route('user.delete.wishlist', ['id' => encrypt($row->id)])}}',
                                                             '{{$row->getProduk->nama}}')">
@@ -203,7 +223,7 @@
             $("#dt-produk table").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [{"sortable": false, "targets": 3}],
+                columnDefs: [{"sortable": false, "targets": 4}],
                 language: {
                     "emptyTable": "Anda belum menambahkan wishlist apapun",
                     "info": "Menampilkan _START_ - _END_ dari _TOTAL_ produk",
@@ -228,11 +248,11 @@
                 buttons: [
                     {
                         text: '<b style="text-transform: none"><i class="fa fa-shopping-cart mr-2"></i> Tambah Semua ke Cart</b>',
-                        className: 'btn btn-link btn-sm btn-tambah'
+                        className: 'btn btn-color2 btn-sm btn-tambah'
                     },
                     {
                         text: '<b style="text-transform: none"><i class="fa fa-trash-alt mr-2"></i> Hapus Semua Wishlist</b>',
-                        className: 'btn btn-link btn-sm btn-hapus'
+                        className: 'btn btn-color5 btn-sm btn-hapus'
                     }
                 ],
                 fnDrawCallback: function (oSettings) {
@@ -241,6 +261,20 @@
 
                     $(".btn-tambah").on('click', function () {
                         @if(count($wishlist) > 0)
+                        swal({
+                            title: 'Tambah Semua ke Cart',
+                            text: 'Apakah Anda yakin akan menambahkan semua produk yang masih tersedia dan ada di wishlist ke cart Anda? Anda tidak dapat mengembalikannya!',
+                            icon: 'warning',
+                            dangerMode: true,
+                            buttons: ["Tidak", "Ya"],
+                            closeOnEsc: false,
+                            closeOnClickOutside: false,
+                        }).then((confirm) => {
+                            if (confirm) {
+                                swal({icon: "success", buttons: false});
+                                window.location.href = '{{route('user.mass-cart.wishlist')}}';
+                            }
+                        });
                         @else
                         swal('PERHATIAN!', 'Tidak ada produk di dalam wishlist Anda!', 'warning');
                         @endif
@@ -270,10 +304,40 @@
             });
         });
 
+        function preview(id, nama, cek_uri) {
+            clearTimeout(this.delay);
+            this.delay = setTimeout(function () {
+                $.get(cek_uri, function (data) {
+                    var source = [];
+                    if (data.galeri != null) {
+                        $.each(data.galeri, function (i, val) {
+                            source.push({
+                                'src': '{{asset('storage/produk/galeri')}}/' + val,
+                                'thumb': '{{asset('storage/produk/galeri')}}/' + val,
+                                'subHtml': '<h4>' + nama + '</h4>'
+                            });
+                        });
+
+                    } else {
+                        source.push({
+                            'src': data.thumb,
+                            'thumb': data.thumb,
+                            'subHtml': '<h4>' + nama + '</h4>'
+                        });
+                    }
+
+                    $("#preview" + id).lightGallery({
+                        dynamic: true,
+                        dynamicEl: source
+                    });
+                });
+            }.bind(this), 800);
+        }
+
         function tambahCart(nama, cek_uri, add_uri) {
             swal({
                 title: "Tambah ke Cart",
-                text: "Apakah Anda yakin untuk menambahkan produk \"" + name + "\" ke dalam cart Anda?",
+                text: "Apakah Anda yakin untuk menambahkan produk \"" + nama + "\" ke dalam cart Anda?",
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ["Tidak", "Ya"],

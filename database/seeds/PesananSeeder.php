@@ -14,7 +14,7 @@ class PesananSeeder extends Seeder
         $user = \App\User::find(1);
         $alamat_utama = \App\Models\Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
         $alamat = \App\Models\Alamat::where('user_id', $user->id)->where('isUtama', false)->first();
-        $keranjang = \App\Models\Keranjang::where('isCheckOut', true)->inRandomOrder()->take(5)->get();
+        $keranjang = \App\Models\Keranjang::where('isCheckOut', true)->inRandomOrder()->get();
 
         \App\Models\Pesanan::create([
             'user_id' => $user->id,

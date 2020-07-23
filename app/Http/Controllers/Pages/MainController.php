@@ -60,6 +60,16 @@ class MainController extends Controller
             'cek_wishlist', 'cek_ulasan', 'related'));
     }
 
+    public function galeriProduk(Request $request)
+    {
+        $produk = Produk::where('permalink', $request->produk)->first();
+
+        return [
+            'galeri' => $produk->galeri,
+            'thumb' => asset('storage/produk/thumb/' . $produk->gambar)
+        ];
+    }
+
     public function cekWishlist(Request $request)
     {
         $produk = Produk::where('permalink', $request->produk)->first();
@@ -68,7 +78,7 @@ class MainController extends Controller
         if ($favorit) {
             return response()->json([
                 'status' => false,
-                'message' => 'Produk tersebut telah Anda tambahkan ke dalam wishlist Anda sebelumnya!',
+                'message' => 'Produk tersebut telah ditambahkan ke dalam wishlist Anda sebelumnya!',
             ], 200);
         } else {
             return response()->json([
@@ -116,7 +126,7 @@ class MainController extends Controller
     {
         $produk = Produk::where('permalink', $request->produk)->first();
         $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
-        $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->first();
+        $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
         if ($cek) {
             $cek->update([
@@ -167,7 +177,7 @@ class MainController extends Controller
         $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
         $cart->delete();
 
-        return back()->with('delete', 'Produk [' . $cart->getProduk->nama . '] Anda berhasil dihapuskan dari cart Anda!');
+        return back()->with('delete', 'Produk [' . $cart->getProduk->nama . '] berhasil dihapuskan dari cart Anda!');
     }
 
     public function submitUlasan(Request $request)

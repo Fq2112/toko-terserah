@@ -21,6 +21,11 @@ class KeranjangSeeder extends Seeder
                 'total' => $qty * $row->harga,
                 'isCheckOut' => rand(0, 1) ? true : false,
             ]);
+
+            \App\Models\Favorit::create([
+                'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
+                'produk_id' => $row->id,
+            ]);
         }
     }
 }

@@ -97,6 +97,11 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'produk'
         ]);
 
+        Route::get('galeri', [
+            'uses' => 'MainController@galeriProduk',
+            'as' => 'get.galeri.produk'
+        ]);
+
         Route::group(['prefix' => 'wishlist', 'middleware' => ['auth', 'user']], function () {
 
             Route::get('cek', [
@@ -208,6 +213,12 @@ Route::group(['namespace' => 'Pages'], function () {
             Route::get('{id}/delete', [
                 'uses' => 'UserController@deleteWishlist',
                 'as' => 'user.delete.wishlist',
+            ]);
+
+            Route::get('mass-cart', [
+                'middleware' => 'user.bio',
+                'uses' => 'UserController@massCartWishlist',
+                'as' => 'user.mass-cart.wishlist',
             ]);
 
             Route::get('mass-delete', [

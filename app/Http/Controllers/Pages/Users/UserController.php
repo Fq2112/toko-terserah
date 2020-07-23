@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Pages\Users;
 
 use App\Http\Controllers\Controller;
 use App\Mail\Users\InvoiceMail;
-use App\Models\Address;
 use App\Models\Alamat;
-use App\Models\Cart;
+use App\Models\Keranjang;
 use App\Models\Favorit;
-use App\Models\Order;
-use App\Models\PaymentCart;
-use App\Models\PromoCode;
-use App\Support\StatusProgress;
+use App\Models\Pesanan;
+use App\Models\Produk;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,7 +31,39 @@ class UserController extends Controller
         $wishlist = Favorit::find(decrypt($request->id));
         $wishlist->delete();
 
-        return back()->with('delete', 'Produk [' . $wishlist->getProduk->nama . '] Anda berhasil dihapuskan dari wishlist Anda!');
+        return back()->with('delete', 'Produk [' . $wishlist->getProduk->nama . '] berhasil dihapuskan dari wishlist Anda!');
+    }
+
+    public function massCartWishlist()
+    {
+        $wishlist = Favorit::where('user_id', Auth::id())->get();
+        foreach ($wishlist as $row) {
+            $produk = $row->getProduk;
+            $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+            $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
+
+            if ($produk->stock > 0) {
+                if ($cek) {
+                    $cek->update([
+                        'qty' => $cek->qty + 1,
+                        'berat' => ($cek->qty + 1) * $produk->berat,
+                        'total' => ($cek->qty + 1) * $harga,
+                    ]);
+                } else {
+                    Keranjang::create([
+                        'user_id' => Auth::id(),
+                        'produk_id' => $produk->id,
+                        'qty' => 1,
+                        'berat' => $produk->berat,
+                        'total' => $harga,
+                    ]);
+                }
+
+                $produk->update(['stock' => $produk->stock - 1]);
+            }
+        }
+
+        return back()->with('add', 'Semua produk yang masih tersedia dan ada di wishlist berhasil ditambahkan ke cart Anda!');
     }
 
     public function massDeleteWishlist()
