@@ -895,6 +895,11 @@ h2.text-heading.coffee-color:after {
     color: #fff;
 }
 
+.btn.btn-color6 {
+    background: #337ab7;
+    color: #fff;
+}
+
 .btn.btn-cars {
     background: none;
     color: #fff;

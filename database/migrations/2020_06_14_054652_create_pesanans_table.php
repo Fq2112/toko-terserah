@@ -31,6 +31,9 @@ class CreatePesanansTable extends Migration
             $table->string('berat_barang');
             $table->string('total_harga');
             $table->text('note')->nullable();
+            $table->string('promo_code')->nullable();
+            $table->boolean('is_discount')->default(false);
+            $table->string('discount')->nullable();
             $table->boolean('isLunas')->default(false);
             $table->string('resi')->nullable()->unique();
             $table->dateTime('tgl_pengiriman')->nullable();

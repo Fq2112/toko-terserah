@@ -7,8 +7,10 @@ use App\Mail\Users\InvoiceMail;
 use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Favorit;
+use App\Models\OccupancyType;
 use App\Models\Pesanan;
 use App\Models\Produk;
+use App\Models\Provinsi;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,9 +54,9 @@ class UserController extends Controller
         return back()->with('add', 'Produk [' . $produk->nama . '] berhasil ditambahkan ke wishlist Anda!');
     }
 
-    public function massAddWishlist()
+    public function massAddWishlist(Request $request)
     {
-        $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->get();
+        $carts = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get();
         foreach ($carts as $cart) {
             $produk = $cart->getProduk;
             $favorit = Favorit::where('user_id', Auth::id())->where('produk_id', $produk->id)->first();
@@ -69,7 +71,7 @@ class UserController extends Controller
             $cart->delete();
         }
 
-        return back()->with('add', 'Semua produk yang ada di cart berhasil dipindahkan ke wishlist Anda!');
+        return back()->with('add', count($carts) . ' produk yang ada di cart berhasil dipindahkan ke wishlist Anda!');
     }
 
     public function massDeleteWishlist()
@@ -85,11 +87,8 @@ class UserController extends Controller
     public function cart()
     {
         $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->orderByDesc('id')->get();
-        $addresses = Alamat::where('user_id', Auth::id())->orderByDesc('id')->get();
-        $subtotal = 0;
-        $ongkir = 0;
 
-        return view('pages.main.users.cart', compact('carts', 'addresses', 'subtotal', 'ongkir'));
+        return view('pages.main.users.cart', compact('carts'));
     }
 
     public function massAddCart()
@@ -124,15 +123,29 @@ class UserController extends Controller
         return back()->with('add', 'Semua produk yang masih tersedia dan ada di wishlist berhasil ditambahkan ke cart Anda!');
     }
 
-    public function massDeleteCart()
+    public function massDeleteCart(Request $request)
     {
-        $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->get();
+        $carts = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get();
         foreach ($carts as $cart) {
             $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
             $cart->delete();
         }
 
-        return back()->with('delete', 'Semua produk berhasil dihapuskan dari cart Anda!');
+        return back()->with('delete', count($carts) . ' produk berhasil dihapuskan dari cart Anda!');
+    }
+
+    public function cartCheckout(Request $request)
+    {
+        $user = Auth::user();
+        $bio = $user->getBio;
+        $addresses = Alamat::where('user_id', $user->id)->orderByDesc('id')->get();
+        $provinces = Provinsi::all();
+        $occupancies = OccupancyType::all();
+
+        $carts = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get();
+
+        return view('pages.main.users.checkout', compact('user', 'bio',
+            'addresses', 'provinces', 'occupancies', 'carts'));
     }
 
     public function updateOrder(Request $request)

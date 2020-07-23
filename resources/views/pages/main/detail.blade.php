@@ -137,8 +137,11 @@
                                             <div class="single-rating">
                                                 <span>{!! $stars !!}</span>
                                                 <span><a href="javascript:ulasan()"><b>{{count($produk->getUlasan)}}</b> ulasan</a></span>
-                                                <p>Tersedia: <span style="color: {{$produk->stock > 0 ? '':'#a94442'}}">
-                                                        <b>{{$produk->stock}}</b> pcs</span></p>
+                                                <p>Tersedia: <span
+                                                        style="margin-right: 0;color: {{$produk->stock > 0 ? '':'#a94442'}}"><b>{{$produk->stock}}</b> pcs</span>&ensp;|&ensp;Berat:
+                                                    <span
+                                                        style="color: #f89406"><b>{{number_format($produk->berat / 1000,2,',','.')}}</b> kg</span>
+                                                </p>
                                                 <p>{{$produk->deskripsi}}</p>
                                                 <p class="single-price">
                                                     @if($produk->is_diskon == true)

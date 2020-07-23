@@ -220,7 +220,7 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.add.wishlist',
             ]);
 
-            Route::get('mass-add', [
+            Route::post('mass-add', [
                 'uses' => 'UserController@massAddWishlist',
                 'as' => 'user.mass-add.wishlist',
             ]);
@@ -245,35 +245,40 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.mass-add.cart',
             ]);
 
-            Route::get('mass-delete', [
+            Route::post('mass-delete', [
                 'middleware' => 'user.bio',
                 'uses' => 'UserController@massDeleteCart',
                 'as' => 'user.mass-delete.cart',
             ]);
 
-            Route::put('update/{id}/order', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@updateOrder',
-                'as' => 'user.update-order.cart',
-            ]);
+            Route::group(['prefix' => 'checkout', 'middleware' => 'user.bio'], function () {
 
-            Route::get('delete/{id}/note', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@deleteNote',
-                'as' => 'user.delete-note.cart',
-            ]);
+                Route::post('/', [
+                    'uses' => 'UserController@cartCheckout',
+                    'as' => 'user.cart.checkout',
+                ]);
 
-            Route::get('cari/promo', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@cariPromo',
-                'as' => 'get.cari-promo.cart'
-            ]);
+                Route::put('update/{id}/order', [
+                    'uses' => 'UserController@updateOrder',
+                    'as' => 'user.update-order.cart',
+                ]);
 
-            Route::post('checkout', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@checkout',
-                'as' => 'user.checkout.cart',
-            ]);
+                Route::get('delete/{id}/note', [
+                    'uses' => 'UserController@deleteNote',
+                    'as' => 'user.delete-note.cart',
+                ]);
+
+                Route::get('cari/promo', [
+                    'uses' => 'UserController@cariPromo',
+                    'as' => 'get.cari-promo.cart'
+                ]);
+
+                Route::post('submit', [
+                    'uses' => 'UserController@submitCheckout',
+                    'as' => 'user.checkout.submit',
+                ]);
+
+            });
 
         });
 

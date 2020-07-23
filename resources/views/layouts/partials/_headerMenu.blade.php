@@ -89,9 +89,13 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="text-center px-4">
-                        <a href="{{route('user.cart')}}" class="btn btn-block cart-btn" style="font-weight: 600">
-                            <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT SEKARANG</a>
+                    <div class="btn-group text-center" style="margin-left: 2.5rem;">
+                        <a href="{{route('user.cart')}}" class="btn btn-color2"
+                           style="border-radius: 4px 0 0 4px !important;">
+                            <i class="fa fa-shopping-cart pl-0 mr-2" style="color: #fff"></i> CART</a>
+                        <a href="{{route('user.cart.checkout')}}" class="btn btn-color6"
+                           style="border-radius: 0 4px 4px 0 !important;">
+                            <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT</a>
                     </div>
                 </div>
             @else

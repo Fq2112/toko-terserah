@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             ProvinsiSeeder::class,
             KotaSeeder::class,
             OccupancyTypeSeeder::class,
+            PromoCodeSeeder::class,
             UserAdminSeeder::class,
             KontakSeeder::class,
             KategoriSeeder::class,

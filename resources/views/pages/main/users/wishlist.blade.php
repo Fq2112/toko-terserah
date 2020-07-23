@@ -1,7 +1,6 @@
 @extends('layouts.mst')
 @section('title', 'Wishlist ('.count($wishlist).' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
-    <link rel="stylesheet" href="{{asset('css/card.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap.min.css')}}">
@@ -9,12 +8,6 @@
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/lightgallery/dist/css/lightgallery.min.css')}}">
     <style>
-        blockquote {
-            background: unset;
-            border-color: unset;
-            color: unset;
-        }
-
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: rgba(0, 0, 0, 0.05);
         }
@@ -44,11 +37,6 @@
 
         .single-price span {
             color: #555 !important;
-        }
-
-        .btn-link {
-            border: 1px solid #ccc;
-            text-decoration: none !important;
         }
 
         .lg-backdrop {

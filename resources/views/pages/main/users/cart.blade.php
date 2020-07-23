@@ -1,7 +1,6 @@
 @extends('layouts.mst')
 @section('title', 'Cart ('.count($carts).' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
-    <link rel="stylesheet" href="{{asset('css/card.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap.min.css')}}">
@@ -9,12 +8,6 @@
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/lightgallery/dist/css/lightgallery.min.css')}}">
     <style>
-        blockquote {
-            background: unset;
-            border-color: unset;
-            color: unset;
-        }
-
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: rgba(0, 0, 0, 0.05);
         }
@@ -45,11 +38,6 @@
         .single-price span {
             color: #555 !important;
             font-size: 12px;
-        }
-
-        .btn-link {
-            border: 1px solid #ccc;
-            text-decoration: none !important;
         }
 
         .lg-backdrop {
@@ -93,10 +81,15 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="text-center">#</th>
+                                <th class="text-center">
+                                    <div class="custom-checkbox custom-control">
+                                        <input type="checkbox" class="custom-control-input" id="cb-all">
+                                        <label for="cb-all" class="custom-control-label">&ensp;#</label>
+                                    </div>
+                                </th>
+                                <th class="text-center">ID</th>
                                 <th>Produk</th>
                                 <th class="text-center">Qty.</th>
-                                <th class="text-center">Berat</th>
                                 <th class="text-right">Total</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -106,20 +99,31 @@
                             @foreach($carts as $row)
                                 @php $wishlist = \App\Models\Favorit::where('user_id', Auth::id())->where('produk_id', $row->produk_id)->first() @endphp
                                 <tr>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
+                                    <td style="vertical-align: middle" align="center">
+                                        <div class="custom-checkbox custom-control">
+                                            <input type="checkbox" id="cb-{{$row->id}}"
+                                                   class="custom-control-input dt-checkboxes">
+                                            <label for="cb-{{$row->id}}"
+                                                   class="custom-control-label">&ensp;{{$no++}}</label>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle" align="center">{{$row->id}}</td>
                                     <td style="vertical-align: middle">
                                         <div class="row float-left mr-0">
                                             <div class="col-lg-12">
                                                 <a href="javascript:void(0)" id="preview{{$row->id}}"
                                                    onclick="preview('{{$row->id}}','{{$row->getProduk->nama}}',
                                                        '{{route('get.galeri.produk', ['produk' => $row->getProduk->permalink])}}')">
-                                                    <img width="100" alt="Thumbnail" class="img-thumbnail"
+                                                    <img width="80" alt="Thumbnail" class="img-thumbnail"
                                                          src="{{asset('storage/produk/thumb/'.$row->getProduk->gambar)}}">
                                                 </a>
                                             </div>
                                         </div>
                                         <span class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
-                                                Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span><br>
+                                            Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span> |
+                                        <span class="label label-warning">
+                                            Berat: <b>{{number_format($row->getProduk->berat / 1000,2,',','.')}}</b> kg
+                                        </span><br>
                                         <a href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
                                         <p class="single-price mb-0">
                                             @if($row->getProduk->is_diskon == true)
@@ -130,12 +134,8 @@
                                                 Rp{{number_format($row->getProduk->harga,2,',','.')}}
                                             @endif
                                         </p>
-                                        <p>{{$row->getProduk->deskripsi}}</p>
                                     </td>
                                     <td style="vertical-align: middle" align="center"><b>{{$row->qty}}</b> pcs</td>
-                                    <td style="vertical-align: middle" align="center">
-                                        <b>{{number_format($row->berat / 1000,2,',','.')}}</b> kg
-                                    </td>
                                     <td style="vertical-align: middle" align="right">
                                         <b>Rp{{number_format($row->total,2,',','.')}}</b>
                                     </td>
@@ -168,6 +168,10 @@
                             @endforeach
                             </tbody>
                         </table>
+                        <form method="post" id="form-mass">
+                            @csrf
+                            <input type="hidden" name="cart_ids">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -185,10 +189,10 @@
     <script src="{{asset('vendor/lightgallery/modules/lg-video.min.js')}}"></script>
     <script>
         $(function () {
-            $("#dt-produk table").DataTable({
+            var table = $("#dt-produk table").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [{"sortable": false, "targets": 5}],
+                columnDefs: [{targets: 5, sortable: false}, {targets: 1, visible: false, searchable: false}],
                 language: {
                     "emptyTable": "Anda belum menambahkan cart apapun",
                     "info": "Menampilkan _START_ - _END_ dari _TOTAL_ produk",
@@ -212,54 +216,134 @@
                 },
                 buttons: [
                     {
-                        text: '<i class="fa fa-heart mr-2"></i> <b>Pindah Semua ke Wishlist</b>',
+                        text: '<i class="fa fa-trash-alt mr-2"></i> <b>Hapus</b>',
+                        className: 'btn btn-color5 btn-sm btn-hapus'
+                    },
+                    {
+                        text: '<i class="fa fa-heart mr-2"></i> <b>Wishlist</b>',
                         className: 'btn btn-color2 btn-sm btn-wishlist'
                     },
                     {
-                        text: '<i class="fa fa-trash-alt mr-2"></i> <b>Hapus Semua Cart</b>',
-                        className: 'btn btn-color5 btn-sm btn-hapus'
-                    }
+                        text: '<i class="fa fa-wallet mr-2"></i> <b>Checkout</b>',
+                        className: 'btn btn-color6 btn-sm btn-checkout'
+                    },
+
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
                     $('[data-toggle="tooltip"]').tooltip();
 
-                    $(".btn-wishlist").on('click', function () {
-                        swal({
-                            title: "Pindah Semua ke Wishlist",
-                            text: 'Apakah Anda yakin akan memindahkan semua produk ke wishlist Anda? Anda tidak dapat mengembalikannya!',
-                            icon: 'warning',
-                            dangerMode: true,
-                            buttons: ["Tidak", "Ya"],
-                            closeOnEsc: false,
-                            closeOnClickOutside: false,
-                        }).then((confirm) => {
-                            if (confirm) {
-                                swal({icon: "success", buttons: false});
-                                window.location.href = '{{route('user.mass-add.wishlist')}}';
-                            }
-                        });
+                    $("#cb-all").on('click', function () {
+                        if ($(this).is(":checked")) {
+                            $("#dt-produk tbody tr").addClass("terpilih")
+                                .find('.dt-checkboxes').prop("checked", true).trigger('change');
+                        } else {
+                            $("#dt-produk tbody tr").removeClass("terpilih")
+                                .find('.dt-checkboxes').prop("checked", false).trigger('change');
+                        }
+                    });
+
+                    $("#dt-produk tbody tr").on("click", function () {
+                        $(this).toggleClass("terpilih");
+                        if ($(this).hasClass('terpilih')) {
+                            $(this).find('.dt-checkboxes').prop("checked", true).trigger('change');
+                        } else {
+                            $(this).find('.dt-checkboxes').prop("checked", false).trigger('change');
+                        }
+                    });
+
+                    $('.dt-checkboxes').on('click', function () {
+                        if ($(this).is(':checked')) {
+                            $(this).parent().parent().parent().addClass("terpilih");
+                        } else {
+                            $(this).parent().parent().parent().removeClass("terpilih");
+                        }
                     });
 
                     $(".btn-hapus").on('click', function () {
-                        @if(count($carts) > 0)
-                        swal({
-                            title: 'Hapus Semua Cart',
-                            text: 'Apakah Anda yakin akan menghapus semua produk dari cart Anda? Anda tidak dapat mengembalikannya!',
-                            icon: 'warning',
-                            dangerMode: true,
-                            buttons: ["Tidak", "Ya"],
-                            closeOnEsc: false,
-                            closeOnClickOutside: false,
-                        }).then((confirm) => {
-                            if (confirm) {
-                                swal({icon: "success", buttons: false});
-                                window.location.href = '{{route('user.mass-delete.cart')}}';
-                            }
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1]
                         });
-                        @else
-                        swal('PERHATIAN!', 'Tidak ada produk di dalam cart Anda!', 'warning');
-                        @endif
+                        $("#form-mass input[name=cart_ids]").val(ids);
+                        $("#form-mass").attr("action", "{{route('user.mass-delete.cart')}}");
+
+                        if (ids.length > 0) {
+                            swal({
+                                title: 'Hapus dari Cart',
+                                text: 'Apakah Anda yakin akan menghapus ' + ids.length +
+                                    ' produk dari cart Anda? Anda tidak dapat mengembalikannya!',
+                                icon: 'warning',
+                                dangerMode: true,
+                                buttons: ["Tidak", "Ya"],
+                                closeOnEsc: false,
+                                closeOnClickOutside: false,
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    swal({icon: "success", buttons: false});
+                                    $("#form-mass")[0].submit();
+                                }
+                            });
+                        } else {
+                            $("#cb-all").prop("checked", false).trigger('change');
+                            swal("Oops..", "Tidak ada produk yang dipilih!", "error");
+                        }
+                    });
+
+                    $(".btn-wishlist").on('click', function () {
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1]
+                        });
+                        $("#form-mass input[name=cart_ids]").val(ids);
+                        $("#form-mass").attr("action", "{{route('user.mass-add.wishlist')}}");
+
+                        if (ids.length > 0) {
+                            swal({
+                                title: "Pindah ke Wishlist",
+                                text: 'Apakah Anda yakin akan memindahkan ' + ids.length +
+                                    ' produk tersebut ke wishlist Anda? Anda tidak dapat mengembalikannya!',
+                                icon: 'warning',
+                                dangerMode: true,
+                                buttons: ["Tidak", "Ya"],
+                                closeOnEsc: false,
+                                closeOnClickOutside: false,
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    swal({icon: "success", buttons: false});
+                                    $("#form-mass")[0].submit();
+                                }
+                            });
+                        } else {
+                            $("#cb-all").prop("checked", false).trigger('change');
+                            swal("Oops..", "Tidak ada produk yang dipilih!", "error");
+                        }
+                    });
+
+                    $(".btn-checkout").on('click', function () {
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1]
+                        });
+                        $("#form-mass input[name=cart_ids]").val(ids);
+                        $("#form-mass").attr("action", "{{route('user.cart.checkout')}}");
+
+                        if (ids.length > 0) {
+                            swal({
+                                title: "Checkout Produk",
+                                text: 'Apakah Anda yakin akan checkout ' + ids.length + ' produk tersebut?',
+                                icon: 'warning',
+                                dangerMode: true,
+                                buttons: ["Tidak", "Ya, checkout sekarang!"],
+                                closeOnEsc: false,
+                                closeOnClickOutside: false,
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    swal({icon: "success", buttons: false});
+                                    $("#form-mass")[0].submit();
+                                }
+                            });
+                        } else {
+                            $("#cb-all").prop("checked", false).trigger('change');
+                            swal("Oops..", "Tidak ada produk yang dipilih!", "error");
+                        }
                     });
                 },
             });
