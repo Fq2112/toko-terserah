@@ -1,5 +1,5 @@
 @extends('layouts.mst')
-@section('title', 'Wishlist ('.count($wishlist).' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
+@section('title', 'Cart ('.count($carts).' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/card.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
@@ -31,19 +31,20 @@
         }
 
         .single-price {
-            font-size: 16px;
             font-family: 'Raleway', sans-serif;
             font-weight: 700;
+            color: #5bb300;
         }
 
         .single-price s {
             color: #aaa !important;
             padding-left: 5px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .single-price span {
             color: #555 !important;
+            font-size: 12px;
         }
 
         .btn-link {
@@ -73,15 +74,14 @@
     asset('storage/users/background/'.Auth::user()->getBio->background) : asset('images/page-header/users.jpg')}}')">
         <div class="breadcrumbs-overlay"></div>
         <div class="page-title">
-            <h2>Wishlist</h2>
-            <p>Di sini Anda dapat mengelola produk-produk {{env('APP_NAME')}} yang telah Anda tambahkan ke wishlist
-                sebelumnya.</p>
+            <h2>Cart</h2>
+            <p>Di sini Anda dapat mengelola pesanan Anda dan menyelesaikan pembayarannya.</p>
         </div>
         <ul class="crumb">
             <li><a href="{{route('beranda')}}"><i class="fa fa-home"></i></a></li>
             <li style="text-transform: none"><i class="fa fa-angle-double-right"></i>
                 <a href="{{URL::current()}}">Akun</a></li>
-            <li><a href="#" onclick="goToAnchor()"><i class="fa fa-angle-double-right"></i> Wishlist</a></li>
+            <li><a href="#" onclick="goToAnchor()"><i class="fa fa-angle-double-right"></i> Cart</a></li>
         </ul>
     </div>
 
@@ -95,14 +95,16 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Produk</th>
-                                <th class="text-center">Diskon</th>
-                                <th class="text-center">Harga</th>
+                                <th class="text-center">Qty.</th>
+                                <th class="text-center">Berat</th>
+                                <th class="text-right">Total</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
                             @php $no = 1; @endphp
-                            @foreach($wishlist as $row)
+                            @foreach($carts as $row)
+                                @php $wishlist = \App\Models\Favorit::where('user_id', Auth::id())->where('produk_id', $row->produk_id)->first() @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                     <td style="vertical-align: middle">
@@ -117,42 +119,46 @@
                                             </div>
                                         </div>
                                         <span class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
-                                                Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span>
-                                        <br><a
-                                            href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
-                                        <p>{{$row->getProduk->deskripsi}}</p>
-                                    </td>
-                                    <td style="vertical-align: middle" align="center">
-                                        <span
-                                            class="label label-{{$row->getProduk->is_diskon == true ? 'success' : 'default'}}">
-                                            {{$row->getProduk->is_diskon == true ? $row->getProduk->diskon : 0}}%</span>
-                                    </td>
-                                    <td style="vertical-align: middle">
-                                        <p class="single-price mb-0"
-                                           style="color: {{$row->getProduk->is_diskon == true ? '#5bb300' : ''}};">
+                                                Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span><br>
+                                        <a href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
+                                        <p class="single-price mb-0">
                                             @if($row->getProduk->is_diskon == true)
                                                 Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
                                                 <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
+                                                <span>-{{$row->getProduk->diskon}}%</span>
                                             @else
                                                 Rp{{number_format($row->getProduk->harga,2,',','.')}}
                                             @endif
                                         </p>
+                                        <p>{{$row->getProduk->deskripsi}}</p>
+                                    </td>
+                                    <td style="vertical-align: middle" align="center"><b>{{$row->qty}}</b> pcs</td>
+                                    <td style="vertical-align: middle" align="center">
+                                        <b>{{number_format($row->berat / 1000,2,',','.')}}</b> kg
+                                    </td>
+                                    <td style="vertical-align: middle" align="right">
+                                        <b>Rp{{number_format($row->total,2,',','.')}}</b>
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-color2 btn-sm" style="border-radius:4px 0 0 4px;"
-                                                        data-toggle="tooltip" title="Tambah ke Cart"
-                                                        {{$row->getProduk->stock > 0 ? '' : 'disabled'}}
-                                                        onclick="tambahCart('{{$row->getProduk->nama}}',
-                                                            '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink])}}',
-                                                            '{{route('produk.add.cart', ['produk' => $row->getProduk->permalink])}}')">
-                                                    <i class="fa fa-shopping-cart" style="margin-right: 0"></i>
+                                                        data-toggle="tooltip" title="Pindah ke Wishlist"
+                                                        onclick="addWishlist('{{$row->getProduk->nama}}',
+                                                            '{{route('user.add.wishlist', ['cart_id' => encrypt($row->id)])}}')">
+                                                    <i class="fa fa-heart" style="margin-right: 0"></i>
+                                                </button>
+                                                <button class="btn btn-color4 btn-sm"
+                                                        data-toggle="tooltip" title="Sunting Cart"
+                                                        onclick="editCart('{{$row->getProduk->nama}}','{{$row->getProduk->stock}}','{{$row->qty}}',
+                                                            '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
+                                                            '{{route('produk.update.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
+                                                    <i class="fa fa-edit" style="margin-right: 0"></i>
                                                 </button>
                                                 <button class="btn btn-color5 btn-sm" style="border-radius:0 4px 4px 0;"
-                                                        data-toggle="tooltip" title="Hapus Wishlist"
-                                                        onclick="hapusWishlist('{{route('user.delete.wishlist', ['id' => encrypt($row->id)])}}',
-                                                            '{{$row->getProduk->nama}}')">
+                                                        data-toggle="tooltip" title="Hapus Cart"
+                                                        onclick="deleteCart('{{$row->getProduk->nama}}',
+                                                            '{{route('produk.delete.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
                                                     <i class="fa fa-trash-alt" style="margin-right: 0"></i>
                                                 </button>
                                             </span>
@@ -182,9 +188,9 @@
             $("#dt-produk table").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [{"sortable": false, "targets": 4}],
+                columnDefs: [{"sortable": false, "targets": 5}],
                 language: {
-                    "emptyTable": "Anda belum menambahkan wishlist apapun",
+                    "emptyTable": "Anda belum menambahkan cart apapun",
                     "info": "Menampilkan _START_ - _END_ dari _TOTAL_ produk",
                     "infoEmpty": "Menampilkan 0 produk",
                     "infoFiltered": "(difilter dari _MAX_ total produk)",
@@ -206,11 +212,11 @@
                 },
                 buttons: [
                     {
-                        text: '<i class="fa fa-shopping-cart mr-2"></i> <b>Tambah Semua ke Cart</b>',
-                        className: 'btn btn-color2 btn-sm btn-tambah'
+                        text: '<i class="fa fa-heart mr-2"></i> <b>Pindah Semua ke Wishlist</b>',
+                        className: 'btn btn-color2 btn-sm btn-wishlist'
                     },
                     {
-                        text: '<i class="fa fa-trash-alt mr-2"></i> <b>Hapus Semua Wishlist</b>',
+                        text: '<i class="fa fa-trash-alt mr-2"></i> <b>Hapus Semua Cart</b>',
                         className: 'btn btn-color5 btn-sm btn-hapus'
                     }
                 ],
@@ -218,11 +224,10 @@
                     $('.use-nicescroll').getNiceScroll().resize();
                     $('[data-toggle="tooltip"]').tooltip();
 
-                    $(".btn-tambah").on('click', function () {
-                        @if(count($wishlist) > 0)
+                    $(".btn-wishlist").on('click', function () {
                         swal({
-                            title: 'Tambah Semua ke Cart',
-                            text: 'Apakah Anda yakin akan menambahkan semua produk yang masih tersedia dan ada di wishlist ke cart Anda? Anda tidak dapat mengembalikannya!',
+                            title: "Pindah Semua ke Wishlist",
+                            text: 'Apakah Anda yakin akan memindahkan semua produk ke wishlist Anda? Anda tidak dapat mengembalikannya!',
                             icon: 'warning',
                             dangerMode: true,
                             buttons: ["Tidak", "Ya"],
@@ -231,19 +236,16 @@
                         }).then((confirm) => {
                             if (confirm) {
                                 swal({icon: "success", buttons: false});
-                                window.location.href = '{{route('user.mass-add.cart')}}';
+                                window.location.href = '{{route('user.mass-add.wishlist')}}';
                             }
                         });
-                        @else
-                        swal('PERHATIAN!', 'Tidak ada produk di dalam wishlist Anda!', 'warning');
-                        @endif
                     });
 
                     $(".btn-hapus").on('click', function () {
-                        @if(count($wishlist) > 0)
+                        @if(count($carts) > 0)
                         swal({
-                            title: 'Hapus Semua Wishlist',
-                            text: 'Apakah Anda yakin akan menghapus semua produk dari wishlist Anda? Anda tidak dapat mengembalikannya!',
+                            title: 'Hapus Semua Cart',
+                            text: 'Apakah Anda yakin akan menghapus semua produk dari cart Anda? Anda tidak dapat mengembalikannya!',
                             icon: 'warning',
                             dangerMode: true,
                             buttons: ["Tidak", "Ya"],
@@ -252,11 +254,11 @@
                         }).then((confirm) => {
                             if (confirm) {
                                 swal({icon: "success", buttons: false});
-                                window.location.href = '{{route('user.mass-delete.wishlist')}}';
+                                window.location.href = '{{route('user.mass-delete.cart')}}';
                             }
                         });
                         @else
-                        swal('PERHATIAN!', 'Tidak ada produk di dalam wishlist Anda!', 'warning');
+                        swal('PERHATIAN!', 'Tidak ada produk di dalam cart Anda!', 'warning');
                         @endif
                     });
                 },
@@ -293,10 +295,10 @@
             }.bind(this), 800);
         }
 
-        function tambahCart(nama, cek_uri, add_uri) {
+        function addWishlist(nama, url) {
             swal({
-                title: "Tambah ke Cart",
-                text: "Apakah Anda yakin untuk menambahkan produk \"" + nama + "\" ke dalam cart Anda?",
+                title: "Pindah ke Wishlist",
+                text: 'Apakah Anda yakin akan memindahkan produk "' + nama + '" ke wishlist Anda? Anda tidak dapat mengembalikannya!',
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ["Tidak", "Ya"],
@@ -304,60 +306,61 @@
                 closeOnClickOutside: false,
             }).then((confirm) => {
                 if (confirm) {
-                    let input = document.createElement("input");
-                    input.id = 'qty-cart';
-                    input.value = '1';
-                    input.type = 'number';
-                    input.min = '1';
-                    input.className = 'swal-content__input';
-
-                    swal({
-                        text: 'Kuantitas: ' + name,
-                        content: input,
-                        dangerMode: true,
-                        buttons: ["Batal", "Tambah ke Cart"],
-                        closeOnEsc: false,
-                        closeOnClickOutside: false,
-                    }).then(val => {
-                        if (!val) throw null;
-                        $("#form-cart input[name=_method], #form-cart input[name=qty_lama]").val(null);
-                        $("#form-cart input[name=qty]").val($("#qty-cart").val());
-                        $("#form-cart").attr('action', add_uri).submit();
-                    });
-
-                    $("#qty-cart").on('keyup', function () {
-                        var el = $(this);
-                        if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                            el.val(1);
-                        }
-
-                        $.get(cek_uri, function (data) {
-                            if (data.status == true) {
-                                el.attr('max', data.stock);
-                                el.parent().find('.text-danger').remove();
-
-                                if (parseInt(el.val()) > data.stock) {
-                                    if (data.stock > 0) {
-                                        el.parent().append("<p class='text-success'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
-                                    } else {
-                                        el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
-                                    }
-                                    el.val(data.stock);
-                                }
-
-                            } else {
-                                swal('PERHATIAN!', data.message, 'warning');
-                            }
-                        });
-                    });
+                    swal({icon: "success", buttons: false});
+                    window.location.href = url;
                 }
             });
         }
 
-        function hapusWishlist(url, nama) {
+        function editCart(name, stock, qty, cek_uri, edit_uri) {
+            let input = document.createElement("input");
+            input.id = 'qty-cart';
+            input.value = qty;
+            input.type = 'number';
+            input.min = '1';
+            input.max = parseInt(stock) + parseInt(qty);
+            input.className = 'swal-content__input';
+
             swal({
-                title: 'Hapus Wishlist',
-                text: 'Apakah Anda yakin akan menghapus produk "' + nama + '" dari wishlist Anda? Anda tidak dapat mengembalikannya!',
+                text: 'Sunting Kuantitas: ' + name,
+                content: input,
+                dangerMode: true,
+                buttons: ["Batal", "Simpan Perubahan"],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then(val => {
+                if (!val) throw null;
+                $("#form-cart input[name=_method]").val('PUT');
+                $("#form-cart input[name=qty_lama]").val(qty);
+                $("#form-cart input[name=qty]").val($("#qty-cart").val());
+                $("#form-cart").attr('action', edit_uri).submit();
+            });
+
+            if (stock > 0) {
+                $("#qty-cart").parent().append("<p class='text-success'>Tersedia: <b>" + stock + "</b> pcs</p>");
+            } else {
+                $("#qty-cart").parent().append("<p class='text-danger'>Tersedia: <b>" + stock + "</b> pcs</p>");
+            }
+
+            $("#qty-cart").on('keyup', function () {
+                var el = $(this);
+                if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
+                    el.val(1);
+                }
+
+                $.get(cek_uri, function (data) {
+                    el.attr('max', parseInt(data.stock) + parseInt(qty));
+                    if (parseInt(el.val()) > parseInt(data.stock) + parseInt(qty)) {
+                        el.val(parseInt(data.stock) + parseInt(qty));
+                    }
+                });
+            });
+        }
+
+        function deleteCart(name, url) {
+            swal({
+                title: 'Hapus Cart',
+                text: 'Apakah Anda yakin akan menghapus produk "' + name + '" dari cart Anda? Anda tidak dapat mengembalikannya!',
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ["Tidak", "Ya"],

@@ -34,7 +34,65 @@ class UserController extends Controller
         return back()->with('delete', 'Produk [' . $wishlist->getProduk->nama . '] berhasil dihapuskan dari wishlist Anda!');
     }
 
-    public function massCartWishlist()
+    public function addWishlist(Request $request)
+    {
+        $cart = Keranjang::find(decrypt($request->cart_id));
+        $produk = $cart->getProduk;
+        $favorit = Favorit::where('user_id', Auth::id())->where('produk_id', $produk->id)->first();
+        if (!$favorit) {
+            Favorit::create([
+                'user_id' => Auth::id(),
+                'produk_id' => $produk->id,
+            ]);
+        }
+
+        $produk->update(['stock' => $produk->stock + $cart->qty]);
+        $cart->delete();
+
+        return back()->with('add', 'Produk [' . $produk->nama . '] berhasil ditambahkan ke wishlist Anda!');
+    }
+
+    public function massAddWishlist()
+    {
+        $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->get();
+        foreach ($carts as $cart) {
+            $produk = $cart->getProduk;
+            $favorit = Favorit::where('user_id', Auth::id())->where('produk_id', $produk->id)->first();
+            if (!$favorit) {
+                Favorit::create([
+                    'user_id' => Auth::id(),
+                    'produk_id' => $produk->id,
+                ]);
+            }
+
+            $produk->update(['stock' => $produk->stock + $cart->qty]);
+            $cart->delete();
+        }
+
+        return back()->with('add', 'Semua produk yang ada di cart berhasil dipindahkan ke wishlist Anda!');
+    }
+
+    public function massDeleteWishlist()
+    {
+        $wishlist = Favorit::where('user_id', Auth::id())->get();
+        foreach ($wishlist as $row) {
+            $row->delete();
+        }
+
+        return back()->with('delete', 'Semua produk berhasil dihapuskan dari wishlist Anda!');
+    }
+
+    public function cart()
+    {
+        $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->orderByDesc('id')->get();
+        $addresses = Alamat::where('user_id', Auth::id())->orderByDesc('id')->get();
+        $subtotal = 0;
+        $ongkir = 0;
+
+        return view('pages.main.users.cart', compact('carts', 'addresses', 'subtotal', 'ongkir'));
+    }
+
+    public function massAddCart()
     {
         $wishlist = Favorit::where('user_id', Auth::id())->get();
         foreach ($wishlist as $row) {
@@ -66,40 +124,15 @@ class UserController extends Controller
         return back()->with('add', 'Semua produk yang masih tersedia dan ada di wishlist berhasil ditambahkan ke cart Anda!');
     }
 
-    public function massDeleteWishlist()
+    public function massDeleteCart()
     {
-        $wishlist = Favorit::where('user_id', Auth::id())->get();
-        foreach ($wishlist as $row) {
-            $row->delete();
+        $carts = Keranjang::where('user_id', Auth::id())->where('isCheckOut', false)->get();
+        foreach ($carts as $cart) {
+            $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
+            $cart->delete();
         }
 
-        return back()->with('delete', 'Semua produk berhasil dihapuskan dari wishlist Anda!');
-    }
-
-    public function cart()
-    {
-        $user = Auth::user();
-        $bio = $user->getBio;
-
-        $archive = Cart::where('user_id', $user->id)->where('isCheckout', false)
-            ->orderByDesc('created_at')->get()->groupBy(function ($q) {
-                return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
-            });
-        $carts = $archive;
-
-        $addresses = Address::where('user_id', $user->id)->orderByDesc('id')->get();
-
-        $a = 1;
-        $b = 1;
-        $c = 1;
-        $d = 1;
-        $e = 1;
-        $total_item = Cart::where('user_id', $user->id)->where('isCheckout', false)->get();
-        $subtotal = 0;
-        $ongkir = 0;
-
-        return view('pages.main.users.cart', compact('user', 'bio', 'carts', 'addresses',
-            'a', 'b', 'c', 'd', 'e', 'total_item', 'subtotal', 'ongkir'));
+        return back()->with('delete', 'Semua produk berhasil dihapuskan dari cart Anda!');
     }
 
     public function updateOrder(Request $request)
@@ -204,7 +237,7 @@ class UserController extends Controller
                 'discount' => $request->discount,
             ]);
 
-            $cart->update(['isCheckout' => true]);
+            $cart->update(['isCheckOut' => true]);
         }
 
         $check = PaymentCart::where('uni_code_payment', $code)->where('user_id', Auth::id())->orderByDesc('id')->first();
@@ -229,32 +262,32 @@ class UserController extends Controller
 
         $archive_unpaid = PaymentCart::where('user_id', $user->id)->where('finish_payment', false)
             ->whereHas('getCart', function ($q) use ($user) {
-                $q->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder');
+                $q->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder');
             })->when($keyword, function ($q) use ($keyword, $user) {
                 $q->where('uni_code_payment', 'LIKE', '%' . $keyword . '%')
                     ->orWhereHas('getCart', function ($q) use ($keyword, $user) {
                         $q->whereHas('getSubKategori', function ($q) use ($keyword) {
                             $q->where('name', 'LIKE', '%' . $keyword . '%');
-                        })->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder')
+                        })->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder')
                             ->orWhereHas('getCluster', function ($q) use ($keyword) {
                                 $q->where('name', 'LIKE', '%' . $keyword . '%');
-                            })->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder');
+                            })->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder');
                     })->where('user_id', $user->id)->where('finish_payment', false);
             })->orderByDesc('id')->get()->groupBy('uni_code_payment');
         $unpaid = $archive_unpaid;
 
         $archive_paid = PaymentCart::where('user_id', $user->id)->where('finish_payment', true)
             ->whereHas('getCart', function ($q) use ($user) {
-                $q->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder');
+                $q->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder');
             })->when($keyword, function ($q) use ($keyword, $user) {
                 $q->where('uni_code_payment', 'LIKE', '%' . $keyword . '%')
                     ->orWhereHas('getCart', function ($q) use ($keyword, $user) {
                         $q->whereHas('getSubKategori', function ($q) use ($keyword) {
                             $q->where('name', 'LIKE', '%' . $keyword . '%');
-                        })->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder')
+                        })->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder')
                             ->orWhereHas('getCluster', function ($q) use ($keyword) {
                                 $q->where('name', 'LIKE', '%' . $keyword . '%');
-                            })->where('user_id', $user->id)->where('isCheckout', true)->doesntHave('getOrder');
+                            })->where('user_id', $user->id)->where('isCheckOut', true)->doesntHave('getOrder');
                     })->where('user_id', $user->id)->where('finish_payment', true);
             })->orderByDesc('id')->get()->groupBy('uni_code_payment');
         $paid = $archive_paid;

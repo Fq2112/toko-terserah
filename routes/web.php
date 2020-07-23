@@ -215,10 +215,14 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.delete.wishlist',
             ]);
 
-            Route::get('mass-cart', [
-                'middleware' => 'user.bio',
-                'uses' => 'UserController@massCartWishlist',
-                'as' => 'user.mass-cart.wishlist',
+            Route::get('{cart_id}/add', [
+                'uses' => 'UserController@addWishlist',
+                'as' => 'user.add.wishlist',
+            ]);
+
+            Route::get('mass-add', [
+                'uses' => 'UserController@massAddWishlist',
+                'as' => 'user.mass-add.wishlist',
             ]);
 
             Route::get('mass-delete', [
@@ -233,6 +237,18 @@ Route::group(['namespace' => 'Pages'], function () {
             Route::get('/', [
                 'uses' => 'UserController@cart',
                 'as' => 'user.cart',
+            ]);
+
+            Route::get('mass-add', [
+                'middleware' => 'user.bio',
+                'uses' => 'UserController@massAddCart',
+                'as' => 'user.mass-add.cart',
+            ]);
+
+            Route::get('mass-delete', [
+                'middleware' => 'user.bio',
+                'uses' => 'UserController@massDeleteCart',
+                'as' => 'user.mass-delete.cart',
             ]);
 
             Route::put('update/{id}/order', [

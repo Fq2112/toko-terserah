@@ -90,7 +90,8 @@
                         </div>
                     </div>
                     <div class="text-center px-4">
-                        <a href="{{route('user.cart')}}" class="btn btn-block cart-btn">CHECKOUT SEKARANG</a>
+                        <a href="{{route('user.cart')}}" class="btn btn-block cart-btn" style="font-weight: 600">
+                            <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT SEKARANG</a>
                     </div>
                 </div>
             @else
@@ -99,7 +100,8 @@
                 <div class="dropdown-content">
                     <img class="img-responsive" src="{{asset('images/empty-cart.gif')}}" alt="Empty Cart">
                     <div class="text-center">
-                        <a href="{{route('cari')}}" class="btn btn-block cart-btn mb-2">BELANJA SEKARANG</a>
+                        <a href="{{route('cari')}}" class="btn btn-block cart-btn mb-2" style="font-weight: 600">
+                            <i class="fa fa-search pl-0 mr-2" style="color: #fff"></i> BELANJA SEKARANG</a>
                     </div>
                 </div>
             @endif

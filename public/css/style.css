@@ -885,6 +885,11 @@ h2.text-heading.coffee-color:after {
     color: #fff;
 }
 
+.btn.btn-color4 {
+    background: #f89406;
+    color: #fff;
+}
+
 .btn.btn-color5 {
     background: #dc3545;
     color: #fff;
