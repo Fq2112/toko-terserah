@@ -93,9 +93,14 @@
                         <a href="{{route('user.cart')}}" class="btn btn-color2"
                            style="border-radius: 4px 0 0 4px !important;">
                             <i class="fa fa-shopping-cart pl-0 mr-2" style="color: #fff"></i> CART</a>
-                        <a href="{{route('user.cart.checkout')}}" class="btn btn-color6"
-                           style="border-radius: 0 4px 4px 0 !important;">
+                        <a href="javascript:void(0)" class="btn btn-color6"
+                           style="border-radius: 0 4px 4px 0 !important;"
+                           onclick="checkout('{{implode(',',$carts->pluck('id')->toArray())}}')">
                             <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT</a>
+                        <form id="form-cart_ids" action="{{route('user.cart.checkout')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="cart_ids">
+                        </form>
                     </div>
                 </div>
             @else
@@ -115,7 +120,8 @@
             <div class="dropdown-content">
                 <img class="img-responsive" src="{{asset('images/empty-cart.gif')}}" alt="Empty Cart">
                 <div class="text-center">
-                    <a href="{{route('cari')}}" class="btn btn-block cart-btn mb-2">BELANJA SEKARANG</a>
+                    <a href="{{route('cari')}}" class="btn btn-block cart-btn mb-2" style="font-weight: 600">
+                        <i class="fa fa-search pl-0 mr-2" style="color: #fff"></i> BELANJA SEKARANG</a>
                 </div>
             </div>
         @endauth

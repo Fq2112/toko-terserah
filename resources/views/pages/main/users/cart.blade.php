@@ -63,7 +63,8 @@
         <div class="breadcrumbs-overlay"></div>
         <div class="page-title">
             <h2>Cart</h2>
-            <p>Di sini Anda dapat mengelola pesanan Anda dan menyelesaikan pembayarannya.</p>
+            <p>Di sini Anda dapat mengelola produk-produk {{env('APP_NAME')}} yang telah Anda tambahkan ke cart
+                sebelumnya.</p>
         </div>
         <ul class="crumb">
             <li><a href="{{route('beranda')}}"><i class="fa fa-home"></i></a></li>

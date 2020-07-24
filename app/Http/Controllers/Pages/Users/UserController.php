@@ -142,10 +142,17 @@ class UserController extends Controller
         $provinces = Provinsi::all();
         $occupancies = OccupancyType::all();
 
-        $carts = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get();
+        $archive = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get()->groupBy(function ($q) {
+            return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
+        });
+        $carts = $archive;
+        $total_item = Keranjang::whereIn('id', explode(",", $request->cart_ids))->count();
 
-        return view('pages.main.users.checkout', compact('user', 'bio',
-            'addresses', 'provinces', 'occupancies', 'carts'));
+        $subtotal = 0;
+        $total_weight = 0;
+
+        return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'provinces',
+            'occupancies', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
     public function updateOrder(Request $request)

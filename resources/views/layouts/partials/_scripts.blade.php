@@ -232,6 +232,11 @@
         @endauth
     }
 
+    function checkout(cart_ids) {
+        $("#form-cart_ids input[name=cart_ids]").val(cart_ids);
+        $("#form-cart_ids")[0].submit();
+    }
+
     function thousandSeparator(nStr) {
         nStr += '';
         x = nStr.split('.');

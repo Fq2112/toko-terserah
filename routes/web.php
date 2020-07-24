@@ -263,6 +263,11 @@ Route::group(['namespace' => 'Pages'], function () {
                     'as' => 'user.update-order.cart',
                 ]);
 
+                Route::get('edit/{id}/note', [
+                    'uses' => 'UserController@deleteNote',
+                    'as' => 'user.edit-note.cart',
+                ]);
+
                 Route::get('delete/{id}/note', [
                     'uses' => 'UserController@deleteNote',
                     'as' => 'user.delete-note.cart',

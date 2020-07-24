@@ -1,5 +1,5 @@
 @extends('layouts.mst')
-@section('title', 'Cart ('.count($carts).' produk): '.$user->name.' | '.env('APP_TITLE'))
+@section('title', 'Checkout Cart ('.$total_item.' produk): '.$user->name.' | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/card.css')}}">
     <link rel="stylesheet" href="{{asset('css/gmaps.css')}}">
@@ -230,14 +230,15 @@
     asset('storage/users/background/'.$bio->background) : asset('images/page-header/users.jpg')}}')">
         <div class="breadcrumbs-overlay"></div>
         <div class="page-title">
-            <h2>Cart</h2>
+            <h2>Checkout Cart</h2>
             <p>Di sini Anda dapat mengelola pesanan Anda dan menyelesaikan pembayarannya.</p>
         </div>
         <ul class="crumb">
             <li><a href="{{route('beranda')}}"><i class="fa fa-home"></i></a></li>
             <li style="text-transform: none"><i class="fa fa-angle-double-right"></i>
-                <a href="{{URL::current()}}">Akun</a></li>
-            <li><a href="#" onclick="goToAnchor()"><i class="fa fa-angle-double-right"></i> Cart</a></li>
+                <a href="{{route('user.profil')}}">Akun</a></li>
+            <li><a href="{{URL::current()}}"><i class="fa fa-angle-double-right"></i> Cart</a></li>
+            <li><a href="#" onclick="goToAnchor()"><i class="fa fa-angle-double-right"></i> Checkout</a></li>
         </ul>
     </div>
 
@@ -249,274 +250,246 @@
                 <input type="hidden" name="lang" value="{{app()->getLocale()}}">
 
                 <div class="col-lg-8 col-md-8 col-sm-12">
-                    <div class="card {{count($carts) > 0 ? 'mb-4' : ''}}">
+                    <div class="card mb-4">
                         <div class="card-content">
                             <div class="card-title">
                                 <h4 class="text-center" style="color: #5bb300">Daftar Pesanan</h4>
                                 <h5 class="text-center mb-2" style="text-transform: none">
                                     Kelola pesanan Anda terlebih dahulu sebelum menyelesaikan pembayarannya</h5>
                                 <hr class="mt-0">
-                                @if(count($carts) > 0)
-                                    <div class="component-accordion">
-                                        <div class="panel-group" id="accordion" role="tablist">
+                                <div class="component-accordion">
+                                    <div class="panel-group" id="accordion" role="tablist">
+                                        @php $a=1; $b=1; $c=1; $d=1; $e=1; @endphp
+                                        @foreach($carts as $monthYear => $archive)
+                                            @php $a++; $b++; $c++; $d++; $e++; @endphp
                                             <div class="panel panel-default">
-                                                <div class="panel-heading" role="tab" id="heading-dt">
+                                                <div class="panel-heading" role="tab" id="heading-{{$a}}">
                                                     <h4 class="panel-title">
                                                         <a role="button" data-toggle="collapse"
-                                                           href="#collapse-dt" aria-expanded="false"
-                                                           aria-controls="collapse-dt" class="collapsed">
-                                                            {{count($carts)}} Produk
-                                                            <b>Rp{{number_format($carts->sum('total'), 2,',','.')}}</b>
+                                                           href="#collapse-{{$b}}" aria-expanded="false"
+                                                           aria-controls="collapse-{{$c}}" class="collapsed">
+                                                            {{$monthYear}}
+                                                            <b>Rp{{number_format($archive->sum('total'), 2,',','.') . ' ('.count($archive).' produk)'}}</b>
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div id="collapse-dt" class="panel-collapse collapse"
-                                                     role="tabpanel" aria-labelledby="heading-dt"
-                                                     aria-expanded="false" style="height: 0;"
-                                                     data-parent="#accordion">
+                                                <div id="collapse-{{$d}}" class="panel-collapse collapse"
+                                                     role="tabpanel" aria-labelledby="heading-{{$e}}"
+                                                     aria-expanded="false" style="height: 0;" data-parent="#accordion">
                                                     <div class="panel-body">
-                                                        <div class="table-responsive" id="dt-produk">
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="text-center">#</th>
-                                                                    <th>Produk</th>
-                                                                    <th class="text-center">Qty.</th>
-                                                                    <th class="text-right">Total</th>
-                                                                    <th class="text-center">Aksi</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @php $no = 1; $subtotal = 0; $total_weight = 0; @endphp
-                                                                @foreach($carts as $row)
-                                                                    @php
-                                                                        $wishlist = \App\Models\Favorit::where('user_id', $user->id)->where('produk_id', $row->produk_id)->first();
-                                                                        $subtotal += $row->total;
-                                                                        $total_weight += $row->berat / 1000;
-                                                                    @endphp
-                                                                    <tr>
-                                                                        <td style="vertical-align: middle"
-                                                                            align="center">{{$no++}}</td>
-                                                                        <td style="vertical-align: middle">
-                                                                            <div class="row float-left mr-0">
-                                                                                <div class="col-lg-12">
-                                                                                    <a href="javascript:void(0)"
-                                                                                       id="preview{{$row->id}}"
-                                                                                       onclick="preview('{{$row->id}}','{{$row->getProduk->nama}}',
-                                                                                           '{{route('get.galeri.produk', ['produk' => $row->getProduk->permalink])}}')">
-                                                                                        <img width="80" alt="Thumbnail"
-                                                                                             class="img-thumbnail"
-                                                                                             src="{{asset('storage/produk/thumb/'.$row->getProduk->gambar)}}">
-                                                                                    </a>
-                                                                                </div>
+                                                        @foreach($archive as $i => $row)
+                                                            @php
+                                                                $produk = $row->getProduk;
+                                                                $subtotal += $row->total;
+                                                                $weight = ($produk->berat / 1000) * $row->qty;
+                                                                $total_weight += $weight;
+                                                            @endphp
+                                                            <div class="media">
+                                                                <div data-placement="bottom" class="content-area"
+                                                                     data-toggle="tooltip" title="Preview"
+                                                                     style="cursor: pointer" id="preview{{$row->id}}"
+                                                                     onclick="preview('{{$row->id}}','{{$produk->nama}}',
+                                                                         '{{route('get.galeri.produk', ['produk' => $produk->permalink])}}')">
+                                                                    <img alt="ico" width="150"
+                                                                         src="{{asset('storage/produk/thumb/'.$produk->gambar)}}">
+                                                                    <div class="custom-overlay">
+                                                                        <div class="custom-text">
+                                                                            <i class="fa fa-stack fa-2x"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ml-3 media-body">
+                                                                    <h5 class="mt-3 mb-1">
+                                                                        <i class="fa fa-box-open mr-1"></i>
+                                                                        {{$produk->nama}}
+                                                                    </h5>
+                                                                    <blockquote class="mb-3 pr-0"
+                                                                                style="font-size: 14px;text-transform: none">
+                                                                        <div class="toggle toggle-border mb-3">
+                                                                            <div
+                                                                                class="togglet toggleta font-weight-normal text-uppercase">
+                                                                                <i class="toggle-closed fa fa-chevron-down1"></i>
+                                                                                <i class="toggle-open fa fa-chevron-up1"></i>
+                                                                                Kalkulasi
                                                                             </div>
-                                                                            <span
-                                                                                class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
-                                            Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span> |
-                                                                            <span class="label label-warning">
-                                            Berat: <b>{{number_format($row->getProduk->berat / 1000,2,',','.')}}</b> kg
-                                        </span>
-                                                                            <br><a
-                                                                                href="{{route('produk', ['produk' => $row->getProduk->permalink])}}">
-                                                                                <b>{{$row->getProduk->nama}}</b></a>
-                                                                            <p class="single-price mb-0">
-                                                                                @if($row->getProduk->is_diskon == true)
-                                                                                    Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
-                                                                                    <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
-                                                                                    <span>-{{$row->getProduk->diskon}}%</span>
-                                                                                @else
-                                                                                    Rp{{number_format($row->getProduk->harga,2,',','.')}}
-                                                                                @endif
-                                                                            </p>
-                                                                        </td>
-                                                                        <td style="vertical-align: middle"
-                                                                            align="center"><b>{{$row->qty}}</b> pcs
-                                                                        </td>
-                                                                        <td style="vertical-align: middle"
-                                                                            align="right">
-                                                                            <b>Rp{{number_format($row->total,2,',','.')}}</b>
-                                                                        </td>
-                                                                        <td style="vertical-align: middle"
-                                                                            align="center">
-                                                                            <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-color2 btn-sm" style="border-radius:4px 0 0 4px;"
-                                                        data-toggle="tooltip" title="Pindah ke Wishlist"
-                                                        onclick="addWishlist('{{$row->getProduk->nama}}',
-                                                            '{{route('user.add.wishlist', ['cart_id' => encrypt($row->id)])}}')">
-                                                    <i class="fa fa-heart" style="margin-right: 0"></i>
-                                                </button>
-                                                <button class="btn btn-color4 btn-sm"
-                                                        data-toggle="tooltip" title="Sunting Cart"
-                                                        onclick="editCart('{{$row->getProduk->nama}}','{{$row->getProduk->stock}}','{{$row->qty}}',
-                                                            '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
-                                                            '{{route('produk.update.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
-                                                    <i class="fa fa-edit" style="margin-right: 0"></i>
-                                                </button>
-                                                <button class="btn btn-color5 btn-sm" style="border-radius:0 4px 4px 0;"
-                                                        data-toggle="tooltip" title="Hapus Cart"
-                                                        onclick="deleteCart('{{$row->getProduk->nama}}',
-                                                            '{{route('produk.delete.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
-                                                    <i class="fa fa-trash-alt" style="margin-right: 0"></i>
-                                                </button>
-                                            </span>
+                                                                            <div class="togglec">
+                                                                                <ul class="list-group list-group-flush">
+                                                                                    <li class="list-group-item border-none">
+                                                                                        Qty.
+                                                                                        <b class="fright">{{$row->qty}}
+                                                                                            pcs</b>
+                                                                                    </li>
+                                                                                    <li class="list-group-item border-none">
+                                                                                        Harga /pcs
+                                                                                        <b class="fright">Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}</b>
+                                                                                    </li>
+                                                                                    <li class="list-group-item border-none">
+                                                                                        Berat
+                                                                                        <b class="fright">
+                                                                                            {{number_format($weight,2,',','.')}}
+                                                                                            kg</b>
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <hr class="my-2">
+                                                                                <ul class="list-group list-group-flush">
+                                                                                    <li class="list-group-item border-none">
+                                                                                        TOTAL
+                                                                                        <b class="fright"
+                                                                                           style="font-size: large">Rp{{number_format($row->total,2,',','.')}}</b>
+                                                                                    </li>
+                                                                                </ul>
                                                                             </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                                        </div>
+                                                                        <div class="toggle toggle-border mb-3">
+                                                                            <div
+                                                                                class="togglet toggleta font-weight-normal text-uppercase">
+                                                                                <i class="toggle-closed fa fa-chevron-down1"></i>
+                                                                                <i class="toggle-open fa fa-chevron-up1"></i>
+                                                                                Detail Produk
+                                                                            </div>
+                                                                            <div class="togglec">
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </blockquote>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="mt-3">
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                @else
-                                    <div class="row text-center">
-                                        <div class="col-lg-12">
-                                            <img width="300" class="img-responsive" alt="Empty Cart"
-                                                 src="{{asset('images/empty-cart.gif')}}">
-                                            <h3 class="mt-0 mb-1" style="text-transform: none">
-                                                Anda belum membuat pesanan apapun</h3>
-                                            <h4 class="mt-0 mb-3" style="text-transform: none">
-                                                Lengkapi kebutuhan cetak Anda sekarang</h4>
-                                            <a href="{{route('cari')}}" class="btn btn-color2 mb-3">
-                                                <i class="fa fa-shopping-cart mr-2"></i> <b>BELANJA SEKARANG</b>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    @if(count($carts) > 0)
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="card-title" style="text-transform: none">
-                                    <h4 class="text-center" style="color: #5bb300">Penerima Pesanan</h4>
-                                    <h5 class="text-center mb-2" style="text-transform: none">
-                                        Tentukan kemana pesanan Anda akan dikirim beserta tagihannya</h5>
-                                    <hr class="mt-0">
-                                    <div class="component-accordion">
-                                        <div id="preload-shipping" class="ajax-loader" style="display: none">
-                                            <div class="preloader4"></div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-title" style="text-transform: none">
+                                <h4 class="text-center" style="color: #5bb300">Penerima Pesanan</h4>
+                                <h5 class="text-center mb-2" style="text-transform: none">
+                                    Tentukan kemana pesanan Anda akan dikirim beserta tagihannya</h5>
+                                <hr class="mt-0">
+                                <div class="component-accordion">
+                                    <div id="preload-shipping" class="ajax-loader" style="display: none">
+                                        <div class="preloader4"></div>
+                                    </div>
+                                    <div class="panel-group" id="accordion2" role="tablist">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading-shipping">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse"
+                                                       href="#collapse-shipping" aria-expanded="false"
+                                                       aria-controls="collapse-shipping" class="collapsed">
+                                                        Alamat Pengiriman
+                                                        <b class="show-shipping">&ndash;</b>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse-shipping" class="panel-collapse collapse"
+                                                 role="tabpanel" aria-labelledby="heading-shipping"
+                                                 aria-expanded="false" style="height:0;"
+                                                 data-parent="#accordion2">
+                                                <div class="panel-body">
+                                                    <div
+                                                        class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
+                                                        @if(count($addresses) > 0)
+                                                            @foreach($addresses as $row)
+                                                                @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="card-label"
+                                                                           for="shipping_{{$row->id}}">
+                                                                        <input id="shipping_{{$row->id}}"
+                                                                               class="card-rb" type="radio"
+                                                                               name="shipping_id"
+                                                                               value="{{$row->id}}"
+                                                                               data-name="{{$occupancy}}">
+                                                                        @php $check = 'shipping'; @endphp
+                                                                        @include('layouts.partials.users._shippingForm')
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <div class="col-lg-12">
+                                                                <img width="256" class="img-responsive" alt="Empty"
+                                                                     src="{{asset('images/empty-cart.gif')}}">
+                                                                <h3 class="mt-0 mb-1">
+                                                                    Anda belum membuat alamat manapun</h3>
+                                                                <h4 class="m-0" style="text-transform: none">
+                                                                    Buka halaman "Sunting Profil" dan kelola daftar
+                                                                    alamat Anda sekarang</h4>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="panel-group" id="accordion2" role="tablist">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading" role="tab" id="heading-shipping">
-                                                    <h4 class="panel-title">
-                                                        <a role="button" data-toggle="collapse"
-                                                           href="#collapse-shipping" aria-expanded="false"
-                                                           aria-controls="collapse-shipping" class="collapsed">
-                                                            Alamat Pengiriman
-                                                            <b class="show-shipping">&ndash;</b>
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapse-shipping" class="panel-collapse collapse"
-                                                     role="tabpanel" aria-labelledby="heading-shipping"
-                                                     aria-expanded="false" style="height:0;"
-                                                     data-parent="#accordion2">
-                                                    <div class="panel-body">
-                                                        <div
-                                                            class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
-                                                            @if(count($addresses) > 0)
-                                                                @foreach($addresses as $row)
-                                                                    @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
-                                                                    <div class="col-lg-12 mb-3">
-                                                                        <label class="card-label"
-                                                                               for="shipping_{{$row->id}}">
-                                                                            <input id="shipping_{{$row->id}}"
-                                                                                   class="card-rb" type="radio"
-                                                                                   name="shipping_id"
-                                                                                   value="{{$row->id}}"
-                                                                                   data-name="{{$occupancy}}">
-                                                                            @php $check = 'shipping'; @endphp
-                                                                            @include('layouts.partials.users._shippingForm')
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            @else
-                                                                <div class="col-lg-12">
-                                                                    <img width="256" class="img-responsive" alt="Empty"
-                                                                         src="{{asset('images/empty-cart.gif')}}">
-                                                                    <h3 class="mt-0 mb-1">
-                                                                        Anda belum membuat alamat manapun</h3>
-                                                                    <h4 class="m-0" style="text-transform: none">
-                                                                        Buka halaman "Sunting Profil" dan kelola daftar
-                                                                        alamat Anda sekarang</h4>
+
+                                        <div class="panel panel-default" style="display: none">
+                                            <div class="panel-heading" role="tab" id="heading-billing">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse"
+                                                       href="#collapse-billing" aria-expanded="false"
+                                                       aria-controls="collapse-billing" class="collapsed">
+                                                        Alamat Penagihan
+                                                        <b class="show-billing">&ndash;</b>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse-billing" class="panel-collapse collapse"
+                                                 role="tabpanel" aria-labelledby="heading-billing"
+                                                 aria-expanded="false" style="height:0;" data-parent="#accordion2">
+                                                <div class="panel-body">
+                                                    <div
+                                                        class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
+                                                        @if(count($addresses) > 0)
+                                                            @foreach($addresses as $row)
+                                                                @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
+                                                                <div class="col-lg-12 mb-3">
+                                                                    <label class="card-label"
+                                                                           for="billing_{{$row->id}}">
+                                                                        <input id="billing_{{$row->id}}"
+                                                                               class="card-rb" type="radio"
+                                                                               name="billing_id"
+                                                                               value="{{$row->id}}"
+                                                                               data-name="{{$occupancy}}">
+                                                                        @php $check = 'billing'; @endphp
+                                                                        @include('layouts.partials.users._shippingForm')
+                                                                    </label>
                                                                 </div>
-                                                            @endif
-                                                        </div>
+                                                            @endforeach
+                                                        @else
+                                                            <div class="col-lg-12">
+                                                                <img width="256" class="img-responsive" alt="Empty"
+                                                                     src="{{asset('images/empty-cart.gif')}}">
+                                                                <h3 class="mt-0 mb-1">
+                                                                    Anda belum membuat alamat manapun</h3>
+                                                                <h4 class="m-0" style="text-transform: none">
+                                                                    Buka halaman "Sunting Profil" dan kelola daftar
+                                                                    alamat Anda sekarang</h4>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="panel panel-default" style="display: none">
-                                                <div class="panel-heading" role="tab" id="heading-billing">
-                                                    <h4 class="panel-title">
-                                                        <a role="button" data-toggle="collapse"
-                                                           href="#collapse-billing" aria-expanded="false"
-                                                           aria-controls="collapse-billing" class="collapsed">
-                                                            Alamat Penagihan
-                                                            <b class="show-billing">&ndash;</b>
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapse-billing" class="panel-collapse collapse"
-                                                     role="tabpanel" aria-labelledby="heading-billing"
-                                                     aria-expanded="false" style="height:0;" data-parent="#accordion2">
-                                                    <div class="panel-body">
-                                                        <div
-                                                            class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
-                                                            @if(count($addresses) > 0)
-                                                                @foreach($addresses as $row)
-                                                                    @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
-                                                                    <div class="col-lg-12 mb-3">
-                                                                        <label class="card-label"
-                                                                               for="billing_{{$row->id}}">
-                                                                            <input id="billing_{{$row->id}}"
-                                                                                   class="card-rb" type="radio"
-                                                                                   name="billing_id"
-                                                                                   value="{{$row->id}}"
-                                                                                   data-name="{{$occupancy}}">
-                                                                            @php $check = 'billing'; @endphp
-                                                                            @include('layouts.partials.users._shippingForm')
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            @else
-                                                                <div class="col-lg-12">
-                                                                    <img width="256" class="img-responsive" alt="Empty"
-                                                                         src="{{asset('images/empty-cart.gif')}}">
-                                                                    <h3 class="mt-0 mb-1">
-                                                                        Anda belum membuat alamat manapun</h3>
-                                                                    <h4 class="m-0" style="text-transform: none">
-                                                                        Buka halaman "Sunting Profil" dan kelola daftar
-                                                                        alamat Anda sekarang</h4>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel panel-default mb-0">
-                                                <div class="panel-heading" role="button">
-                                                    <button type="button" onclick="addAddress()"
-                                                            class="btn btn-block btn-color2">
-                                                        <i class="fa fa-map-marked-alt mr-2"></i> Tambah Alamat
-                                                    </button>
-                                                </div>
+                                        <div class="panel panel-default mb-0">
+                                            <div class="panel-heading" role="button">
+                                                <button type="button" onclick="addAddress()"
+                                                        class="btn btn-block btn-color2">
+                                                    <i class="fa fa-map-marked-alt mr-2"></i> Tambah Alamat
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-12">
@@ -552,16 +525,12 @@
                         </div>
                         <ul class="list-group list-group-flush mb-0">
                             <li class="list-group-item border-none">
-                                Subtotal ({{count($carts)}} produk)
-                                <b class="float-right">
-                                    {!! count($carts) > 0 ? 'Rp'.number_format($subtotal,2,',','.') : '&ndash;' !!}
-                                </b>
+                                Subtotal ({{$total_item}} produk)
+                                <b class="float-right">Rp{{number_format($subtotal,2,',','.')}}</b>
                             </li>
                             <li class="list-group-item border-none">
                                 Berat
-                                <b class="float-right">
-                                    {!! count($carts) > 0 ? number_format($total_weight,2,',','.').' kg' : '&ndash;' !!}
-                                </b>
+                                <b class="float-right">{{number_format($total_weight,2,',','.')}} kg</b>
                             </li>
                             <li class="list-group-item border-none">
                                 Ongkir
@@ -593,7 +562,7 @@
                         <ul class="list-group list-group-flush mb-0">
                             <li class="list-group-item border-none">
                                 TOTAL<b class="float-right show-total" style="font-size: large">
-                                    {!!count($carts) > 0 ? 'Rp'.number_format($subtotal,2,',','.') : '&ndash;'!!}</b>
+                                    Rp{{number_format($subtotal,2,',','.')}}</b>
                             </li>
                         </ul>
                         <div class="card-content py-3">
@@ -615,19 +584,17 @@
 
                 <input type="hidden" name="cart_ids"
                        value="{{implode(',', $carts->pluck('id')->toArray())}}">
-                <input type="hidden" name="subtotal"
-                       value="{{count($carts) > 0 ? $subtotal : null}}">
+                <input type="hidden" name="subtotal" value="{{$subtotal}}">
                 <input id="total_weight" type="hidden" name="total_weight"
-                       value="{{count($carts) > 0 ? number_format($total_weight,2,'.',',') : null}}">
+                       value="{{number_format($total_weight,2,'.',',')}}">
                 <input type="hidden" name="discount">
                 <input type="hidden" name="discount_price">
                 <input id="ongkir" type="hidden" name="ongkir">
                 <input id="delivery_duration" type="hidden" name="delivery_duration">
                 <input id="received_date" type="hidden" name="received_date">
                 <input type="hidden" name="total"
-                       value="{{count($carts) > 0 ? $subtotal : null}}">
-                <input type="hidden" name="code"
-                       value="{{count($carts) > 0 ? strtoupper(uniqid('PYM') . now()->timestamp) : null}}">
+                       value="{{$subtotal}}">
+                <input type="hidden" name="code" value="{{strtoupper(uniqid('PYM') . now()->timestamp)}}">
                 <input type="hidden" name="lang" value="{{app()->getLocale()}}">
                 <input type="hidden" name="transaction_id">
                 <input type="hidden" name="pdf_url">
@@ -833,7 +800,7 @@
     <script>
         var collapse = $('.panel-collapse'), upload_input = $("#file"), link_input = $("#link"), check_file = null,
             btn_pay = $("#btn_pay"), production_day = 3, ongkir = 0, etd = '', str_etd = '', str_date = '',
-            total = parseInt('{{count($carts) > 0 ? $subtotal : 0}}');
+            total = parseInt('{{$subtotal}}');
 
         $(function () {
             $("#dt-produk table").DataTable({
@@ -893,7 +860,6 @@
                     });
 
                     $(".btn-hapus").on('click', function () {
-                        @if(count($carts) > 0)
                         swal({
                             title: 'Hapus Semua Cart',
                             text: 'Apakah Anda yakin akan menghapus semua produk dari cart Anda? Anda tidak dapat mengembalikannya!',
@@ -908,9 +874,6 @@
                                 window.location.href = '{{route('user.mass-delete.cart')}}';
                             }
                         });
-                        @else
-                        swal('PERHATIAN!', 'Tidak ada produk di dalam cart Anda!', 'warning');
-                        @endif
                     });
                 },
             });
@@ -1219,7 +1182,7 @@
                         );
                     },
                     complete: function () {
-                        btn_pay.prop("disabled", false).html('CHECKOUT <i class="icon-chevron-right fright"></i>');
+                        btn_pay.prop("disabled", false).html('CHECKOUT <i class="fa fa-chevron-right fright"></i>');
                     },
                     success: function (data) {
                         snap.pay(data, {
