@@ -10,6 +10,7 @@ use App\Models\Favorit;
 use App\Models\OccupancyType;
 use App\Models\Pesanan;
 use App\Models\Produk;
+use App\Models\PromoCode;
 use App\Models\Provinsi;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
@@ -155,67 +156,13 @@ class UserController extends Controller
             'occupancies', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
-    public function updateOrder(Request $request)
-    {
-        $cart = Cart::find($request->id);
-        $data = !is_null($cart->subkategori_id) ? $cart->getSubKategori : $cart->getCluster;
-
-        if ($request->has('note')) {
-            if (!is_null($cart->note)) {
-                $message = __('lang.alert.cart-note2', ['param' => $data->name]);
-            } else {
-                $message = __('lang.alert.cart-note', ['param' => $data->name]);
-            }
-
-            $cart->update(['note' => $request->note]);
-
-        } else {
-            if ($request->hasFile('file')) {
-                $this->validate($request, ['file' => 'required|mimes:jpg,jpeg,png,tiff,pdf,zip,rar|max:204800']);
-                $file = $request->file('file')->getClientOriginalName();
-                if ($cart->file != '') {
-                    Storage::delete('public/users/order/design/' . Auth::id() . '/' . $cart->file);
-                }
-                $request->file('file')->storeAs('public/users/order/design/' . Auth::id(), $file);
-                $link = null;
-            } else {
-                if (is_null($request->link)) {
-                    $file = $cart->file;
-                    $link = null;
-                } else {
-                    if ($cart->file != '') {
-                        Storage::delete('public/users/order/design/' . Auth::id() . '/' . $cart->file);
-                    }
-                    $file = null;
-                    $link = $request->link;
-                }
-            }
-
-            $cart->update(['file' => $file, 'link' => $link]);
-
-            $message = __('lang.alert.cart-design', ['param' => $data->name]);
-        }
-
-        return back()->with('update', $message);
-    }
-
-    public function deleteNote(Request $request)
-    {
-        $cart = Cart::find($request->id);
-        $data = !is_null($cart->subkategori_id) ? $cart->getSubKategori : $cart->getCluster;
-
-        $cart->update(['note' => null]);
-
-        return back()->with('delete', __('lang.alert.cart-note3', ['param' => $data->name]));
-    }
-
     public function cariPromo(Request $request)
     {
         $promo = PromoCode::where('promo_code', $request->kode)->first();
-        $payment = PaymentCart::where('promo_code', $request->kode)->where('user_id', Auth::id())->first();
+        $pesanan = Pesanan::where('promo_code', $request->kode)->where('user_id', Auth::id())->first();
 
         if ($promo) {
-            if ($payment) {
+            if ($pesanan) {
                 return 1;
             } else {
                 if (now() > $promo->end) {

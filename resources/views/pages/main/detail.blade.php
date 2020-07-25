@@ -173,11 +173,9 @@
                                                     </form>
                                                 </div>
                                                 <div class="cat">
-                                                    Kategori:
-                                                    <a href="javascript:void(0)">
-                                                        {{$produk->getSubkategori->getKategori->nama}}</a>,
+                                                    Kategori: <b>{{$produk->getSubkategori->getKategori->nama}}</b>,
                                                     <a href="{{route('cari', ['kat' => $produk->getSubkategori->id])}}">
-                                                        {{$produk->getSubkategori->nama}}</a>
+                                                        <b>{{$produk->getSubkategori->nama}}</b></a>
                                                 </div>
                                             </div>
                                         </div>

@@ -258,21 +258,6 @@ Route::group(['namespace' => 'Pages'], function () {
                     'as' => 'user.cart.checkout',
                 ]);
 
-                Route::put('update/{id}/order', [
-                    'uses' => 'UserController@updateOrder',
-                    'as' => 'user.update-order.cart',
-                ]);
-
-                Route::get('edit/{id}/note', [
-                    'uses' => 'UserController@deleteNote',
-                    'as' => 'user.edit-note.cart',
-                ]);
-
-                Route::get('delete/{id}/note', [
-                    'uses' => 'UserController@deleteNote',
-                    'as' => 'user.delete-note.cart',
-                ]);
-
                 Route::get('cari/promo', [
                     'uses' => 'UserController@cariPromo',
                     'as' => 'get.cari-promo.cart'

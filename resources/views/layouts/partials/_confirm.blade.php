@@ -120,4 +120,21 @@
             }
         });
     }
+
+    function checkout(total) {
+        swal({
+            title: "Checkout Produk",
+            text: 'Apakah Anda yakin akan checkout ' + total + ' produk tersebut?',
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ["Tidak", "Ya, checkout sekarang!"],
+            closeOnEsc: false,
+            closeOnClickOutside: false,
+        }).then((confirm) => {
+            if (confirm) {
+                swal({icon: "success", buttons: false});
+                $("#form-cart_ids").submit();
+            }
+        });
+    }
 </script>

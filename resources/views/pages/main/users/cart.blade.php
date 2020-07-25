@@ -55,6 +55,30 @@
         .lg-sub-html p {
             color: #bbb;
         }
+
+        .dt-buttons .btn-hapus:hover:before, .dt-buttons .btn-hapus:focus:before, .dt-buttons .btn-hapus:active:before {
+            border-radius: 7px 0 0 7px;
+        }
+
+        .dt-buttons .btn-wishlist:hover:before, .dt-buttons .btn-wishlist:focus:before, .dt-buttons .btn-wishlist:active:before {
+            border-radius: 0;
+        }
+
+        .dt-buttons .btn-checkout:hover:before, .dt-buttons .btn-checkout:focus:before, .dt-buttons .btn-checkout:active:before {
+            border-radius: 0 7px 7px 0;
+        }
+
+        td .input-group-btn .btn-color2:hover:before, td .input-group-btn .btn-color2:focus:before, td .input-group-btn .btn-color2:active:before {
+            border-radius: 4px 0 0 4px;
+        }
+
+        td .input-group-btn .btn-color4:hover:before, td .input-group-btn .btn-color4:focus:before, td .input-group-btn .btn-color4:active:before {
+            border-radius: 0;
+        }
+
+        td .input-group-btn .btn-color5:hover:before, td .input-group-btn .btn-color5:focus:before, td .input-group-btn .btn-color5:active:before {
+            border-radius: 0 4px 4px 0;
+        }
     </style>
 @endpush
 @section('content')
@@ -184,7 +208,6 @@
     <script src="{{asset('admins/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
-    <script src="{{asset('vendor/masonry/masonry.pkgd.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/lib/picturefill.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/dist/js/lightgallery-all.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/modules/lg-video.min.js')}}"></script>

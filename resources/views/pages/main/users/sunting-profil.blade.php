@@ -292,7 +292,7 @@
                                                                     </div>
                                                                     <div class="ml-2 media-body">
                                                                         <h5 class="mt-0 mb-1">
-                                                                            <i class="fa fa-building mr-1"></i>{{$row->getOccupancy->name}}
+                                                                            <i class="fa fa-building mr-2"></i>{{$row->getOccupancy->name}}
                                                                             {!! $row->isUtama == false ? '' :
                                                                             '<span style="font-weight: 500;color: unset">[Alamat Utama]</span>'!!}
                                                                             <span class="float-right">

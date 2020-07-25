@@ -54,6 +54,22 @@
         .lg-sub-html p {
             color: #bbb;
         }
+
+        .dt-buttons .btn-tambah:hover:before, .dt-buttons .btn-tambah:focus:before, .dt-buttons .btn-tambah:active:before {
+            border-radius: 0 7px 7px 0;
+        }
+
+        .dt-buttons .btn-hapus:hover:before, .dt-buttons .btn-hapus:focus:before, .dt-buttons .btn-hapus:active:before {
+            border-radius: 7px 0 0 7px;
+        }
+
+        td .input-group-btn .btn-color2:hover:before, td .input-group-btn .btn-color2:focus:before, td .input-group-btn .btn-color2:active:before {
+            border-radius: 4px 0 0 4px;
+        }
+
+        td .input-group-btn .btn-color5:hover:before, td .input-group-btn .btn-color5:focus:before, td .input-group-btn .btn-color5:active:before {
+            border-radius: 0 4px 4px 0;
+        }
     </style>
 @endpush
 @section('content')
@@ -161,7 +177,6 @@
     <script src="{{asset('admins/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
-    <script src="{{asset('vendor/masonry/masonry.pkgd.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/lib/picturefill.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/dist/js/lightgallery-all.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/modules/lg-video.min.js')}}"></script>
@@ -194,12 +209,12 @@
                 },
                 buttons: [
                     {
-                        text: '<i class="fa fa-shopping-cart mr-2"></i> <b>Tambah Semua ke Cart</b>',
-                        className: 'btn btn-color2 btn-sm btn-tambah'
-                    },
-                    {
                         text: '<i class="fa fa-trash-alt mr-2"></i> <b>Hapus Semua Wishlist</b>',
                         className: 'btn btn-color5 btn-sm btn-hapus'
+                    },
+                    {
+                        text: '<i class="fa fa-shopping-cart mr-2"></i> <b>Tambah Semua ke Cart</b>',
+                        className: 'btn btn-color2 btn-sm btn-tambah'
                     }
                 ],
                 fnDrawCallback: function (oSettings) {

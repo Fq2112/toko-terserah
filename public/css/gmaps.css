@@ -37,6 +37,10 @@
     max-width: 350px !important;
 }
 
+.pac-container {
+    z-index: 9999999 !important;
+}
+
 #iw-container {
     margin-bottom: 10px;
 }
