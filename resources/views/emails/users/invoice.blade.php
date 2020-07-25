@@ -185,7 +185,7 @@
 
         #activate {
             color: #FFFFFF;
-            background: #f89406;
+            background: #5bb300;
             -moz-border-radius: 9px;
             -webkit-border-radius: 9px;
             border-radius: 9px;
@@ -247,6 +247,10 @@
         .appleLinksWhite a {
             color: #949494;
             text-decoration: none;
+        }
+
+        table.custom td div {
+            margin-bottom: 1.3em;
         }
 
         @media screen and (max-width: 480px) {
@@ -385,17 +389,16 @@
                                                     <tr>
                                                         <td>
                                                             <small style="line-height: 2em">
-                                                                @if($check->finish_payment == false)
+                                                                @if($data->isLunas == false)
                                                                     <b style="font-size: 22px">Mohon untuk segera
                                                                         menyeleseaikan pembayaran Anda</b><br>
                                                                     Checkout berhasil
-                                                                    pada {{now()->formatLocalized('%d %B %Y – %H:%M')])}}
+                                                                    pada {{now()->formatLocalized('%d %B %Y – %H:%M')}}
                                                                 @else
-                                                                    <b style="font-size: 22px">Kami akan mengeksekusi
-                                                                        produk cetak yang Anda pesan sesegera
-                                                                        mungkin</b><br>
+                                                                    <b style="font-size: 22px">Kami akan mengirimkan
+                                                                        produk yang Anda pesan sesegera mungkin</b><br>
                                                                     Terima kasih telah menyelesaikan transaksi
-                                                                    di {{env('APP_NAME')}}
+                                                                    di {{env('APP_TITLE')}}
                                                                 @endif
                                                             </small>
                                                         </td>
@@ -412,16 +415,13 @@
                                     </table>
                                     @php
                                         $subtotal = 0;
-                                        $ongkir = 0;
-                                        foreach($data as $row) {
-                                            $cart = $row->getCart;
-                                            $subtotal += ($cart->total - $cart->ongkir);
-                                            $ongkir += $cart->ongkir;
+                                        foreach(\App\Models\Keranjang::whereIn('id', $data->cart_ids)->get() as $cart) {
+                                            $subtotal += $cart->total;
                                         }
 
-                                        if($check->is_discount == true) {
-                                            $discount = $check->discount;
-                                            $discount_price = $subtotal * $discount / 100;
+                                        if($data->is_discount == true) {
+                                            $discount = $data->discount;
+                                            $discount_price = ceil($subtotal * $discount / 100);
                                         } else {
                                             $discount = 0;
                                             $discount_price = 0;
@@ -436,41 +436,59 @@
                                                     <tr>
                                                         <td>
                                                             <small>
-                                                                <a style="text-decoration: none;color: #f89406;"
-                                                                   href="{{route('user.download.file',['id'=>encrypt($check->cart_id),'file'=>'invoice'])}}">
+                                                                <a style="text-decoration: none;color: #5bb300;"
+                                                                   href="{{route('user.download.file',['id'=>encrypt($data->id),'file'=>'invoice'])}}">
                                                                     #<b>{{$code}}</b></a>
                                                             </small>
                                                             <hr class="hr-divider">
-                                                            <table>
+                                                            <table class="custom">
                                                                 <tr>
-                                                                    <td><b>Subtotal ({{count($data)}} item)</b>
+                                                                    <td>
+                                                                        <div><b>Subtotal ({{count($data->cart_ids)}}
+                                                                                produk)</b></div>
                                                                     </td>
-                                                                    <td>&emsp;</td>
+                                                                    <td>
+                                                                        <div>&emsp;</div>
+                                                                    </td>
                                                                     <td align="right">
-                                                                        <b>Rp{{number_format($subtotal,2,',','.')}}</b>
+                                                                        <div>
+                                                                            <b>Rp{{number_format($subtotal,2,',','.')}}</b>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <b>Diskon {{$discount}}%</b>
+                                                                        <div>
+                                                                            <b>Diskon {{$discount}}%</b>
+                                                                        </div>
                                                                     </td>
-                                                                    <td>&emsp;</td>
+                                                                    <td>
+                                                                        <div>&emsp;</div>
+                                                                    </td>
                                                                     <td align="right">
-                                                                        <b>-Rp{{number_format($discount_price,2,',','.')}}</b>
+                                                                        <div>
+                                                                            <b>-Rp{{number_format($discount_price,2,',','.')}}</b>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><b>Ongkir</b></td>
-                                                                    <td>&emsp;</td>
+                                                                    <td>
+                                                                        <div><b>Ongkir</b></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>&emsp;</div>
+                                                                    </td>
                                                                     <td align="right">
-                                                                        <b>Rp{{number_format($ongkir,2,',','.')}}</b>
+                                                                        <div>
+                                                                            <b>Rp{{number_format($data->ongkir,2,',','.')}}</b>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
-                                                                <tr style="border-top: 1px solid #eee">
+                                                                <tr style="border-top: 1px solid #ccc">
                                                                     <td><b>TOTAL</b></td>
                                                                     <td>&emsp;</td>
                                                                     <td align="right" style="font-size: large">
-                                                                        <b>Rp{{number_format($subtotal - $discount_price + $ongkir,2,',','.')}}</b>
+                                                                        <b>Rp{{number_format($subtotal - $discount_price + $data->ongkir,2,',','.')}}</b>
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -481,22 +499,85 @@
                                             <td valign="top" width="40%">
                                                 <table border="0" cellpadding="10" cellspacing="0" width="100%"
                                                        style="margin-left: 1em">
-                                                    @if($check->finish_payment == false)
-                                                        <tr>
-                                                            <td>
-                                                                <small><b>Batas Waktu Pembayaran</b></small>
-                                                                <hr class="hr-divider">
-                                                                <span>
-                                                                    {{now()->formatLocalized('%d %B %Y – %H:%M')}}
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
+                                                    <tr>
+                                                        <td>
+                                                            <small><b>P.O.</b></small>
+                                                            <hr class="hr-divider">
+                                                            <span>#{{str_pad($data->id,14,0,STR_PAD_LEFT)}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <small><b>Due Date</b></small>
+                                                            <hr class="hr-divider">
+                                                            <span>{{now()->addDay()->formatLocalized('%d %B %Y – %H:%M')}}</span>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             <small><b>Status Pembayaran</b></small>
                                                             <hr class="hr-divider">
-                                                            <span>{{$check->finish_payment == false ? 'Menunggu Pembayaran' : 'Pembayaran Diterima'}}</span>
+                                                            <span>{{$data->isLunas == false ? 'Menunggu Pembayaran' : 'Pembayaran Diterima'}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" width="50%">
+                                                <table border="0" cellpadding="10" cellspacing="0"
+                                                       style="margin-left: 1em" width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <small><b>Metode Pembayaran</b>
+                                                                <sub>{{strtoupper(str_replace('_',' ',$payment['type']))}}</sub>
+                                                            </small>
+                                                            <hr class="hr-divider">
+                                                            <table>
+                                                                <tr>
+                                                                    <td width="50%">
+                                                                        <img alt="{{$payment['bank']}}"
+                                                                             style="width: 90%;"
+                                                                             src="{{asset('images/paymentMethod/'.$payment['bank'].'.png')}}">
+                                                                    </td>
+                                                                    @if($payment['type'] == 'credit_card' || $payment['type'] == 'bank_transfer' || $payment['type'] == 'cstore')
+                                                                        <td>
+                                                                            <small
+                                                                                style="line-height: 1.5em;font-size: 14px">
+                                                                                <b style="font-size: 16px">{{$payment['account']}}</b>
+                                                                                @if($payment['type'] == 'bank_transfer')
+                                                                                    <br>a/n {{env('APP_TITLE')}}
+                                                                                @endif
+                                                                            </small>
+                                                                        </td>
+                                                                    @endif
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td valign="top" width="50%">
+                                                <table border="0" cellpadding="10" cellspacing="0"
+                                                       style="margin-left: 1em" width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <small><b>Opsi Pengiriman</b></small>
+                                                            <hr class="hr-divider">
+                                                            <table>
+                                                                <tr>
+                                                                    <td width="50%">
+                                                                        <img alt="Logo"
+                                                                             src="{{asset('images/kurir/'.$data->getKurir->logo)}}">
+                                                                    </td>
+                                                                    <td>
+                                                                        <small
+                                                                            style="line-height: 1.5em;font-size: 14px">
+                                                                            <b style="font-size: 16px">{{$data->getKurir->nama}}</b>
+                                                                        </small>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -518,7 +599,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        @if($check->finish_payment == false)
+                                        @if($data->isLunas == false)
                                             <tr>
                                                 <td>
                                                     <div class="alert alert-warning text-center">
@@ -546,8 +627,7 @@
                                                                 <b style="font-size: 20px">Tetap awasi pesanan Anda di
                                                                     halaman Dashboard [Riwayat Pemesanan]</b><br>
                                                                 Untuk mengalihkan Anda ke halaman tersebut, klik tombol
-                                                                Dashboard di bawah ini
-                                                            </small>
+                                                                Dashboard di bawah ini</small>
                                                         </td>
                                                     </tr>
                                                     <tr>

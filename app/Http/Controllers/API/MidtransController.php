@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Mail\Users\InvoiceMail;
+use App\Models\Alamat;
+use App\Models\Keranjang;
+use App\Models\Pesanan;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -40,32 +43,25 @@ class MidtransController extends Controller
 
         $user = User::find($request->user_id);
         $split_name = explode(" ", $user->name);
-        $address = Address::where('user_id', $user->id)->where('is_main', true)->first();
-        $main_address = $address != "" ? $address->address . ' - ' . $address->postal_code . ' (' . $address->getOccupancy->name . ').' : null;
-        $shipping = Address::find($request->shipping_id);
-        $split_shipping_name = explode(" ", $shipping->name);
-        $billing = Address::find($request->billing_id);
-        $split_bill_name = explode(" ", $billing->name);
+        $address = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
+        $main_address = $address != "" ? $address->alamat . ' - ' . $address->kode_pos . ' (' . $address->getOccupancy->name . ').' : null;
+        $shipping = Alamat::find($request->shipping_id);
+        $split_shipping_name = explode(" ", $shipping->nama);
+        $billing = Alamat::find($request->billing_id);
+        $split_bill_name = explode(" ", $billing->nama);
 
-        $carts = Cart::whereIn('id', explode(',', $request->cart_ids))
+        $carts = Keranjang::whereIn('id', explode(',', $request->cart_ids))
             ->orderByRaw('FIELD (id, ' . $request->cart_ids . ') ASC')->get();
 
         $arr_items = [];
         foreach ($carts as $i => $cart) {
-            $cart_name = $cart->subkategori_id != null ? $cart->getSubKategori->getTranslation('name', 'en') : $cart->getCluster->getTranslation('name', 'en');
-            $trim_name = explode(' ', trim($cart_name));
-            $initial = '';
-            foreach ($trim_name as $key => $trimItem) {
-                $name = substr($trim_name[$key], 0, 1);
-                $initial = $initial . $name;
-            }
-
             $arr_items[$i] = [
-                'id' => strtoupper(uniqid($initial)) . now()->timestamp,
-                'price' => ceil($cart->price_pcs),
+                'id' => strtoupper($cart->getProduk->kode_barang),
+                'price' => ceil($cart->getProduk->is_diskon == true ?
+                    $cart->getProduk->harga_diskon : $cart->getProduk->harga),
                 'quantity' => $cart->qty,
-                'name' => Str::limit(!is_null($cart->subkategori_id) ? $cart->getSubKategori->name : $cart->getCluster->name, 50),
-                'category' => Str::limit(!is_null($cart->subkategori_id) ? $cart->getSubKategori->getKategori->name : $cart->getCluster->getSubKategori->getKategori->name, 50)
+                'name' => Str::limit($cart->getProduk->nama, 50),
+                'category' => Str::limit($cart->getProduk->getSubkategori->nama, 50)
             ];
         }
 
@@ -75,7 +71,7 @@ class MidtransController extends Controller
                 'id' => 'DISC-' . $request->code,
                 'price' => ceil($request->discount_price * -1),
                 'quantity' => 1,
-                'name' => __('lang.cart.summary.discount') . ' ' . $request->discount . '%'
+                'name' => 'Diskon ' . $request->discount . '%'
             ];
         }
 
@@ -83,7 +79,7 @@ class MidtransController extends Controller
             'id' => 'SHIP-' . $request->code,
             'price' => ceil($request->ongkir),
             'quantity' => 1,
-            'name' => __('lang.product.form.summary.ongkir')
+            'name' => 'Ongkir'
         ];
 
         return Snap::getSnapToken([
@@ -101,19 +97,19 @@ class MidtransController extends Controller
                 'billing_address' => [
                     'first_name' => array_shift($split_bill_name),
                     'last_name' => implode(" ", $split_bill_name),
-                    'address' => $billing->address,
-                    'city' => $billing->getAreas->getSuburbs->getCities->getProvince->name . ', ' . $billing->getAreas->getSuburbs->getCities->name,
-                    'postal_code' => $billing->postal_code,
-                    'phone' => $billing->phone,
+                    'address' => $billing->alamat,
+                    'city' => $billing->getKecamatan->getKota->getProvinsi->nama . ', ' . $billing->getKecamatan->getKota->nama,
+                    'postal_code' => $billing->kode_pos,
+                    'phone' => $billing->telp,
                     'country_code' => 'IDN'
                 ],
                 'shipping_address' => [
                     'first_name' => array_shift($split_shipping_name),
                     'last_name' => implode(" ", $split_shipping_name),
-                    'address' => $shipping->address,
-                    'city' => $shipping->getAreas->getSuburbs->getCities->getProvince->name . ', ' . $shipping->getAreas->getSuburbs->getCities->name,
-                    'postal_code' => $shipping->postal_code,
-                    'phone' => $shipping->phone,
+                    'address' => $shipping->alamat,
+                    'city' => $shipping->getKecamatan->getKota->getProvinsi->nama . ', ' . $shipping->getKecamatan->getKota->nama,
+                    'postal_code' => $shipping->kode_pos,
+                    'phone' => $shipping->telp,
                     'country_code' => 'IDN'
                 ],
             ],
@@ -126,47 +122,42 @@ class MidtransController extends Controller
         app()->setLocale($request->lang);
 
         $data_tr = collect(Transaction::status($request->transaction_id))->toArray();
-        $input = ['rate_name' => $request->rate_name, 'rate_logo' => $request->rate_logo];
         $code = $data_tr['order_id'];
 
-        $carts = Cart::whereIn('id', explode(',', $request->cart_ids))
+        $carts = Keranjang::whereIn('id', explode(',', $request->cart_ids))
             ->orderByRaw('FIELD (id, ' . $request->cart_ids . ') ASC')->get();
         $user = User::find(implode($carts->take(1)->pluck('user_id')->toArray()));
 
-        PaymentCart::firstOrCreate([
+        Pesanan::firstOrCreate([
             'user_id' => $user->id,
-            'shipping_address' => $request->shipping_id,
-            'billing_address' => $request->billing_id,
-            'cart_ids' => $carts->pluck('id')->toArray(),
-            'uni_code_payment' => $code,
-            'token' => uniqid(),
-            'production_finished' => $request->production_finished,
+            'keranjang_ids' => $carts->pluck('id'),
+            'pengiriman_id' => $request->pengiriman_id,
+            'penagihan_id' => $request->penagihan_id,
+            'uni_code' => $code,
+            'kurir_id' => $request->kurir_id,
             'ongkir' => $request->ongkir,
-            'delivery_duration' => $request->delivery_duration,
-            'received_date' => $request->received_date,
-            'rate_id' => $request->rate_id,
-            'rate_name' => $request->rate_name,
-            'rate_logo' => $request->rate_logo,
-            'price_total' => $data_tr['gross_amount'],
+            'durasi_pengiriman' => $request->delivery_duration,
+            'berat_barang' => $request->weight,
+            'total_harga' => $request->total,
+            'note' => $request->note,
             'promo_code' => $request->promo_code,
             'is_discount' => !is_null($request->discount) ? 1 : 0,
             'discount' => $request->discount,
         ]);
 
         foreach ($carts as $cart) {
-            $cart->update(['isCheckout' => true]);
+            $cart->update(['isCheckOut' => true]);
         }
 
-        $this->invoiceMail('unfinish', $code, $user, $request->pdf_url, $data_tr, $input);
+        $this->invoiceMail('unfinish', $code, $user, $request->pdf_url, $data_tr);
 
-        return __('lang.alert.checkout', ['qty' => count($carts), 's' => count($carts) > 1 ? 's' : '', 'code' => $code]);
+        return count($carts) . ' produk pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
     }
 
     public function finishCallback(Request $request)
     {
         app()->setLocale($request->lang);
         $data_tr = collect(Transaction::status($request->transaction_id))->toArray();
-        $input = ['rate_name' => $request->rate_name, 'rate_logo' => $request->rate_logo];
         $code = $data_tr['order_id'];
 
         try {
@@ -176,38 +167,34 @@ class MidtransController extends Controller
                 if ($data_tr['payment_type'] == 'credit_card' &&
                     ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement')) {
 
-                    $carts = Cart::whereIn('id', explode(',', $request->cart_ids))
+                    $carts = Keranjang::whereIn('id', explode(',', $request->cart_ids))
                         ->orderByRaw('FIELD (id, ' . $request->cart_ids . ') ASC')->get();
                     $user = User::find(implode($carts->take(1)->pluck('user_id')->toArray()));
 
-                    PaymentCart::firstOrCreate([
+                    Pesanan::firstOrCreate([
                         'user_id' => $user->id,
-                        'shipping_address' => $request->shipping_id,
-                        'billing_address' => $request->billing_id,
-                        'cart_ids' => $carts->pluck('id')->toArray(),
-                        'uni_code_payment' => $code,
-                        'token' => uniqid(),
-                        'production_finished' => $request->production_finished,
+                        'keranjang_ids' => $carts->pluck('id'),
+                        'pengiriman_id' => $request->pengiriman_id,
+                        'penagihan_id' => $request->penagihan_id,
+                        'uni_code' => $code,
+                        'kurir_id' => $request->kurir_id,
                         'ongkir' => $request->ongkir,
-                        'delivery_duration' => $request->delivery_duration,
-                        'received_date' => $request->received_date,
-                        'rate_id' => $request->rate_id,
-                        'rate_name' => $request->rate_name,
-                        'rate_logo' => $request->rate_logo,
-                        'price_total' => $data_tr['gross_amount'],
+                        'durasi_pengiriman' => $request->delivery_duration,
+                        'berat_barang' => $request->weight,
+                        'total_harga' => $data_tr['gross_amount'],
+                        'note' => $request->note,
                         'promo_code' => $request->promo_code,
                         'is_discount' => !is_null($request->discount) ? 1 : 0,
                         'discount' => $request->discount,
+                        'isLunas' => true,
                     ]);
 
                     foreach ($carts as $cart) {
-                        $cart->update(['isCheckout' => true]);
+                        $cart->update(['isCheckOut' => true]);
                     }
-                    $this->updatePayment($code);
-                    $this->invoiceMail('finish', $code, $user, $request->pdf_url, $data_tr, $input);
+                    $this->invoiceMail('finish', $code, $user, $request->pdf_url, $data_tr);
 
-                    return __('lang.alert.payment-success',
-                        ['qty' => count($carts), 's' => count($carts) > 1 ? 's' : '', 'code' => $code]);
+                    return count($carts) . ' produk pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }
             }
 
@@ -228,18 +215,13 @@ class MidtransController extends Controller
                 if ($data_tr['payment_type'] != 'credit_card' &&
                     ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement')) {
 
-                    $this->updatePayment($notif->order_id);
+                    $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
+                    $user = User::find($pesanan->user_id);
 
-                    $payment_cart = PaymentCart::where('uni_code_payment', $notif->order_id)->first();
-                    $input = ['rate_name' => $payment_cart->rate_name, 'rate_logo' => $payment_cart->rate_logo];
-                    $user = User::find($payment_cart->user_id);
-                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr, $input);
+                    $pesanan->update(['isLunas' => true]);
+                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
 
-                    return __('lang.alert.payment-success', [
-                        'qty' => count($payment_cart->cart_ids),
-                        's' => count($payment_cart->cart_ids) > 1 ? 's' : '',
-                        'code' => $notif->order_id
-                    ]);
+                    return count($pesanan->cart_ids) . ' produk pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }
             }
 
@@ -248,33 +230,9 @@ class MidtransController extends Controller
         }
     }
 
-    private function updatePayment($code)
+    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr)
     {
-        $payment_cart = PaymentCart::where('uni_code_payment', $code)->first();
-        $payment_cart->update(['finish_payment' => true]);
-        $carts = Cart::whereIn('id', $payment_cart->cart_ids)
-            ->orderByRaw('FIELD (id, ' . implode(',', $payment_cart->cart_ids) . ') ASC')->get();
-
-        foreach ($carts as $item) {
-            $item_name = $item->subkategori_id != null ? $item->getSubKategori->getTranslation('name', 'en') : $item->getCluster->getTranslation('name', 'en');
-            $trim_name = explode(' ', trim($item_name));
-            $initial = '';
-            foreach ($trim_name as $key => $trimItem) {
-                $name = substr($trim_name[$key], 0, 1);
-                $initial = $initial . $name;
-            }
-
-            Order::create([
-                'payment_carts_id' => $payment_cart->id,
-                'progress_status' => StatusProgress::NEW,
-                'uni_code' => strtoupper(uniqid($initial)) . '-' . $item->id
-            ]);
-        }
-    }
-
-    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr, $input)
-    {
-        $data = PaymentCart::where('uni_code_payment', $code)->first();
+        $data = Pesanan::where('uni_code', $code)->first();
 
         if ($data_tr['payment_type'] == 'credit_card') {
             $type = $data_tr['payment_type'];
@@ -315,23 +273,23 @@ class MidtransController extends Controller
         ];
 
         $filename = $code . '.pdf';
-        $check_file = 'public/users/order/invoice/' . $user->id . '/' . $filename;
+        $check_file = 'public/users/invoice/' . $user->id . '/' . $filename;
         if ($status == 'finish') {
             if (Storage::exists($check_file)) {
                 Storage::delete($check_file);
             }
         }
 
-        $pdf = PDF::loadView('exports.invoice', compact('code', 'data', 'payment', 'input'));
-        Storage::put('public/users/order/invoice/' . $user->id . '/' . $filename, $pdf->output());
+        $pdf = PDF::loadView('exports.invoice', compact('code', 'data', 'payment'));
+        Storage::put('public/users/invoice/' . $user->id . '/' . $filename, $pdf->output());
 
         if (!is_null($pdf_url)) {
             $instruction = $code . '-instruction.pdf';
-            Storage::put('public/users/order/invoice/' . $user->id . '/' . $instruction, file_get_contents($pdf_url));
+            Storage::put('public/users/invoice/' . $user->id . '/' . $instruction, file_get_contents($pdf_url));
         } else {
             $instruction = null;
         }
 
-        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction, $input));
+        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction));
     }
 }

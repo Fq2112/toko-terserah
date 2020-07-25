@@ -5,7 +5,7 @@
     <style type="text/css">
         #activate {
             color: #FFFFFF;
-            background: #f89406;
+            background: #5bb300;
             -moz-border-radius: 9px;
             -webkit-border-radius: 9px;
             border-radius: 9px;

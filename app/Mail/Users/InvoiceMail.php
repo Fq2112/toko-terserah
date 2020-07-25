@@ -2,7 +2,6 @@
 
 namespace App\Mail\Users;
 
-use App\Models\PaymentCart;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,19 +11,20 @@ class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $code, $check, $data, $filename;
+    public $code, $data, $payment, $filename, $instruction;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($code, $check, $data, $filename)
+    public function __construct($code, $data, $payment, $filename, $instruction)
     {
         $this->code = $code;
-        $this->check = $check;
         $this->data = $data;
+        $this->payment = $payment;
         $this->filename = $filename;
+        $this->instruction = $instruction;
     }
 
     /**
@@ -34,19 +34,24 @@ class InvoiceMail extends Mailable
      */
     public function build()
     {
-        $check = $this->check;
         $data = $this->data;
+        $payment = $this->payment;
         $code = $this->code;
 
-        if ($check->finish_payment == false) {
-            $subject = __('lang.mail.subject.unpaid', ['code' => $code]);
+        if ($data->finish_payment == false) {
+            $subject = 'Menunggu Pembayaran ' . strtoupper(str_replace('_', ' ', $payment['type'])) .
+                ' #' . $code;
         } else {
-            $subject = __('lang.mail.subject.paid', ['code' => $code,
-                'datetime' => Carbon::parse($check->created_at)->formatLocalized('%d %B %Y – %H:%M')]);
+            $subject = 'Checkout Pesanan dengan ID Pembayaran #' . $code . ' Berhasil Dikonfirmasi pada ' .
+                Carbon::parse($data->created_at)->formatLocalized('%d %B %Y – %H:%M');
         }
 
-        return $this->from(env('MAIL_USERNAME'), __('lang.title'))->subject($subject)
-            ->view('emails.users.invoice', compact('code', 'data', 'check'))
-            ->attach(public_path('storage/users/order/invoice/' . $check->user_id . '/' . $this->filename));
+        if (!is_null($this->instruction)) {
+            $this->attach(public_path('storage/users/invoice/' . $data->user_id . '/' . $this->instruction));
+        }
+
+        return $this->from(env('MAIL_USERNAME'), env('APP_TITLE'))->subject($subject)
+            ->view('emails.users.invoice', compact('code', 'data', 'payment'))
+            ->attach(public_path('storage/users/invoice/' . $data->user_id . '/' . $this->filename));
     }
 }

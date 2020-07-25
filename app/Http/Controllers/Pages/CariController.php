@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Produk;
-use App\Models\SubKategori;
 use App\Models\Ulasan;
 use App\Support\Facades\Rating;
-use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -79,34 +77,5 @@ class CariController extends Controller
         }
 
         return $produk;
-    }
-
-    public function cekPengirimanProduk(Request $request)
-    {
-        $client = new \GuzzleHttp\Client([
-            'headers' => [
-                'Accept' => 'application/json',
-                'key' => env('RajaOngkir_KEY')
-            ],
-            'defaults' => [
-                'exceptions' => false
-            ]
-        ]);
-
-        try {
-            $response = $client->post('https://api.rajaongkir.com/starter/cost', [
-                'form_params' => [
-                    'origin' => 444,
-                    'destination' => $request->destination,
-                    'weight' => 2,
-                    'courier' => 'jne'
-                ]
-            ])->getBody()->getContents();
-
-            return json_decode($response, true);
-
-        } catch (ConnectException $e) {
-            return response()->json();
-        }
     }
 }

@@ -22,6 +22,7 @@ class PesananSeeder extends Seeder
             'pengiriman_id' => $alamat->id,
             'penagihan_id' => $alamat_utama->id,
             'uni_code' => uniqid('PYM') . now()->timestamp,
+            'kurir_id' => rand(\App\Models\Kurir::min('id'), \App\Models\Kurir::max('id')),
             'ongkir' => 10000,
             'durasi_pengiriman' => '1-3',
             'berat_barang' => $keranjang->sum('berat'),

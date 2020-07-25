@@ -16,9 +16,9 @@ class Alamat extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getKota()
+    public function getKecamatan()
     {
-        return $this->belongsTo(Kota::class, 'kota_id');
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id');
     }
 
     public function getOccupancy()

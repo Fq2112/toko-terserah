@@ -142,18 +142,19 @@ class UserController extends Controller
         $addresses = Alamat::where('user_id', $user->id)->orderByDesc('id')->get();
         $provinces = Provinsi::all();
         $occupancies = OccupancyType::all();
+        $cart_ids = $request->cart_ids;
 
-        $archive = Keranjang::whereIn('id', explode(",", $request->cart_ids))->get()->groupBy(function ($q) {
+        $archive = Keranjang::whereIn('id', explode(",", $cart_ids))->get()->groupBy(function ($q) {
             return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
         });
         $carts = $archive;
-        $total_item = Keranjang::whereIn('id', explode(",", $request->cart_ids))->count();
+        $total_item = Keranjang::whereIn('id', explode(",", $cart_ids))->count();
 
         $subtotal = 0;
         $total_weight = 0;
 
         return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'provinces',
-            'occupancies', 'carts', 'total_item', 'subtotal', 'total_weight'));
+            'occupancies', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
     public function cariPromo(Request $request)
@@ -183,41 +184,6 @@ class UserController extends Controller
         } else {
             return 0;
         }
-    }
-
-    public function checkout(Request $request)
-    {
-        $carts = Cart::whereIn('id', explode(',', $request->cart_ids))
-            ->orderByRaw('FIELD (id, ' . $request->cart_ids . ') ASC')->get();
-        $code = strtoupper(uniqid('PYM') . now()->timestamp);
-
-        foreach ($carts as $cart) {
-            PaymentCart::create([
-                'user_id' => $cart->user_id,
-                'address_id' => $request->address_id,
-                'cart_id' => $cart->id,
-                'uni_code_payment' => $code,
-                'token' => uniqid(),
-                'price_total' => $cart->total,
-                'promo_code' => $request->promo_code,
-                'is_discount' => !is_null($request->discount) ? 1 : 0,
-                'discount' => $request->discount,
-            ]);
-
-            $cart->update(['isCheckOut' => true]);
-        }
-
-        $check = PaymentCart::where('uni_code_payment', $code)->where('user_id', Auth::id())->orderByDesc('id')->first();
-        $data = PaymentCart::where('uni_code_payment', $code)->where('user_id', Auth::id())->orderByDesc('id')->get();
-
-        $filename = $code . '.pdf';
-        $pdf = PDF::loadView('exports.invoice', compact('code', 'data', 'check'));
-        Storage::put('public/users/order/invoice/' . Auth::id() . '/' . $filename, $pdf->output());
-
-        Mail::to(Auth::user()->email)->send(new InvoiceMail($code, $check, $data, $filename));
-
-        return redirect()->route('user.dashboard')->with('add', __('lang.alert.checkout',
-            ['qty' => count($data), 's' => count($data) > 1 ? 's' : '', 'code' => $code]));
     }
 
     public function dashboard(Request $request)

@@ -83,11 +83,6 @@ Route::group(['namespace' => 'Pages'], function () {
             'as' => 'get.cari-nama.produk'
         ]);
 
-        Route::get('pengiriman', [
-            'uses' => 'CariController@cekPengirimanProduk',
-            'as' => 'get.cari-pengiriman.produk'
-        ]);
-
     });
 
     Route::group(['prefix' => '{produk}'], function () {
@@ -261,11 +256,6 @@ Route::group(['namespace' => 'Pages'], function () {
                 Route::get('cari/promo', [
                     'uses' => 'UserController@cariPromo',
                     'as' => 'get.cari-promo.cart'
-                ]);
-
-                Route::post('submit', [
-                    'uses' => 'UserController@submitCheckout',
-                    'as' => 'user.checkout.submit',
                 ]);
 
             });

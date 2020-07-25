@@ -44,4 +44,18 @@ Route::group(['namespace' => 'API'], function () {
 
     });
 
+    Route::group(['prefix' => 'rajaongkir'], function () {
+
+        Route::get('subdistrict', [
+            'uses' => 'RajaOngkirController@getSubdistrict',
+            'as' => 'get.rajaongkir.subdistrict'
+        ]);
+
+        Route::get('cost', [
+            'uses' => 'RajaOngkirController@getCost',
+            'as' => 'get.rajaongkir.cost'
+        ]);
+
+    });
+
 });

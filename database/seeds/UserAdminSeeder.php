@@ -43,7 +43,7 @@ class UserAdminSeeder extends Seeder
 
         \App\Models\Alamat::create([
             'user_id' => $user->id,
-            'kota_id' => 409,
+            'kecamatan_id' => 5640,
             'nama' => 'Fiqy Ainuzzaqy',
             'telp' => '081356598237',
             'alamat' => 'Jl. Hikmat 50A Betro, Sedati, Sidoarjo',
@@ -55,7 +55,7 @@ class UserAdminSeeder extends Seeder
         ]);
         \App\Models\Alamat::create([
             'user_id' => $user->id,
-            'kota_id' => 492,
+            'kecamatan_id' => 6833,
             'nama' => 'Laras Sulistyorini',
             'telp' => '082234389870',
             'alamat' => 'Desa Pakel, Tulungagung',
@@ -83,16 +83,16 @@ class UserAdminSeeder extends Seeder
                 'bintang' => $arr[array_rand($arr)]
             ]);
 
-            $kota = \App\Models\Kota::find(3);
+            $kecamatan = \App\Models\Kecamatan::where('kota_id', 444)->inRandomOrder()->first();
             \App\Models\Alamat::create([
                 'user_id' => $dataUser->id,
-                'kota_id' => $kota->id,
+                'kecamatan_id' => $kecamatan->id,
                 'nama' => $faker->name,
                 'telp' => $faker->phoneNumber,
                 'alamat' => $faker->address,
                 'lat' => $faker->latitude,
                 'long' => $faker->longitude,
-                'kode_pos' => $kota->kode_pos,
+                'kode_pos' => $kecamatan->getKota->kode_pos,
                 'isUtama' => rand(0, 1) ? true : false,
                 'occupancy_id' => rand(\App\Models\OccupancyType::min('id'), \App\Models\OccupancyType::max('id'))
             ]);

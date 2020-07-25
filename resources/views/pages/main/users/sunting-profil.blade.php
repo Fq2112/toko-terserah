@@ -299,7 +299,9 @@
                                                                             <a style="color: #f89406;cursor: pointer;"
                                                                                onclick="editAddress('{{$row->nama}}',
                                                                                    '{{$row->telp}}','{{$row->lat}}',
-                                                                                   '{{$row->long}}','{{$row->kota_id}}',
+                                                                                   '{{$row->long}}',
+                                                                                   '{{$row->getKecamatan->kota_id}}',
+                                                                                   '{{$row->kecamatan_id}}',
                                                                                    '{{$row->alamat}}','{{$row->kode_pos}}',
                                                                                    '{{$row->getOccupancy->id}}',
                                                                                    '{{$row->getOccupancy->name}}',
@@ -340,8 +342,16 @@
                                                                                     title="Kabupaten / Kota">
                                                                                     <td><i class="fa fa-city"></i></td>
                                                                                     <td>&nbsp;</td>
-                                                                                    <td>{{$row->getKota->getProvinsi->nama.
-                                                                                ', '.$row->getKota->nama}}</td>
+                                                                                    <td>{{$row->getKecamatan->getKota->getProvinsi->nama.
+                                                                                ', '.$row->getKecamatan->getKota->nama}}</td>
+                                                                                </tr>
+                                                                                <tr data-toggle="tooltip"
+                                                                                    data-placement="left"
+                                                                                    title="Kecamatan">
+                                                                                    <td><i class="fa fa-map-signs"></i>
+                                                                                    </td>
+                                                                                    <td>&nbsp;</td>
+                                                                                    <td>{{$row->getKecamatan->nama}}</td>
                                                                                 </tr>
                                                                                 <tr data-toggle="tooltip"
                                                                                     data-placement="left"
@@ -401,7 +411,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-7 col-md-12 col-sm-12">
                                                         <div id="map" class="gmap img-thumbnail"
-                                                             style="height: 400px;"></div>
+                                                             style="height: 475px;"></div>
                                                     </div>
                                                     <div class="col-lg-5 col-md-12 col-sm-12">
                                                         <div class="row form-group">
@@ -423,6 +433,20 @@
                                                                                 @endforeach
                                                                             </optgroup>
                                                                         @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-lg-12">
+                                                                <label class="form-control-label" for="kecamatan_id">
+                                                                    Kecamatan <span class="required">*</span>
+                                                                </label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-map-signs"></i></span>
+                                                                    <select id="kecamatan_id" name="kecamatan_id"
+                                                                            class="form-control" disabled>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -511,6 +535,9 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68&libraries=geometry,places"></script>
     <script>
+        var $kota = $("#kota_id"), $kecamatan = $("#kecamatan_id"), $postal = $("#postal_code"),
+            google, myLatlng, geocoder, map, marker, infoWindow;
+
         $(function () {
             $(".stats_address hr:last-child").remove();
 
@@ -528,8 +555,6 @@
             });
             @endif
         });
-
-        var google, myLatlng, geocoder, map, marker, infoWindow;
 
         function init(lat, long) {
             geocoder = new google.maps.Geocoder();
@@ -604,7 +629,7 @@
                 for (var i = 0; i < place.address_components.length; i++) {
                     for (var j = 0; j < place.address_components[i].types.length; j++) {
                         if (place.address_components[i].types[j] == "postal_code") {
-                            $("#postal_code").val(place.address_components[i].long_name);
+                            $postal.val(place.address_components[i].long_name);
                         }
                     }
                 }
@@ -691,7 +716,7 @@
                 for (var i = 0; i < responses[0].address_components.length; i++) {
                     for (var j = 0; j < responses[0].address_components[i].types.length; j++) {
                         if (responses[0].address_components[i].types[j] == "postal_code") {
-                            $("#postal_code").val(responses[0].address_components[i].long_name);
+                            $postal.val(responses[0].address_components[i].long_name);
                         }
                     }
                 }
@@ -757,6 +782,26 @@
             resetterAddress();
         });
 
+        $kota.on('change', function () {
+            $kecamatan.removeAttr('disabled').attr('required', 'required').empty();
+            $postal.val(null);
+
+            $.get('{{route('get.rajaongkir.subdistrict')}}?city=' + $(this).val(), function (data) {
+                $kecamatan.append('<option></option>');
+                $.each(data, function (i, val) {
+                    $kecamatan.append('<option value="' + val.id + '" data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>').select2({
+                        placeholder: "-- Pilih --",
+                        allowClear: true,
+                        width: '100%',
+                    });
+                });
+            });
+        });
+
+        $kecamatan.on('change', function () {
+            $postal.val($("option[value=" + $(this).val() + "]", this).attr('data-postal'));
+        });
+
         function resetterAddress() {
             $("#address_settings").toggle(300);
             $(".stats_address").toggle(300);
@@ -774,6 +819,7 @@
 
             $("#method, #lat, #long, #address_name, #address_phone, #address_map, #postal_code").val(null);
             $("#kota_id, #occupancy_id").val(null).trigger('change');
+            $kecamatan.removeAttr('required').attr('disabled', 'disabled').empty();
             $("#form-address").attr('action', '{{route('user.profil-alamat.create')}}');
             $("#isUtama").prop('checked', false);
 
@@ -784,7 +830,7 @@
             }
         }
 
-        function editAddress(name, phone, lat, long, kota_id, address, postal_code, occupancy_id, occupancy, isUtama, url) {
+        function editAddress(name, phone, lat, long, kota_id, kecamatan_id, address, postal_code, occupancy_id, occupancy, isUtama, url) {
             var main_str = isUtama == 1 ? ' <span class="font-weight-normal">[Alamat Utama]</span>' : '';
 
             $("#show_address_settings").hide();
@@ -807,8 +853,23 @@
             $("#address_name").val(name);
             $("#address_phone").val(phone);
             $("#address_map").val(address);
-            $("#postal_code").val(postal_code);
-            $("#kota_id").val(kota_id).trigger('change');
+
+            $kota.val(kota_id).trigger('change');
+            $kecamatan.removeAttr('disabled').attr('required', 'required').empty();
+            $postal.val(null);
+            $.get('{{route('get.rajaongkir.subdistrict')}}?city=' + kota_id, function (data) {
+                $kecamatan.append('<option></option>');
+                $.each(data, function (i, val) {
+                    $kecamatan.append('<option value="' + val.id + '" data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>').select2({
+                        placeholder: "-- Pilih --",
+                        allowClear: true,
+                        width: '100%',
+                    });
+                });
+            });
+            $kecamatan.val(kecamatan_id).trigger('change');
+            $postal.val(postal_code);
+
             $("#occupancy_id").val(occupancy_id).trigger('change');
             if (isUtama == 1) {
                 $("#isUtama").prop('checked', true);

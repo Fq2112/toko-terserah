@@ -15,8 +15,8 @@ class Kota extends Model
         return $this->belongsTo(Provinsi::class,'provinsi_id');
     }
 
-    public function getAlamat()
+    public function getKecamatan()
     {
-        return $this->hasMany(Alamat::class, 'kota_id');
+        return $this->hasMany(Kecamatan::class, 'kota_id');
     }
 }
