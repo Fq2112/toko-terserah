@@ -59,8 +59,8 @@
     <div class="header-cart-item cart-dropdown">
         @auth
             @php $carts = \App\Models\Keranjang::where('user_id', Auth::id())->where('isCheckOut',false)->orderByDesc('id')->get(); @endphp
-            @if(count($carts) > 0)
-                <span>Cart: <b>( {{count($carts)}} )</b></span>
+            @if($carts->sum('qty') > 0)
+                <span>Cart: <b>( {{$carts->sum('qty')}} )</b></span>
                 <p><a href="javascript:void(0)">Total: <b style="text-transform: none">
                             Rp{{App\Support\Facades\NumberShorten::redenominate($carts->sum('total'))}}</b></a></p>
                 <div class="dropdown-content px-0">
@@ -93,7 +93,7 @@
                         <a href="{{route('user.cart')}}" class="btn btn-color2" style="border-radius: 4px 0 0 4px">
                             <i class="fa fa-shopping-cart pl-0 mr-2" style="color: #fff"></i> CART</a>
                         <a href="javascript:void(0)" class="btn btn-color6" style="border-radius: 0 4px 4px 0"
-                           onclick="checkout('{{count($carts)}}')">
+                           onclick="checkout('{{$carts->sum('qty')}}')">
                             <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT</a>
                         <form id="form-cart_ids" action="{{route('user.cart.checkout')}}" method="post"
                               style="display: none;">

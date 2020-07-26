@@ -72,7 +72,7 @@ class UserController extends Controller
             $cart->delete();
         }
 
-        return back()->with('add', count($carts) . ' produk yang ada di cart berhasil dipindahkan ke wishlist Anda!');
+        return back()->with('add', $carts->sum('qty') . ' produk yang ada di cart berhasil dipindahkan ke wishlist Anda!');
     }
 
     public function massDeleteWishlist()
@@ -132,7 +132,7 @@ class UserController extends Controller
             $cart->delete();
         }
 
-        return back()->with('delete', count($carts) . ' produk berhasil dihapuskan dari cart Anda!');
+        return back()->with('delete', $carts->sum('qty') . ' produk berhasil dihapuskan dari cart Anda!');
     }
 
     public function cartCheckout(Request $request)
@@ -142,25 +142,28 @@ class UserController extends Controller
         $addresses = Alamat::where('user_id', $user->id)->orderByDesc('id')->get();
         $provinces = Provinsi::all();
         $occupancies = OccupancyType::all();
+        $code = strtoupper(uniqid('PYM') . now()->timestamp);
         $cart_ids = $request->cart_ids;
 
-        $archive = Keranjang::whereIn('id', explode(",", $cart_ids))->get()->groupBy(function ($q) {
-            return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
-        });
+        $archive = Keranjang::whereIn('id', explode(",", $cart_ids))
+            ->orderByRaw('FIELD (id, ' . $cart_ids . ') ASC')->get()->groupBy(function ($q) {
+                return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
+            });
         $carts = $archive;
-        $total_item = Keranjang::whereIn('id', explode(",", $cart_ids))->count();
+        $total_item = Keranjang::whereIn('id', explode(",", $cart_ids))->sum('qty');
 
         $subtotal = 0;
         $total_weight = 0;
 
         return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'provinces',
-            'occupancies', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
+            'occupancies', 'code', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
     public function cariPromo(Request $request)
     {
         $promo = PromoCode::where('promo_code', $request->kode)->first();
         $pesanan = Pesanan::where('promo_code', $request->kode)->where('user_id', Auth::id())->first();
+        $amount = ceil($request->subtotal);
 
         if ($promo) {
             if ($pesanan) {
@@ -169,13 +172,14 @@ class UserController extends Controller
                 if (now() > $promo->end) {
                     return 2;
                 } else {
-                    $discount_price = $request->subtotal * $promo->discount / 100;
-                    $subtotal = $request->subtotal - $discount_price;
-                    $total = $subtotal + $request->ongkir;
+                    $discount_price = ceil($amount * $promo->discount / 100);
+                    $subtotal = $amount - $discount_price;
+                    $total = ceil($subtotal + $request->ongkir);
                     return [
                         'caption' => $promo->description,
                         'discount' => $promo->discount,
                         'total' => $total,
+                        'discount_price' => $discount_price,
                         'str_discount' => '-Rp' . number_format($discount_price, 2, ',', '.'),
                         'str_total' => 'Rp' . number_format($total, 2, ',', '.')
                     ];

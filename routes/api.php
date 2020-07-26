@@ -51,7 +51,7 @@ Route::group(['namespace' => 'API'], function () {
             'as' => 'get.rajaongkir.subdistrict'
         ]);
 
-        Route::get('cost', [
+        Route::post('cost', [
             'uses' => 'RajaOngkirController@getCost',
             'as' => 'get.rajaongkir.cost'
         ]);

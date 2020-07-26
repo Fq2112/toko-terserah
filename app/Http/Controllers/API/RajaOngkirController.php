@@ -36,7 +36,7 @@ class RajaOngkirController extends Controller
                     'destination' => $request->destination,
                     'destinationType' => 'subdistrict',
                     'weight' => $request->weight,
-                    'courier' => 'jne:pos:tiki:sicepat:jnt'
+                    'courier' => 'jne:pos:tiki'
                 ]
             ])->getBody()->getContents();
 

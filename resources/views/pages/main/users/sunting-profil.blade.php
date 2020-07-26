@@ -783,18 +783,30 @@
         });
 
         $kota.on('change', function () {
-            $kecamatan.removeAttr('disabled').attr('required', 'required').empty();
-            $postal.val(null);
+            $kecamatan.removeAttr('disabled').attr('required', 'required').empty().append('<option></option>');
+            init(-7.2819551, 112.6569592);
+            infoWindow.setContent(
+                '<div id="iw-container">' +
+                '<div class="iw-title">Alamat</div>' +
+                '<div class="iw-content">' +
+                '<div class="iw-subTitle">Silahkan tentukan alamat Anda terlebih dahulu.</div>' +
+                '<img src="{{asset('images/searchPlace.png')}}">' +
+                '</div><div class="iw-bottom-gradient"></div></div>'
+            );
+            infoWindow.open(map, marker);
+            $("#lat, #long, #address_map, #postal_code").val(null);
 
             $.get('{{route('get.rajaongkir.subdistrict')}}?city=' + $(this).val(), function (data) {
-                $kecamatan.append('<option></option>');
                 $.each(data, function (i, val) {
-                    $kecamatan.append('<option value="' + val.id + '" data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>').select2({
-                        placeholder: "-- Pilih --",
-                        allowClear: true,
-                        width: '100%',
-                    });
+                    $kecamatan.append('<option value="' + val.id + '" ' +
+                        'data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>');
                 });
+            });
+
+            $kecamatan.select2({
+                placeholder: "-- Pilih --",
+                allowClear: true,
+                width: '100%',
             });
         });
 
@@ -855,19 +867,21 @@
             $("#address_map").val(address);
 
             $kota.val(kota_id).trigger('change');
-            $kecamatan.removeAttr('disabled').attr('required', 'required').empty();
-            $postal.val(null);
+            $kecamatan.removeAttr('disabled').attr('required', 'required').empty().append('<option></option>');
             $.get('{{route('get.rajaongkir.subdistrict')}}?city=' + kota_id, function (data) {
-                $kecamatan.append('<option></option>');
                 $.each(data, function (i, val) {
-                    $kecamatan.append('<option value="' + val.id + '" data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>').select2({
-                        placeholder: "-- Pilih --",
-                        allowClear: true,
-                        width: '100%',
-                    });
+                    $kecamatan.append('<option value="' + val.id + '" ' +
+                        'data-postal="' + val.get_kota.kode_pos + '">' + val.nama + '</option>');
                 });
+                $kecamatan.select2({
+                    placeholder: "-- Pilih --",
+                    allowClear: true,
+                    width: '100%',
+                });
+
+                $kecamatan.val(kecamatan_id).trigger('change');
             });
-            $kecamatan.val(kecamatan_id).trigger('change');
+
             $postal.val(postal_code);
 
             $("#occupancy_id").val(occupancy_id).trigger('change');

@@ -218,7 +218,7 @@
 
 .select2-container--default.select2-container--disabled .select2-selection--single {
     background-color: #eee;
-    cursor: default;
+    cursor: no-drop;
 }
 
 .select2-container--default.select2-container--disabled .select2-selection--single .select2-selection__clear {
@@ -297,7 +297,7 @@
 
 .select2-container--default.select2-container--disabled .select2-selection--multiple {
     background-color: #eee;
-    cursor: default;
+    cursor: no-drop;
 }
 
 .select2-container--default.select2-container--disabled .select2-selection__choice__remove {

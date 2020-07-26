@@ -7,6 +7,7 @@
         blockquote {
             background: unset;
             border-color: unset;
+            color: #555;
         }
 
         .lg-backdrop {
@@ -339,7 +340,7 @@
                                                            href="#collapse-{{$b}}" aria-expanded="false"
                                                            aria-controls="collapse-{{$c}}" class="collapsed">
                                                             {{$monthYear}}
-                                                            <b>Rp{{number_format($archive->sum('total'), 2,',','.') . ' ('.count($archive).' produk)'}}</b>
+                                                            <b>Rp{{number_format($archive->sum('total'), 2,',','.') . ' ('.$archive->sum('qty').' produk)'}}</b>
                                                         </a>
                                                     </h4>
                                                 </div>
@@ -514,7 +515,7 @@
                                                  data-parent="#accordion2">
                                                 <div class="panel-body pb-0">
                                                     <div
-                                                        class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
+                                                        class="row {{count($addresses) > 0 ? '' : 'text-center'}} addressee">
                                                         @if(count($addresses) > 0)
                                                             @foreach($addresses as $row)
                                                                 @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
@@ -523,7 +524,7 @@
                                                                            for="shipping_{{$row->id}}">
                                                                         <input id="shipping_{{$row->id}}"
                                                                                class="card-rb" type="radio"
-                                                                               name="shipping_id"
+                                                                               name="pengiriman_id"
                                                                                value="{{$row->id}}"
                                                                                data-name="{{$occupancy}}">
                                                                         <div class="card card-input"
@@ -573,7 +574,16 @@
                                                                                                             <i class="fa fa-city"></i>
                                                                                                         </td>
                                                                                                         <td>&nbsp;</td>
-                                                                                                        <td>{{$row->getKota->getProvinsi->nama.', '.$row->getKota->nama}}</td>
+                                                                                                        <td>{{$row->getKecamatan->getKota->getProvinsi->nama.', '.$row->getKecamatan->getKota->nama}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr data-toggle="tooltip"
+                                                                                                        data-placement="left"
+                                                                                                        title="Kecamatan">
+                                                                                                        <td>
+                                                                                                            <i class="fa fa-map-signs"></i>
+                                                                                                        </td>
+                                                                                                        <td>&nbsp;</td>
+                                                                                                        <td>{{$row->getKecamatan->nama}}</td>
                                                                                                     </tr>
                                                                                                     <tr data-toggle="tooltip"
                                                                                                         data-placement="left"
@@ -611,6 +621,54 @@
                                         </div>
 
                                         <div class="panel panel-default" style="display: none">
+                                            <div class="panel-heading" role="tab" id="heading-rate">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse"
+                                                       href="#collapse-rate" aria-expanded="false"
+                                                       aria-controls="collapse-rate" class="collapsed">
+                                                        Opsi Pengiriman
+                                                        <b class="show-rate">&ndash;</b>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse-rate" class="panel-collapse collapse"
+                                                 role="tabpanel" aria-labelledby="heading-rate"
+                                                 aria-expanded="false" style="height:0;"
+                                                 data-parent="#accordion2">
+                                                <div class="panel-body">
+                                                    <div class="row form-group">
+                                                        <div class="col-lg-12">
+                                                            <label class="form-control-label" for="kode_kurir">
+                                                                Logistik <span class="required">*</span>
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-shipping-fast"></i></span>
+                                                                <select id="kode_kurir" name="kode_kurir"
+                                                                        class="form-control" required>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <label class="form-control-label" for="layanan_kurir">
+                                                                Jenis Layanan <span class="required">*</span>
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-bolt"></i></span>
+                                                                <select id="layanan_kurir" name="layanan_kurir"
+                                                                        class="form-control" disabled required>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default" style="display: none">
                                             <div class="panel-heading" role="tab" id="heading-billing">
                                                 <h4 class="panel-title">
                                                     <a role="button" data-toggle="collapse"
@@ -626,7 +684,7 @@
                                                  aria-expanded="false" style="height:0;" data-parent="#accordion2">
                                                 <div class="panel-body pb-0">
                                                     <div
-                                                        class="row {{count($addresses) > 0 ? '' : 'justify-content-center text-center'}} addressee">
+                                                        class="row {{count($addresses) > 0 ? '' : 'text-center'}} addressee">
                                                         @if(count($addresses) > 0)
                                                             @foreach($addresses as $row)
                                                                 @php $occupancy = $row->isUtama == false ? $row->getOccupancy->name : $row->getOccupancy->name.' [Alamat Utama]'; @endphp
@@ -635,7 +693,7 @@
                                                                            for="billing_{{$row->id}}">
                                                                         <input id="billing_{{$row->id}}"
                                                                                class="card-rb" type="radio"
-                                                                               name="billing_id"
+                                                                               name="penagihan_id"
                                                                                value="{{$row->id}}"
                                                                                data-name="{{$occupancy}}">
                                                                         <div class="card card-input"
@@ -685,7 +743,16 @@
                                                                                                             <i class="fa fa-city"></i>
                                                                                                         </td>
                                                                                                         <td>&nbsp;</td>
-                                                                                                        <td>{{$row->getKota->getProvinsi->nama.', '.$row->getKota->nama}}</td>
+                                                                                                        <td>{{$row->getKecamatan->getKota->getProvinsi->nama.', '.$row->getKecamatan->getKota->nama}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr data-toggle="tooltip"
+                                                                                                        data-placement="left"
+                                                                                                        title="Kecamatan">
+                                                                                                        <td>
+                                                                                                            <i class="fa fa-map-signs"></i>
+                                                                                                        </td>
+                                                                                                        <td>&nbsp;</td>
+                                                                                                        <td>{{$row->getKecamatan->nama}}</td>
                                                                                                     </tr>
                                                                                                     <tr data-toggle="tooltip"
                                                                                                         data-placement="left"
@@ -779,14 +846,7 @@
                             </li>
                             <li class="list-group-item border-none">
                                 Durasi Pengiriman
-                                <b class="float-right show-delivery">&ndash;</b>
-                            </li>
-                            <li class="list-group-item border-none">
-                                Paket Diterima
-                                <i class="fa fa-info-circle ml-1" data-toggle="popover"
-                                   data-placement="top" title="PERHATIAN!" style="cursor: help;float: none;margin: 0"
-                                   data-content="Anda akan menerima produk cetak tersebut setelah proses produksi selesai ditambah dengan durasi pengirimannya."></i>
-                                <b class="float-right show-received">&ndash;</b>
+                                <b class="float-right show-delivery text-lowercase">&ndash;</b>
                             </li>
                             <li id="discount" class="list-group-item border-none" style="display: none">
                                 Diskon <strong></strong>
@@ -806,12 +866,13 @@
                                     Rp{{number_format($subtotal,2,',','.')}}</b>
                             </li>
                         </ul>
-                        <div class="card-content py-2">
+                        <div id="summary-alert" class="card-content py-2">
                             <div class="alert alert-warning text-justify">
                                 <i class="fa fa-exclamation-sign"></i><b>PERHATIAN!</b>
                                 <span
                                     id="shipping-alert">Silahkan pilih alamat pengiriman pesanan Anda terlebih dahulu.</span>
-                                <span id="billing-alert" style="display: none">Silahkan pilih alamat penagihan pesanan Anda terlebih dahulu.</span>
+                                <span id="rate-alert" style="display: none">Selanjutnya, pilih opsi pengiriman sesuai kebutuhan Anda.</span>
+                                <span id="billing-alert" style="display: none">Terakhir, pilih alamat penagihan pesanan Anda.</span>
                             </div>
                         </div>
                         <div class="card-footer mt-2 p-0">
@@ -829,10 +890,11 @@
                 <input type="hidden" name="discount">
                 <input type="hidden" name="discount_price">
                 <input id="ongkir" type="hidden" name="ongkir">
-                <input id="delivery_duration" type="hidden" name="delivery_duration">
-                <input id="received_date" type="hidden" name="received_date">
+                <input id="durasi_pengiriman" type="hidden" name="durasi_pengiriman">
+                <input type="hidden" name="nama_kurir">
+                <input type="hidden" name="layanan_kurir">
                 <input type="hidden" name="total" value="{{$subtotal}}">
-                <input type="hidden" name="code" value="{{strtoupper(uniqid('PYM') . now()->timestamp)}}">
+                <input type="hidden" name="code" value="{{$code}}">
                 <input type="hidden" name="lang" value="{{app()->getLocale()}}">
                 <input type="hidden" name="transaction_id">
                 <input type="hidden" name="pdf_url">
@@ -850,8 +912,8 @@
 
     <script>
         var collapse = $('.panel-collapse'), upload_input = $("#file"), link_input = $("#link"), check_file = null,
-            btn_pay = $("#btn_pay"), production_day = 3, ongkir = 0, etd = '', str_etd = '', str_date = '',
-            total = parseInt('{{$subtotal}}');
+            btn_pay = $("#btn_pay"), kode_kurir = $("#kode_kurir"), layanan_kurir = $("#layanan_kurir"),
+            harga_diskon = 0, ongkir = 0, etd = '', str_etd = '', unit = '', total = parseInt('{{$subtotal}}');
 
         $(function () {
             collapse.on('show.bs.collapse', function () {
@@ -859,7 +921,7 @@
                 $(this).siblings('.panel-heading').find('a').addClass('active font-weight-bold');
                 $(this).siblings('.panel-heading').find('b').toggle(300);
 
-                $('html,body').animate({scrollTop: $(this).parent().offset().top}, 0);
+                $('html,body').animate({scrollTop: $(this).parent().parent().offset().top}, 0);
             });
 
             collapse.on('hide.bs.collapse', function () {
@@ -867,7 +929,7 @@
                 $(this).siblings('.panel-heading').find('a').removeClass('active font-weight-bold');
                 $(this).siblings('.panel-heading').find('b').toggle(300);
 
-                $('html,body').animate({scrollTop: $(this).parent().parent().offset().top}, 0);
+                goToAnchor();
             });
 
             $(".panel-body hr:last-child").remove();
@@ -929,8 +991,6 @@
         $("#btn_note").on('click', function () {
             $('#collapse-note').collapse('hide');
             $(".show-note").text($("#note").val().length > 20 ? $("#note").val().slice(0, 20) + "..." : $("#note").val());
-
-            $('html,body').animate({scrollTop: $("#accordion").parent().parent().offset().top}, 0);
         });
 
         function getShipping(kecamatan_id, latLng, check, name) {
@@ -942,79 +1002,197 @@
                 this.delay = setTimeout(function () {
                     $.ajax({
                         url: "{{route('get.rajaongkir.cost')}}?destination=" + kecamatan_id + '&weight=' + $("#total_weight").val(),
-                        type: "GET",
+                        data: {destination: kecamatan_id, weight: $("#total_weight").val()},
+                        type: "POST",
                         beforeSend: function () {
-                            $('#preload-shipping').show();
-                            $(".list-group-flush").css('opacity', '.3');
+                            $('#preload-shipping, #preload-summary').show();
+                            $("#accordion2, .list-group-flush, #summary-alert").css('opacity', '.3');
                         },
                         complete: function () {
-                            $('#preload-shipping').hide();
-                            $(".list-group-flush").css('opacity', '1');
+                            $('#preload-shipping, #preload-summary').hide();
+                            $("#accordion2, .list-group-flush, #summary-alert").css('opacity', '1');
                         },
                         success: function (data) {
-                            if (data['rajaongkir']['results'].length > 0) {
-                                $.each(data['rajaongkir']['results'][0]['costs'], function (i, val) {
-                                    if (val.service == 'REG' || val.service == 'CTCYES') {
-                                        ongkir = val.cost[0].value;
-                                        etd = val.cost[0].etd;
+                            kode_kurir.empty();
+                            layanan_kurir.attr('disabled', 'disabled').empty();
+                            $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
+                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+
+                            var logistic = data['rajaongkir']['results'];
+                            if (logistic.length > 0) {
+                                $("#shipping-alert, #billing-alert").hide();
+                                $("#rate-alert").show();
+                                $("#heading-rate").parent().show();
+
+                                kode_kurir.empty().append('<option></option>');
+                                $.each(logistic, function (i, val) {
+                                    kode_kurir.append('<option value="' + val.code + '" data-index="' + i + '" ' +
+                                        'data-kode="' + val.code + '">' + val.name + '</option>');
+                                });
+
+                                kode_kurir.select2({
+                                    placeholder: "-- Pilih --",
+                                    allowClear: true,
+                                    width: '100%',
+                                    templateResult: format,
+                                    templateSelection: format,
+                                    escapeMarkup: function (m) {
+                                        return m;
                                     }
                                 });
-                                total += parseInt(ongkir);
-                                if (etd.includes('+')) {
-                                    str_etd = '&ge; ' + etd.replace('+', '') + ' {{__('lang.product.form.summary.day', ['s' => 's'])}}';
-                                    add_receive = etd.replace('+', '');
-                                } else {
-                                    if (etd == '1-1') {
-                                        str_etd = '&le; 1 {{__('lang.product.form.summary.day', ['s' => null])}}'
+
+                                kode_kurir.on('change', function () {
+                                    $(".show-ongkir, .show-delivery").html('&ndash;');
+                                    $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+
+                                    $('#preload-summary').show();
+                                    $(".list-group-flush, #summary-alert").css('opacity', '.3');
+
+                                    clearTimeout(this.delay);
+                                    this.delay = setTimeout(function () {
+                                        $('#preload-summary').hide();
+                                        $(".list-group-flush, #summary-alert").css('opacity', '1');
+
+                                        if ($(this).val() != "") {
+                                            layanan_kurir.removeAttr('disabled').empty().append('<option></option>');
+                                            $.each(logistic[$("option[value=" + $(this).val() + "]", this).attr('data-index')]['costs'], function (i, val) {
+                                                layanan_kurir.append('<option value="' + val.service + '" ' +
+                                                    'data-kode="' + kode_kurir.val() + '" ' +
+                                                    'data-etd="' + val.cost[0].etd + '" ' +
+                                                    'data-ongkir="' + val.cost[0].value + '">' + val.service + '</option>');
+                                            });
+
+                                            layanan_kurir.select2({
+                                                placeholder: "-- Pilih --",
+                                                allowClear: true,
+                                                width: '100%',
+                                                templateResult: format,
+                                                templateSelection: format,
+                                                escapeMarkup: function (m) {
+                                                    return m;
+                                                }
+                                            });
+
+                                        } else {
+                                            layanan_kurir.attr('disabled', 'disabled').empty();
+                                            $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
+                                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+                                        }
+                                    }.bind(this), 800);
+
+                                    $("#shipping-alert, #billing-alert").hide();
+                                    $("#summary-alert, #rate-alert").show();
+                                    btn_pay.prop('disabled', true);
+                                });
+
+                                layanan_kurir.on('change', function () {
+                                    $('#preload-summary').show();
+                                    $(".list-group-flush, #summary-alert").css('opacity', '.3');
+
+                                    clearTimeout(this.delay);
+                                    this.delay = setTimeout(function () {
+                                        $('#preload-summary').hide();
+                                        $(".list-group-flush, #summary-alert").css('opacity', '1');
+
+                                        if ($(this).val() != "") {
+                                            etd = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-etd');
+                                            ongkir = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-ongkir');
+
+                                            formatETD(etd);
+
+                                            $(".show-rate").text(kode_kurir.select2('data')[0]['text']);
+                                            $(".show-ongkir").text("Rp" + number_format(ongkir, 2, ',', '.'));
+                                            $(".show-delivery").html(str_etd);
+                                            $(".show-total").text("Rp" + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
+
+                                            $("#ongkir").val(ongkir);
+                                            $("#durasi_pengiriman").val(etd);
+                                            $("#form-pembayaran input[name=nama_kurir]").val(kode_kurir.select2('data')[0]['text']);
+                                            $("#form-pembayaran input[name=layanan_kurir]").val($(this).val());
+                                            $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
+                                            $('#collapse-rate').collapse('hide');
+
+                                        } else {
+                                            $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
+                                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+                                        }
+                                    }.bind(this), 800);
+
+                                    $("#heading-billing").parent().show();
+                                    $("#shipping-alert, #rate-alert").hide();
+
+                                    if (!$(".card-rb[name=penagihan_id]:checked").val()) {
+                                        $("#summary-alert, #billing-alert").show();
                                     } else {
-                                        str_etd = etd.replace('-', ' – ') + ' {{__('lang.product.form.summary.day', ['s' => 's'])}}';
+                                        $("#promo_code, #btn_pay").removeAttr('disabled');
+                                        $("#summary-alert, #billing-alert").hide();
                                     }
-                                    add_receive = etd.substr(-1);
-                                }
-                                $(".show-ongkir").text("Rp" + thousandSeparator(ongkir) + ",00");
-                                $(".show-delivery").html(str_etd);
-                                $(".show-received").text(moment().add(parseInt(production_day) + parseInt(add_receive), 'days').format('DD MMM YYYY'));
-                                $(".show-total").text("Rp" + thousandSeparator(total) + ",00");
-                                $("#ongkir").val(ongkir);
-                                $("#delivery_duration").val(etd);
-                                $("#received_date").val(moment().add(parseInt(production_day) + parseInt(add_receive), 'days').format('YYYY-MM-DD'));
-                                $("#total").val(total);
-                                if (check == 'address') {
-                                    $("#summary-alert").show();
-                                    btn_upload.removeAttr('disabled');
-                                }
+                                });
+
                             } else {
-                                $(".show-ongkir, .show-delivery, .show-received").text('N/A');
-                                $("#ongkir, #delivery_duration, #received_date, #total").val(null);
-                                $("#summary-alert").hide();
-                                btn_upload.attr('disabled', 'disabled');
+                                $("#shipping-alert").show();
+                                $("#rate-alert, #billing-alert").hide();
+                                $("#heading-rate, #heading-billing").parent().hide();
+                                $(".show-ongkir, .show-delivery").text('N/A');
+                                $("#ongkir, #durasi_pengiriman, #total").val(null);
                             }
                         },
                         error: function () {
-                            swal('{{__('lang.alert.error')}}', '{{__('lang.alert.error-capt')}}', 'error');
+                            swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
                         }
                     });
-
-                    /*if (logistic.length > 0) {
-                        $("#shipping-alert").hide();
-                        $("#billing-alert").show();
-                        $("#heading-billing").parent().show();
-
-                    } else {
-                        $("#shipping-alert").show();
-                        $("#billing-alert").hide();
-                        $("#heading-billing").parent().hide();
-                        $(".show-ongkir, .show-delivery, .show-received").text('N/A');
-                        $("#ongkir, #delivery_duration, #received_date, #total").val(null);
-                    }*/
                 }.bind(this), 800);
 
             } else {
                 $("#promo_code, #btn_pay").removeAttr('disabled');
-                $("#shipping-alert").parent().parent().hide();
+                $("#summary-alert").hide();
+            }
+        }
+
+        function format(option) {
+            var optimage = $(option.element).data('kode'),
+                optongkir = $(option.element).data('ongkir'),
+                optetd = $(option.element).data('etd');
+
+            if (!option.id) {
+                return option.text;
             }
 
-            $('html,body').animate({scrollTop: $("#accordion2").parent().parent().offset().top}, 0);
+            if (!optongkir && !optetd) {
+                return '<img width="64" src="{{asset('images/kurir')}}/' + optimage + '.png" style="padding: 5px">' +
+                    '<b>' + option.text + '</b>';
+            } else {
+                formatETD(optetd);
+
+                return '<img width="80" src="{{asset('images/kurir')}}/' + optimage + '.png" ' +
+                    'style="padding: 5px;float: left"><b>' + option.text + '</b><br>' +
+                    '<i class="fa fa-money-bill-wave mr-2"></i><b>Rp' + number_format(optongkir, 2, ',', '.') + '</b>&ensp;|&ensp;' +
+                    '<i class="fa fa-calendar-check mr-2"></i><b class="text-lowercase">' + str_etd + '</b>';
+            }
+        }
+
+        function formatETD(etd) {
+            if (etd != "") {
+                if (etd.toString().indexOf('HARI') > -1) {
+                    unit = '';
+                } else if (etd.toString().indexOf('JAM') > -1) {
+                    unit = '';
+                } else {
+                    unit = ' hari';
+                }
+
+                if (etd.toString().indexOf('+') > -1) {
+                    str_etd = '&ge; ' + etd.toString().replace('+', '') + unit;
+                } else {
+                    if (etd == '1-1') {
+                        str_etd = '&le; 1' + unit
+                    } else {
+                        str_etd = etd.toString().replace('-', ' – ') + unit;
+                    }
+                }
+            } else {
+                str_etd = 'N/A';
+            }
         }
 
         $("#promo_code").on('keyup', function (e) {
@@ -1068,15 +1246,16 @@
                             resetter();
 
                         } else {
+                            harga_diskon = data.discount_price;
                             $("#promo_code").css('border-color', '#ced4da');
-                            $("#error_promo").show().find('b').text(data.caption).css('color', '#f89406');
+                            $("#error_promo").show().find('b').text(data.caption).css('color', '#5bb300');
                             $("#btn_set").removeAttr('disabled');
 
                             $("#discount").show().find('strong').text(data.discount + '%');
                             $("#discount b").text(data.str_discount);
                             $(".show-total").text(data.str_total);
                             $("#form-pembayaran input[name=discount]").val(data.discount);
-                            $("#form-pembayaran input[name=discount_price]").val(data.discount_price);
+                            $("#form-pembayaran input[name=discount_price]").val(harga_diskon);
                             $("#form-pembayaran input[name=total]").val(data.total);
                         }
                     },
@@ -1105,46 +1284,51 @@
         });
 
         function resetter() {
+            harga_diskon = 0;
             $("#discount").hide().find('b').text(null);
-            $(".show-total").text('Rp' + number_format(total, 2, ',', '.'));
+            $(".show-total").text('Rp' + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
             $("#form-pembayaran input[name=discount], #form-pembayaran input[name=discount_price]").val(null);
-            $("#form-pembayaran input[name=total]").val(total);
+            $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
         }
 
         btn_pay.on("click", function () {
-            clearTimeout(this.delay);
-            this.delay = setTimeout(function () {
-                $.ajax({
-                    url: '{{route('get.midtrans.snap')}}',
-                    type: "GET",
-                    data: $("#form-pembayaran").serialize(),
-                    beforeSend: function () {
-                        btn_pay.prop("disabled", true).html(
-                            'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
-                        );
-                    },
-                    complete: function () {
-                        btn_pay.prop("disabled", false).html('CHECKOUT <i class="fa fa-chevron-right float-right"></i>');
-                    },
-                    success: function (data) {
-                        snap.pay(data, {
-                            language: '{{app()->getLocale()}}',
-                            onSuccess: function (result) {
-                                responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
-                            },
-                            onPending: function (result) {
-                                responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
-                            },
-                            onError: function (result) {
-                                swal('Oops..', result.status_message, 'error');
-                            }
-                        });
-                    },
-                    error: function () {
-                        swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
-                    }
-                });
-            }.bind(this), 800);
+            if (!kode_kurir.val() || !layanan_kurir.val()) {
+                swal('PERHATIAN!', 'Field logistik dan jenis layanannya tidak boleh dikosongi!', 'warning');
+            } else {
+                clearTimeout(this.delay);
+                this.delay = setTimeout(function () {
+                    $.ajax({
+                        url: '{{route('get.midtrans.snap')}}',
+                        type: "GET",
+                        data: $("#form-pembayaran").serialize(),
+                        beforeSend: function () {
+                            btn_pay.prop("disabled", true).html(
+                                'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
+                            );
+                        },
+                        complete: function () {
+                            btn_pay.prop("disabled", false).html('CHECKOUT <i class="fa fa-chevron-right float-right"></i>');
+                        },
+                        success: function (data) {
+                            snap.pay(data, {
+                                language: '{{app()->getLocale()}}',
+                                onSuccess: function (result) {
+                                    responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                                },
+                                onPending: function (result) {
+                                    responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                                },
+                                onError: function (result) {
+                                    swal('Oops..', result.status_message, 'error');
+                                }
+                            });
+                        },
+                        error: function () {
+                            swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                        }
+                    });
+                }.bind(this), 800);
+            }
         });
 
         function responseMidtrans(url, result) {
@@ -1205,5 +1389,9 @@
         function goToAnchor() {
             $('html,body').animate({scrollTop: $(".crumb").offset().top}, 500);
         }
+
+        $(window).on('beforeunload', function () {
+            return "You have attempted to leave this page. Are you sure?";
+        });
     </script>
 @endpush

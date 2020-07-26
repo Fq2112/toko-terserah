@@ -568,12 +568,14 @@
                                                                 <tr>
                                                                     <td width="50%">
                                                                         <img alt="Logo"
-                                                                             src="{{asset('images/kurir/'.$data->getKurir->logo)}}">
+                                                                             src="{{asset('images/kurir/'.$data->kode_kurir.'.png')}}">
                                                                     </td>
                                                                     <td>
                                                                         <small
                                                                             style="line-height: 1.5em;font-size: 14px">
-                                                                            <b style="font-size: 16px">{{$data->getKurir->nama}}</b>
+                                                                            <b style="font-size: 16px">
+                                                                                {{$data->nama_kurir}}<br>
+                                                                                {{$data->layanan_kurir}}</b>
                                                                         </small>
                                                                     </td>
                                                                 </tr>

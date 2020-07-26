@@ -45,9 +45,9 @@ class MidtransController extends Controller
         $split_name = explode(" ", $user->name);
         $address = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
         $main_address = $address != "" ? $address->alamat . ' - ' . $address->kode_pos . ' (' . $address->getOccupancy->name . ').' : null;
-        $shipping = Alamat::find($request->shipping_id);
+        $shipping = Alamat::find($request->pengiriman_id);
         $split_shipping_name = explode(" ", $shipping->nama);
-        $billing = Alamat::find($request->billing_id);
+        $billing = Alamat::find($request->penagihan_id);
         $split_bill_name = explode(" ", $billing->nama);
 
         $carts = Keranjang::whereIn('id', explode(',', $request->cart_ids))
@@ -134,15 +134,17 @@ class MidtransController extends Controller
             'pengiriman_id' => $request->pengiriman_id,
             'penagihan_id' => $request->penagihan_id,
             'uni_code' => $code,
-            'kurir_id' => $request->kurir_id,
             'ongkir' => $request->ongkir,
-            'durasi_pengiriman' => $request->delivery_duration,
+            'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
             'berat_barang' => $request->weight,
             'total_harga' => $request->total,
             'note' => $request->note,
             'promo_code' => $request->promo_code,
             'is_discount' => !is_null($request->discount) ? 1 : 0,
             'discount' => $request->discount,
+            'kode_kurir' => $request->kode_kurir,
+            'nama_kurir' => $request->nama_kurir,
+            'layanan_kurir' => $request->layanan_kurir,
         ]);
 
         foreach ($carts as $cart) {
@@ -177,9 +179,8 @@ class MidtransController extends Controller
                         'pengiriman_id' => $request->pengiriman_id,
                         'penagihan_id' => $request->penagihan_id,
                         'uni_code' => $code,
-                        'kurir_id' => $request->kurir_id,
                         'ongkir' => $request->ongkir,
-                        'durasi_pengiriman' => $request->delivery_duration,
+                        'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
                         'berat_barang' => $request->weight,
                         'total_harga' => $data_tr['gross_amount'],
                         'note' => $request->note,
@@ -187,6 +188,9 @@ class MidtransController extends Controller
                         'is_discount' => !is_null($request->discount) ? 1 : 0,
                         'discount' => $request->discount,
                         'isLunas' => true,
+                        'kode_kurir' => $request->kode_kurir,
+                        'nama_kurir' => $request->nama_kurir,
+                        'layanan_kurir' => $request->layanan_kurir,
                     ]);
 
                     foreach ($carts as $cart) {

@@ -35,6 +35,9 @@ class CreatePesanansTable extends Migration
             $table->boolean('is_discount')->default(false);
             $table->string('discount')->nullable();
             $table->boolean('isLunas')->default(false);
+            $table->string('kode_kurir');
+            $table->string('nama_kurir');
+            $table->string('layanan_kurir');
             $table->string('resi')->nullable()->unique();
             $table->dateTime('tgl_pengiriman')->nullable();
             $table->dateTime('tgl_diterima')->nullable();

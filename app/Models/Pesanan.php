@@ -27,9 +27,4 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Alamat::class, 'penagihan_id');
     }
-
-    public function getKurir()
-    {
-        return $this->belongsTo(Kurir::class, 'kurir_id');
-    }
 }

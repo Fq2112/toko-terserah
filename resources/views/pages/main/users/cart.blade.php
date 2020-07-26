@@ -1,5 +1,5 @@
 @extends('layouts.mst')
-@section('title', 'Cart ('.count($carts).' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
+@section('title', 'Cart ('.$carts->sum('qty').' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -132,7 +132,7 @@
                                                    class="custom-control-label">&ensp;{{$no++}}</label>
                                         </div>
                                     </td>
-                                    <td style="vertical-align: middle" align="center">{{$row->id}}</td>
+                                    <td style="vertical-align: middle" align="center">{{$row->id.'-'.$row->qty}}</td>
                                     <td style="vertical-align: middle">
                                         <div class="row float-left mr-0">
                                             <div class="col-lg-12">
@@ -192,6 +192,14 @@
                                 </tr>
                             @endforeach
                             </tbody>
+                            <tfoot style="font-size: 16px">
+                            <tr>
+                                <th class="text-right" colspan="3">TOTAL</th>
+                                <td class="text-center"><b>{{$carts->sum('qty')}}</b> pcs</td>
+                                <th class="text-right">Rp{{number_format($carts->sum('total'),2,',','.')}}</th>
+                                <td class="text-center">&nbsp;</td>
+                            </tr>
+                            </tfoot>
                         </table>
                         <form method="post" id="form-mass">
                             @csrf
@@ -285,16 +293,17 @@
                     });
 
                     $(".btn-hapus").on('click', function () {
-                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
-                            return item[1]
+                        var qty = 0, ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            qty += parseInt(item[1].split('-')[1]);
+                            return item[1].split('-')[0];
                         });
                         $("#form-mass input[name=cart_ids]").val(ids);
                         $("#form-mass").attr("action", "{{route('user.mass-delete.cart')}}");
 
-                        if (ids.length > 0) {
+                        if (qty > 0) {
                             swal({
                                 title: 'Hapus dari Cart',
-                                text: 'Apakah Anda yakin akan menghapus ' + ids.length +
+                                text: 'Apakah Anda yakin akan menghapus ' + qty +
                                     ' produk dari cart Anda? Anda tidak dapat mengembalikannya!',
                                 icon: 'warning',
                                 dangerMode: true,
@@ -314,16 +323,17 @@
                     });
 
                     $(".btn-wishlist").on('click', function () {
-                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
-                            return item[1]
+                        var qty = 0, ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            qty += parseInt(item[1].split('-')[1]);
+                            return item[1].split('-')[0];
                         });
                         $("#form-mass input[name=cart_ids]").val(ids);
                         $("#form-mass").attr("action", "{{route('user.mass-add.wishlist')}}");
 
-                        if (ids.length > 0) {
+                        if (qty > 0) {
                             swal({
                                 title: "Pindah ke Wishlist",
-                                text: 'Apakah Anda yakin akan memindahkan ' + ids.length +
+                                text: 'Apakah Anda yakin akan memindahkan ' + qty +
                                     ' produk tersebut ke wishlist Anda? Anda tidak dapat mengembalikannya!',
                                 icon: 'warning',
                                 dangerMode: true,
@@ -343,16 +353,17 @@
                     });
 
                     $(".btn-checkout").on('click', function () {
-                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
-                            return item[1]
+                        var qty = 0, ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            qty += parseInt(item[1].split('-')[1]);
+                            return item[1].split('-')[0];
                         });
                         $("#form-mass input[name=cart_ids]").val(ids);
                         $("#form-mass").attr("action", "{{route('user.cart.checkout')}}");
 
-                        if (ids.length > 0) {
+                        if (qty > 0) {
                             swal({
                                 title: "Checkout Produk",
-                                text: 'Apakah Anda yakin akan checkout ' + ids.length + ' produk tersebut?',
+                                text: 'Apakah Anda yakin akan checkout ' + qty + ' produk tersebut?',
                                 icon: 'warning',
                                 dangerMode: true,
                                 buttons: ["Tidak", "Ya, checkout sekarang!"],
