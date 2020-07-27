@@ -1,5 +1,5 @@
 @extends('layouts.mst')
-@section('title', 'Checkout Cart ('.$total_item.' produk): '.$user->name.' | '.env('APP_TITLE'))
+@section('title', 'Checkout Cart ('.$total_item.' item): '.$user->name.' | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/card.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/lightgallery/dist/css/lightgallery.min.css')}}">
@@ -340,7 +340,7 @@
                                                            href="#collapse-{{$b}}" aria-expanded="false"
                                                            aria-controls="collapse-{{$c}}" class="collapsed">
                                                             {{$monthYear}}
-                                                            <b>Rp{{number_format($archive->sum('total'), 2,',','.') . ' ('.$archive->sum('qty').' produk)'}}</b>
+                                                            <b>Rp{{number_format($archive->sum('total'), 2,',','.') . ' ('.count($archive).' produk)'}}</b>
                                                         </a>
                                                     </h4>
                                                 </div>
@@ -833,7 +833,7 @@
                         </div>
                         <ul class="list-group list-group-flush mb-0">
                             <li class="list-group-item border-none">
-                                Subtotal ({{$total_item}} produk)
+                                Subtotal ({{$total_item}} item)
                                 <b class="float-right">Rp{{number_format($subtotal,2,',','.')}}</b>
                             </li>
                             <li class="list-group-item border-none">
@@ -1347,7 +1347,8 @@
                         beforeSend: function () {
                             const preloader = document.createElement('div');
                             preloader.innerHTML =
-                                '<div class="ajax-loader" style="display: none"><div class="preloader4"></div></div>';
+                                '<div class="ajax-loader" style="display: none;top: 20em">' +
+                                '<div class="preloader4"></div></div>';
 
                             swal({
                                 title: 'Loading...',

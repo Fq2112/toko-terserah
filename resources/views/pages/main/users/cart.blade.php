@@ -1,5 +1,5 @@
 @extends('layouts.mst')
-@section('title', 'Cart ('.$carts->sum('qty').' produk): '.Auth::user()->name.' | '.env('APP_TITLE'))
+@section('title', 'Cart ('.$carts->sum('qty').' item): '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -293,17 +293,16 @@
                     });
 
                     $(".btn-hapus").on('click', function () {
-                        var qty = 0, ids = $.map(table.rows('.terpilih').data(), function (item) {
-                            qty += parseInt(item[1].split('-')[1]);
-                            return item[1].split('-')[0];
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1];
                         });
                         $("#form-mass input[name=cart_ids]").val(ids);
                         $("#form-mass").attr("action", "{{route('user.mass-delete.cart')}}");
 
-                        if (qty > 0) {
+                        if (ids.length > 0) {
                             swal({
                                 title: 'Hapus dari Cart',
-                                text: 'Apakah Anda yakin akan menghapus ' + qty +
+                                text: 'Apakah Anda yakin akan menghapus ' + ids.length +
                                     ' produk dari cart Anda? Anda tidak dapat mengembalikannya!',
                                 icon: 'warning',
                                 dangerMode: true,
@@ -323,17 +322,16 @@
                     });
 
                     $(".btn-wishlist").on('click', function () {
-                        var qty = 0, ids = $.map(table.rows('.terpilih').data(), function (item) {
-                            qty += parseInt(item[1].split('-')[1]);
-                            return item[1].split('-')[0];
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1];
                         });
                         $("#form-mass input[name=cart_ids]").val(ids);
                         $("#form-mass").attr("action", "{{route('user.mass-add.wishlist')}}");
 
-                        if (qty > 0) {
+                        if (ids.length > 0) {
                             swal({
                                 title: "Pindah ke Wishlist",
-                                text: 'Apakah Anda yakin akan memindahkan ' + qty +
+                                text: 'Apakah Anda yakin akan memindahkan ' + ids.length +
                                     ' produk tersebut ke wishlist Anda? Anda tidak dapat mengembalikannya!',
                                 icon: 'warning',
                                 dangerMode: true,
@@ -363,7 +361,7 @@
                         if (qty > 0) {
                             swal({
                                 title: "Checkout Produk",
-                                text: 'Apakah Anda yakin akan checkout ' + qty + ' produk tersebut?',
+                                text: 'Apakah Anda yakin akan checkout ' + qty + ' item tersebut?',
                                 icon: 'warning',
                                 dangerMode: true,
                                 buttons: ["Tidak", "Ya, checkout sekarang!"],

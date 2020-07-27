@@ -415,7 +415,7 @@
                                     </table>
                                     @php
                                         $subtotal = 0;
-                                        foreach(\App\Models\Keranjang::whereIn('id', $data->cart_ids)->get() as $cart) {
+                                        foreach(\App\Models\Keranjang::whereIn('id', $data->keranjang_ids)->get() as $cart) {
                                             $subtotal += $cart->total;
                                         }
 
@@ -444,7 +444,8 @@
                                                             <table class="custom">
                                                                 <tr>
                                                                     <td>
-                                                                        <div><b>Subtotal ({{count($data->cart_ids)}}
+                                                                        <div><b>Subtotal
+                                                                                ({{count($data->keranjang_ids)}}
                                                                                 produk)</b></div>
                                                                     </td>
                                                                     <td>

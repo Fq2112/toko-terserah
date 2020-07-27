@@ -145,7 +145,7 @@ class UserController extends Controller
         $code = strtoupper(uniqid('PYM') . now()->timestamp);
         $cart_ids = $request->cart_ids;
 
-        $archive = Keranjang::whereIn('id', explode(",", $cart_ids))
+        $archive = Keranjang::whereIn('id', explode(",", $cart_ids))->where('isCheckOut', false)
             ->orderByRaw('FIELD (id, ' . $cart_ids . ') ASC')->get()->groupBy(function ($q) {
                 return Carbon::parse($q->created_at)->formatLocalized('%B %Y');
             });

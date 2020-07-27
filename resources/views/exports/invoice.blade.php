@@ -76,12 +76,12 @@
 
         #items th {
             color: #fff;
-            background: #70db00;
+            background: #5bb300;
             text-align: left
         }
 
         #items td {
-            background: #fff5e6
+            background: #e1fdc6
         }
 
         .idesc {
@@ -162,7 +162,7 @@
         </thead>
         <tbody>
         @php $subtotal = 0; @endphp
-        @foreach(\App\Models\Keranjang::whereIn('id', $data->cart_ids)->get() as $cart)
+        @foreach(\App\Models\Keranjang::whereIn('id', $data->keranjang_ids)->get() as $cart)
             @php
                 $produk = $cart->getProduk;
                 $subtotal += $cart->total;

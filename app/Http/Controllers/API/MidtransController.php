@@ -153,7 +153,7 @@ class MidtransController extends Controller
 
         $this->invoiceMail('unfinish', $code, $user, $request->pdf_url, $data_tr);
 
-        return count($carts) . ' produk pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
+        return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
     }
 
     public function finishCallback(Request $request)
@@ -198,7 +198,7 @@ class MidtransController extends Controller
                     }
                     $this->invoiceMail('finish', $code, $user, $request->pdf_url, $data_tr);
 
-                    return count($carts) . ' produk pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
+                    return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }
             }
 
@@ -220,12 +220,13 @@ class MidtransController extends Controller
                     ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement')) {
 
                     $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
+                    $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
                     $user = User::find($pesanan->user_id);
 
                     $pesanan->update(['isLunas' => true]);
                     $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
 
-                    return count($pesanan->cart_ids) . ' produk pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
+                    return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }
             }
 

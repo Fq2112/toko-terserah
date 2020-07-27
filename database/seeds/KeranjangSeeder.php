@@ -13,12 +13,13 @@ class KeranjangSeeder extends Seeder
     {
         foreach (\App\Models\Produk::all() as $row) {
             $qty = rand(1, 10);
+            $harga = $row->is_diskon == true ? $row->harga_diskon : $row->harga;
             \App\Models\Keranjang::create([
                 'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
                 'produk_id' => $row->id,
                 'qty' => $qty,
                 'berat' => $qty * $row->berat,
-                'total' => $qty * $row->harga,
+                'total' => $qty * $harga,
                 'isCheckOut' => rand(0, 1) ? true : false,
             ]);
 

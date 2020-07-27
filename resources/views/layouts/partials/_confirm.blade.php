@@ -124,7 +124,7 @@
     function checkout(total) {
         swal({
             title: "Checkout Produk",
-            text: 'Apakah Anda yakin akan checkout ' + total + ' produk tersebut?',
+            text: 'Apakah Anda yakin akan checkout ' + total + ' item tersebut?',
             icon: 'warning',
             dangerMode: true,
             buttons: ["Tidak", "Ya, checkout sekarang!"],
