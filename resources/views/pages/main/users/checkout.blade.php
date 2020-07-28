@@ -6,7 +6,7 @@
     <style>
         blockquote {
             background: unset;
-            border-color: unset;
+            border-color: #eee;
             color: #555;
         }
 
@@ -377,74 +377,31 @@
                                                                     </h5>
                                                                     <blockquote class="mb-3 pr-0"
                                                                                 style="font-size: 14px;text-transform: none">
-                                                                        <div class="toggle toggle-border mb-3"
-                                                                             data-state="close">
-                                                                            <div
-                                                                                class="togglet toggleta font-weight-normal text-uppercase">
-                                                                                <i class="toggle-closed fa fa-chevron-down"></i>
-                                                                                <i class="toggle-open fa fa-chevron-up"></i>
-                                                                                Kalkulasi
-                                                                            </div>
-                                                                            <div class="togglec">
-                                                                                <ul class="list-group list-group-flush">
-                                                                                    <li class="list-group-item border-none">
-                                                                                        Qty.
-                                                                                        <b class="float-right">{{$row->qty}}
-                                                                                            pcs</b>
-                                                                                    </li>
-                                                                                    <li class="list-group-item border-none">
-                                                                                        Harga /pcs
-                                                                                        <b class="float-right">Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}</b>
-                                                                                    </li>
-                                                                                    <li class="list-group-item border-none">
-                                                                                        Berat
-                                                                                        <b class="float-right">
-                                                                                            {{number_format($weight,2,',','.')}}
-                                                                                            kg</b>
-                                                                                    </li>
-                                                                                </ul>
-                                                                                <hr class="my-2">
-                                                                                <ul class="list-group list-group-flush">
-                                                                                    <li class="list-group-item border-none">
-                                                                                        TOTAL
-                                                                                        <b class="float-right"
-                                                                                           style="font-size: large">Rp{{number_format($row->total,2,',','.')}}</b>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="toggle toggle-border mb-3"
-                                                                             data-state="close">
-                                                                            <div
-                                                                                class="togglet toggleta font-weight-normal text-uppercase">
-                                                                                <i class="toggle-closed fa fa-chevron-down"></i>
-                                                                                <i class="toggle-open fa fa-chevron-up"></i>
-                                                                                Detail Produk
-                                                                            </div>
-                                                                            <div class="togglec">
-                                                                                <table
-                                                                                    style="margin: 0;font-size: 14px;font-weight: 600">
-                                                                                    <tbody>
-                                                                                    <tr>
-                                                                                        <td>Kategori</td>
-                                                                                        <td>:&nbsp;</td>
-                                                                                        <td>
-                                                                                            {{$produk->getSubkategori->getKategori->nama}}
-                                                                                            ,
-                                                                                            <a href="{{route('cari', ['kat' => $produk->getSubkategori->id])}}">
-                                                                                                {{$produk->getSubkategori->nama}}</a>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Deskripsi</td>
-                                                                                        <td>:&nbsp;</td>
-                                                                                        <td>{{$produk->deskripsi}}</td>
-                                                                                    </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                                {!! $produk->detail !!}
-                                                                            </div>
-                                                                        </div>
+                                                                        <ul class="list-group list-group-flush">
+                                                                            <li class="list-group-item border-none">
+                                                                                Qty.
+                                                                                <b class="float-right">{{$row->qty}}
+                                                                                    pcs</b>
+                                                                            </li>
+                                                                            <li class="list-group-item border-none">
+                                                                                Harga /pcs
+                                                                                <b class="float-right">Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}</b>
+                                                                            </li>
+                                                                            <li class="list-group-item border-none">
+                                                                                Berat
+                                                                                <b class="float-right">
+                                                                                    {{number_format($weight,2,',','.')}}
+                                                                                    kg</b>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <hr class="my-2">
+                                                                        <ul class="list-group list-group-flush">
+                                                                            <li class="list-group-item border-none">
+                                                                                TOTAL
+                                                                                <b class="float-right"
+                                                                                   style="font-size: large">Rp{{number_format($row->total,2,',','.')}}</b>
+                                                                            </li>
+                                                                        </ul>
                                                                     </blockquote>
                                                                 </div>
                                                             </div>
@@ -1185,7 +1142,7 @@
                     str_etd = '&ge; ' + etd.toString().replace('+', '') + unit;
                 } else {
                     if (etd == '1-1') {
-                        str_etd = '&le; 1' + unit
+                        str_etd = '&le; 1' + unit;
                     } else {
                         str_etd = etd.toString().replace('-', ' – ') + unit;
                     }

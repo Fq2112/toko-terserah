@@ -437,8 +437,7 @@
                                                         <td>
                                                             <small>
                                                                 <a style="text-decoration: none;color: #5bb300;"
-                                                                   href="{{route('user.download.file',['id'=>encrypt($data->id),'file'=>'invoice'])}}">
-                                                                    #<b>{{$code}}</b></a>
+                                                                   href="{{route('user.download.file', ['code' => $code])}}">#<b>{{$code}}</b></a>
                                                             </small>
                                                             <hr class="hr-divider">
                                                             <table class="custom">

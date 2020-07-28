@@ -269,7 +269,7 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.dashboard'
             ]);
 
-            Route::get('download/{id}/{file}', [
+            Route::get('{code}/download', [
                 'middleware' => 'user.bio',
                 'uses' => 'UserController@downloadFile',
                 'as' => 'user.download.file'

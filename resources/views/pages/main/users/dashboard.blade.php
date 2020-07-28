@@ -23,21 +23,145 @@
             color: #5bb300;
         }
 
-        .single-price {
-            font-family: 'Raleway', sans-serif;
+        blockquote {
+            background: unset;
+            border-color: #eee;
+            color: #555;
+        }
+
+        .content-area {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .custom-overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0, 0, 0, .3);
+            opacity: 0;
+            transition: all 400ms ease-in-out;
+            height: 100%;
+        }
+
+        .custom-overlay:hover {
+            opacity: 1;
+        }
+
+        .custom-text {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #fff !important;
+        }
+
+        .content-area img {
+            transition: transform .5s ease;
+        }
+
+        .content-area:hover img {
+            transform: scale(1.2);
+        }
+
+        .media-body h5 a:hover, .media-body h5 a:focus, .media-body h5 a:active
+        .togglec a:hover, .togglec a:focus, .togglec a:active {
+            color: #5bb300 !important;
+        }
+
+        .toggle {
+            display: block;
+            position: relative;
+            margin: 0 0 20px 0;
+            background: #fff;
+        }
+
+        .toggle .togglet,
+        .toggle .toggleta {
+            display: block;
+            position: relative;
+            line-height: 24px;
+            padding: 0 1em;
+            margin: 0;
+            font-size: 12px;
             font-weight: 700;
-            color: #5bb300;
+            color: #444;
+            cursor: pointer;
         }
 
-        .single-price s {
-            color: #aaa !important;
-            padding-left: 5px;
-            font-size: 12px;
+        .toggle .togglet i {
+            position: absolute;
+            top: 0;
+            right: 1em;
+            width: 16px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 24px;
         }
 
-        .single-price span {
-            color: #555 !important;
-            font-size: 12px;
+        .toggle .toggleta {
+            font-weight: bold;
+        }
+
+        .toggle .togglet i.toggle-open,
+        .toggle .toggleta i.toggle-closed {
+            display: none;
+        }
+
+        .toggle .toggleta i.toggle-open {
+            display: block;
+        }
+
+        .toggle .togglet:not(.toggleta) span.toggle-open,
+        .toggle .togglet.toggleta span.toggle-closed {
+            display: none;
+        }
+
+        .toggle .togglet.toggleta span.toggle-open,
+        .toggle .togglet:not(.toggleta) span.toggle-closed {
+            display: block;
+        }
+
+        .toggle .togglec {
+            display: block;
+            position: relative;
+            padding: 0 1em .5em
+        }
+
+        .toggle .togglec .list-group-flush {
+            margin: 0 !important;
+        }
+
+        .toggle .togglec .list-group-item {
+            padding: 0.75rem 0 !important;
+        }
+
+        .toggle.toggle-border {
+            border: 1px solid #E5E5E5;
+            border-radius: 4px;
+        }
+
+        .toggle.toggle-border .togglet,
+        .toggle.toggle-border .toggleta {
+            line-height: 44px;
+        }
+
+        .toggle.toggle-border .togglet i {
+            line-height: 44px;
+        }
+
+        .toggle .togglec ul:not(.list-group-flush) {
+            margin-left: 2rem;
+        }
+
+        .togglec h1, .togglec h2, .togglec h3, .togglec h4, .togglec h5, .togglec h6 {
+            font-size: 14px;
+            margin: .5em 0 .25em;
         }
 
         .lg-backdrop {
@@ -56,7 +180,7 @@
             color: #bbb;
         }
 
-        td .input-group-btn .btn-color2:hover:before, td .input-group-btn .btn-color2:focus:before, td .input-group-btn .btn-color2:active:before {
+        td .input-group-btn .btn-color7:hover:before, td .input-group-btn .btn-color7:focus:before, td .input-group-btn .btn-color7:active:before {
             border-radius: 4px 0 0 4px;
         }
 
@@ -64,7 +188,7 @@
             border-radius: 0;
         }
 
-        td .input-group-btn .btn-color5:hover:before, td .input-group-btn .btn-color5:focus:before, td .input-group-btn .btn-color5:active:before {
+        td .input-group-btn .btn-color2:hover:before, td .input-group-btn .btn-color2:focus:before, td .input-group-btn .btn-color2:active:before {
             border-radius: 0 4px 4px 0;
         }
     </style>
@@ -89,27 +213,215 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="table-responsive" id="dt-produk">
+                    <div class="table-responsive" id="dt-pesanan">
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="text-center">#</th>
-                                <th>Produk</th>
-                                <th class="text-center">Qty.</th>
-                                <th class="text-right">Total</th>
-                                <th class="text-center">Aksi</th>
+                                <th width="5%" class="text-center">#</th>
+                                <th width="50%">Detail Pesanan</th>
+                                <th width="15%" class="text-center">Status</th>
+                                <th width="10%" class="text-center">Dikirim</th>
+                                <th width="10%" class="text-center">Diterima</th>
+                                <th width="10%" class="text-center">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
                             @php $no = 1; @endphp
                             @foreach($pesanan as $row)
-                                @php $carts = \App\Models\Keranjang::whereIn('id', $row->keranjang_ids)->get(); @endphp
+                                @php
+                                    $carts = \App\Models\Keranjang::whereIn('id', $row->keranjang_ids)->get();
+                                    if (strpos($row->durasi_pengiriman, 'HARI') !== false) {
+                                        $unit = '';
+                                    } elseif (strpos($row->durasi_pengiriman, 'JAM') !== false) {
+                                        $unit = '';
+                                    } else {
+                                        $unit = ' hari';
+                                    }
+
+                                    if (strpos($row->durasi_pengiriman, '+') !== false) {
+                                        $str_etd = '&ge; ' . str_replace('+','',$row->durasi_pengiriman) . $unit;
+                                    } else {
+                                        if ($row->durasi_pengiriman == '1-1') {
+                                            $str_etd = '&le; 1' . $unit;
+                                        } else {
+                                            $str_etd = str_replace('-',' – ',$row->durasi_pengiriman) . $unit;
+                                        }
+                                    }
+
+                                    if(is_null($row->tgl_diterima)) {
+                                        if(is_null($row->tgl_pengiriman)) {
+                                            if($row->isLunas == false){
+                                                $class = 'danger';
+                                                $status = 'BELUM DIBAYAR';
+                                            } else {
+                                                $class = 'success';
+                                                $status = 'DIBAYAR';
+                                            }
+                                        } else {
+                                            $class = 'warning';
+                                            $status = 'DALAM PENGIRIMAN';
+                                        }
+                                    } else {
+                                        $class = 'primary';
+                                        $status = 'PESANAN SELESAI';
+                                    }
+                                @endphp
                                 <tr>
                                     <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
-                                    <td style="vertical-align: middle" align="center">{{$no++}}</td>
+                                    <td style="vertical-align: middle">
+                                        <a href="{{route('user.download.file', ['code' => $row->uni_code])}}">
+                                            <h5>#{{$row->uni_code}}</h5></a>
+                                        <div class="toggle toggle-border mb-3" data-state="close">
+                                            <div class="togglet toggleta font-weight-normal text-uppercase">
+                                                <i class="toggle-closed fa fa-chevron-down"></i>
+                                                <i class="toggle-open fa fa-chevron-up"></i>
+                                                Kalkulasi
+                                            </div>
+                                            <div class="togglec">
+                                                <ul class="list-group list-group-flush mb-0">
+                                                    <li class="list-group-item border-none">
+                                                        Subtotal ({{$carts->sum('qty')}} item)
+                                                        <b class="float-right">Rp{{number_format($carts->sum('total'),2,',','.')}}</b>
+                                                    </li>
+                                                    <li class="list-group-item border-none">
+                                                        Berat
+                                                        <b class="float-right">{{number_format($row->berat_barang / 1000,2,',','.')}}
+                                                            kg</b>
+                                                    </li>
+                                                    <li class="list-group-item border-none">
+                                                        Ongkir
+                                                        <b class="float-right show-ongkir">Rp{{number_format($row->ongkir,2,',','.')}}</b>
+                                                    </li>
+                                                    <li class="list-group-item border-none">
+                                                        Durasi Pengiriman
+                                                        <b class="float-right show-delivery text-lowercase">{!! $str_etd !!}</b>
+                                                    </li>
+                                                    @if($row->is_discount == true)
+                                                        <li id="discount" class="list-group-item border-none">
+                                                            Diskon <b>{{$row->discount}}%</b>
+                                                            <b class="float-right">-Rp{{number_format(ceil($carts->sum('total') * $row->discount / 100),2,',','.')}}</b>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                                <hr class="my-2">
+                                                <ul class="list-group list-group-flush mb-0">
+                                                    <li class="list-group-item border-none">
+                                                        TOTAL<b class="float-right show-total" style="font-size: large">
+                                                            Rp{{number_format($row->total_harga,2,',','.')}}</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="toggle toggle-border mb-0" data-state="close">
+                                            <div class="togglet toggleta font-weight-normal text-uppercase">
+                                                <i class="toggle-closed fa fa-chevron-down"></i>
+                                                <i class="toggle-open fa fa-chevron-up"></i>
+                                                Produk
+                                            </div>
+                                            <div class="togglec">
+                                                @foreach($carts as $cart)
+                                                    @php
+                                                        $produk = $cart->getProduk;
+                                                        $weight = ($produk->berat / 1000) * $cart->qty;
+                                                    @endphp
+                                                    <div class="media">
+                                                        <div class="content-area media-left media-middle"
+                                                             style="width: 20%" id="preview{{$cart->id}}"
+                                                             onclick="preview('{{$cart->id}}','{{$produk->nama}}',
+                                                                 '{{route('get.galeri.produk', ['produk' => $produk->permalink])}}')">
+                                                            <img class="media-object" alt="icon"
+                                                                 src="{{asset('storage/produk/thumb/'.$produk->gambar)}}">
+                                                            <div class="custom-overlay">
+                                                                <div class="custom-text">
+                                                                    <i class="fa fa-clone fa-2x"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ml-2 media-body">
+                                                            <h5 class="mt-3 mb-1">
+                                                                <a href="{{route('produk', ['produk' => $produk->permalink])}}">
+                                                                    <i class="fa fa-box-open mr-1"></i>
+                                                                    {{$produk->nama}}
+                                                                </a>
+                                                            </h5>
+                                                            <blockquote class="mb-3 pr-0"
+                                                                        style="font-size: 14px;text-transform: none">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item border-none">
+                                                                        Qty.
+                                                                        <b class="float-right">{{$cart->qty}}
+                                                                            pcs</b>
+                                                                    </li>
+                                                                    <li class="list-group-item border-none">
+                                                                        Harga /pcs
+                                                                        <b class="float-right">Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}</b>
+                                                                    </li>
+                                                                    <li class="list-group-item border-none">
+                                                                        Berat
+                                                                        <b class="float-right">
+                                                                            {{number_format($weight,2,',','.')}}
+                                                                            kg</b>
+                                                                    </li>
+                                                                </ul>
+                                                                <hr class="my-2">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item border-none">
+                                                                        TOTAL
+                                                                        <b class="float-right"
+                                                                           style="font-size: large">Rp{{number_format($cart->total,2,',','.')}}</b>
+                                                                    </li>
+                                                                </ul>
+                                                            </blockquote>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mt-3">
+                                                @endforeach
+                                                @if(!is_null($row->note))
+                                                    <b>Catatan:</b>
+                                                    <p>{{$row->note}}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle" align="center">
+                                        <span class="label label-{{$class}}">{{$status}}</span>
+                                    </td>
+                                    <td style="vertical-align: middle"
+                                        align="center">{{!is_null($row->tgl_pengiriman) ? \Carbon\Carbon::parse($row->tgl_pengiriman)->formatLocalized('%d %B %Y') : '-'}}</td>
+                                    <td style="vertical-align: middle"
+                                        align="center">{{!is_null($row->tgl_diterima) ? \Carbon\Carbon::parse($row->tgl_diterima)->formatLocalized('%d %B %Y') : '-'}}</td>
+                                    <td style="vertical-align: middle" align="center">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <a href="{{route('user.download.file', ['code' => $row->uni_code])}}"
+                                                   class="btn btn-color7 btn-sm" style="border-radius:4px 0 0 4px;"
+                                                   data-toggle="tooltip" title="Faktur Pesanan">
+                                                    <i class="fa fa-download" style="margin-right: 0"></i>
+                                                </a>
+                                                <button class="btn btn-color4 btn-sm"
+                                                        data-toggle="tooltip" title="Lacak Pesanan"
+                                                        onclick="trackPesanan('{{$row->uni_code}}')">
+                                                    <i class="fa fa-crosshairs" style="margin-right: 0"></i>
+                                                </button>
+                                                @if(is_null($row->tgl_diterima))
+                                                    <button class="btn btn-color2 btn-sm"
+                                                            data-toggle="tooltip" title="Paket Diterima"
+                                                            onclick="paketDiterima('{{$row->uni_code}}','{{route('user.received',['code' => $row->uni_code])}}')"
+                                                        {{is_null($row->tgl_pengiriman) || !is_null($row->tgl_diterima) ? 'disabled' : ''}}>
+                                                        <i class="fa fa-box-open" style="margin-right: 0"></i>
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-color2 btn-sm" title="Pesan Ulang"
+                                                            style="border-radius:0 4px 4px 0;" data-toggle="tooltip"
+                                                            onclick="pesanUlang('{{$row->uni_code}}','{{route('user.reorder',['code' => $row->uni_code])}}')"
+                                                        {{!is_null($row->tgl_diterima) ? '' : 'disabled'}}>
+                                                        <i class="fa fa-shopping-cart" style="margin-right: 0"></i>
+                                                    </button>
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -130,10 +442,8 @@
     <script src="{{asset('vendor/lightgallery/modules/lg-video.min.js')}}"></script>
     <script>
         $(function () {
-            $("#dt-produk table").DataTable({
-                dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
-                    "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [{targets: 5, sortable: false}, {targets: 1, visible: false, searchable: false}],
+            $("#dt-pesanan table").DataTable({
+                columnDefs: [{targets: 5, sortable: false}],
                 language: {
                     "emptyTable": "Anda belum membuat pesanan apapun",
                     "info": "Menampilkan _START_ - _END_ dari _TOTAL_ pesanan",
@@ -158,6 +468,21 @@
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
                     $('[data-toggle="tooltip"]').tooltip();
+
+                    $('.toggle').each(function () {
+                        var element = $(this), elementState = element.attr('data-state');
+
+                        if (elementState != 'open') {
+                            element.children('.togglec').hide();
+                        } else {
+                            element.children('.togglet').addClass("toggleta");
+                        }
+
+                        element.children('.togglet').off('click').on('click', function () {
+                            $(this).toggleClass('toggleta').next('.togglec').slideToggle(300);
+                            return true;
+                        });
+                    });
                 },
             });
         });

@@ -25,7 +25,7 @@ class CreatePesanansTable extends Migration
             $table->foreignId('penagihan_id');
             $table->foreign('penagihan_id')->references('id')->on('alamat')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->string('uni_code');
+            $table->string('uni_code')->unique();
             $table->string('ongkir');
             $table->string('durasi_pengiriman');
             $table->string('berat_barang');
