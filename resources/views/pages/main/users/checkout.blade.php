@@ -958,7 +958,7 @@
                 clearTimeout(this.delay);
                 this.delay = setTimeout(function () {
                     $.ajax({
-                        url: "{{route('get.rajaongkir.cost')}}?destination=" + kecamatan_id + '&weight=' + $("#total_weight").val(),
+                        url: "{{route('get.rajaongkir.cost')}}",
                         data: {destination: kecamatan_id, weight: $("#total_weight").val()},
                         type: "POST",
                         beforeSend: function () {

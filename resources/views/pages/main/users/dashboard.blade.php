@@ -1,6 +1,7 @@
 @extends('layouts.mst')
 @section('title', 'Dashboard – Riwayat Pemesanan: '.Auth::user()->name.' | '.env('APP_TITLE'))
 @push('styles')
+    <link rel="stylesheet" href="{{asset('css/tracking-log.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap.min.css')}}">
@@ -191,6 +192,10 @@
         td .input-group-btn .btn-color2:hover:before, td .input-group-btn .btn-color2:focus:before, td .input-group-btn .btn-color2:active:before {
             border-radius: 0 4px 4px 0;
         }
+
+        .tracking-list > * {
+            font-size: 14px;
+        }
     </style>
 @endpush
 @section('content')
@@ -252,17 +257,17 @@
                                         if(is_null($row->tgl_pengiriman)) {
                                             if($row->isLunas == false){
                                                 $class = 'danger';
-                                                $status = 'BELUM DIBAYAR';
+                                                $status = 'MENUNGGU PEMBAYARAN';
                                             } else {
-                                                $class = 'success';
-                                                $status = 'DIBAYAR';
+                                                $class = 'info';
+                                                $status = 'SEDANG DIKEMAS';
                                             }
                                         } else {
                                             $class = 'warning';
                                             $status = 'DALAM PENGIRIMAN';
                                         }
                                     } else {
-                                        $class = 'primary';
+                                        $class = 'success';
                                         $status = 'PESANAN SELESAI';
                                     }
                                 @endphp
@@ -313,7 +318,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="toggle toggle-border mb-0" data-state="close">
+                                        <div class="toggle toggle-border mb-3" data-state="close">
                                             <div class="togglet toggleta font-weight-normal text-uppercase">
                                                 <i class="toggle-closed fa fa-chevron-down"></i>
                                                 <i class="toggle-open fa fa-chevron-up"></i>
@@ -401,21 +406,22 @@
                                                 </a>
                                                 <button class="btn btn-color4 btn-sm"
                                                         data-toggle="tooltip" title="Lacak Pesanan"
-                                                        onclick="trackPesanan('{{$row->uni_code}}')">
+                                                        onclick="lacakPesanan('{{$row->uni_code}}','{{$row->resi}}',
+                                                            '{{$row->kode_kurir}}','{{$row->layanan_kurir}}')">
                                                     <i class="fa fa-crosshairs" style="margin-right: 0"></i>
                                                 </button>
                                                 @if(is_null($row->tgl_diterima))
                                                     <button class="btn btn-color2 btn-sm"
                                                             data-toggle="tooltip" title="Paket Diterima"
-                                                            onclick="paketDiterima('{{$row->uni_code}}','{{route('user.received',['code' => $row->uni_code])}}')"
-                                                        {{is_null($row->tgl_pengiriman) || !is_null($row->tgl_diterima) ? 'disabled' : ''}}>
+                                                            onclick="paketDiterima('{{$row->uni_code}}','{{$row->tgl_pengiriman}}',
+                                                                '{{route('user.received',['code' => $row->uni_code])}}')">
                                                         <i class="fa fa-box-open" style="margin-right: 0"></i>
                                                     </button>
                                                 @else
                                                     <button class="btn btn-color2 btn-sm" title="Pesan Ulang"
                                                             style="border-radius:0 4px 4px 0;" data-toggle="tooltip"
-                                                            onclick="pesanUlang('{{$row->uni_code}}','{{route('user.reorder',['code' => $row->uni_code])}}')"
-                                                        {{!is_null($row->tgl_diterima) ? '' : 'disabled'}}>
+                                                            onclick="pesanUlang('{{$row->uni_code}}','{{$row->tgl_diterima}}',
+                                                                '{{route('user.reorder',['code' => $row->uni_code])}}')">
                                                         <i class="fa fa-shopping-cart" style="margin-right: 0"></i>
                                                     </button>
                                                 @endif
@@ -426,6 +432,23 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="modal fade" id="modalWaybill" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close mt-1" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" style="font-size: 18px !important;"></h4>
+                                </div>
+                                <div class="modal-body px-5 py-0">
+                                    <div id="preload-waybill" class="ajax-loader">
+                                        <div class="preloader4"></div>
+                                    </div>
+                                    <div class="tracking-list my-0"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -485,6 +508,23 @@
                     });
                 },
             });
+
+            @if(session('reorder'))
+            swal({
+                title: "Checkout Cart",
+                text: "{{session('reorder')}}",
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya, checkout sekarang!"],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then((confirm) => {
+                if (confirm) {
+                    swal({icon: "success", buttons: false});
+                    $("#form-cart_ids").submit();
+                }
+            });
+            @endif
         });
 
         function preview(id, nama, cek_uri) {
@@ -515,6 +555,102 @@
                     });
                 });
             }.bind(this), 800);
+        }
+
+        function lacakPesanan(code, resi, kode_kurir, layanan_kurir) {
+            $(".tracking-list").empty();
+
+            if (resi != "") {
+                $("#modalWaybill .modal-title").html(kode_kurir.toUpperCase() + ' ' + layanan_kurir + ' #<b>' + resi + '</b>');
+                $("#modalWaybill").modal('show');
+
+                clearTimeout(this.delay);
+                this.delay = setTimeout(function () {
+                    $.ajax({
+                        url: "{{route('get.rajaongkir.waybill')}}",
+                        data: {waybill: resi, courier: kode_kurir},
+                        type: "POST",
+                        beforeSend: function () {
+                            $('#preload-waybill').show();
+                            $(".tracking-list").css('opacity', '.3');
+                        },
+                        complete: function () {
+                            $('#preload-waybill').hide();
+                            $(".tracking-list").css('opacity', '1');
+                        },
+                        success: function (data) {
+                            var waybill = data['rajaongkir']['result'];
+                            $.each(waybill['manifest'], function (i, val) {
+                                $(".tracking-list").append(
+                                    '<div class="tracking-item intransit">' +
+                                    '<div class="tracking-icon status-intransit">' +
+                                    '<svg class="svg-inline--fa fa-shipping-fast fa-w-20" aria-hidden="true" ' +
+                                    'data-prefix="fas" data-icon="shipping-fast" role="img" ' +
+                                    'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">' +
+                                    '<path fill="currentColor" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z">' +
+                                    '</path></svg></div>' +
+                                    '<div class="tracking-date">' + moment(val.manifest_date).format("DD MMMM YYYY") + '' +
+                                    '<span>' + val.manifest_time + '</span></div>' +
+                                    '<div class="tracking-content">' + waybill['delivery_status'].status + '' +
+                                    '<span>' + val.manifest_description + '</span></div></div>');
+                            });
+
+                            $(".tracking-list .tracking-item:first-child").removeClass('intransit').addClass('outfordelivery')
+                                .find('.tracking-icon').removeClass('status-intransit').addClass('status-outfordelivery')
+                                .find('.tracking-date').css('color', '#5bb300')
+                                .find('.tracking-content').css('color', '#5bb300');
+                        },
+                        error: function () {
+                            swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                        }
+                    });
+                }.bind(this), 800);
+
+            } else {
+                swal('PERHATIAN!', 'Nomor resi untuk pesanan [' + code + '] Anda belum tersedia!', 'warning');
+            }
+        }
+
+        function paketDiterima(code, cek, uri) {
+            if (cek != "") {
+                swal({
+                    title: "Apakah Anda yakin?",
+                    text: "Dengan melanjutkan ini, Anda mengakui bahwa Anda telah menerima paket pesanan [" + code + "] dan tidak ada masalah.",
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak", "Ya, saya telah menerimanya!"],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        swal({icon: "success", buttons: false});
+                        window.location.href = uri;
+                    }
+                });
+            } else {
+                swal('PERHATIAN!', 'Paket pesanan [' + code + '] Anda belum dikirimkan!', 'warning');
+            }
+        }
+
+        function pesanUlang(code, cek, uri) {
+            if (cek != "") {
+                swal({
+                    title: "Pesan Ulang",
+                    text: "Apakah Anda yakin akan memesan ulang semua produk yang ada di pesanan [" + code + "] tersebut?",
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak", "Ya, pesan sekarang!"],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        swal({icon: "success", buttons: false});
+                        window.location.href = uri;
+                    }
+                });
+            } else {
+                swal('PERHATIAN!', 'Anda belum menerima pesanan [' + code + '] tersebut!', 'warning');
+            }
         }
 
         function goToAnchor() {

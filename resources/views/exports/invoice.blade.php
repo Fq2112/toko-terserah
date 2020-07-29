@@ -233,7 +233,8 @@
             <td>
                 <table>
                     <tr>
-                        <td width="50%"><img alt="Logo" src="{{asset('images/kurir/'.$data->kode_kurir.'.png')}}"></td>
+                        <td width="50%"><img alt="Logo" src="{{public_path('images/kurir/'.$data->kode_kurir.'.png')}}">
+                        </td>
                         <td>{{$data->nama_kurir}}<br>{{$data->layanan_kurir}}</td>
                     </tr>
                 </table>

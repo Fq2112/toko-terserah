@@ -201,7 +201,7 @@ class UserController extends Controller
     {
         $pesanan = Pesanan::where('uni_code', $request->code)->first();
         $invoice = $pesanan->uni_code . '.pdf';
-        $file_path = storage_path('app/public/users/order/invoice/' . $pesanan->user_id . '/' . $invoice);
+        $file_path = storage_path('app/public/users/invoice/' . $pesanan->user_id . '/' . $invoice);
         if (file_exists($file_path)) {
             return Response::download($file_path, $invoice, [
                 'Content-Length: ' . filesize($file_path)
@@ -216,7 +216,7 @@ class UserController extends Controller
         $pesanan = Pesanan::where('uni_code', $request->code)->first();
         $pesanan->update(['tgl_diterima' => now()]);
 
-        return back()->with('update', 'Penerimaan paket pesanan [:code] Anda berhasil dikonfirmasi!');
+        return back()->with('update', 'Penerimaan paket pesanan [' . $pesanan->uni_code . '] Anda berhasil dikonfirmasi!');
     }
 
     public function reorder(Request $request)
@@ -250,7 +250,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->route('user.cart')->with('add', 'Semua produk yang masih tersedia dan ada di pesanan ['
-            . $pesanan->uni_code . '] berhasil ditambahkan ke cart Anda!');
+        return back()->with('reorder', 'Semua produk yang masih tersedia dan ada di pesanan ['
+            . $pesanan->uni_code . '] berhasil ditambahkan ke cart Anda! Apakah Anda ingin checkout sekarang?');
     }
 }

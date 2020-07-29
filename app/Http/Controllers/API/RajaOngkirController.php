@@ -9,6 +9,21 @@ use Illuminate\Http\Request;
 
 class RajaOngkirController extends Controller
 {
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = new \GuzzleHttp\Client([
+            'headers' => [
+                'Accept' => 'application/json',
+                'key' => env('RajaOngkir_KEY')
+            ],
+            'defaults' => [
+                'exceptions' => false
+            ]
+        ]);
+    }
+
     public function getSubdistrict(Request $request)
     {
         $kecamatan = Kecamatan::where('kota_id', $request->city)->with('getKota')->get();
@@ -18,18 +33,8 @@ class RajaOngkirController extends Controller
 
     public function getCost(Request $request)
     {
-        $client = new \GuzzleHttp\Client([
-            'headers' => [
-                'Accept' => 'application/json',
-                'key' => env('RajaOngkir_KEY')
-            ],
-            'defaults' => [
-                'exceptions' => false
-            ]
-        ]);
-
         try {
-            $response = $client->post(env('RajaOngkir_URL') . '/cost', [
+            $response = $this->client->post(env('RajaOngkir_URL') . '/cost', [
                 'form_params' => [
                     'origin' => 6149,
                     'originType' => 'subdistrict',
@@ -43,7 +48,30 @@ class RajaOngkirController extends Controller
             return json_decode($response, true);
 
         } catch (ConnectException $e) {
-            return response()->json();
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid key. API key tidak ditemukan di database RajaOngkir'
+            ], 400);
+        }
+    }
+
+    public function getWaybill(Request $request)
+    {
+        try {
+            $response = $this->client->post(env('RajaOngkir_URL') . '/waybill', [
+                'form_params' => [
+                    'waybill' => $request->waybill,
+                    'courier' => $request->courier
+                ]
+            ])->getBody()->getContents();
+
+            return json_decode($response, true);
+
+        } catch (ConnectException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid key. API key tidak ditemukan di database RajaOngkir'
+            ], 400);
         }
     }
 }

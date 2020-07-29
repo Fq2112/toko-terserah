@@ -33,7 +33,12 @@ class UserAdminSeeder extends Seeder
             'password' => bcrypt('secret'),
             'status' => true,
         ]);
-        \App\Models\Bio::create(['user_id' => $user->id]);
+        \App\Models\Bio::create([
+            'user_id' => $user->id,
+            'phone' => '081356598237',
+            'gender' => 'pria',
+            'dob' => '1997-10-15'
+        ]);
         $arr = array("3.5", "4", "4.5", "5");
         \App\Models\Testimoni::create([
             'user_id' => $user->id,
@@ -74,7 +79,12 @@ class UserAdminSeeder extends Seeder
                 'password' => bcrypt('secret'),
                 'status' => true,
             ]);
-            \App\Models\Bio::create(['user_id' => $dataUser->id]);
+            \App\Models\Bio::create([
+                'user_id' => $dataUser->id,
+                'phone' => '+628123456789' . rand(0, 9),
+                'gender' => rand(0, 1) ? 'pria' : 'warning',
+                'dob' => $faker->date('Y-m-d')
+            ]);
 
             $arr = array("3.5", "4", "4.5", "5");
             \App\Models\Testimoni::create([

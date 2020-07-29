@@ -90,9 +90,9 @@
                         </div>
                     </div>
                     <div class="btn-group text-center" style="margin-left: 2.5rem;">
-                        <a href="{{route('user.cart')}}" class="btn btn-color2" style="border-radius: 4px 0 0 4px">
+                        <a href="{{route('user.cart')}}" class="btn btn-color7" style="border-radius: 4px 0 0 4px">
                             <i class="fa fa-shopping-cart pl-0 mr-2" style="color: #fff"></i> CART</a>
-                        <a href="javascript:void(0)" class="btn btn-color6" style="border-radius: 0 4px 4px 0"
+                        <a href="javascript:void(0)" class="btn btn-color2" style="border-radius: 0 4px 4px 0"
                            onclick="checkout('{{$carts->sum('qty')}}')">
                             <i class="fa fa-wallet pl-0 mr-2" style="color: #fff"></i> CHECKOUT</a>
                         <form id="form-cart_ids" action="{{route('user.cart.checkout')}}" method="post"

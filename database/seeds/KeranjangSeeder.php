@@ -11,22 +11,27 @@ class KeranjangSeeder extends Seeder
      */
     public function run()
     {
-        foreach (\App\Models\Produk::all() as $row) {
-            $qty = rand(1, 10);
-            $harga = $row->is_diskon == true ? $row->harga_diskon : $row->harga;
-            \App\Models\Keranjang::create([
-                'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
-                'produk_id' => $row->id,
-                'qty' => $qty,
-                'berat' => $qty * $row->berat,
-                'total' => $qty * $harga,
-                'isCheckOut' => rand(0, 1) ? true : false,
-            ]);
+        $produk = \App\Models\Produk::where('stock', '>', 0)->orderByDesc('id')->get();
 
-            \App\Models\Favorit::create([
-                'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
-                'produk_id' => $row->id,
-            ]);
+        foreach ($produk->chunk(5) as $five) {
+            foreach ($five as $row) {
+                $qty = rand(1, 10);
+                $harga = $row->is_diskon == true ? $row->harga_diskon : $row->harga;
+
+                \App\Models\Keranjang::create([
+                    'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
+                    'produk_id' => $row->id,
+                    'qty' => $qty,
+                    'berat' => $qty * $row->berat,
+                    'total' => $qty * $harga,
+                    'isCheckOut' => rand(0, 1) ? true : false,
+                ]);
+
+                \App\Models\Favorit::create([
+                    'user_id' => rand(\App\User::min('id'), \App\User::max('id')),
+                    'produk_id' => $row->id,
+                ]);
+            }
         }
     }
 }

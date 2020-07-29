@@ -844,11 +844,11 @@ h2.text-heading.coffee-color:after {
     border-radius: 0 7px 7px 0;
 }
 
-.cart-dropdown .btn-color2:hover:before, .cart-dropdown .btn-color2:focus:before, .cart-dropdown .btn-color2:active:before {
+.cart-dropdown .btn-color7:hover:before, .cart-dropdown .btn-color7:focus:before, .cart-dropdown .btn-color7:active:before {
     border-radius: 4px 0 0 4px;
 }
 
-.cart-dropdown .btn-color6:hover:before, .cart-dropdown .btn-color6:focus:before, .cart-dropdown .btn-color6:active:before {
+.cart-dropdown .btn-color2:hover:before, .cart-dropdown .btn-color2:focus:before, .cart-dropdown .btn-color2:active:before {
     border-radius: 0 4px 4px 0;
 }
 

@@ -16,30 +16,31 @@ class PesananSeeder extends Seeder
         $user = \App\User::find(1);
         $alamat_utama = \App\Models\Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
         $alamat = \App\Models\Alamat::where('user_id', $user->id)->where('isUtama', false)->first();
-        $keranjang = \App\Models\Keranjang::where('isCheckOut', true)->inRandomOrder()->get();
+        $keranjang = \App\Models\Keranjang::where('user_id', $user->id)->where('isCheckOut', true)->inRandomOrder()->get();
 
-        foreach ($keranjang->chunk(5) as $five) {
+        foreach ($keranjang->chunk(3) as $three) {
             $code = strtoupper(uniqid('PYM') . now()->subDays(rand(1, 3))->timestamp);
             $cek = rand(0, 1) ? true : false;
+            $cek2 = rand(0, 1) ? false : true;
 
             $data = \App\Models\Pesanan::create([
                 'user_id' => $user->id,
-                'keranjang_ids' => $five->pluck('id'),
+                'keranjang_ids' => $three->pluck('id'),
                 'pengiriman_id' => $alamat->id,
                 'penagihan_id' => $alamat_utama->id,
                 'uni_code' => $code,
                 'ongkir' => 10000,
                 'durasi_pengiriman' => '1-3',
-                'berat_barang' => $five->sum('berat'),
-                'total_harga' => $five->sum('total'),
+                'berat_barang' => $three->sum('berat'),
+                'total_harga' => $three->sum('total'),
                 'note' => \Faker\Factory::create()->paragraph,
                 'isLunas' => $cek,
                 'kode_kurir' => 'jne',
                 'nama_kurir' => 'Jalur Nugraha Ekakurir (JNE)',
                 'layanan_kurir' => 'CTCYES',
-                'resi' => $cek == true ? strtoupper(uniqid('JNE') . now()->subDays(3)->timestamp) : null,
-                'tgl_pengiriman' => $cek == true ? now()->subDays(3) : null,
-                'tgl_diterima' => $cek == true ? now() : null,
+                'resi' => $cek == true && $cek2 == true ? '030370046239120' : null,
+                'tgl_pengiriman' => $cek == true && $cek2 == true ? now()->subDays(3) : null,
+                'tgl_diterima' => null,
             ]);
 
             $arr = ['bca', 'bni', 'mandiri', 'permata'];

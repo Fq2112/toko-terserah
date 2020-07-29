@@ -279,7 +279,7 @@
 <!-- jquery-maskMoney -->
 <script src="{{asset('js/jquery.maskMoney.js')}}"></script>
 <!-- moment Plugin -->
-<script src="{{asset('vendor/moment.js')}}"></script>
+<script src="{{asset('vendor/moment-with-locales.min.js')}}"></script>
 <!-- select2 -->
 <script src="{{asset('vendor/select2/dist/js/select2.full.min.js')}}"></script>
 <!-- check-mobile -->

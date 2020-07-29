@@ -10,6 +10,8 @@
 
         Scrollbar.initAll();
 
+        moment.locale('{{$app->getLocale()}}');
+
         $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 
         $('[data-toggle="tooltip"]').tooltip();
