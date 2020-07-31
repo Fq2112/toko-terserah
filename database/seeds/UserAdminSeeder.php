@@ -26,6 +26,31 @@ class UserAdminSeeder extends Seeder
             'whatsapp' => '+6281356598237',
         ]);
 
+        \App\Models\Admin::create([
+            'name' => 'Vincent Chang',
+            'username' => 'vincent_chang',
+            'email' => 'vincent.chang@terserah.com',
+            'password' => bcrypt('Vincent2112'),
+            'role' => \App\Support\Role::OWNER,
+            'facebook' => '',
+            'twitter' => '',
+            'instagram' => '',
+            'whatsapp' => '',
+        ]);
+
+        \App\Models\Admin::create([
+            'name' => 'Admin Terserah',
+            'username' => 'admin_terserah',
+            'email' => 'admin@terserah.com',
+            'password' => bcrypt('admin2112'),
+            'role' => \App\Support\Role::ADMIN,
+            'facebook' => '',
+            'twitter' => '',
+            'instagram' => '',
+            'whatsapp' => '+',
+        ]);
+
+
         $user = \App\User::create([
             'name' => 'Fiqy Ainuzzaqy',
             'username' => 'jQuinn',
