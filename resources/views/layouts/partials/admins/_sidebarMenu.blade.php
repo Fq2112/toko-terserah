@@ -42,7 +42,7 @@
             {{--                <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/privacy*') ?--}}
             {{--                'active' : ''}}"><a href="{{route('table.blog.posts')}}" class="nav-link">Privacy & Term</a></li>--}}
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/setting*') ?
-                'active' : ''}}"><a href="" class="nav-link">Pengaturan</a></li>
+                'active' : ''}}"><a href="{{route('admin.setting.general')}}" class="nav-link">Pengaturan</a></li>
         </ul>
     </li>
 

@@ -22,7 +22,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{$title}}</h1>
+            <h1>Daftar Promo </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Master</div>
@@ -38,7 +38,7 @@
                         <div class="card-header">
                             <div class="card-header-form">
                                 <button id="btn_create" class="btn btn-primary text-uppercase">
-                                    <strong><i class="fas fa-plus mr-2"></i>Create</strong>
+                                    <strong><i class="fas fa-plus mr-2"></i>Tambah Promo</strong>
                                 </button>
                             </div>
                         </div>
@@ -56,12 +56,12 @@
                                         </th>
                                         <th class="text-center">ID</th>
                                         <th width="15%">Promo Code</th>
-                                        <th width="20%">Description</th>
-                                        <th>Amount of Promo</th>
-                                        <th class="text-center" width="15%">Start at</th>
-                                        <th class="text-center" width="15%">End at</th>
+                                        <th width="20%">Deskripsi</th>
+                                        <th>Besar Promo %</th>
+                                        <th class="text-center" width="15%">Mulai</th>
+                                        <th class="text-center" width="15%">Selesai</th>
                                         <th class="text-center" width="15%">Status</th>
-                                        <th width="25%">Action</th>
+                                        <th width="25%">Aksi</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -93,9 +93,9 @@
                                                 {{\Carbon\Carbon::parse($row->end)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle">
                                                 @if(now() < $row->start || now() > $row->end)
-                                                    <span class="badge badge-warning"> Promo already / not running yet</span>
+                                                    <span class="badge badge-warning">Promo Telah Berjalan / Belum Berjalan</span>
                                                 @else
-                                                    <span class="badge badge-info"> Promo is running</span>
+                                                    <span class="badge badge-info"> Promo Sedang Bejalan</span>
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle" align="center">
