@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PesananSeeder::class,
             UlasanSeeder::class,
             QnAseeder::class,
+            SettingSeeder::class
         ]);
     }
 }
