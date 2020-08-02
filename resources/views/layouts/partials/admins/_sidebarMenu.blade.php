@@ -13,7 +13,7 @@
         </li>
     @endif
     <li class="dropdown  {{\Illuminate\Support\Facades\Request::is('*scott.royce/order*') ? 'active' : ''}}">
-        <a href="" class="nav-link"><i class="fas fa-archive"></i><span>Pesanan</span></a>
+        <a href="{{route('admin.order')}}" class="nav-link"><i class="fas fa-archive"></i><span>Pesanan</span></a>
     </li>
     <li class="menu-header">Tables</li>
 
@@ -38,7 +38,7 @@
             <i class="fas fa-cogs"></i><span>Lain Lain</span></a>
         <ul class="dropdown-menu">
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/promo*') ?
-                'active' : ''}}"><a href="" class="nav-link">Promo</a></li>
+                'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Promo</a></li>
             {{--                <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/privacy*') ?--}}
             {{--                'active' : ''}}"><a href="{{route('table.blog.posts')}}" class="nav-link">Privacy & Term</a></li>--}}
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/setting*') ?
