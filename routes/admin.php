@@ -164,7 +164,10 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
     Route::group(['prefix' => 'produk', 'namespace' => 'DataMaster'], function () {
 
         Route::group(['prefix' => 'qna'], function () {
-
+            Route::get('show', [
+                'uses' => 'QnAController@show',
+                'as' => 'admin.show.qna'
+            ]);
         });
 
         Route::group(['prefix' => 'ulasan'], function () {
