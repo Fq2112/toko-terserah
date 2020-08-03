@@ -168,6 +168,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'QnAController@show',
                 'as' => 'admin.show.qna'
             ]);
+
+            Route::post('jawab', [
+                'uses' => 'QnAController@jawab',
+                'as' => 'admin.show.qna.jawab'
+            ]);
         });
 
         Route::group(['prefix' => 'ulasan'], function () {

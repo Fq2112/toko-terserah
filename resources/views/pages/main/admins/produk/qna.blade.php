@@ -131,6 +131,21 @@
                                         </div>
                                     </div>
                                     <div class="col-3 fix-label-group">
+                                        <label for="period">Status Pertanyaan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fix-label-item" style="height: 2.25rem">
+                                                    <i class="fa fa-calendar-week"></i></span>
+                                            </div>
+                                            <select id="stat_jawab" class="form-control selectpicker" title="-- Choose --"
+                                                    name="stat_jawab" data-live-search="true">
+                                                <option value="Semua">{{strtoupper('Semua')}}</option>
+                                                <option value="Belum">{{strtoupper('Belum Terjawab')}}</option>
+                                                <option value="Terjawab">{{strtoupper('Telah Terjawab')}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 fix-label-group">
                                         <label for="status">Produk</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -141,7 +156,7 @@
                                             </div>
                                             <select id="status" class="form-control selectpicker" title="-- Choose --"
                                                     name="status" data-live-search="true">
-                                                <option value=""> Semua </option>
+                                                <option value=""> Semua</option>
                                                 @foreach(\App\Models\Produk::all() as $item)
                                                     <option value="{{$item->id}}"> {{$item->nama}}</option>
                                                 @endforeach
@@ -209,9 +224,11 @@
                                             <td class="text-center">
                                                 @if($item->jawab == null)
                                                     <button class="btn btn-info" data-toggle="tooltip"
-                                                            title="Jawab Pertanyaan Customer" onclick="openModal('{{$item->id}}')"><i class="fa fa-comment"></i> </button>
+                                                            title="Jawab Pertanyaan Customer"
+                                                            onclick="openModal('{{$item->id}}','{{$item->tanya}}')"><i
+                                                            class="fa fa-comment"></i></button>
                                                 @else
-                                                    {{$item->jawab}}
+                                                    {!! $item->jawab !!}
                                                 @endif
                                             </td>
                                             <td class="text-center" width="10%">
@@ -247,31 +264,28 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form-blogCategory" method="post" action="{{route('admin.add')}}">
+                <form id="form-blogCategory" method="post" action="{{route('admin.show.qna.jawab')}}">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
                     <input type="hidden" name="id">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col">
-                                <label for="name">Name <sup class="text-danger">*</sup></label>
+                                <label for="name">Pertanyaan</label>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    <div>
+                                        <h6 id="tanya_div"></h6>
+                                        <input type="hidden" name="id" id="id_tanya">
                                     </div>
-                                    <input id="name" type="text" maxlength="191" name="name" class="form-control"
-                                           placeholder="Write its name here&hellip;" required>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="col">
-                                <label for="name">email <sup class="text-danger">*</sup></label>
+                                <label for="name">Jawaban <sup class="text-danger">*</sup></label>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                                    </div>
-                                    <textarea name="" id="" class="summernote" cols="30" rows="10"></textarea>
+                                    <textarea name="jawaban" id="" class="summernote" cols="30" rows="10" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -368,8 +382,9 @@
                 });
         });
 
-        function openModal(id_tanya) {
-
+        function openModal(id_tanya, tanya) {
+            $('#id_tanya').val(id_tanya);
+            $('#tanya_div').text(tanya);
             $('#modalJawab').modal('show')
         }
 
@@ -430,6 +445,11 @@
 
         @if(request()->has('status'))
         $('#status').val('{{ request()->get('status') }}');
+        @endif
+
+
+        @if(request()->has('stat_jawab'))
+        $('#stat_jawab').val('{{ request()->get('stat_jawab') }}');
 
         @endif
 

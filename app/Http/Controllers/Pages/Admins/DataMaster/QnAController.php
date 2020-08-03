@@ -15,10 +15,25 @@ class QnAController extends Controller
             $query->whereBetween('updated_at', [Carbon::now()->subDay($request->period), Carbon::now()]);
         })->when($request->status, function ($query) use ($request) {
             $query->where('produk_id', $request->status);
-        })->orderBy('updated_at', 'DESC')->get();
+        })->when($request->stat_jawab, function ($query) use ($request) {
+               if ($request->stat_jawab == 'Belum')
+                   $query->where('jawab','');
+               elseif($request->stat_jawab == 'Terjawab')
+                   $query->where('jawab','!=', '');
+
+        })->orderBy('created_at', 'DESC')->get();
 
         return view('pages.main.admins.produk.qna', [
             'data' => $data
         ]);
+    }
+
+    public function jawab(Request $request)
+    {
+        $data = QnA::find($request->id);
+        $data->update([
+            'jawab' => $request->jawaban
+        ]);
+        return back()->with('success', 'Pertanyaan Customer Terjawab');
     }
 }
