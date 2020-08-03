@@ -161,6 +161,33 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
 
     });
 
+    Route::group(['prefix' => 'produk', 'namespace' => 'DataMaster'], function () {
+
+        Route::group(['prefix' => 'qna'], function () {
+
+        });
+
+        Route::group(['prefix' => 'ulasan'], function () {
+
+            Route::get('show', [
+                'uses' => 'ReviewController@show',
+                'as' => 'admin.show.ulasan'
+            ]);
+
+        });
+    });
+
+    Route::group(['prefix' => 'master'], function () {
+
+        Route::group(['prefix' => 'kategori'], function () {
+
+        });
+
+        Route::group(['prefix' => 'sub-kategori'], function () {
+
+        });
+    });
+
     Route::group(['prefix' => 'msc'], function () {
         Route::group(['prefix' => 'promo', 'middleware' => 'owner'], function () {
             Route::get('show', [
