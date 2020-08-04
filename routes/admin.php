@@ -193,6 +193,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'ProdukController@add_stock',
                 'as' => 'admin.show.produk.stock'
             ]);
+
+            Route::post('tambah/produk', [
+                'uses' => 'ProdukController@add_produk',
+                'as' => 'admin.show.produk.add'
+            ]);
         });
 
         Route::group(['prefix' => 'qna'], function () {

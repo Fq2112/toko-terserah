@@ -36,7 +36,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div id="content2">
-                                <form id="form-blogPost" method="post" action="{{route('add.promo')}}"
+                                <form id="form-blogPost" method="post" action="{{route('admin.show.produk.add')}}"
                                       enctype="multipart/form-data">
                                     {{csrf_field()}}
                                     <input type="hidden" name="_method">
@@ -46,73 +46,148 @@
                                     <div class="row form-group">
                                         <div class="col has-feedback">
                                             <label for="title">Nama Produk</label>
-                                            <input id="promo_code" type="text" maxlength="191" name="promo_code"
+                                            <input id="promo_code" type="text" maxlength="191" name="nama"
                                                    class="form-control"
                                                    placeholder="Write its promo code here&hellip;" required>
-
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col has-feedback">
                                             <label for="title">Jenis Produk</label>
-                                            <select id="sub_kat" class="form-control selectpicker"
-                                                    name="sub_kat" data-live-search="true">
+                                            <select id="sub_kategori_id" class="form-control selectpicker"
+                                                    name="sub_kategori_id" data-live-search="true" required>
                                                 @foreach(\App\Models\SubKategori::all() as $item)
                                                     <option value="{{$item->id}}">{{$item->nama}}</option>
                                                     @endforeach
                                             </select>
+                                        </div>
+                                    </div>
 
+                                    <div class="row form-group">
+                                        <div class="col has-feedback">
+                                            <label for="title">Kode Produk</label>
+                                            <input id="promo_code" type="text" maxlength="191" name="kode_barang"
+                                                   class="form-control"
+                                                   placeholder="Write its promo code here&hellip;" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col has-feedback">
+                                            <label for="title">Deskripsi Singkat</label>
+                                            <input id="promo_code" type="text" maxlength="191" name="deskripsi"
+                                                   class="form-control"
+                                                   placeholder="Write its promo code here&hellip;" required>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row form-group has-feedback">
+                                        <div class="col">
+                                            <label for="_content">Detail Produk</label>
+                                            <textarea id="description" type="text" name="detail"
+                                                      class="summernote form-control"
+                                                      placeholder="Write something about your post here&hellip;" required></textarea>
+                                            <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                                         </div>
                                     </div>
 
                                     <div class="row form-group has-feedback">
                                         <div class="col">
-                                            <label for="_content">Description</label>
-                                            <textarea id="description" type="text" name="description"
-                                                      class="summernote form-control"
-                                                      placeholder="Write something about your post here&hellip;"></textarea>
-                                            <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
+                                            <label for="_content">Thumbnail Produk</label>
+                                            <div class="">
+                                                <div class="custom-file">
+                                                    <input type="file" name="gambar" class="custom-file-input input-logo"
+                                                           id="site-logo" accept="image/*" required>
+                                                    <label class="custom-file-label">Pilih Gambar</label>
+                                                </div>
+                                                <div class="form-text text-muted">Foto Tidak Boleh Lebih dari 1 Mb
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group has-feedback">
+                                        <div class="col">
+                                            <label for="_content">Gambar Pendukung <small>(opsional)</small></label>
+                                            <div class="">
+                                                <div class="custom-file">
+                                                    <input type="file" name="galeri[]" class="custom-file-input input-logo" multiple
+                                                           id="site-logo" accept="image/*" >
+                                                    <label class="custom-file-label">Pilih Gambar</label>
+                                                </div>
+                                                <div class="form-text text-muted">Foto Tidak Boleh Lebih dari 1 Mb
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col">
-                                            <label for="thumbnail">Start</label>
-                                            <div class="input-group">
+                                        <div class="col-4 has-feedback">
+                                            <label for="title">Harga</label>
+                                            <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    <div class="input-group-text">Rp</div>
                                                 </div>
-                                                <input type="date" name="start" class="form-control"
-                                                       onblur="set_end_date(this.value)"
-                                                       id="start-date" required>
+                                                <input id="discount" type="number" name="harga" max="9999999999999" min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx" required>
+
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <label for="thumbnail">End</label>
-                                            <div class="input-group">
+                                        <div class="col-4 has-feedback">
+                                            <label for="title">Stock</label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="stock" max="9999" min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    <div class="input-group-text">Pcs</div>
                                                 </div>
-                                                <input type="date" name="end" class="form-control"
-                                                       id="end-date" required>
-
+                                            </div>
+                                        </div>
+                                        <div class="col-4 has-feedback">
+                                            <label for="title">Berat per Pcs</label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="berat" max="99999" min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx" required>
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">gram</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col-6 has-feedback">
-                                            <label for="title">Amount of Discount</label>
+                                            <label for="title">Diskon <small>(opsional)</small></label>
                                             <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="discount" max="99" min="1"
+                                                <input id="discount" type="number" name="diskon" max="99" min="1"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" required>
+                                                       placeholder="1xxxxxx" >
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">%</div>
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group" id="advance_check">
+                                        <div class="col">
+                                            <div class="custom-checkbox custom-control">
+                                                <input type="checkbox" id="advance" name="banner"
+                                                       class="custom-control-input dt-checkboxes">
+                                                <label for="advance"
+                                                       class="custom-control-label">Jadikan Banner</label>
+                                            </div>
+                                            <div class="form-text text-muted">
+                                               Produk Akan ditampilkan pada beranda saat halaman dibuka
+                                            </div>
                                         </div>
                                     </div>
 

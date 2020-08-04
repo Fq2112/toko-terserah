@@ -133,7 +133,13 @@
             </td>
             <td style="color: white">asdasdasdasdasdasdasdasdasd</td>
             <td align="left">
-
+                <div class="uppercase" style="
+                text-align: center;
+                font-size: 8pt;
+                padding: 5px;
+                color: #fff;
+                width: auto !important;
+                background: #5bb300;">{{$data->resi}}</div>
             </td>
         </tr>
     </table>
@@ -158,6 +164,7 @@
 
             <td align="center">
                 <div style="background: transparent">
+
                 </div>
 
             </td>
@@ -196,7 +203,7 @@
 
         @foreach($data->keranjang_ids as $item)
             <?
-                $produk = \App\Models\Keranjang::find($item);
+            $produk = \App\Models\Keranjang::find($item);
 
             ?>
             <tr>
