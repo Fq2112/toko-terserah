@@ -24,14 +24,22 @@ class OrderController extends Controller
         ]);
     }
 
+    public function show_order(Request $request)
+    {
+        $data = Pesanan::where('uni_code', $request->kode)->first();
+        return view('pages.main.admins.detail_pesanan', [
+            'data' => $data
+        ]);
+    }
+
     public function update_resi(Request $request)
     {
         try {
             $data = Pesanan::find($request->id);
             $data->update([
-               'resi' => $request->resi
+                'resi' => $request->resi
             ]);
-            return back()->with('success' , 'Pesanan '.$data->uni_code. 'Berhasil Di berikan Resi');
+            return back()->with('success', 'Pesanan ' . $data->uni_code . 'Berhasil Di berikan Resi');
         } catch (\Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }
@@ -40,7 +48,7 @@ class OrderController extends Controller
     public function create_label(Request $request)
     {
         try {
-            $data = Pesanan::where('uni_code',$request->code)->first();
+            $data = Pesanan::where('uni_code', $request->code)->first();
 
             $labelname = $data->uni_code . '.pdf';
             $labelPdf = PDF::loadView('exports.shipping', [
@@ -52,8 +60,8 @@ class OrderController extends Controller
             dd($labelPdf);
             return \response()->json([
                 'message' => 'pdf tersimpan'
-            ],201);
-        }catch (\Exception $exception){
+            ], 201);
+        } catch (\Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }
     }
