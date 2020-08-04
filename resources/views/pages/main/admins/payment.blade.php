@@ -328,6 +328,10 @@
                                                                 title="Download Invoice" data-html="true"
                                                                 data-placement="top"><i class="fa fa-file-pdf"></i>
                                                         </button>
+                                                        <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
+                                                           data-placement="right" data-toggle="tooltip" target="_blank"
+                                                           title="Detail Info" type="button" class="btn btn-info">
+                                                            <i class="fa fa-info-circle"></i></a>
                                                     </div>
                                                 @endif
                                             </td>

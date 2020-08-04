@@ -113,7 +113,7 @@
                                             </td>
 
                                             <td style="vertical-align: middle" align="center">
-                                            {{number_format($produk->tota)}}
+                                            {{number_format($produk->total)}}
                                             </td>
                                             <td style="vertical-align: middle" align="center">
                                                 {{$produk->berat}}
