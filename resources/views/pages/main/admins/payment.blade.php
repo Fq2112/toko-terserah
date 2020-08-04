@@ -174,12 +174,14 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th width="15%">Code</th>
+                                        <th width="15%">Kode</th>
                                         <th width="15%">Customer</th>
-                                        <th width="15%"> <center>Courier</center></th>
-                                        <th class="text-center" width="10%">Order date</th>
-                                        <th class="text-center" width="10%">Payment</th>
-                                        <th class="text-center" width="10%">Shipper</th>
+                                        <th width="15%">
+                                            <center>Kurir</center>
+                                        </th>
+                                        <th class="text-center" width="10%">Tanggal Pesanan</th>
+                                        <th class="text-center" width="10%">Status Pembayaran</th>
+                                        <th class="text-center" width="10%">Resi</th>
                                         <th width="25%" align="center">
                                             <center>Action</center>
                                         </th>
@@ -200,11 +202,11 @@
                                             <td class="text-center">ID</td>
                                             <td width="15%">{{ucfirst($item->uni_code)}}</td>
                                             <td width="15%">{{$item->getUser->name}} <br>
-                                            ( {{$item->getUser->getBio->phone}} )
+                                                ( {{$item->getUser->getBio->phone}} )
                                             </td>
                                             <td width="15%" align="center">
                                                 <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
-                                                {{$item->rate_name}}
+                                                {{strtoupper($item->kode_kurir)}}
                                             </td>
 
                                             <td class="text-center" width="10%">{{$item->updated_at}}</td>
@@ -212,25 +214,22 @@
                                                 @if($item->isLunas == 1)
                                                     <div class="badge badge-success" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Paid"><i class="fa fa-check"></i></div>
+                                                         title="Telah Dibayar"><i class="fa fa-check"></i></div>
                                                 @else
                                                     <div class="badge badge-danger" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Unpaid"><i class="fa fa-window-close"></i></div>
+                                                         title="Belum Dibayar"><i class="fa fa-window-close"></i></div>
                                                 @endif
                                             </td>
                                             <td class="text-center" width="10%">
-                                                @if($item->tracking_id == null | $item->tracking_id == "")
+                                                @if($item->resi == null | $item->resi == "")
 
                                                     <div class="badge badge-danger" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Not Connected with Shipper Yet"><i
+                                                         title="Resi Belum Terpasang"><i
                                                             class="fa fa-window-close"></i></div>
                                                 @else
-                                                    <div class="badge badge-success" data-placement="top"
-                                                         data-toggle="tooltip"
-                                                         title="Connected With Shipper"><i class="fa fa-check"></i>
-                                                    </div>
+                                                    {{$item->resi}}
                                                 @endif
                                             </td>
                                             <td width="25%" align="center">
@@ -239,27 +238,17 @@
                                                 ?>
                                                 @if($item->isLunas == 1)
                                                     <div class="btn-group">
-                                                        @if($item->tracking_id == null)
-                                                            <button type="button" class="btn btn-danger"
+                                                        @if($item->resi == null | $item->resi == "")
+                                                            <button type="button" class="btn btn-warning"
                                                                     data-toggle="tooltip"
-                                                                    onclick="openModal('{{ucfirst($item->uni_code)}}','{{route('admin.shipper.modal.create')}}','Create Data to Shipper')"
-                                                                    title="Create to Shipper" data-html="true"
+                                                                    onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
+                                                                    title="Tambahkan Resi" data-html="true"
                                                                     data-placement="top"><i
                                                                     class="fa fa-shipping-fast"></i>
                                                             </button>
                                                         @else
-                                                            @if($item->agent_id == null)
-                                                            <!--button type="button" class="btn btn-primary"
-                                                                        data-toggle="tooltip"
-                                                                        onclick="openModal('{{ucfirst($item->uni_code)}}','{{route('admin.shipper.modal.agents')}}','Get Agents')"
-                                                                        title="Set Pickup Order" data-html="true"
-                                                                        data-placement="top"><i
-                                                                        class="fa fa-calendar"></i>
-                                                                </button-->
-                                                            @else
-                                                            @endif
-                                                        @endif
 
+                                                        @endif
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle"
                                                                     type="button" id="dropdownMenuButton"
@@ -272,20 +261,10 @@
                                                                  aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="javascript:void(0)"
                                                                    onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
-                                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                                   onclick=" get_design('{{ucfirst($item->uni_code)}}')">Production
-                                                                    Summary</a>
-                                                                <a class="dropdown-item"
-                                                                   href="{{route('admin.order.shipping',['code' =>$item->uni_code])}}"
-                                                                   target="_blank" style="display: none">Shipping
-                                                                    Label Test</a>
-                                                                <?php
-                                                                $file_path = storage_path('app/public/users/order/invoice/owner/prodution/' . $item->uni_code . '/' . $item->uni_code . '.pdf');
-                                                                ?>
-                                                                @if(file_exists($file_path))
+                                                                @if($item->resi != null | $item->resi != "")
                                                                     <a class="dropdown-item" href="javascript:void(0)"
-                                                                       onclick="get_shipping('{{ucfirst($item->uni_code)}}')">Shipping
-                                                                        Label</a>
+                                                                       onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
+                                                                        Pengiriman</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -371,7 +350,50 @@
             </div>
         </div>
     </section>
-
+    <div class="modal fade " id="modalResi" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-light">Resi </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-blogCategory" method="post" action="{{route('order.resi')}}">
+                    {{csrf_field()}}
+                    <input type="hidden" name="_method">
+                    <input type="hidden" name="id">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Nomor Pesanan</label>
+                                <div class="input-group">
+                                    <div>
+                                        <h6 id="pesanan"></h6>
+                                        <input type="hidden" name="id" id="id_pesanan">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Resi <sup class="text-danger">*</sup></label>
+                                <div class="input-group">
+                                    <input type="text" name="resi" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @push("scripts")
@@ -456,18 +478,10 @@
                 });
         });
 
-        function openModal(code, url_action, title) {
-            console.log(code);
-            $.post(url_action, {
-                    _token: '{{csrf_token()}}',
-                    code: code
-                },
-                function (data) {
-                    $('#customModalbody').html(data);
-                });
-            $('#payment_code').val(code);
-            $('#customModalTitle').text(title);
-            $('#customModal').modal({backdrop: 'static', keyboard: false})
+        function openModal(id_tanya, tanya) {
+            $('#id_pesanan').val(id_tanya);
+            $('#pesanan').text(tanya);
+            $('#modalResi').modal('show')
         }
 
         function getPhoneAgent(phone, name) {
@@ -527,25 +541,26 @@
 
         @if(request()->has('status'))
         $('#status').val('{{ request()->get('status') }}');
+
         @endif
 
 
 
-        function get_design(code) {
+        function get_label(code) {
+            console.log(code);
             $.ajax({
                 type: 'post',
-                url: '{{route('admin.order.production.pdf')}}',
+                url: '{{route('order.label')}}',
                 data: {
                     _token: '{{csrf_token()}}',
                     code: code
                 },
                 success: function (data) {
-
                     setTimeout(
                         function () {
                             $.ajax({ //Download File from above
                                 type: 'post',
-                                url: '{{route('admin.order.production.download')}}',
+                                url: '{{route('order.label.download')}}',
                                 data: {
                                     _token: '{{csrf_token()}}',
                                     code: code
@@ -557,7 +572,7 @@
                         }, 1000);
 
 
-                    swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
+                    swal('Success', "Tunggu Hingga Halam Berhasil Reload", 'success');
                     setTimeout(
                         function () {
                             location.reload();
@@ -572,7 +587,6 @@
                 }
             });
         }
-
 
 
     </script>

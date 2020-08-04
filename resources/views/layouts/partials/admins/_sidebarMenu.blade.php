@@ -23,8 +23,8 @@
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-shopping-bag"></i><span>Produk</span></a>
         <ul class="dropdown-menu">
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/categories/main*') ?
-                'active' : ''}}"><a href="" class="nav-link">Manajemen Produk</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/gudang*') ?
+                'active' : ''}}"><a href="{{route('admin.show.produk')}}" class="nav-link">Manajemen Produk</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/qna/*') ?
                 'active' : ''}}"><a href="{{route('admin.show.qna')}}" class="nav-link">Tanya Jawab</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/ulasan*') ?
@@ -42,7 +42,6 @@
                 'active' : ''}}"><a href="" class="nav-link">Kategori</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/categories/sub*') ?
                 'active' : ''}}"><a href="" class="nav-link">Sub Kategori</a></li>
-
         </ul>
     </li>
 

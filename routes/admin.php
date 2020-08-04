@@ -68,6 +68,21 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             'as' => 'admin.order'
         ]);
 
+        Route::post('resi', [
+            'uses' => 'OrderController@update_resi',
+            'as' => 'order.resi'
+        ]);
+
+        Route::post('label', [
+            'uses' => 'OrderController@create_label',
+            'as' => 'order.label'
+        ]);
+
+        Route::post('/download', [
+            'uses' => 'OrderController@download_label',
+            'as' => 'order.label.download'
+        ]);
+
         Route::get('show/{kode}', [
             'uses' => 'OrderController@show_order',
             'as' => 'admin.order.user'
@@ -162,6 +177,23 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
     });
 
     Route::group(['prefix' => 'produk', 'namespace' => 'DataMaster'], function () {
+
+        Route::group(['prefix' => 'gudang'], function () {
+            Route::get('show', [
+                'uses' => 'ProdukController@show',
+                'as' => 'admin.show.produk'
+            ]);
+
+            Route::get('tambah', [
+                'uses' => 'ProdukController@add_product_page',
+                'as' => 'admin.show.produk.tambah'
+            ]);
+
+            Route::post('tambah/stok', [
+                'uses' => 'ProdukController@add_stock',
+                'as' => 'admin.show.produk.stock'
+            ]);
+        });
 
         Route::group(['prefix' => 'qna'], function () {
             Route::get('show', [
