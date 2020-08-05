@@ -206,4 +206,12 @@ class ProdukController extends Controller
 
         return redirect()->route('admin.show.produk')->with('success', 'Produk ' . $data->nama . ' Berhasil Diperbarui');
     }
+
+    public function delete_produk($id)
+    {
+        $data = Produk::find($id);
+        $data->delete();
+
+        return back()->with('success', 'Produk Berhasil Dihapus');
+    }
 }

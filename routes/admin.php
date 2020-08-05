@@ -208,6 +208,13 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'ProdukController@update_produk',
                 'as' => 'admin.show.produk.update'
             ]);
+
+
+            Route::get('{id}/delete', [
+                'uses' => 'ProdukController@delete_produk',
+                'as' => 'delete.produk'
+            ]);
+
         });
 
         Route::group(['prefix' => 'qna'], function () {
