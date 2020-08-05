@@ -75,6 +75,18 @@ class ProdukController extends Controller
             ]);
         }
 
+        if ($request->has('banner')) {
+            $banner = $request->file('banner');
+            $bannerName = uniqid() . $banner->getClientOriginalName();
+            $banner->storeAs('public/produk/banner/', $bannerName);
+
+            $produk->update([
+                'is_banner' => true,
+                'banner' => $bannerName
+            ]);
+        }
+
+
         if ($request->diskon != null) {
             $diskon = $produk->harga * ($request->diskon / 100);
             $produk->update([

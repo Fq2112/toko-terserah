@@ -59,7 +59,7 @@
                                                     name="sub_kategori_id" data-live-search="true" required>
                                                 @foreach(\App\Models\SubKategori::all() as $item)
                                                     <option value="{{$item->id}}">{{$item->nama}}</option>
-                                                    @endforeach
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -88,7 +88,8 @@
                                             <label for="_content">Detail Produk</label>
                                             <textarea id="description" type="text" name="detail"
                                                       class="summernote form-control"
-                                                      placeholder="Write something about your post here&hellip;" required></textarea>
+                                                      placeholder="Write something about your post here&hellip;"
+                                                      required></textarea>
                                             <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                                         </div>
                                     </div>
@@ -98,7 +99,8 @@
                                             <label for="_content">Thumbnail Produk</label>
                                             <div class="">
                                                 <div class="custom-file">
-                                                    <input type="file" name="gambar" class="custom-file-input input-logo"
+                                                    <input type="file" name="gambar"
+                                                           class="custom-file-input input-logo"
                                                            id="site-logo" accept="image/*" required>
                                                     <label class="custom-file-label">Pilih Gambar</label>
                                                 </div>
@@ -114,8 +116,9 @@
                                             <label for="_content">Gambar Pendukung <small>(opsional)</small></label>
                                             <div class="">
                                                 <div class="custom-file">
-                                                    <input type="file" name="galeri[]" class="custom-file-input input-logo" multiple
-                                                           id="site-logo" accept="image/*" >
+                                                    <input type="file" name="galeri[]"
+                                                           class="custom-file-input input-logo" multiple
+                                                           id="site-logo" accept="image/*">
                                                     <label class="custom-file-label">Pilih Gambar</label>
                                                 </div>
                                                 <div class="form-text text-muted">Foto Tidak Boleh Lebih dari 1 Mb
@@ -132,7 +135,8 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">Rp</div>
                                                 </div>
-                                                <input id="discount" type="number" name="harga" max="9999999999999" min="1"
+                                                <input id="discount" type="number" name="harga" max="9999999999999"
+                                                       min="1"
                                                        class="form-control"
                                                        placeholder="1xxxxxx" required>
 
@@ -168,7 +172,7 @@
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="diskon" max="99" min="1"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" >
+                                                       placeholder="1xxxxxx">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">%</div>
                                                 </div>
@@ -177,16 +181,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="row form-group" id="advance_check">
+                                    <div class="row form-group has-feedback">
                                         <div class="col">
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" id="advance" name="banner"
-                                                       class="custom-control-input dt-checkboxes">
-                                                <label for="advance"
-                                                       class="custom-control-label">Jadikan Banner</label>
-                                            </div>
-                                            <div class="form-text text-muted">
-                                               Produk Akan ditampilkan pada beranda saat halaman dibuka
+                                            <label for="_content">Banner <small>(Opsional)</small> <i
+                                                    class="fa fa-info-circle text-info" data-toggle="tooltip"
+                                                    title="Banner Akan ditampilkan pada slide show beranda"></i> </label>
+                                            <div class="">
+                                                <div class="custom-file">
+                                                    <input type="file" name="banner"
+                                                           class="custom-file-input input-logo"
+                                                           id="site-logo" accept="image/*">
+                                                    <label class="custom-file-label">Pilih Gambar</label>
+                                                </div>
+                                                <div class="form-text text-muted">Foto Tidak Boleh Lebih dari 2 Mb
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
