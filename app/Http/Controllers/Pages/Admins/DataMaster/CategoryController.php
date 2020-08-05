@@ -44,7 +44,7 @@ class CategoryController extends Controller
     {
         $data = Kategori::find($request->id_kategori);
         $data->update([
-           'nama' => $request->nama
+            'nama' => $request->nama
         ]);
 
         if ($request->has('thumb')) {
@@ -65,5 +65,36 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function create_sub(Request $request)
+    {
 
+        SubKategori::create([
+            'kategori_id' => $request->kategori_id,
+            'nama' => $request->nama,
+            'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama))
+        ]);
+
+        return back()->with('success', 'Berhasil menambahkan data sub-kategori');
+    }
+
+    public function update_sub(Request $request)
+    {
+        $data = SubKategori::find($request->id_sub);
+        $data->update([
+            'kategori_id' => $request->kategori_id,
+            'nama' => $request->nama,
+            'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama))
+        ]);
+
+        return back()->with('success', 'Berhasil memperbarui data sub-kategori');
+    }
+
+    public function delete_sub($id)
+    {
+        $data = SubKategori::find($id);
+
+        $data->delete();
+
+        return back()->with('success', 'Berhasil menghapus data sub-kategori');
+    }
 }

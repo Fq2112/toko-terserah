@@ -1,5 +1,5 @@
 @extends('layouts.mst_admin')
-@section('title', __('admin.sidebar.head').': '.__('admin.tables.blog-category').' | '.env('APP_TITLE'))
+@section('title','Sub kategori | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -110,10 +110,10 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-header-form">
-                                <a id="btn_create" class="btn btn-primary text-uppercase"
-                                   href="{{route('admin.show.produk.tambah')}}">
-                                    <strong><i class="fas fa-plus mr-2"></i>Tambah Kategori</strong>
-                                </a>
+                                <button  id="btn_create" class="btn btn-primary text-uppercase"
+                                   >
+                                    <strong><i class="fas fa-plus mr-2"></i>Tambah Sub - Kategori</strong>
+                                </button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -150,10 +150,12 @@
 
                                             <td class="text-center" width="10%">
                                                 <div class="btn-group">
-                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>$item->id])}}"
+                                                    <a href="javascript:void(0)"
+                                                       onclick="edit_kategori('{{$item->id}}','{{$item->nama}}',
+                                                           '{{$item->kategori_id}}')"
                                                        class="btn btn-info" data-toggle="tooltip"
                                                        title="Sunting Kategori"><i class="fa fa-edit"></i> </a>
-                                                    <a href="{{route('delete.produk',['id' => $item->id])}}"
+                                                    <a href="{{route('delete.sub',['id' => $item->id])}}"
                                                        class="btn btn-danger  delete-data" data-toggle="tooltip"
                                                        title="Hapus Kategori"><i class="fa fa-trash"></i> </a>
                                                 </div>
@@ -178,7 +180,103 @@
         </div>
     </section>
 
-
+    <div class="modal fade " id="modalKategori" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Sub-Kategori</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-blogCategory" method="post" action="{{route('admin.show.sub.add')}}"
+                      enctype="multipart/form-data">
+                    {{csrf_field()}}
+                    <input type="hidden" name="_method">
+                    <input type="hidden" name="id">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Nama Sub-Kategori <sup class="text-danger">*</sup></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                                    </div>
+                                    <input id="name" type="text" maxlength="191" name="nama" class="form-control"
+                                           placeholder="Bahan Mentah&hellip;" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col has-feedback">
+                                <label for="title">Kategori</label>
+                                <select id="kategori_id" class="form-control selectpicker"
+                                        name="kategori_id" data-live-search="true" required>
+                                    @foreach(\App\Models\Kategori::all() as $item)
+                                        <option value="{{$item->id}}">{{$item->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="modalKategoriEdit" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-blogCategory" method="post" action="{{route('admin.show.sub.update')}}"
+                      enctype="multipart/form-data">
+                    {{csrf_field()}}
+                    <input type="hidden" name="_method">
+                    <input type="hidden" name="id_sub" id="id_kategori">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Nama Sub-Kategori <sup class="text-danger">*</sup></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                                    </div>
+                                    <input id="name_sub" type="text" maxlength="191" name="nama" class="form-control"
+                                           placeholder="Bahan Mentah&hellip;" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row form-group">
+                            <div class="col has-feedback">
+                                <label for="title">Kategori</label>
+                                <select id="kategori_edit_id" class="form-control selectpicker"
+                                        name="kategori_id" data-live-search="true" required>
+                                    @foreach(\App\Models\Kategori::all() as $item)
+                                        <option value="{{$item->id}}">{{$item->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push("scripts")
     <script src="{{asset('admins/modules/datatables/datatables.min.js')}}"></script>
@@ -261,130 +359,20 @@
                 });
         });
 
-        function openModal(code, url_action, title) {
-            console.log(code);
-            $.post(url_action, {
-                    _token: '{{csrf_token()}}',
-                    code: code
-                },
-                function (data) {
-                    $('#customModalbody').html(data);
-                });
-            $('#payment_code').val(code);
-            $('#customModalTitle').text(title);
-            $('#customModal').modal({backdrop: 'static', keyboard: false})
+        $("#btn_create").on('click', function () {
+            $("#modalKategori").modal('show');
+        });
+
+        function edit_kategori(id, nama, kategori) {
+
+            $('#edit_title').text('Sunting Sub Kategori ' + nama);
+            $('#id_kategori').val(id);
+            $('#name_sub').val(nama);
+            $('select[name=kategori_id]').val(kategori);
+            $('.selectpicker').selectpicker('refresh')
+            $("#modalKategoriEdit").modal('show');
+
         }
-
-        function show_input(id) {
-            console.log(id);
-            $('#stock-' + id).toggle(300);
-            $('#form_' + id).toggle(300);
-        }
-
-        function getPhoneAgent(phone, name) {
-            $("#agent_name").val(name);
-            $("#agent_phone").val(phone);
-        }
-
-        function getInvoice(user_id, code) {
-            $.ajax({
-                type: 'post',
-                url: '{{route('admin.order.invoice.download')}}',
-                data: {
-                    _token: '{{csrf_token()}}',
-                    code: code,
-                    user_id: user_id
-                },
-                success: function (data) {
-                    // swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
-                    // setTimeout(
-                    //     function () {
-                    //         location.reload();
-                    //     }, 5000);
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == 404) {
-                        console.log(xhr);
-                        swal('Error', xhr.responseJSON.message, 'error');
-                    }
-                }
-            });
-        }
-
-        function get_shipping(code) {
-            $.ajax({
-                type: 'get',
-                url: '{{route('admin.order.shipping')}}',
-                data: {
-                    code: code,
-                },
-                success: function (data) {
-                    // swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
-                    // setTimeout(
-                    //     function () {
-                    //         location.reload();
-                    //     }, 5000);
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == 404) {
-                        console.log(xhr);
-                        swal('Error', xhr.responseJSON.message, 'error');
-                    }
-                }
-            });
-        }
-
-        @if(request()->has('period'))
-        $('#period').val('{{ request()->get('period') }}');
-        @endif
-
-        @if(request()->has('status'))
-        $('#status').val('{{ request()->get('status') }}');
-
-        @endif
-
-
-
-        function get_design(code) {
-            $.ajax({
-                type: 'post',
-                url: '{{route('admin.order.production.pdf')}}',
-                data: {
-                    _token: '{{csrf_token()}}',
-                    code: code
-                },
-                success: function (data) {
-
-                    setTimeout(
-                        function () {
-                            $.ajax({ //Download File from above
-                                type: 'post',
-                                url: '{{route('admin.order.production.download')}}',
-                                data: {
-                                    _token: '{{csrf_token()}}',
-                                    code: code
-                                },
-                                success: function (data) {
-                                    console.log('downloaded')
-                                }
-                            });
-                        }, 1000);
-
-
-                    swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
-                    setTimeout(
-                        function () {
-                            location.reload();
-                        }, 5000);
-
-
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == 500) {
-                        console.log(xhr);
-                        swal('Error', xhr.responseJSON.error, 'error');
-                    }
-                }
-            });
-        }
-
 
     </script>
 @endpush

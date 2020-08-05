@@ -268,6 +268,21 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'CategoryController@show_sub',
                 'as' => 'admin.show.sub'
             ]);
+
+            Route::post('post', [
+                'uses' => 'CategoryController@create_sub',
+                'as' => 'admin.show.sub.add'
+            ]);
+
+            Route::post('update', [
+                'uses' => 'CategoryController@update_sub',
+                'as' => 'admin.show.sub.update'
+            ]);
+
+            Route::get('{id}/delete', [
+                'uses' => 'CategoryController@delete_sub',
+                'as' => 'delete.sub'
+            ]);
         });
     });
 
