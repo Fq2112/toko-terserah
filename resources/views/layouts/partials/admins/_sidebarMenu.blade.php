@@ -34,14 +34,14 @@
     </li>
 
 
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/categories*') ? 'active' : ''}}">
+    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*sys-admin/master*') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-database"></i><span>Kategori</span></a>
         <ul class="dropdown-menu">
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/categories/main*') ?
-                'active' : ''}}"><a href="" class="nav-link">Kategori</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/categories/sub*') ?
-                'active' : ''}}"><a href="" class="nav-link">Sub Kategori</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/master/kategori*') ?
+                'active' : ''}}"><a href="{{route('admin.show.kategori')}}" class="nav-link">Kategori</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/master/sub*') ?
+                'active' : ''}}"><a href="{{route('admin.show.sub')}}" class="nav-link">Sub Kategori</a></li>
         </ul>
     </li>
 

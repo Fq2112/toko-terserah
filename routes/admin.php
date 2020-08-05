@@ -239,14 +239,35 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
         });
     });
 
-    Route::group(['prefix' => 'master'], function () {
+    Route::group(['prefix' => 'master', 'namespace' => 'DataMaster'], function () {
 
         Route::group(['prefix' => 'kategori'], function () {
+            Route::get('show', [
+                'uses' => 'CategoryController@show_kategori',
+                'as' => 'admin.show.kategori'
+            ]);
 
+            Route::post('post', [
+                'uses' => 'CategoryController@create_kategori',
+                'as' => 'admin.show.kategori.add'
+            ]);
+
+            Route::post('update', [
+                'uses' => 'CategoryController@update_kategori',
+                'as' => 'admin.show.kategori.update'
+            ]);
+
+            Route::get('{id}/delete', [
+                'uses' => 'CategoryController@delete_kategori',
+                'as' => 'delete.kategori'
+            ]);
         });
 
-        Route::group(['prefix' => 'sub-kategori'], function () {
-
+        Route::group(['prefix' => 'sub'], function () {
+            Route::get('show', [
+                'uses' => 'CategoryController@show_sub',
+                'as' => 'admin.show.sub'
+            ]);
         });
     });
 
