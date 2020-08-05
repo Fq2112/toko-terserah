@@ -194,7 +194,7 @@
                                                     <a href="javascript:void(0)" class="btn btn-success"
                                                        data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
                                                        title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
-                                                    <a href="" class="btn btn-info" data-toggle="tooltip"
+                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>$item->kode_barang])}}" class="btn btn-info" data-toggle="tooltip"
                                                        title="Sunting Barang"><i class="fa fa-edit"></i> </a>
                                                     <a href="" class="btn btn-danger" data-toggle="tooltip"
                                                        title="Hapus Barang"><i class="fa fa-trash"></i> </a>

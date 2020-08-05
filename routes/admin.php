@@ -198,6 +198,16 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'ProdukController@add_produk',
                 'as' => 'admin.show.produk.add'
             ]);
+
+            Route::get('sunting/{kode_barang}', [
+                'uses' => 'ProdukController@edit',
+                'as' => 'admin.show.produk.edit'
+            ]);
+
+            Route::post('update/produk', [
+                'uses' => 'ProdukController@update_produk',
+                'as' => 'admin.show.produk.update'
+            ]);
         });
 
         Route::group(['prefix' => 'qna'], function () {
