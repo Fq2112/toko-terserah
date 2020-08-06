@@ -311,7 +311,7 @@
                                                             <p class="comment-form-comment">
                                                                 <textarea id="deskripsi" name="deskripsi" required
                                                                           placeholder="Tulis ulasan Anda di sini..."
-                                                                          style="resize: vertical;height: 100px">{{!is_null($cek_ulasan) ? $cek_ulasan->deskripsi : null}}</textarea>
+                                                                          style="resize: vertical;height: 100px;line-height: unset;padding: 15px">{{!is_null($cek_ulasan) ? $cek_ulasan->deskripsi : null}}</textarea>
                                                             </p>
                                                             <p class="form-submit">
                                                                 <button type="submit" class="btn btn-block btn-color2">
@@ -322,7 +322,7 @@
                                                         </form>
                                                     </div>
 
-                                                    @if(count($produk->getUlasan) > 0)
+                                                        @if(count($produk->getUlasan) > 0)
                                                         <div class="comment-list">
                                                             <h4>{{!is_null($cek_ulasan) ? count($produk->getUlasan) - 1 : count($produk->getUlasan)}}
                                                                 ULASAN {{!is_null($cek_ulasan) ? 'LAINNYA' : ''}}</h4>
@@ -412,7 +412,7 @@
                                                             <p class="comment-form-comment">
                                                                 <textarea id="tanya" name="tanya" required
                                                                           placeholder="Tulis pertanyaan Anda di sini..."
-                                                                          style="resize: vertical;height: 100px"></textarea>
+                                                                          style="resize: vertical;height: 100px;line-height: unset;padding: 15px"></textarea>
                                                             </p>
                                                             <p class="form-submit">
                                                                 <button type="submit" class="btn btn-block btn-color2">
@@ -423,7 +423,7 @@
                                                         </form>
                                                     </div>
 
-                                                    @if(count($produk->getQnA) > 0)
+                                                        @if(count($produk->getQnA) > 0)
                                                         <div class="comment-list">
                                                             <h4>{{count($produk->getQnA) - count($qna_ku)}} PERTANYAAN
                                                                 {{count($qna_ku) > 0 ? 'LAINNYA' : ''}}</h4>
@@ -689,7 +689,7 @@
                         $.get(cek_uri, function (data) {
                             if (data.status == true) {
                                 el.attr('max', data.stock);
-                                el.parent().find('.text-danger').remove();
+                                el.parent().find('p').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
                                     if (data.stock > 0) {

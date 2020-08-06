@@ -541,7 +541,7 @@
         $(function () {
             $(".stats_address hr:last-child").remove();
 
-            @if($check == 'false')
+            @if($check == 'false' && is_null($bio->dob) && is_null($bio->gender) && is_null($bio->phone))
             swal({
                 title: "PERHATIAN!",
                 text: "Sebelum Anda mulai berbelanja, silahkan lengkapi profil Anda terlebih dahulu.",

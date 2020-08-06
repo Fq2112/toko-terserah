@@ -66,11 +66,12 @@ class SocialAuthController extends Controller
             Auth::loginUsingId($user->id);
 
             if (Auth::user()->getBio->dob != null && Auth::user()->getBio->gender != null && Auth::user()->getBio->phone != null) {
+                return redirect()->route('beranda');
+
+            } else {
                 return redirect()->route('beranda')
                     ->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
                         env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
-            } else {
-                return redirect()->route('beranda');
             }
 
         } catch (\Exception $e) {
