@@ -38,7 +38,21 @@ class OrderController extends Controller
             $data = Pesanan::find($request->id);
             $data->update([
                 'resi' => $request->resi,
-                'tgl_pengiriman' => now()
+                'tgl_pengiriman' => Carbon::now()
+            ]);
+            return back()->with('success', 'Pesanan ' . $data->uni_code . 'Berhasil Di berikan Resi');
+        } catch (\Exception $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
+    }
+
+    public function update_resi_(Request $request)
+    {
+        try {
+            $data = Pesanan::find($request->id);
+            $data->update([
+                'resi' => $request->resi,
+                'tgl_pengiriman' => Carbon::now()
             ]);
             return back()->with('success', 'Pesanan ' . $data->uni_code . 'Berhasil Di berikan Resi');
         } catch (\Exception $exception) {

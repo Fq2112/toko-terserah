@@ -246,7 +246,15 @@
                                                                     data-placement="top"><i
                                                                     class="fa fa-shipping-fast"></i>
                                                             </button>
-                                                        @else
+                                                            @else
+                                                            <button type="button" class="btn btn-light"
+                                                                    data-toggle="tooltip"
+                                                                    onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
+                                                                    title="Sunting Resi" data-html="true"
+                                                                    data-placement="top"><i
+                                                                    class="fa fa-edit"></i>
+                                                            </button>
+
 
                                                         @endif
                                                         <div class="dropdown">
@@ -261,60 +269,13 @@
                                                                  aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="javascript:void(0)"
                                                                    onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
-                                                                @if($item->resi != null | $item->resi != "")
-                                                                    <a class="dropdown-item" href="javascript:void(0)"
-                                                                       onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
-                                                                        Pengiriman</a>
-                                                                @endif
+
+                                                                <a class="dropdown-item" href="javascript:void(0)"
+                                                                   onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
+                                                                    Pengiriman</a>
+
                                                             </div>
                                                         </div>
-                                                        <button type="button" class="btn btn-primary "
-                                                                style="display: none"
-                                                                data-toggle="popover" data-trigger="focus"
-                                                                title="{{count($order)}} Items" data-html="true"
-                                                                data-placement="left" data-content='
-
-                                                    @if(empty($order))
-                                                            Nothing To Show
-@else
-
-                                                            <table>
-@foreach($order as $order_item)
-                                                            <tr>
-                                                                <td>
-@if(!empty($order_item->getCart->subkategori_id))
-                                                        {{$order_item->getCart->getSubKategori->name}}
-
-                                                        @elseif(!empty($order_item->getCart->cluster_id))
-                                                        {{$order_item->getCart->getCluster->name}}
-                                                        @endif
-                                                            </td>
-@if(empty($order_item->getCart->getOrder))
-                                                        @else
-                                                            <td>
-@if($order_item->getCart->getOrder->progress_status == \App\Support\StatusProgress::NEW)
-                                                            <span class="badge badge-danger"><span
-                                                                    class="fa fa-shopping-basket"></span> New</span> <br>
-@elseif($order_item->getCart->getOrder->progress_status == \App\Support\StatusProgress::START_PRODUCTION || $order_item->getCart->getOrder->progress_status == \App\Support\StatusProgress::FINISH_PRODUCTION)
-                                                            <span class="badge badge-warning"><span class="fa fa-cogs"></span> On Produce</span> <br>
-@elseif($order_item->getCart->getOrder->progress_status == \App\Support\StatusProgress::SHIPPING)
-                                                            <span class="badge badge-info"><span
-                                                                    class="fa fa-shipping-fast"></span>  Shipping</span> <br>
-@elseif($order_item->getCart->getOrder->progress_status == \App\Support\StatusProgress::RECEIVED)
-                                                            <span class="badge badge-success"><span
-                                                                    class="fa fa-clipboard-check"></span>  Received</span> <br>
-@endif
-                                                            </td>
-@endif
-                                                            </tr>
-@endforeach
-                                                            </table>
-
-@endif
-                                                            '>
-                                                            <i class="fa fa-tag"></i>
-                                                        </button>
-
                                                         <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
                                                            data-placement="right" data-toggle="tooltip" target="_blank"
                                                            title="Detail Info" type="button" class="btn btn-info">
@@ -386,6 +347,50 @@
                                 <label for="name">Resi <sup class="text-danger">*</sup></label>
                                 <div class="input-group">
                                     <input type="text" name="resi" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="modalResiEdit" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-light">Sunting Resi </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-blogCategory" method="post" action="{{route('order.resi.update')}}">
+                    {{csrf_field()}}
+                    <input type="hidden" name="_method">
+                    <input type="hidden" name="id" >
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Nomor Pesanan</label>
+                                <div class="input-group">
+                                    <div>
+                                        <h6 id="pesanan_edit"></h6>
+                                        <input type="hidden" name="id" id="id_pesanan_edit">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="name">Resi <sup class="text-danger">*</sup></label>
+                                <div class="input-group">
+                                    <input type="text" name="resi" class="form-control" id="resi_edit">
                                 </div>
                             </div>
                         </div>
@@ -488,6 +493,13 @@
             $('#modalResi').modal('show')
         }
 
+        function openModalEdit(id_tanya, tanya,resi) {
+            $('#id_pesanan_edit').val(id_tanya);
+            $('#pesanan_edit').text(tanya);
+            $('#resi_edit').val(resi);
+            $('#modalResiEdit').modal('show')
+        }
+
         function getPhoneAgent(phone, name) {
             $("#agent_name").val(name);
             $("#agent_phone").val(phone);
@@ -501,28 +513,6 @@
                     _token: '{{csrf_token()}}',
                     code: code,
                     user_id: user_id
-                },
-                success: function (data) {
-                    // swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
-                    // setTimeout(
-                    //     function () {
-                    //         location.reload();
-                    //     }, 5000);
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    if (xhr.status == 404) {
-                        console.log(xhr);
-                        swal('Error', xhr.responseJSON.message, 'error');
-                    }
-                }
-            });
-        }
-
-        function get_shipping(code) {
-            $.ajax({
-                type: 'get',
-                url: '{{route('admin.order.shipping')}}',
-                data: {
-                    code: code,
                 },
                 success: function (data) {
                     // swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
