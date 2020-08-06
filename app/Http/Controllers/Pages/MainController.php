@@ -20,7 +20,7 @@ class MainController extends Controller
     public function beranda()
     {
         $kategori = Kategori::orderBy('nama')->get();
-        $banner = Produk::where('stock', '>', 0)->where('is_banner', true)->orderByDesc('id')->take(3)->get();
+        $banner = Produk::where('stock', '>', 0)->where('is_banner', true)->orderByDesc('id')->get();
 
         $top5 = Produk::where('stock', '>', 0)->withCount(['getUlasan as average_rating' => function ($q) {
             $q->select(DB::raw('coalesce(avg(bintang),0)'));

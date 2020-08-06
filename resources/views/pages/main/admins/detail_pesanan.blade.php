@@ -43,6 +43,11 @@
                                     <td>{{$data->getUser->name}}</td>
                                 </tr>
                                 <tr>
+                                    <td>Nomor Telepon</td>
+                                    <td> 	&nbsp;: 	&nbsp; </td>
+                                    <td>{{$data->getUser->getBio->phone}}</td>
+                                </tr>
+                                <tr>
                                     <td>Alamat Pengiriman</td>
                                     <td> 	&nbsp;: 	&nbsp; </td>
                                     <td>{{$data->getPengiriman->alamat}} Kec.{{$data->getPengiriman->getKecamatan->nama}}
