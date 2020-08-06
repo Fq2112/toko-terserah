@@ -37,7 +37,8 @@ class OrderController extends Controller
         try {
             $data = Pesanan::find($request->id);
             $data->update([
-                'resi' => $request->resi
+                'resi' => $request->resi,
+                'tgl_pengiriman' => now()
             ]);
             return back()->with('success', 'Pesanan ' . $data->uni_code . 'Berhasil Di berikan Resi');
         } catch (\Exception $exception) {
