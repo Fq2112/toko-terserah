@@ -17,7 +17,7 @@ class QnAController extends Controller
             $query->where('produk_id', $request->status);
         })->when($request->stat_jawab, function ($query) use ($request) {
                if ($request->stat_jawab == 'Belum')
-                   $query->where('jawab','');
+                   $query->where('jawab','')->orWhere('jawab',null);
                elseif($request->stat_jawab == 'Terjawab')
                    $query->where('jawab','!=', '');
 
