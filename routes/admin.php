@@ -73,6 +73,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             'as' => 'order.resi'
         ]);
 
+        Route::post('resi/update', [
+            'uses' => 'OrderController@update_resi_',
+            'as' => 'order.resi.update'
+        ]);
+
         Route::post('label', [
             'uses' => 'OrderController@create_label',
             'as' => 'order.label'

@@ -139,7 +139,7 @@
                 padding: 5px;
                 color: #fff;
                 width: auto !important;
-                background: #5bb300;">{{$data->resi}}</div>
+                background: #5bb300;">#{{$data->uni_code}}</div>
             </td>
         </tr>
     </table>
@@ -159,7 +159,7 @@
                 padding: 5px;
                 color: #fff;
                 width: 240px;
-                background: #5bb300;">#{{$data->uni_code}}</div>
+                background: #5bb300;"></div>
             </td>
 
             <td align="center">
