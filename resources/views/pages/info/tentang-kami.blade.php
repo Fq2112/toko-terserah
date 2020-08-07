@@ -48,6 +48,12 @@
         .rating > input:checked ~ label:hover ~ label {
             color: #e1a500;
         }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+            .newsletter .input-form {
+                width: 100% !important;
+            }
+        }
     </style>
 @endpush
 @section('content')
@@ -209,7 +215,7 @@
                                                value="{{$cek != null ? $cek->id : 'create'}}">
                                         <div class="input-form" style="width: 70%">
                                             <textarea name="comment" id="comment" class="form-control"
-                                                      style="resize: vertical; height: 75px;color: #fff"
+                                                      style="resize: vertical; height: 75px;color: #fff;line-height: unset"
                                                       placeholder="Bagikan pengalaman Anda tentang layanan kami disini&hellip;"
                                                       required>{{$cek != null ? $cek->deskripsi : ''}}</textarea>
                                         </div>
