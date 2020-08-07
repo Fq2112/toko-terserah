@@ -337,7 +337,7 @@
                         $.get(cek_uri, function (data) {
                             if (data.status == true) {
                                 el.attr('max', data.stock);
-                                el.parent().find('.text-danger').remove();
+                                el.parent().find('p').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
                                     if (data.stock > 0) {

@@ -20,6 +20,7 @@ class ActivationController extends Controller
 
         Auth::loginUsingId($user->id);
 
-        return redirect()->route('beranda')->with('activated', 'Anda telah masuk.');
+        return redirect()->route('beranda')->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
+            env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
     }
 }

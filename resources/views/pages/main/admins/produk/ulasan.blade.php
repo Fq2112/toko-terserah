@@ -97,10 +97,10 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Riwayat Pemesanan & Status Pesanan</h1>
+            <h1>Daftar Ulasan</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Order History</div>
+                <div class="breadcrumb-item">Ulasan</div>
             </div>
         </div>
 
@@ -113,7 +113,7 @@
                                   method="get">
                                 <div class="row form-group">
                                     <div class="col-3 fix-label-group">
-                                        <label for="period">Time Period</label>
+                                        <label for="period">Periode</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text fix-label-item" style="height: 2.25rem">
@@ -121,17 +121,17 @@
                                             </div>
                                             <select id="period" class="form-control selectpicker" title="-- Choose --"
                                                     name="period" data-live-search="true">
-                                                <option value="99999">{{strtoupper('all')}}</option>
-                                                <option value="7">{{strtoupper('One Week')}}</option>
-                                                <option value="30">{{strtoupper('One Month')}}</option>
-                                                <option value="90">{{strtoupper('Three Months')}}</option>
-                                                <option value="180">{{strtoupper('Six Months')}}</option>
-                                                <option value="360">{{strtoupper('One Year')}}</option>
+                                                <option value="99999">{{strtoupper('Semua')}}</option>
+                                                <option value="7">{{strtoupper('1 Minggu')}}</option>
+                                                <option value="30">{{strtoupper('1 Bulan')}}</option>
+                                                <option value="90">{{strtoupper('3 bulan')}}</option>
+                                                <option value="180">{{strtoupper('6 Bulan')}}</option>
+                                                <option value="360">{{strtoupper('1 Tahun')}}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-3 fix-label-group">
-                                        <label for="status">Status Payment</label>
+                                        <label for="status">Produk</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                                                     <span
@@ -141,9 +141,9 @@
                                             </div>
                                             <select id="status" class="form-control selectpicker" title="-- Choose --"
                                                     name="status" data-live-search="true">
-                                                <option value="">{{strtoupper('all')}}</option>
-                                                <option value="1">{{strtoupper('Paid')}}</option>
-                                                <option value="false">{{strtoupper('Unppaid')}}</option>
+                                                @foreach(\App\Models\Produk::all() as $item)
+                                                    <option value="{{$item->id}}"> {{$item->nama}}</option>
+                                                @endforeach
                                             </select>
                                             <div class="input-group-append">
                                                 <button data-placement="right" data-toggle="tooltip"
@@ -167,24 +167,20 @@
                                 <table class="table table-striped" id="dt-buttons">
                                     <thead>
                                     <tr>
-                                        <th class="text-center" width="10%">
+                                        <th class="text-center" width="5%">
                                             <div class="custom-checkbox custom-control">
                                                 <input type="checkbox" class="custom-control-input" id="cb-all">
                                                 <label for="cb-all" class="custom-control-label">#</label>
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th width="15%">Kode</th>
-                                        <th width="15%">Customer</th>
-                                        <th width="15%">
-                                            <center>Kurir</center>
+                                        <th width="15%">Produk</th>
+                                        <th width="15%">Pembeli</th>
+                                        <th width="25%">
+                                            Deskripsi Ulasan
                                         </th>
-                                        <th class="text-center" width="10%">Tanggal Pesanan</th>
-                                        <th class="text-center" width="10%">Status Pembayaran</th>
-                                        <th class="text-center" width="10%">Resi</th>
-                                        <th width="25%" align="center">
-                                            <center>Action</center>
-                                        </th>
+                                        <th class="text-center" width="10%">Tanggal Ulasan</th>
+                                        <th class="text-center" width="10%">Rating</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -199,103 +195,21 @@
                                                            class="custom-control-label">{{$no++}}</label>
                                                 </div>
                                             </td>
-                                            <td class="text-center">ID</td>
-                                            <td width="15%">{{ucfirst($item->uni_code)}}</td>
-                                            <td width="15%">{{$item->getUser->name}} <br>
-                                                ( {{$item->getUser->getBio->phone}} )
-                                            </td>
-                                            <td width="15%" align="center">
-                                                <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
-                                                {{strtoupper($item->kode_kurir)}}
-                                            </td>
+                                            <td class="text-center">{{$item->id}}</td>
+                                            <td >{{$item->getProduk->nama}}</td>
+                                            <td >{{$item->getUser->name}} <br>
 
-                                            <td class="text-center" width="10%">{{$item->updated_at}}</td>
-                                            <td class="text-center" width="10%">
-                                                @if($item->isLunas == 1)
-                                                    <div class="badge badge-success" data-placement="top"
-                                                         data-toggle="tooltip"
-                                                         title="Telah Dibayar"><i class="fa fa-check"></i></div>
-                                                @else
-                                                    <div class="badge badge-danger" data-placement="top"
-                                                         data-toggle="tooltip"
-                                                         title="Belum Dibayar"><i class="fa fa-window-close"></i></div>
-                                                @endif
+                                            </td>
+                                            <td class="text-center" >
+                                                {{$item->deskripsi}}
                                             </td>
                                             <td class="text-center" width="10%">
-                                                @if($item->resi == null | $item->resi == "")
-
-                                                    <div class="badge badge-danger" data-placement="top"
-                                                         data-toggle="tooltip"
-                                                         title="Resi Belum Terpasang"><i
-                                                            class="fa fa-window-close"></i></div>
-                                                @else
-                                                    {{$item->resi}}
-                                                @endif
+                                                {{$item->updated_at}}
                                             </td>
-                                            <td width="25%" align="center">
-                                                <?php
-                                                $order = \App\Models\Pesanan::where('uni_code', $item->uni_code)->get()
-                                                ?>
-                                                @if($item->isLunas == 1)
-                                                    <div class="btn-group">
-                                                        @if($item->resi == null | $item->resi == "")
-                                                            <button type="button" class="btn btn-warning"
-                                                                    data-toggle="tooltip"
-                                                                    onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
-                                                                    title="Tambahkan Resi" data-html="true"
-                                                                    data-placement="top"><i
-                                                                    class="fa fa-shipping-fast"></i>
-                                                            </button>
-                                                            @else
-                                                            <button type="button" class="btn btn-light"
-                                                                    data-toggle="tooltip"
-                                                                    onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
-                                                                    title="Sunting Resi" data-html="true"
-                                                                    data-placement="top"><i
-                                                                    class="fa fa-edit"></i>
-                                                            </button>
-
-
-                                                        @endif
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-primary dropdown-toggle"
-                                                                    type="button" id="dropdownMenuButton"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false"><i
-                                                                    class="fa fa-file-download"></i>
-                                                                Download
-                                                            </button>
-                                                            <div class="dropdown-menu"
-                                                                 aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                                   onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
-
-                                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                                   onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
-                                                                    Pengiriman</a>
-
-                                                            </div>
-                                                        </div>
-                                                        <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
-                                                           data-placement="right" data-toggle="tooltip" target="_blank"
-                                                           title="Detail Info" type="button" class="btn btn-info">
-                                                            <i class="fa fa-info-circle"></i></a>
-                                                    </div>
-                                                @else
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-danger"
-                                                                data-toggle="tooltip"
-                                                                onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')"
-                                                                title="Download Invoice" data-html="true"
-                                                                data-placement="top"><i class="fa fa-file-pdf"></i>
-                                                        </button>
-                                                        <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
-                                                           data-placement="right" data-toggle="tooltip" target="_blank"
-                                                           title="Detail Info" type="button" class="btn btn-info">
-                                                            <i class="fa fa-info-circle"></i></a>
-                                                    </div>
-                                                @endif
+                                            <td class="text-center" width="10%">
+                                                    {!! \App\Support\Facades\Rating::stars($item->bintang) !!}
                                             </td>
+
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -315,94 +229,7 @@
             </div>
         </div>
     </section>
-    <div class="modal fade " id="modalResi" tabindex="-1" role="dialog"
-         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width: 100%">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-light">Resi </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="form-blogCategory" method="post" action="{{route('order.resi')}}">
-                    {{csrf_field()}}
-                    <input type="hidden" name="_method">
-                    <input type="hidden" name="id">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col">
-                                <label for="name">Nomor Pesanan</label>
-                                <div class="input-group">
-                                    <div>
-                                        <h6 id="pesanan"></h6>
-                                        <input type="hidden" name="id" id="id_pesanan">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <label for="name">Resi <sup class="text-danger">*</sup></label>
-                                <div class="input-group">
-                                    <input type="text" name="resi" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade " id="modalResiEdit" tabindex="-1" role="dialog"
-         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width: 100%">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-light">Sunting Resi </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="form-blogCategory" method="post" action="{{route('order.resi.update')}}">
-                    {{csrf_field()}}
-                    <input type="hidden" name="_method">
-                    <input type="hidden" name="id" >
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col">
-                                <label for="name">Nomor Pesanan</label>
-                                <div class="input-group">
-                                    <div>
-                                        <h6 id="pesanan_edit"></h6>
-                                        <input type="hidden" name="id" id="id_pesanan_edit">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <label for="name">Resi <sup class="text-danger">*</sup></label>
-                                <div class="input-group">
-                                    <input type="text" name="resi" class="form-control" id="resi_edit">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
 @endsection
 @push("scripts")
@@ -487,17 +314,18 @@
                 });
         });
 
-        function openModal(id_tanya, tanya) {
-            $('#id_pesanan').val(id_tanya);
-            $('#pesanan').text(tanya);
-            $('#modalResi').modal('show')
-        }
-
-        function openModalEdit(id_tanya, tanya,resi) {
-            $('#id_pesanan_edit').val(id_tanya);
-            $('#pesanan_edit').text(tanya);
-            $('#resi_edit').val(resi);
-            $('#modalResiEdit').modal('show')
+        function openModal(code, url_action, title) {
+            console.log(code);
+            $.post(url_action, {
+                    _token: '{{csrf_token()}}',
+                    code: code
+                },
+                function (data) {
+                    $('#customModalbody').html(data);
+                });
+            $('#payment_code').val(code);
+            $('#customModalTitle').text(title);
+            $('#customModal').modal({backdrop: 'static', keyboard: false})
         }
 
         function getPhoneAgent(phone, name) {
@@ -529,6 +357,28 @@
             });
         }
 
+        function get_shipping(code) {
+            $.ajax({
+                type: 'get',
+                url: '{{route('admin.order.shipping')}}',
+                data: {
+                    code: code,
+                },
+                success: function (data) {
+                    // swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
+                    // setTimeout(
+                    //     function () {
+                    //         location.reload();
+                    //     }, 5000);
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 404) {
+                        console.log(xhr);
+                        swal('Error', xhr.responseJSON.message, 'error');
+                    }
+                }
+            });
+        }
+
         @if(request()->has('period'))
         $('#period').val('{{ request()->get('period') }}');
         @endif
@@ -540,21 +390,21 @@
 
 
 
-        function get_label(code) {
-            console.log(code);
+        function get_design(code) {
             $.ajax({
                 type: 'post',
-                url: '{{route('order.label')}}',
+                url: '{{route('admin.order.production.pdf')}}',
                 data: {
                     _token: '{{csrf_token()}}',
                     code: code
                 },
                 success: function (data) {
+
                     setTimeout(
                         function () {
                             $.ajax({ //Download File from above
                                 type: 'post',
-                                url: '{{route('order.label.download')}}',
+                                url: '{{route('admin.order.production.download')}}',
                                 data: {
                                     _token: '{{csrf_token()}}',
                                     code: code
@@ -566,7 +416,7 @@
                         }, 1000);
 
 
-                    swal('Success', "Tunggu Hingga Halam Berhasil Reload", 'success');
+                    swal('Success', "Plesae Wait Till Page Succesfully Realoded", 'success');
                     setTimeout(
                         function () {
                             location.reload();

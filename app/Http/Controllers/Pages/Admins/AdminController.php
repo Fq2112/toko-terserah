@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Kontak;
+use App\Models\Pesanan;
 use App\Support\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ class AdminController extends Controller
         $admins = Admin::all();
         $users = User::all();
         $kontak = Kontak::all();
+        $payment = Pesanan::orderByDesc('updated_at')->get();
 
-        return view('pages.main.admins.dashboard', compact('role', 'admins', 'users', 'kontak'));
+        return view('pages.main.admins.dashboard', compact('role', 'admins', 'users', 'kontak','payment'));
     }
 
     public function showInbox(Request $request)

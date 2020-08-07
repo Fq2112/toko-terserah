@@ -54,7 +54,7 @@ class AkunController extends Controller
             'user_id' => Auth::id(),
             'nama' => $request->address_name,
             'telp' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
-            'kota_id' => $request->kota_id,
+            'kecamatan_id' => $request->kecamatan_id,
             'kode_pos' => $request->kode_pos,
             'alamat' => $request->alamat,
             'lat' => $request->lat,
@@ -76,7 +76,7 @@ class AkunController extends Controller
         $address->update([
             'nama' => $request->address_name,
             'telp' => preg_replace("![^a-z0-9+]+!i", "", $request->address_phone),
-            'kota_id' => $request->kota_id,
+            'kecamatan_id' => $request->kecamatan_id,
             'kode_pos' => $request->kode_pos,
             'alamat' => $request->alamat,
             'lat' => $request->lat,
