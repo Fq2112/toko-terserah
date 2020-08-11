@@ -183,13 +183,17 @@ class ProdukController extends Controller
         }
 
         if ($request->has('hapus_banner')) {
-            if (File::exists('storage/produk/banner/' . $data->banner)) {
-                File::delete('storage/produk/banner/' . $data->banner);
+            if ($data->banner != 'placeholder.jpg') {
+                if (File::exists('storage/produk/banner/' . $data->banner)) {
+                    File::delete('storage/produk/banner/' . $data->banner);
+                }
+                $data->update([
+                    'is_banner' => false,
+                    'banner' => null
+                ]);
+            } else {
+
             }
-            $data->update([
-                'is_banner' => false,
-                'banner' => null
-            ]);
         }
 
 
