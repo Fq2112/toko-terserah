@@ -304,10 +304,16 @@
                         '<h4><a href="' + val.route_detail + '">' + val.nama + '</a></h4>' +
                         '<div class="rating">' + val.stars + '</div>' + $price + '</div></div></div>';
                 });
+                $("#search-result").empty().append($result);
+
+                setTimeout(function () {
+                    reinitMasonry();
+                }, 600);
+
             } else {
-                $result += '<div class="col-lg-12"><img src="{{asset('images/empty-cart.gif')}}" alt="Empty"></div>'
+                $("#search-result").css('height', 'unset')
+                    .html('<div class="col-lg-12"><img src="{{asset('images/empty-cart.gif')}}" alt="Empty"></div>');
             }
-            $("#search-result").empty().append($result);
 
             if (data.last_page >= 1) {
                 if (data.current_page > 4) {
@@ -374,10 +380,6 @@
             document.title = keyword.val() != '' ?
                 'Cari Produk "' + keyword.val() + '" dengan Harga Terbaik | {{env('APP_TITLE')}}' :
                 'Cari Produk dengan Harga Terbaik | {{env('APP_TITLE')}}';
-
-            setTimeout(function () {
-                reinitMasonry();
-            }, 600);
         }
 
         function reinitMasonry() {

@@ -294,6 +294,12 @@
         #snap-midtrans {
             z-index: 9999999 !important;
         }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+            section.none-margin {
+                padding: 40px 1em !important;
+            }
+        }
     </style>
 @endpush
 @section('content')

@@ -47,14 +47,131 @@
     <!-- Sweetalert2 -->
     <link rel="stylesheet" href="{{asset('vendor/sweetalert/sweetalert2.css')}}">
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
-    <!-- Media queries -->
-    <link rel="stylesheet" href="{{asset('css/media-query.css')}}">
+
+    <style>
+        .header-cart {
+            display: unset !important;
+        }
+
+        .cart-dropdown {
+            display: inline-block !important;
+        }
+
+        .swal-overlay {
+            z-index: 9999999 !important;
+        }
+
+        @media (min-width: 1440px) {
+            .download-phone-ico {
+                width: 50%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 50%;
+                float: right;
+            }
+        }
+
+        @media (min-width: 1281px) and (max-width: 1439px) {
+            .download-phone-ico {
+                width: 50%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 50%;
+                float: right;
+            }
+        }
+
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .download-phone-ico {
+                width: 50%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 50%;
+                float: right;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .download-phone-ico {
+                width: 30%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 30%;
+                float: left;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+            .download-phone-ico {
+                width: 30%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 30%;
+                float: left;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 767px) {
+            .download-phone-ico {
+                width: 50%;
+                float: right;
+            }
+
+            .download-apps-ico {
+                width: 50%;
+                float: right;
+            }
+        }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+            .header-cart {
+                margin-right: 1em;
+            }
+
+            .main-bar .nav .main-menu {
+                height: unset;
+            }
+
+            .dropdown-btn {
+                top: 30px;
+            }
+
+            .categorys {
+                display: none;
+            }
+
+            section.paddtop-50 {
+                padding: 1em;
+            }
+
+            .download-phone-ico {
+                width: 50%;
+                float: left;
+            }
+
+            .download-apps-ico {
+                width: 50%;
+                float: right;
+            }
+        }
+    </style>
     @stack('styles')
 
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
 </head>
 
-<body class="use-nicescroll" data-spy="scroll" data-target="#toc">
+<body class="use-nicescroll" @if(Request::is(['*info/syarat-ketentuan*', '*info/kebijakan-privasi*'])) data-spy="scroll"
+      data-target="#toc" @endif>
 <div class="images-preloader">
     <div class="load">
         <hr>

@@ -214,7 +214,7 @@
                 </ul>
                 <div class="tab-content pane-style no-margin">
                     <div id="produk-terbaru" class="tab-pane fade in active">
-                        <div id="Newproducts" class="shop-owl">
+                        <div class="shop-owl">
                             @foreach($terbaru as $row)
                                 @php
                                     $ulasan = $row->getUlasan;
@@ -266,7 +266,7 @@
                     </div>
 
                     <div id="produk-terlaris" class="tab-pane fade">
-                        <div id="bestseller" class="shop-owl">
+                        <div class="shop-owl">
                             @php $data_terlaris = count($terlaris) > 0 ? $terlaris : $terbaru; @endphp
                             @foreach($data_terlaris as $row)
                                 @php
@@ -319,7 +319,7 @@
                     </div>
 
                     <div id="produk-unggulan" class="tab-pane fade">
-                        <div id="featuredproducts" class="shop-owl">
+                        <div class="shop-owl">
                             @php $data_unggulan = count($unggulan) > 0 ? $unggulan : $terbaru; @endphp
                             @foreach($data_unggulan as $row)
                                 @php
@@ -377,6 +377,47 @@
 @endsection
 @push('scripts')
     <script>
+        $(function () {
+            $("#produk-terbaru .shop-owl").owlCarousel({
+                navigation: true,
+                navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+                slideSpeed: 600,
+                autoPlay: 8000,
+                items: 4,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 2],
+                itemsTablet: [768, 2],
+                itemsMobile: [479, 2],
+                pagination: false
+            });
+
+            $("#produk-terlaris .shop-owl").owlCarousel({
+                navigation: true,
+                navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+                slideSpeed: 600,
+                autoPlay: 8000,
+                items: 4,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 2],
+                itemsTablet: [768, 2],
+                itemsMobile: [479, 2],
+                pagination: false
+            });
+
+            $("#produk-unggulan .shop-owl").owlCarousel({
+                navigation: true,
+                navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+                slideSpeed: 600,
+                autoPlay: 8000,
+                items: 4,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 2],
+                itemsTablet: [768, 2],
+                itemsMobile: [479, 2],
+                pagination: false
+            });
+        });
+
         $(".btn_wishlist").on("click", function () {
                 @auth
             var route = $(this).data('add');
