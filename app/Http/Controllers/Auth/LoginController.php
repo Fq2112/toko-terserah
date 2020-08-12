@@ -30,7 +30,7 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        if (Auth::guard('admin')->check()) {
+        /*if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard')->with('signed', 'Anda telah masuk.Username/email atau password Anda salah.');
         } else {
             if (Auth::user()->getBio->dob != null && Auth::user()->getBio->gender != null && Auth::user()->getBio->phone != null) {
@@ -40,7 +40,7 @@ class LoginController extends Controller
                 return back()->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
                     env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
             }
-        }
+        }*/
     }
 
     /**
@@ -64,7 +64,23 @@ class LoginController extends Controller
         if (GlobalAuth::login(['useremail' => $request->useremail, 'password' => $request->password], $request)) {
             if (session()->has('intended')) {
                 session()->forget('intended');
-                return $this->redirectTo();
+            }
+
+            if (Auth::guard('admin')->check()) {
+                return redirect()->route('admin.dashboard')->with('signed', 'Anda telah masuk.Username/email atau password Anda salah.');
+            } else {
+                if (Auth::user()->status == false) {
+                    return back()->withInput($request->all())
+                        ->with(['inactive' => 'Akun Anda belum aktif! Silahkan aktivasi akun Anda terlebih dahulu.']);
+                } else {
+                    if (Auth::user()->getBio->dob != null && Auth::user()->getBio->gender != null && Auth::user()->getBio->phone != null) {
+                        return back()->with('signed', 'Anda telah masuk.');
+
+                    } else {
+                        return back()->with('profil', 'Anda telah masuk! Untuk dapat menggunakan fitur ' .
+                            env('APP_NAME') . ' sepenuhnya, silahkan lengkapi profil Anda terlebih dahulu.');
+                    }
+                }
             }
         }
 
