@@ -31,6 +31,8 @@ class CreateProduksTable extends Migration
             $table->boolean('is_diskon')->default(false);
             $table->string('diskon')->nullable();
             $table->string('harga_diskon')->nullable();
+            $table->boolean('isGrosir')->default(false);
+            $table->string('harga_grosir')->nullable();
             $table->timestamps();
         });
     }

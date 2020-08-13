@@ -26,21 +26,22 @@ class CreatePesanansTable extends Migration
             $table->foreign('penagihan_id')->references('id')->on('alamat')
                 ->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->string('uni_code')->unique();
-            $table->string('ongkir');
-            $table->string('durasi_pengiriman');
-            $table->string('berat_barang');
+            $table->string('ongkir')->nullable();
+            $table->string('durasi_pengiriman')->nullable();
+            $table->string('berat_barang')->nullable();
             $table->string('total_harga');
             $table->text('note')->nullable();
             $table->string('promo_code')->nullable();
             $table->boolean('is_discount')->default(false);
             $table->string('discount')->nullable();
             $table->boolean('isLunas')->default(false);
-            $table->string('kode_kurir');
-            $table->string('nama_kurir');
-            $table->string('layanan_kurir');
+            $table->string('kode_kurir')->nullable();
+            $table->string('nama_kurir')->nullable();
+            $table->string('layanan_kurir')->nullable();
             $table->string('resi')->nullable()->unique();
             $table->dateTime('tgl_pengiriman')->nullable();
             $table->dateTime('tgl_diterima')->nullable();
+            $table->boolean('isAmbil')->default(false);
             $table->timestamps();
         });
     }
