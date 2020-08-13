@@ -56,7 +56,7 @@ Route::group(['namespace' => 'API'], function () {
             'as' => 'get.rajaongkir.cost'
         ]);
 
-        Route::post('waybill', [
+        Route::get('waybill', [
             'uses' => 'RajaOngkirController@getWaybill',
             'as' => 'get.rajaongkir.waybill'
         ]);
