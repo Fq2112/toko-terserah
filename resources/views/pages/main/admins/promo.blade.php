@@ -57,7 +57,7 @@
                                         <th class="text-center">ID</th>
                                         <th width="15%">Promo Code</th>
                                         <th width="20%">Deskripsi</th>
-                                        <th>Besar Promo %</th>
+                                        <th>Besar Promo (Rp)</th>
                                         <th class="text-center" width="15%">Mulai</th>
                                         <th class="text-center" width="15%">Selesai</th>
                                         <th class="text-center" width="15%">Status</th>
@@ -84,7 +84,7 @@
                                                 {{$row->description}}
                                             </td>
                                             <td style="vertical-align: middle">
-                                                {{$row->discount}} %
+                                                {{number_format($row->discount)}}
                                             </td>
 
                                             <td style="vertical-align: middle" align="center">
@@ -158,7 +158,7 @@
 
                                     <div class="row form-group has-feedback">
                                         <div class="col">
-                                            <label for="_content">Description</label>
+                                            <label for="_content">Deskripsi</label>
                                             <textarea id="description" type="text" name="description"
                                                       class="summernote form-control"
                                                       placeholder="Write something about your post here&hellip;"></textarea>
@@ -168,7 +168,7 @@
 
                                     <div class="row form-group">
                                         <div class="col">
-                                            <label for="thumbnail">Start</label>
+                                            <label for="thumbnail">Dimulai Pada</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <label for="thumbnail">End</label>
+                                            <label for="thumbnail">Berakhir Pada</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -193,14 +193,15 @@
 
                                     <div class="row form-group">
                                         <div class="col-6 has-feedback">
-                                            <label for="title">Amount of Discount</label>
+                                            <label for="title">Besar Diskon</label>
                                             <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="discount" max="99" min="1"
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Rp</div>
+                                                </div>
+                                                <input id="discount" type="number" name="discount"
                                                        class="form-control"
                                                        placeholder="1xxxxxx" required>
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">%</div>
-                                                </div>
+
                                             </div>
 
                                         </div>
