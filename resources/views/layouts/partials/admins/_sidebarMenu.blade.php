@@ -12,7 +12,7 @@
                     class="fas fa-envelope"></i><span>Kotak Masuk</span></a>
         </li>
     @endif
-    <li class="dropdown  {{\Illuminate\Support\Facades\Request::is('*scott.royce/order*') ? 'active' : ''}}">
+    <li class="dropdown  {{\Illuminate\Support\Facades\Request::is('*sys-admin/order*') ? 'active' : ''}}">
         <a href="{{route('admin.order')}}" class="nav-link"><i class="fas fa-archive"></i><span>Pesanan</span></a>
     </li>
     <li class="menu-header">Tables</li>
