@@ -410,9 +410,20 @@
                                                               action="{{route('produk.submit.qna',['produk' => $produk->permalink])}}">
                                                             @csrf
                                                             <p class="comment-form-comment">
-                                                                <textarea id="tanya" name="tanya" required
+                                                                <textarea id="tanya" name="tanya" class="mb-3" required
                                                                           placeholder="Tulis pertanyaan Anda di sini..."
                                                                           style="resize: vertical;height: 100px;line-height: unset;padding: 15px"></textarea>
+                                                                @foreach($qna_tag as $tag)
+                                                                    <button type="button"
+                                                                            @if(strlen($tag->pertanyaan) >= 25)
+                                                                            data-toggle="tooltip"
+                                                                            title="{{$tag->pertanyaan}}"
+                                                                            @endif
+                                                                            class="btn btn-sm btn-color8 btn-tags"
+                                                                            onclick="$('#tanya').val('{{$tag->pertanyaan}}')">
+                                                                        {{\Illuminate\Support\Str::limit($tag->pertanyaan,25,'...')}}
+                                                                    </button>
+                                                                @endforeach
                                                             </p>
                                                             <p class="form-submit">
                                                                 <button type="submit" class="btn btn-block btn-color2">
@@ -423,7 +434,7 @@
                                                         </form>
                                                     </div>
 
-                                                        @if(count($produk->getQnA) > 0)
+                                                    @if(count($produk->getQnA) > 0)
                                                         <div class="comment-list">
                                                             <h4>{{count($produk->getQnA) - count($qna_ku)}} PERTANYAAN
                                                                 {{count($qna_ku) > 0 ? 'LAINNYA' : ''}}</h4>

@@ -419,13 +419,7 @@
                                             $subtotal += $cart->total;
                                         }
 
-                                        if($data->is_discount == true) {
-                                            $discount = $data->discount;
-                                            $discount_price = ceil($subtotal * $discount / 100);
-                                        } else {
-                                            $discount = 0;
-                                            $discount_price = 0;
-                                        }
+                                        $discount_price = $data->is_discount == true ? ceil($data->discount) : 0;
                                     @endphp
                                     <table bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="660"
                                            align="center">
@@ -458,9 +452,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <div>
-                                                                            <b>Diskon {{$discount}}%</b>
-                                                                        </div>
+                                                                        <div><b>Diskon</b></div>
                                                                     </td>
                                                                     <td>
                                                                         <div>&emsp;</div>

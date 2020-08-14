@@ -66,16 +66,16 @@ class MidtransController extends Controller
         }
 
         $arr_ship_disc = [];
-        if (!is_null($request->discount)) {
+        if (!is_null($request->discount_price)) {
             $arr_ship_disc[count($arr_items)] = [
                 'id' => 'DISC-' . $request->code,
                 'price' => ceil($request->discount_price * -1),
                 'quantity' => 1,
-                'name' => 'Diskon ' . $request->discount . '%'
+                'name' => 'Diskon'
             ];
         }
 
-        $arr_ship_disc[!is_null($request->discount) ? count($arr_items) + 1 : count($arr_items)] = [
+        $arr_ship_disc[!is_null($request->discount_price) ? count($arr_items) + 1 : count($arr_items)] = [
             'id' => 'SHIP-' . $request->code,
             'price' => ceil($request->ongkir),
             'quantity' => 1,
@@ -140,8 +140,8 @@ class MidtransController extends Controller
             'total_harga' => $request->total,
             'note' => $request->note,
             'promo_code' => $request->promo_code,
-            'is_discount' => !is_null($request->discount) ? 1 : 0,
-            'discount' => $request->discount,
+            'is_discount' => !is_null($request->discount_price) ? 1 : 0,
+            'discount' => $request->discount_price,
             'kode_kurir' => $request->kode_kurir,
             'nama_kurir' => $request->nama_kurir,
             'layanan_kurir' => $request->layanan_kurir,
@@ -185,8 +185,8 @@ class MidtransController extends Controller
                         'total_harga' => $data_tr['gross_amount'],
                         'note' => $request->note,
                         'promo_code' => $request->promo_code,
-                        'is_discount' => !is_null($request->discount) ? 1 : 0,
-                        'discount' => $request->discount,
+                        'is_discount' => !is_null($request->discount_price) ? 1 : 0,
+                        'discount' => $request->discount_price,
                         'isLunas' => true,
                         'kode_kurir' => $request->kode_kurir,
                         'nama_kurir' => $request->nama_kurir,

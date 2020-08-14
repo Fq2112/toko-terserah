@@ -60,7 +60,11 @@ class CariController extends Controller
                 'dir_img' => asset('storage/produk/thumb/' . $row['gambar']),
                 'route_detail' => route('produk', ['produk' => $row['permalink']]),
                 'rating' => count($ulasan) > 0 ? $ulasan->sum('bintang') / count($ulasan) : 0,
-                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->avg('bintang')) : Rating::stars(0)
+                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->avg('bintang')) : Rating::stars(0),
+                'cek_cart' => route('produk.cek.cart', ['produk' => $row['permalink']]),
+                'add_cart' => route('produk.add.cart', ['produk' => $row['permalink']]),
+                'cek_wishlist' => route('produk.cek.wishlist', ['produk' => $row['permalink']]),
+                'add_wishlist' => route('produk.add.wishlist', ['produk' => $row['permalink']]),
             ]);
         }
 

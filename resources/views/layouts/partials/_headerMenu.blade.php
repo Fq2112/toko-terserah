@@ -2,12 +2,14 @@
     <ul class="main-menu">
         <li><a href="{{route('beranda')}}" class="{{Request::is('/*') ? 'active' : ''}}">
                 <i class="fa fa-home"></i>&ensp;Beranda</a></li>
-        <li><a href="{{route('cari')}}"><i class="fa fa-box-open"></i>&ensp;Produk</a></li>
+        <li><a href="{{route('cari')}}" class="{{Request::is('*cari*') ? 'active' : ''}}">
+                <i class="fa fa-box-open"></i>&ensp;Produk</a></li>
         <li>
             <div class="top-new">
                 <p class="show_wishlist">( {{Auth::check() ? count(Auth::user()->getWishlist) : 0}} )</p>
             </div>
-            <a href="javascript:showWishlist()"><i class="fa fa-heart"></i>&ensp;Wishlist</a>
+            <a href="javascript:showWishlist()" class="{{Request::is('*akun/wishlist*') ? 'active' : ''}}">
+                <i class="fa fa-heart"></i>&ensp;Wishlist</a>
         </li>
         @if(Auth::check() || Auth::guard('admin')->check())
             <li class="menu-item-has-children avatar">

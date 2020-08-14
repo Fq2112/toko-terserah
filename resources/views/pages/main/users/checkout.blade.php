@@ -812,7 +812,7 @@
                                 <b class="float-right show-delivery text-lowercase">&ndash;</b>
                             </li>
                             <li id="discount" class="list-group-item border-none" style="display: none">
-                                Diskon <strong></strong>
+                                Diskon
                                 <i class="fa fa-trash-alt ml-1" data-toggle="tooltip" data-placement="right"
                                    title="HAPUS" style="cursor:pointer;float:none"></i>
                                 <b class="float-right"></b>
@@ -841,7 +841,7 @@
                         <div class="card-footer mt-2 p-0">
                             <button id="btn_pay" type="button" style="text-align: left" disabled
                                     class="btn btn-color2 btn-block text-uppercase border-none">
-                                CHECKOUT <i class="fa fa-chevron-right float-right"></i>
+                                CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>
                             </button>
                         </div>
                     </div>
@@ -850,7 +850,6 @@
                 <input type="hidden" name="cart_ids" value="{{$cart_ids}}">
                 <input type="hidden" name="subtotal" value="{{$subtotal}}">
                 <input id="total_weight" type="hidden" name="weight" value="{{ceil($total_weight * 1000)}}">
-                <input type="hidden" name="discount">
                 <input type="hidden" name="discount_price">
                 <input id="ongkir" type="hidden" name="ongkir">
                 <input id="durasi_pengiriman" type="hidden" name="durasi_pengiriman">
@@ -1214,10 +1213,8 @@
                             $("#error_promo").show().find('b').text(data.caption).css('color', '#5bb300');
                             $("#btn_set").removeAttr('disabled');
 
-                            $("#discount").show().find('strong').text(data.discount + '%');
-                            $("#discount b").text(data.str_discount);
+                            $("#discount").show().find('b').text(data.str_discount);
                             $(".show-total").text(data.str_total);
-                            $("#form-pembayaran input[name=discount]").val(data.discount);
                             $("#form-pembayaran input[name=discount_price]").val(harga_diskon);
                             $("#form-pembayaran input[name=total]").val(data.total);
                         }
@@ -1250,7 +1247,7 @@
             harga_diskon = 0;
             $("#discount").hide().find('b').text(null);
             $(".show-total").text('Rp' + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
-            $("#form-pembayaran input[name=discount], #form-pembayaran input[name=discount_price]").val(null);
+            $("#form-pembayaran input[name=discount_price]").val(null);
             $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
         }
 
@@ -1270,7 +1267,8 @@
                             );
                         },
                         complete: function () {
-                            btn_pay.prop("disabled", false).html('CHECKOUT <i class="fa fa-chevron-right float-right"></i>');
+                            btn_pay.prop("disabled", false)
+                                .html('CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>');
                         },
                         success: function (data) {
                             snap.pay(data, {

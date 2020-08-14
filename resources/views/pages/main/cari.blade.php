@@ -294,15 +294,24 @@
                         '<p class="price mb-0">Rp' + number_format(val.harga, 2, ",", ".") + '</p>';
 
                     $result +=
-                        '<div class="col-md-3 item">' +
-                        '<div class="item-product first" style="cursor: pointer" ' +
-                        'onclick="window.location.href=\'' + val.route_detail + '\'">' +
+                        '<div class="col-md-4 item">' +
+                        '<div class="item-product first hover effect-10">' +
                         '<div class="product-thumb">' +
                         '<div class="midd"><a href="' + val.route_detail + '">' +
                         '<img src="' + val.dir_img + '" alt="' + val.nama + '"></a>' + $disc_elm + '</div></div>' +
                         '<div class="info-product pt-0">' +
                         '<h4><a href="' + val.route_detail + '">' + val.nama + '</a></h4>' +
-                        '<div class="rating">' + val.stars + '</div>' + $price + '</div></div></div>';
+                        '<div class="rating">' + val.stars + '</div>' + $price + '</div>' +
+                        '<div class="cart-overlay">' +
+                        '<a href="javascript:void(0)" class="info btn_cart" ' +
+                        'onclick="cart(\'' + val.nama + '\',\'' + val.cek_cart + '\',\'' + val.add_cart + '\')">' +
+                        '<i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>' +
+                        '<p class="icon-links">' +
+                        '<a href="' + val.route_detail + '"><span class="fa fa-search"></span></a>' +
+                        '<a href="javascript:void(0)" class="info-2 btn_wishlist" ' +
+                        'onclick="wishlist(\'' + val.cek_wishlist + '\',\'' + val.add_wishlist + '\')">' +
+                        '<span class="fa fa-heart"></span></a></p>' +
+                        '</div></div></div>';
                 });
                 $("#search-result").empty().append($result);
 
@@ -398,6 +407,108 @@
             grid.masonry({
                 itemSelector: '.item'
             });
+        }
+
+        function wishlist(cek, add) {
+            @auth
+            clearTimeout(this.delay);
+            this.delay = setTimeout(function () {
+                $.get(cek, function (data) {
+                    if (data.status == true) {
+                        $.ajax({
+                            url: add,
+                            type: 'post',
+                            data: {_token: '{{csrf_token()}}'},
+                            success: function (data) {
+                                if (data.status == true) {
+                                    $(".show_wishlist").text('( ' + data.total + ' )');
+                                    swal('SUKSES!', data.message, 'success');
+                                }
+                            },
+                            error: function () {
+                                swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                            }
+                        });
+                    } else {
+                        swal('PERHATIAN!', data.message, 'warning');
+                    }
+                });
+            }.bind(this), 800);
+
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
+
+            @else
+            openLoginModal();
+            @endauth
+        }
+
+        function cart(name, cek_uri, add_uri) {
+            @auth
+            swal({
+                title: "Tambah ke Cart",
+                text: "Apakah Anda yakin untuk menambahkan produk \"" + name + "\" ke dalam cart Anda?",
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya"],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then((confirm) => {
+                if (confirm) {
+                    let input = document.createElement("input");
+                    input.id = 'qty-cart';
+                    input.value = '1';
+                    input.type = 'number';
+                    input.min = '1';
+                    input.className = 'swal-content__input';
+
+                    swal({
+                        text: 'Kuantitas: ' + name,
+                        content: input,
+                        dangerMode: true,
+                        buttons: ["Batal", "Tambah ke Cart"],
+                        closeOnEsc: false,
+                        closeOnClickOutside: false,
+                    }).then(val => {
+                        if (!val) throw null;
+                        $("#form-cart input[name=_method], #form-cart input[name=qty_lama]").val(null);
+                        $("#form-cart input[name=qty]").val($("#qty-cart").val());
+                        $("#form-cart").attr('action', add_uri).submit();
+                    });
+
+                    $("#qty-cart").on('keyup', function () {
+                        var el = $(this);
+                        if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
+                            el.val(1);
+                        }
+
+                        $.get(cek_uri, function (data) {
+                            if (data.status == true) {
+                                el.attr('max', data.stock);
+                                el.parent().find('p').remove();
+
+                                if (parseInt(el.val()) > data.stock) {
+                                    if (data.stock > 0) {
+                                        el.parent().append("<p class='text-success'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
+                                    } else {
+                                        el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
+                                    }
+                                    el.val(data.stock);
+                                }
+
+                            } else {
+                                swal('PERHATIAN!', data.message, 'warning');
+                            }
+                        });
+                    });
+                }
+            });
+            @elseauth('admin')
+            swal('PERHATIAN!', 'Fitur ini hanya berfungsi ketika Anda masuk sebagai Pelanggan.', 'warning');
+
+            @else
+            openLoginModal();
+            @endauth
         }
     </script>
 @endpush

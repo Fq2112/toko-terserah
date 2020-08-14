@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use App\Models\QnA;
+use App\Models\Template;
 use App\Models\Ulasan;
 use App\Support\Facades\Rating;
 use Illuminate\Http\Request;
@@ -47,6 +48,7 @@ class MainController extends Controller
         $ulasan = Ulasan::where('produk_id', $produk->id)->orderByDesc('id')->get();
         $qna = QnA::where('produk_id', $produk->id)->where('user_id', '!=', Auth::id())->orderByDesc('id')->get();
         $qna_ku = QnA::where('produk_id', $produk->id)->where('user_id', Auth::id())->orderByDesc('id')->get();
+        $qna_tag = Template::orderBy('pertanyaan')->get();
         $stars = Rating::stars($ulasan->avg('bintang'));
 
         $cek_wishlist = Favorit::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
@@ -56,8 +58,8 @@ class MainController extends Controller
             $q->where('id', $produk->sub_kategori_id);
         })->orderBy('nama')->take(8)->get();
 
-        return view('pages.main.detail', compact('produk', 'ulasan', 'qna', 'qna_ku', 'stars',
-            'cek_wishlist', 'cek_ulasan', 'related'));
+        return view('pages.main.detail', compact('produk', 'ulasan', 'qna', 'qna_ku', 'qna_tag',
+            'stars', 'cek_wishlist', 'cek_ulasan', 'related'));
     }
 
     public function galeriProduk(Request $request)

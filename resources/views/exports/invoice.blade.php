@@ -177,21 +177,13 @@
                 <td class="right">Rp{{number_format($cart->total,2,',','.')}}</td>
             </tr>
         @endforeach
-        @php
-            if($data->is_discount == true) {
-                $discount = $data->discount;
-                $discount_price = ceil($subtotal * $discount / 100);
-            } else {
-                $discount = 0;
-                $discount_price = 0;
-            }
-        @endphp
+        @php $discount_price = $data->is_discount == true ? ceil($data->discount) : 0; @endphp
         <tr class="ttl">
             <td class="right" colspan="4">SUBTOTAL</td>
             <td class="right">Rp{{number_format($subtotal,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
-            <td class="right uppercase" colspan="4">Diskon {{$discount}}%</td>
+            <td class="right uppercase" colspan="4">Diskon</td>
             <td class="right">{{'-Rp'.number_format($discount_price,2,',','.')}}</td>
         </tr>
         <tr class="ttl">

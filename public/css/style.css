@@ -917,6 +917,14 @@ h2.text-heading.coffee-color:after {
     color: #fff;
 }
 
+.btn.btn-color8 {
+    background: #fff;
+    text-transform: none;
+    color: #333;
+    padding: .5em 1em;
+    border: 1px solid #e4e4e4;
+}
+
 .btn.btn-cars {
     background: none;
     color: #fff;

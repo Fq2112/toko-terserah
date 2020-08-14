@@ -172,12 +172,11 @@ class UserController extends Controller
                 if (now() > $promo->end) {
                     return 2;
                 } else {
-                    $discount_price = ceil($amount * $promo->discount / 100);
+                    $discount_price = ceil($promo->discount);
                     $subtotal = $amount - $discount_price;
                     $total = ceil($subtotal + $request->ongkir);
                     return [
                         'caption' => $promo->description,
-                        'discount' => $promo->discount,
                         'total' => $total,
                         'discount_price' => $discount_price,
                         'str_discount' => '-Rp' . number_format($discount_price, 2, ',', '.'),
