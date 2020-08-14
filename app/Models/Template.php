@@ -8,5 +8,5 @@ class Template extends Model
 {
     protected $table = 'template';
 
-    protected $guarded = 'id';
+    protected $fillable = ['pertanyaan'];
 }

@@ -12,11 +12,10 @@
                     class="fas fa-envelope"></i><span>Kotak Masuk</span></a>
         </li>
     @endif
-    <li class="dropdown  {{\Illuminate\Support\Facades\Request::is('*scott.royce/order*') ? 'active' : ''}}">
+    <li class="dropdown  {{\Illuminate\Support\Facades\Request::is('*sys-admin/order*') ? 'active' : ''}}">
         <a href="{{route('admin.order')}}" class="nav-link"><i class="fas fa-archive"></i><span>Pesanan</span></a>
     </li>
     <li class="menu-header">Tables</li>
-
 
 
     <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*sys-admin/produk*') ? 'active' : ''}}">
@@ -51,8 +50,12 @@
         <ul class="dropdown-menu">
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/promo*') ?
                 'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Promo</a></li>
-            {{--                <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/privacy*') ?--}}
-            {{--                'active' : ''}}"><a href="{{route('table.blog.posts')}}" class="nav-link">Privacy & Term</a></li>--}}
+            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/privacy*') ?
+                            'active' : ''}}"><a href="" class="nav-link">Banner</a>
+            </li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/qna*') ?
+                            'active' : ''}}"><a href="{{route('admin.qna.show')}}" class="nav-link">Template Pertanyaan</a>
+            </li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/setting*') ?
                 'active' : ''}}"><a href="{{route('admin.setting.general')}}" class="nav-link">Pengaturan</a></li>
         </ul>

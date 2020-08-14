@@ -222,14 +222,21 @@
                                                 @endif
                                             </td>
                                             <td class="text-center" width="10%">
-                                                @if($item->resi == null | $item->resi == "")
-
-                                                    <div class="badge badge-danger" data-placement="top"
+                                                @if($item->isAmbil)
+                                                    <div class="badge badge-info" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Resi Belum Terpasang"><i
-                                                            class="fa fa-window-close"></i></div>
+                                                         title="Pelanggan Ambil Sendiri"><i
+                                                            class="fa fa-shopping-basket"></i></div>
                                                 @else
-                                                    {{$item->resi}}
+                                                    @if($item->resi == null | $item->resi == "")
+
+                                                        <div class="badge badge-danger" data-placement="top"
+                                                             data-toggle="tooltip"
+                                                             title="Resi Belum Terpasang"><i
+                                                                class="fa fa-window-close"></i></div>
+                                                    @else
+                                                        {{$item->resi}}
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td width="25%" align="center">
@@ -238,23 +245,26 @@
                                                 ?>
                                                 @if($item->isLunas == 1)
                                                     <div class="btn-group">
-                                                        @if($item->resi == null | $item->resi == "")
-                                                            <button type="button" class="btn btn-warning"
-                                                                    data-toggle="tooltip"
-                                                                    onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
-                                                                    title="Tambahkan Resi" data-html="true"
-                                                                    data-placement="top"><i
-                                                                    class="fa fa-shipping-fast"></i>
-                                                            </button>
-                                                            @else
-                                                            <button type="button" class="btn btn-light"
-                                                                    data-toggle="tooltip"
-                                                                    onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
-                                                                    title="Sunting Resi" data-html="true"
-                                                                    data-placement="top"><i
-                                                                    class="fa fa-edit"></i>
-                                                            </button>
+                                                        @if($item->isAmbil)
 
+                                                        @else
+                                                            @if($item->resi == null | $item->resi == "")
+                                                                <button type="button" class="btn btn-warning"
+                                                                        data-toggle="tooltip"
+                                                                        onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
+                                                                        title="Tambahkan Resi" data-html="true"
+                                                                        data-placement="top"><i
+                                                                        class="fa fa-shipping-fast"></i>
+                                                                </button>
+                                                            @else
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="tooltip"
+                                                                        onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
+                                                                        title="Sunting Resi" data-html="true"
+                                                                        data-placement="top"><i
+                                                                        class="fa fa-edit"></i>
+                                                                </button>
+                                                            @endif
 
                                                         @endif
                                                         <div class="dropdown">
@@ -269,11 +279,12 @@
                                                                  aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="javascript:void(0)"
                                                                    onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
-
-                                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                                   onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
-                                                                    Pengiriman</a>
-
+                                                                @if($item->isAmbil)
+                                                                @else
+                                                                    <a class="dropdown-item" href="javascript:void(0)"
+                                                                       onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
+                                                                        Pengiriman</a>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                         <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
@@ -372,7 +383,7 @@
                 <form id="form-blogCategory" method="post" action="{{route('order.resi.update')}}">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
-                    <input type="hidden" name="id" >
+                    <input type="hidden" name="id">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col">
@@ -493,7 +504,7 @@
             $('#modalResi').modal('show')
         }
 
-        function openModalEdit(id_tanya, tanya,resi) {
+        function openModalEdit(id_tanya, tanya, resi) {
             $('#id_pesanan_edit').val(id_tanya);
             $('#pesanan_edit').text(tanya);
             $('#resi_edit').val(resi);

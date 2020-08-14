@@ -357,6 +357,24 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             ]);
 
         });
+
+        Route::group(['prefix' => 'qna', 'middleware' => 'owner'], function () {
+
+            Route::get('/', [
+                'uses' => 'SettingController@show_qna',
+                'as' => 'admin.qna.show'
+            ]);
+
+            Route::post('/add', [
+                'uses' => 'TemplateController@create_data',
+                'as' => 'admin.qna.add'
+            ]);
+
+            Route::post('/update', [
+                'uses' => 'TemplateController@edit',
+                'as' => 'admin.qna.update'
+            ]);
+        });
     });
 
     Route::group(['prefix' => 'inbox', 'middleware' => 'owner'], function () {

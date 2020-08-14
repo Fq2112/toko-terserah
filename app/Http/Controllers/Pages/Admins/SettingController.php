@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Setting;
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,7 @@ class SettingController extends Controller
     public function show_general()
     {
         $data = \App\Models\Setting::where('id', '!=', 0)->first();
-        return view('pages.main.admins.setting.general',compact('data'));
+        return view('pages.main.admins.setting.general', compact('data'));
     }
 
     public function update_general(Request $request)
@@ -71,7 +72,7 @@ class SettingController extends Controller
     public function rule(Request $request)
     {
         $data = \App\Models\Setting::where('id', '!=', 0)->first();
-        return view('pages.main.admins.setting.rules',compact('data'));
+        return view('pages.main.admins.setting.rules', compact('data'));
     }
 
     public function rules_update(Request $request)
@@ -87,6 +88,14 @@ class SettingController extends Controller
     public function show_maintenance()
     {
         $data = \App\Models\Setting::where('id', '!=', 0)->first();
-        return view('pages.main.admins.setting.maintenance',compact('data'));
+        return view('pages.main.admins.setting.maintenance', compact('data'));
+    }
+
+    public function show_qna()
+    {
+        $data = Template::all();
+        return view('pages.main.admins.pertanyaan', [
+            'data' => $data
+        ]);
     }
 }
