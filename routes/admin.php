@@ -374,6 +374,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'TemplateController@edit',
                 'as' => 'admin.qna.update'
             ]);
+
+            Route::get('/delete/{id}', [
+                'uses' => 'TemplateController@delete',
+                'as' => 'admin.qna.delete'
+            ]);
         });
     });
 

@@ -95,7 +95,7 @@
                                                         <input type="hidden" name="id" value="{{$row->id}}">
                                                     </form>
 
-                                                    <a href="{{route('delete.admin', ['id' => encrypt($row->id)])}}"
+                                                    <a href="{{route('admin.qna.delete', ['id' => $row->id])}}"
                                                        class="btn btn-danger delete-data" data-toggle="tooltip"
                                                        title="Delete" data-placement="right">
                                                         <i class="fas fa-trash-alt"></i></a>
