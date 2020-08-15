@@ -27,4 +27,12 @@ class TemplateController extends Controller
         ]);
         return back()->with('success', 'Berhasil Memperbarui Template Pertanyaan');
     }
+
+    public function delete($id)
+    {
+        $data = Template::find($id);
+
+        $data->delete();
+        return back()->with('success', 'Berhasil Menghapus Template Pertanyaan');
+    }
 }
