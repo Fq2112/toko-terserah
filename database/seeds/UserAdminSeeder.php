@@ -107,7 +107,7 @@ class UserAdminSeeder extends Seeder
             \App\Models\Bio::create([
                 'user_id' => $dataUser->id,
                 'phone' => '+628123456789' . rand(0, 9),
-                'gender' => rand(0, 1) ? 'pria' : 'warning',
+                'gender' => rand(0, 1) ? 'pria' : 'wanita',
                 'dob' => $faker->date('Y-m-d')
             ]);
 

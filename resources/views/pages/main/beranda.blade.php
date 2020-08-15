@@ -73,9 +73,16 @@
                         <div id="single-slider" class="single-slider">
                             @foreach($banner as $row)
                                 <div class="item-image">
-                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                        <img src="{{asset('storage/produk/banner/'.$row->banner)}}" alt="Banner">
-                                    </a>
+                                    @php
+                                        if(!is_null($row->produk)) {
+                                            $produk = \App\Models\Produk::find($row->produk);
+                                            $route = route('produk', ['produk' => $produk->permalink]);
+                                        } else {
+                                            $produk = null;
+                                            $route = '#';
+                                        }
+                                    @endphp
+                                    <a href="{{$route}}"><img src="{{asset('storage/banner/'.$row->banner)}}"></a>
                                 </div>
                             @endforeach
                         </div>
@@ -419,7 +426,7 @@
         });
 
         $(".btn_wishlist").on("click", function () {
-                @auth
+            @auth
             var route = $(this).data('add');
 
             clearTimeout(this.delay);

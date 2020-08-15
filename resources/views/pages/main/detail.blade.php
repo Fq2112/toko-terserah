@@ -99,6 +99,14 @@
                 float: none;
             }
         }
+
+        .btn-tags {
+            background: #fff;
+            text-transform: none;
+            color: #333;
+            padding: .5em 1em;
+            border: 1px solid #e4e4e4;
+        }
     </style>
 @endpush
 @section('content')

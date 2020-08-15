@@ -100,7 +100,7 @@
                                         <tr data-toggle="tooltip" data-placement="right" title="Tanggal Lahir">
                                             <td><i class="fa fa-birthday-cake"></i></td>
                                             <td>&nbsp;</td>
-                                            <td>{{$bio->dob != "" ? \Carbon\Carbon::parse($bio->dob)->format('j F Y') : '(kosong)'}}</td>
+                                            <td>{{$bio->dob != "" ? \Carbon\Carbon::parse($bio->dob)->formatLocalized('%d %B %Y') : '(kosong)'}}</td>
                                         </tr>
                                         <tr data-toggle="tooltip" data-placement="right" title="Telepon">
                                             <td><i class="fa fa-phone fa-flip-horizontal"></i></td>
