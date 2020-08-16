@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages\Admins;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Banner;
 use App\Models\Setting;
 use App\Models\Template;
 use Illuminate\Http\Request;
@@ -79,10 +80,11 @@ class SettingController extends Controller
     {
         $data = Setting::find($request->id);
         $data->update([
-            'rules' => $request->rule,
+            'harga_pengiriman' => $request->harga_pengiriman,
+            'min_pembelian' => $request->min_pembelian,
         ]);
 
-        return back()->with('success', 'Rules Successfully Updated to ' . $request->rule . '%');
+        return back()->with('success', 'Berhasil Update Data');
     }
 
     public function show_maintenance()
@@ -95,6 +97,14 @@ class SettingController extends Controller
     {
         $data = Template::all();
         return view('pages.main.admins.pertanyaan', [
+            'data' => $data
+        ]);
+    }
+
+    public function show_banner()
+    {
+        $data = Banner::all();
+        return view('pages.main.admins.banner', [
             'data' => $data
         ]);
     }

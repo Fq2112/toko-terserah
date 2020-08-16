@@ -22,6 +22,9 @@ class CreateSettingsTable extends Migration
             $table->text('tag_line')->nullable();
             $table->text('address')->nullable();
             $table->string('phone')->nullable();
+            $table->string('harga_pengiriman')->nullable();
+            $table->string('min_berat')->nullable();
+            $table->string('min_pembelian')->nullable();
             $table->timestamps();
         });
     }

@@ -5,16 +5,18 @@
     <div class="card-body">
         <p class="text-muted">Price reduction is nested and stops at the quantity of 100 units.</p>
         <div class="form-group row align-items-center">
-            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Rule Amount</label>
+            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Harga Pengiriman</label>
             <div class="col-sm-6 col-md-9">
-                {{$data->rules}} %
+                <input type="number" name="harga_pengiriman" class="form-control" id="site-title" required placeholder="in percent" value="{{$data->harga_pengiriman}}"
+                       >
+
             </div>
         </div>
         <div class="form-group row align-items-center">
-            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Rule Value</label>
+            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Minim Berat</label>
             <div class="col-sm-6 col-md-9">
-                <input type="number" name="rule" class="form-control" id="site-title" required placeholder="in percent"
-                       min="1" max="10">
+                <input type="number" name="min_pembelian" class="form-control" id="site-title" required placeholder="in percent" value="{{$data->min_pembelian}}"
+                       >
                 <input type="hidden" name="id" value="{{$data->id}}">
             </div>
         </div>
