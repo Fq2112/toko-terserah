@@ -24,7 +24,7 @@ class CreateProduksTable extends Migration
             $table->string('nama');
             $table->text('permalink')->unique();
             $table->string('berat');
-            $table->string('harga');
+            $table->string('harga')->nullable();
             $table->string('stock');
             $table->text('deskripsi');
             $table->text('detail');
@@ -35,6 +35,7 @@ class CreateProduksTable extends Migration
             $table->string('harga_grosir')->nullable();
             $table->boolean('isDiskonGrosir')->default(false);
             $table->string('diskonGrosir')->nullable();
+            $table->string('harga_diskon_grosir')->nullable();
             $table->timestamps();
         });
     }

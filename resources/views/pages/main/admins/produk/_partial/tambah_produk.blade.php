@@ -129,8 +129,8 @@
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-4 has-feedback">
-                                            <label for="title">Harga</label>
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Harga Retail</label>
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">Rp</div>
@@ -138,10 +138,51 @@
                                                 <input id="discount" type="number" name="harga" max="9999999999999"
                                                        min="1"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" required>
+                                                       placeholder="1xxxxxx" >
 
                                             </div>
                                         </div>
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Harga Grosir</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Rp</div>
+                                                </div>
+                                                <input id="discount" type="number" name="harga_grosir" max="9999999999999"
+                                                       min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Diskon Retail <small>(opsional)</small></label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="diskon" max="99" min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Diskon Grosir<small>(opsional)</small></label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="diskonGrosir" max="99" min="1"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
                                         <div class="col-4 has-feedback">
                                             <label for="title">Stock</label>
                                             <div class="input-group mb-2">
@@ -166,26 +207,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="row form-group">
-                                        <div class="col-6 has-feedback">
-                                            <label for="title">Diskon <small>(opsional)</small></label>
-                                            <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="diskon" max="99" min="1"
-                                                       class="form-control"
-                                                       placeholder="1xxxxxx">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">%</div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group has-feedback">
+                                    <div class="row form-group has-feedback" style="display: none">
                                         <div class="col">
                                             <label for="_content">Banner <small>(Opsional)</small> <i
                                                     class="fa fa-info-circle text-info" data-toggle="tooltip"
-                                                    title="Banner Akan ditampilkan pada slide show beranda"></i> </label>
+                                                    title="Banner Akan ditampilkan pada slide show beranda"></i>
+                                            </label>
                                             <div class="">
                                                 <div class="custom-file">
                                                     <input type="file" name="banner"

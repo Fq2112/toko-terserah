@@ -59,7 +59,8 @@ class ProdukController extends Controller
             'harga' => $request->harga,
             'stock' => $request->stock,
             'berat' => $request->berat,
-            'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama))
+            'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
+            'harga_grosir' => $request->harga_grosir
         ]);
 
         if ($request->has('galeri')) {
@@ -98,6 +99,16 @@ class ProdukController extends Controller
         }
 
 
+        if ($request->diskonGrosir != null) {
+            $diskonGrosir = $produk->harga_grosir * ($request->diskonGrosir / 100);
+            $produk->update([
+                'isDiskonGrosir' => true,
+                'diskonGrosir' => $request->diskonGrosir,
+                'harga_diskon_grosir' => $produk->harga_grosir - $diskonGrosir
+            ]);
+        }
+
+
         return redirect()->route('admin.show.produk')->with('success', 'Berhasil Menambahkan Produk');
     }
 
@@ -125,7 +136,8 @@ class ProdukController extends Controller
             'berat' => $request->berat,
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'is_diskon' => false,
-            'harga_diskon' => 0
+            'harga_diskon' => 0,
+            'harga_grosir' => $request->harga_grosir
         ]);
 
         if ($request->has('gambar')) {
@@ -133,8 +145,10 @@ class ProdukController extends Controller
             $filename = uniqid() . $file->getClientOriginalName();
             $file->storeAs('public/produk/thumb/', $filename);
             //delete file lama
-            if (File::exists('storage/produk/thumb/' . $data->gambar)) {
-                File::delete('storage/produk/thumb/' . $data->gambar);
+            if ($data->gambar != 'placeholder.jpg') {
+                if (File::exists('storage/produk/thumb/' . $data->gambar)) {
+                    File::delete('storage/produk/thumb/' . $data->gambar);
+                }
             }
             $data->update([
                 'gambar' => $filename
@@ -151,6 +165,15 @@ class ProdukController extends Controller
             ]);
         }
 
+        if ($request->diskonGrosir != null) {
+            $diskonGrosir = $data->harga_grosir * ($request->diskonGrosir / 100);
+            $data->update([
+                'isDiskonGrosir' => true,
+                'diskonGrosir' => $request->diskonGrosir,
+                'harga_diskon_grosir' => $data->harga_grosir - $diskonGrosir
+            ]);
+        }
+
 
         if ($request->has('temp_photos')) {
             $img = $data->galeri;
@@ -159,8 +182,10 @@ class ProdukController extends Controller
                 $key = array_search($item, $img);
                 array_splice($img, $key, 1);
                 //deleting Image
-                if (File::exists('storage/produk/galeri/' . $item)) {
-                    File::delete('storage/produk/galeri/' . $item);
+                if ($item != 'placeholder.jpg') {
+                    if (File::exists('storage/produk/galeri/' . $item)) {
+                        File::delete('storage/produk/galeri/' . $item);
+                    }
                 }
             }
             $data->update([

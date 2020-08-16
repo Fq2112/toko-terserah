@@ -380,6 +380,29 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'as' => 'admin.qna.delete'
             ]);
         });
+
+        Route::group(['prefix' => 'banner', 'middleware' => 'owner'], function () {
+
+            Route::get('/', [
+                'uses' => 'SettingController@show_banner',
+                'as' => 'admin.banner.show'
+            ]);
+
+            Route::post('/add', [
+                'uses' => 'TemplateController@create_data',
+                'as' => 'admin.qna.add'
+            ]);
+
+            Route::post('/update', [
+                'uses' => 'TemplateController@edit',
+                'as' => 'admin.qna.update'
+            ]);
+
+            Route::get('/delete/{id}', [
+                'uses' => 'TemplateController@delete',
+                'as' => 'admin.qna.delete'
+            ]);
+        });
     });
 
     Route::group(['prefix' => 'inbox', 'middleware' => 'owner'], function () {

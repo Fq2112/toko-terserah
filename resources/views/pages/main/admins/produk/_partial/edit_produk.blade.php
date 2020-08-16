@@ -157,7 +157,7 @@
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-4 has-feedback">
+                                        <div class="col-6 has-feedback">
                                             <label for="title">Harga</label>
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
@@ -171,6 +171,49 @@
 
                                             </div>
                                         </div>
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Harga Grosir</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Rp</div>
+                                                </div>
+                                                <input id="discount" type="number" name="harga_grosir"
+                                                       max="9999999999999"
+                                                       min="1" value="{{$data->harga_grosir}}"
+                                                       class="form-control"
+                                                       placeholder="1xxxxxx" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Diskon <small>(opsional)</small></label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="diskon" max="99"
+                                                       min="1"
+                                                       class="form-control" value="{{$data->diskon}}"
+                                                       placeholder="1xxxxxx">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 has-feedback">
+                                            <label for="title">Diskon Grosir<small>(opsional)</small></label>
+                                            <div class="input-group mb-2">
+                                                <input id="discount" type="number" name="diskonGrosir" max="99" min="1"
+                                                       class="form-control" value="{{$data->diskonGrosir}}"
+                                                       placeholder="1xxxxxx">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
                                         <div class="col-4 has-feedback">
                                             <label for="title">Stock</label>
                                             <div class="input-group mb-2">
@@ -197,35 +240,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="row form-group">
-                                        <div class="col-6 has-feedback">
-                                            <label for="title">Diskon <small>(opsional)</small></label>
-                                            <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="diskon" max="99"
-                                                       min="1"
-                                                       class="form-control" value="{{$data->diskon}}"
-                                                       placeholder="1xxxxxx">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">%</div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
                                     @if(!empty($data->banner))
-                                    <div class="row form-group ">
-                                        <div class="col">
-                                            <img src="{{asset('storage/produk/banner/'.$data->banner)}}" alt="Banner">
-                                            <br>
-                                            <input id="banner" type="checkbox" class="checkbox"
-                                                   name="hapus_banner"/>
+                                        <div class="row form-group " style="display: none">
+                                            <div class="col">
+                                                <img src="{{asset('storage/produk/banner/'.$data->banner)}}"
+                                                     alt="Banner">
+                                                <br>
+                                                <input id="banner" type="checkbox" class="checkbox"
+                                                       name="hapus_banner"/>
 
-                                            <label for="banner">Hapus Banner</label>
+                                                <label for="banner">Hapus Banner</label>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endif
 
-                                    <div class="row form-group has-feedback">
+                                    <div class="row form-group has-feedback" style="display: none">
                                         <div class="col">
                                             <label for="_content">Banner <small>(Opsional)</small> <i
                                                     class="fa fa-info-circle text-info"

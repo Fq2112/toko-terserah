@@ -134,6 +134,8 @@
                                         </th>
                                         <th class="text-center" width="10%">Diskon</th>
                                         <th class="text-center" width="10%">Harga</th>
+                                        <th class="text-center" width="10%">diskon Grosir</th>
+                                        <th class="text-center" width="10%">harga Grosir</th>
                                         <th class="text-center" width="10%">Stok</th>
                                         <th class="text-center" width="10%">Aksi</th>
                                     </tr>
@@ -168,6 +170,19 @@
                                                         class="text-danger">  {{number_format($item->harga_diskon)}}</span>
                                                 @else
                                                     {{number_format($item->harga)}}
+                                                @endif
+                                            </td>
+
+                                            <td class="text-center" width="10%">
+                                                {{$item->diskonGrosir ?? '0'}} %
+                                            </td>
+                                            <td class="text-center" width="10%">
+                                                @if($item->is_diskon == 1)
+                                                    <strike> {{number_format($item->harga_grosir)}}</strike><br>
+                                                    <span
+                                                        class="text-danger">  {{number_format($item->harga_diskon_grosir)}}</span>
+                                                @else
+                                                    {{number_format($item->harga_grosir)}}
                                                 @endif
                                             </td>
                                             <td class="text-center" width="15%">
