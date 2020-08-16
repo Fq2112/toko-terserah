@@ -54,6 +54,7 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
+                                        <th>Urutan</th>
                                         <th width="25%">Banner</th>
                                         <th width="20%">Produk</th>
                                         <th class="text-center" width="15%">Created at</th>
@@ -74,11 +75,13 @@
                                                 </div>
                                             </td>
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
+                                            <th align="center" style="vertical-align: middle">{{$row->urutan}}</th>
                                             <td style="vertical-align: middle">
-                                                <img src="{{asset('storage/produk/banner/'.$row->banner)}}" alt="" style="width: 200px">
+                                                <img src="{{asset('storage/produk/banner/'.$row->banner)}}" alt=""
+                                                     style="width: 200px">
                                             </td>
                                             <td style="vertical-align: middle">
-                                              <strong>  {{\App\Models\Produk::findOrFail($row->produk)->nama}}</strong>
+                                                <strong>  {{\App\Models\Produk::findOrFail($row->produk)->nama}}</strong>
                                             </td>
 
                                             <td style="vertical-align: middle" align="center">
@@ -88,9 +91,10 @@
                                             <td style="vertical-align: middle" align="center">
                                                 <div class="btn-group">
                                                     <button data-placement="left" data-toggle="tooltip"
-                                                            title="Reset Password"
+                                                            title="Edit"
                                                             type="button" class="btn btn-warning mr-1"
-                                                            onclick="show_edit('{{$row->id}}','{{asset('storage/produk/banner/'.$row->banner)}}','{{$row->produk}}')">
+                                                            onclick="show_edit('{{$row->id}}','{{asset('storage/produk/banner/'.$row->banner)}}'
+                                                                ,'{{$row->produk}}','{{$row->urutan}}')">
                                                         <i class="fa fa-edit"></i></button>
                                                     <form action="{{route('admin.reset')}}"
                                                           id="update_form_{{$row->id}}"
@@ -141,18 +145,16 @@
                       enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="row form-group">
-                                <div class="col">
-                                    <label for="name">Banner <sup class="text-danger">*</sup></label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-image"></i></span>
-                                        </div>
-                                        <input id="name" type="file" name="banner" class="form-control"
-                                               accept="image/*"
-                                               placeholder="Write its name here&hellip;" required>
+                        <div class="row form-group">
+                            <div class="col-12">
+                                <label for="name">Banner <sup class="text-danger">*</sup></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-image"></i></span>
                                     </div>
+                                    <input id="name" type="file" name="banner" class="form-control"
+                                           accept="image/*"
+                                           placeholder="Write its name here&hellip;" required>
                                 </div>
                             </div>
                         </div>
@@ -166,6 +168,11 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="urutan">Urutan <sup class="text-danger">*</sup></label>
+                            <input type="number" name="urutan" id="" class="form-control"
+                                   placeholder="Urutan Saat ini {{count(\App\Models\Banner::all())+1}}" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -187,7 +194,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form-blogCategory" method="post" action="{{route('admin.banner.update')}}" enctype="multipart/form-data">
+                <form id="form-blogCategory" method="post" action="{{route('admin.banner.update')}}"
+                      enctype="multipart/form-data">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
                     <input type="hidden" name="id" id="id_banner">
@@ -208,7 +216,7 @@
                                         </div>
                                         <input id="name" type="file" name="banner" class="form-control"
                                                accept="image/*"
-                                               placeholder="Write its name here&hellip;" >
+                                               placeholder="Write its name here&hellip;">
                                     </div>
                                 </div>
                             </div>
@@ -223,6 +231,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="urutan">Urutan</label>
+                            <input type="number" name="urutan" id="urutan" class="form-control" required>
                         </div>
                     </div>
 
@@ -341,9 +353,9 @@
                 });
         });
 
-        function show_edit(id, thumnail,produk) {
+        function show_edit(id, thumnail, produk, urutan) {
             $('#id_banner').val(id);
-
+            $('#urutan').val(urutan);
             $('#img_thumb').attr("src", thumnail);
             $('select[name=produk]').val(produk);
             $('.selectpicker').selectpicker('refresh');

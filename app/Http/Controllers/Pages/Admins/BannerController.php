@@ -14,10 +14,21 @@ class BannerController extends Controller
         $bannerName = uniqid() . $banner->getClientOriginalName();
         $banner->storeAs('public/produk/banner/', $bannerName);
 
-        Banner::create([
+        $banner_old = Banner::where('urutan', $request->urutan)->first();
+
+        $data = Banner::create([
             'banner' => $bannerName,
-            'produk' => $request->produk
+            'produk' => $request->produk,
+            'urutan' => $request->urutan
         ]);
+
+
+        if (!empty($banner_old)) {
+            $banner_old->update([
+                'urutan' => count(Banner::all())
+            ]);
+        }
+
 
         return back()->with('success', 'Berhasi Menambahkan Banner');
     }
@@ -25,10 +36,18 @@ class BannerController extends Controller
     public function edit(Request $request)
     {
         $data = Banner::find($request->id);
+        $banner_old = Banner::where('urutan', $request->urutan)->first();
 
         $data->update([
-            'produk' => $request->produk
+            'produk' => $request->produk,
+            'urutan' => $request->urutan
         ]);
+
+        if (!empty($banner_old)) {
+            $banner_old->update([
+                'urutan' => count(Banner::all())
+            ]);
+        }
 
         if ($request->has('banner')) {
             $banner = $request->file('banner');

@@ -14,7 +14,7 @@ class AddIsMainToBannerTable extends Migration
     public function up()
     {
         Schema::table('banner', function (Blueprint $table) {
-            $table->boolean('isMain')->default(false);
+            $table->string('urutan')->nullable();
         });
     }
 
