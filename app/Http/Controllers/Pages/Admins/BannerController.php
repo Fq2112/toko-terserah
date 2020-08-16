@@ -12,7 +12,7 @@ class BannerController extends Controller
     {
         $banner = $request->file('banner');
         $bannerName = uniqid() . $banner->getClientOriginalName();
-        $banner->storeAs('public/produk/banner/', $bannerName);
+        $banner->storeAs('public/banner/', $bannerName);
 
         $banner_old = Banner::where('urutan', $request->urutan)->first();
 
@@ -52,7 +52,7 @@ class BannerController extends Controller
         if ($request->has('banner')) {
             $banner = $request->file('banner');
             $bannerName = uniqid() . $banner->getClientOriginalName();
-            $banner->storeAs('public/produk/banner/', $bannerName);
+            $banner->storeAs('public/banner/', $bannerName);
             $data->update([
                 'banner' => $bannerName,
             ]);

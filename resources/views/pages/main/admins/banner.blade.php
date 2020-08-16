@@ -77,7 +77,7 @@
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
                                             <th align="center" style="vertical-align: middle">{{$row->urutan}}</th>
                                             <td style="vertical-align: middle">
-                                                <img src="{{asset('storage/produk/banner/'.$row->banner)}}" alt=""
+                                                <img src="{{asset('storage/banner/'.$row->banner)}}" alt=""
                                                      style="width: 200px">
                                             </td>
                                             <td style="vertical-align: middle">
@@ -93,7 +93,7 @@
                                                     <button data-placement="left" data-toggle="tooltip"
                                                             title="Edit"
                                                             type="button" class="btn btn-warning mr-1"
-                                                            onclick="show_edit('{{$row->id}}','{{asset('storage/produk/banner/'.$row->banner)}}'
+                                                            onclick="show_edit('{{$row->id}}','{{asset('storage/banner/'.$row->banner)}}'
                                                                 ,'{{$row->produk}}','{{$row->urutan}}')">
                                                         <i class="fa fa-edit"></i></button>
                                                     <form action="{{route('admin.reset')}}"

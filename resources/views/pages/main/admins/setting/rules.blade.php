@@ -3,7 +3,7 @@
     {{csrf_field()}}
 
     <div class="card-body">
-        <p class="text-muted">Price reduction is nested and stops at the quantity of 100 units.</p>
+        <p class="text-muted">Atur Harga pengiriman dan minimum harga untuk penngiriman di sini.</p>
         <div class="form-group row align-items-center">
             <label for="site-title" class="form-control-label col-sm-3 text-md-right">Harga Pengiriman</label>
             <div class="col-sm-6 col-md-9">
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="form-group row align-items-center">
-            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Minim Berat</label>
+            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Minim Pembelian</label>
             <div class="col-sm-6 col-md-9">
                 <input type="number" name="min_pembelian" class="form-control" id="site-title" required placeholder="in percent" value="{{$data->min_pembelian}}"
                        >

@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
             UlasanSeeder::class,
             QnAseeder::class,
             SettingSeeder::class,
-            TemplateSeeder::class
+            TemplateSeeder::class,
+            BannerSeeder::class
         ]);
     }
 }
