@@ -389,18 +389,18 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             ]);
 
             Route::post('/add', [
-                'uses' => 'TemplateController@create_data',
-                'as' => 'admin.qna.add'
+                'uses' => 'BannerController@create_data',
+                'as' => 'admin.banner.add'
             ]);
 
             Route::post('/update', [
-                'uses' => 'TemplateController@edit',
-                'as' => 'admin.qna.update'
+                'uses' => 'BannerController@edit',
+                'as' => 'admin.banner.update'
             ]);
 
             Route::get('/delete/{id}', [
-                'uses' => 'TemplateController@delete',
-                'as' => 'admin.qna.delete'
+                'uses' => 'BannerController@delete',
+                'as' => 'admin.banner.delete'
             ]);
         });
     });

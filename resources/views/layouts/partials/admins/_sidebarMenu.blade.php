@@ -44,19 +44,19 @@
         </ul>
     </li>
 
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc*') ? 'active' : ''}}">
+    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/*') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-cogs"></i><span>Lain Lain</span></a>
         <ul class="dropdown-menu">
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/promo*') ?
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/promo*') ?
                 'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Promo</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/privacy*') ?
-                            'active' : ''}}"><a href="" class="nav-link">Banner</a>
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/banner*') ?
+                            'active' : ''}}"><a href="{{route('admin.banner.show')}}" class="nav-link">Banner</a>
             </li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/qna*') ?
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/qn*') ?
                             'active' : ''}}"><a href="{{route('admin.qna.show')}}" class="nav-link">Template Pertanyaan</a>
             </li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('*scott.royce/tables/msc/setting*') ?
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/setting*') ?
                 'active' : ''}}"><a href="{{route('admin.setting.general')}}" class="nav-link">Pengaturan</a></li>
         </ul>
     </li>
