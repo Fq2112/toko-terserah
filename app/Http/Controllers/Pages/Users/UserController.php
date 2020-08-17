@@ -3,22 +3,16 @@
 namespace App\Http\Controllers\Pages\Users;
 
 use App\Http\Controllers\Controller;
-use App\Mail\Users\InvoiceMail;
 use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Favorit;
-use App\Models\OccupancyType;
 use App\Models\Pesanan;
-use App\Models\Produk;
 use App\Models\PromoCode;
-use App\Models\Provinsi;
-use Barryvdh\DomPDF\Facade as PDF;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -146,8 +140,7 @@ class UserController extends Controller
         $user = Auth::user();
         $bio = $user->getBio;
         $addresses = Alamat::where('user_id', $user->id)->orderByDesc('id')->get();
-        $provinces = Provinsi::all();
-        $occupancies = OccupancyType::all();
+        $setting = Setting::first();
         $code = strtoupper(uniqid('PYM') . now()->timestamp);
         $cart_ids = $request->cart_ids;
 
@@ -161,8 +154,8 @@ class UserController extends Controller
         $subtotal = 0;
         $total_weight = 0;
 
-        return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'provinces',
-            'occupancies', 'code', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
+        return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'setting',
+            'code', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
     public function cariPromo(Request $request)

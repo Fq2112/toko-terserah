@@ -225,9 +225,17 @@
             <td>
                 <table>
                     <tr>
-                        <td width="50%"><img alt="Logo" src="{{public_path('images/kurir/'.$data->kode_kurir.'.png')}}">
-                        </td>
-                        <td>{{$data->nama_kurir}}<br>{{$data->layanan_kurir}}</td>
+                        @if($data->isAmbil == false && $data->is_kurir_terserah == false)
+                            <td width="50%">
+                                <img alt="Logo" src="{{public_path('images/kurir/'.$data->kode_kurir.'.png')}}">
+                            </td>
+                            <td>{{$data->nama_kurir}}<br>{{$data->layanan_kurir}}</td>
+                        @else
+                            <td width="50%">
+                                <img alt="Logo" src="{{public_path('images/logotype.png')}}">
+                            </td>
+                            <td>{{$data->isAmbil == true ? 'Ambil di '.env('APP_NAME') : 'Kurir '.env('APP_NAME')}}</td>
+                        @endif
                     </tr>
                 </table>
             </td>

@@ -501,7 +501,9 @@
                                                                                value="{{$row->id}}"
                                                                                data-name="{{$occupancy}}">
                                                                         <div class="card card-input"
-                                                                             onclick="getShipping('{{$row->kecamatan_id}}','{{$row->lat.','.$row->long}}','shipping','{{$occupancy}}')">
+                                                                             onclick="getShipping('{{$row->kecamatan_id}}',
+                                                                                 '{{$row->lat.','.$row->long}}','shipping',
+                                                                                 '{{$occupancy}}','{{$row->getKecamatan->getKota->id}}')">
                                                                             <div class="row">
                                                                                 <div class="col-lg-12">
                                                                                     <div class="media p-4">
@@ -610,6 +612,49 @@
                                                  data-parent="#accordion2">
                                                 <div class="panel-body">
                                                     <div class="row form-group">
+                                                        <div class="col-lg-4">
+                                                            <label class="card-label" for="logistik">
+                                                                <input id="logistik" class="card-rb" type="radio"
+                                                                       name="opsi" value="logistik">
+                                                                <div class="card card-input text-center m-0 p-4"
+                                                                     style="color: #333">
+                                                                    <b>Logistik ( JNE / POS / TIKI )</b>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <label class="card-label" for="terserah">
+                                                                <input id="terserah" class="card-rb" type="radio"
+                                                                       name="opsi" value="terserah">
+                                                                <div class="card card-input text-center m-0 p-4"
+                                                                     style="color: #333">
+                                                                    <b>Kurir {{env('APP_NAME')}}</b>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <label class="card-label" for="ambil">
+                                                                <input id="ambil" class="card-rb" type="radio"
+                                                                       name="opsi" value="ambil">
+                                                                <div class="card card-input text-center m-0 p-4"
+                                                                     style="color: #333">
+                                                                    <b>Ambil di {{env('APP_NAME')}}</b>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12 mt-3 text-muted" style="font-weight: 500">
+                                                            Opsi pengiriman "<b>Kurir {{env('APP_NAME')}}</b>" hanya
+                                                            berlaku untuk :
+                                                            <ul style="margin-left: 1.3em;margin-bottom: 0;">
+                                                                <li>Pembelian diatas
+                                                                    Rp{{number_format($setting->min_pembelian,2,',','.')}}
+                                                                    .
+                                                                </li>
+                                                                <li>Pengiriman di daerah Surabaya dan sekitarnya.</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group logistik" style="display: none">
                                                         <div class="col-lg-12">
                                                             <label class="form-control-label" for="kode_kurir">
                                                                 Logistik <span class="required">*</span>
@@ -623,7 +668,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row logistik" style="display: none">
                                                         <div class="col-lg-12">
                                                             <label class="form-control-label" for="layanan_kurir">
                                                                 Jenis Layanan <span class="required">*</span>
@@ -670,7 +715,9 @@
                                                                                value="{{$row->id}}"
                                                                                data-name="{{$occupancy}}">
                                                                         <div class="card card-input"
-                                                                             onclick="getShipping('{{$row->kecamatan_id}}','{{$row->lat.','.$row->long}}','billing','{{$occupancy}}')">
+                                                                             onclick="getShipping('{{$row->kecamatan_id}}',
+                                                                                 '{{$row->lat.','.$row->long}}','billing',
+                                                                                 '{{$occupancy}}','{{$row->getKecamatan->getKota->id}}')">
                                                                             <div class="row">
                                                                                 <div class="col-lg-12">
                                                                                     <div class="media p-4">
@@ -867,7 +914,6 @@
                 <input type="hidden" name="layanan_kurir">
                 <input type="hidden" name="total" value="{{$subtotal}}">
                 <input type="hidden" name="code" value="{{$code}}">
-                <input type="hidden" name="lang" value="{{app()->getLocale()}}">
                 <input type="hidden" name="transaction_id">
                 <input type="hidden" name="pdf_url">
             </form>
@@ -884,7 +930,8 @@
 
     <script>
         var collapse = $('.panel-collapse'), upload_input = $("#file"), link_input = $("#link"), check_file = null,
-            btn_pay = $("#btn_pay"), kode_kurir = $("#kode_kurir"), layanan_kurir = $("#layanan_kurir"),
+            btn_pay = $("#btn_pay"), opsi = $("input[name=opsi]"), kode_kurir = $("#kode_kurir"),
+            layanan_kurir = $("#layanan_kurir"),
             harga_diskon = 0, ongkir = 0, etd = '', str_etd = '', unit = '', total = parseInt('{{$subtotal}}');
 
         $(function () {
@@ -965,7 +1012,7 @@
             $(".show-note").text($("#note").val().length > 20 ? $("#note").val().slice(0, 20) + "..." : $("#note").val());
         });
 
-        function getShipping(kecamatan_id, latLng, check, name) {
+        function getShipping(kecamatan_id, latLng, check, name, kota_id) {
             $(".show-" + check).text(name);
             $('#collapse-' + check).collapse('hide');
 
@@ -985,129 +1032,150 @@
                             $("#accordion2, .list-group-flush, #summary-alert").css('opacity', '1');
                         },
                         success: function (data) {
+                            opsi.prop('checked', false);
                             kode_kurir.empty();
                             layanan_kurir.attr('disabled', 'disabled').empty();
                             $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
                             $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
 
-                            var logistic = data['rajaongkir']['results'];
-                            if (logistic.length > 0) {
-                                $("#shipping-alert, #billing-alert").hide();
-                                $("#rate-alert").show();
-                                $("#heading-rate").parent().show();
-
-                                kode_kurir.empty().append('<option></option>');
-                                $.each(logistic, function (i, val) {
-                                    kode_kurir.append('<option value="' + val.code + '" data-index="' + i + '" ' +
-                                        'data-kode="' + val.code + '">' + val.name + '</option>');
-                                });
-
-                                kode_kurir.select2({
-                                    placeholder: "-- Pilih --",
-                                    allowClear: true,
-                                    width: '100%',
-                                    templateResult: format,
-                                    templateSelection: format,
-                                    escapeMarkup: function (m) {
-                                        return m;
-                                    }
-                                });
-
-                                kode_kurir.on('change', function () {
-                                    $(".show-ongkir, .show-delivery").html('&ndash;');
-                                    $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
-
-                                    $('#preload-summary').show();
-                                    $(".list-group-flush, #summary-alert").css('opacity', '.3');
-
-                                    clearTimeout(this.delay);
-                                    this.delay = setTimeout(function () {
-                                        $('#preload-summary').hide();
-                                        $(".list-group-flush, #summary-alert").css('opacity', '1');
-
-                                        if ($(this).val() != "") {
-                                            layanan_kurir.removeAttr('disabled').empty().append('<option></option>');
-                                            $.each(logistic[$("option[value=" + $(this).val() + "]", this).attr('data-index')]['costs'], function (i, val) {
-                                                layanan_kurir.append('<option value="' + val.service + '" ' +
-                                                    'data-kode="' + kode_kurir.val() + '" ' +
-                                                    'data-etd="' + val.cost[0].etd + '" ' +
-                                                    'data-ongkir="' + val.cost[0].value + '">' + val.service + '</option>');
-                                            });
-
-                                            layanan_kurir.select2({
-                                                placeholder: "-- Pilih --",
-                                                allowClear: true,
-                                                width: '100%',
-                                                templateResult: format,
-                                                templateSelection: format,
-                                                escapeMarkup: function (m) {
-                                                    return m;
-                                                }
-                                            });
-
-                                        } else {
-                                            layanan_kurir.attr('disabled', 'disabled').empty();
-                                            $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
-                                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
-                                        }
-                                    }.bind(this), 800);
-
-                                    $("#shipping-alert, #billing-alert").hide();
-                                    $("#summary-alert, #rate-alert").show();
-                                    btn_pay.prop('disabled', true);
-                                });
-
-                                layanan_kurir.on('change', function () {
-                                    $('#preload-summary').show();
-                                    $(".list-group-flush, #summary-alert").css('opacity', '.3');
-
-                                    clearTimeout(this.delay);
-                                    this.delay = setTimeout(function () {
-                                        $('#preload-summary').hide();
-                                        $(".list-group-flush, #summary-alert").css('opacity', '1');
-
-                                        if ($(this).val() != "") {
-                                            etd = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-etd');
-                                            ongkir = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-ongkir');
-
-                                            formatETD(etd);
-
-                                            $(".show-rate").text(kode_kurir.select2('data')[0]['text']);
-                                            $(".show-ongkir").text("Rp" + number_format(ongkir, 2, ',', '.'));
-                                            $(".show-delivery").html(str_etd);
-                                            $(".show-total").text("Rp" + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
-
-                                            $("#ongkir").val(ongkir);
-                                            $("#durasi_pengiriman").val(etd);
-                                            $("#form-pembayaran input[name=nama_kurir]").val(kode_kurir.select2('data')[0]['text']);
-                                            $("#form-pembayaran input[name=layanan_kurir]").val($(this).val());
-                                            $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
-                                            $('#collapse-rate').collapse('hide');
-
-                                        } else {
-                                            $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
-                                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
-                                        }
-                                    }.bind(this), 800);
-
-                                    $("#heading-billing").parent().show();
-                                    $("#shipping-alert, #rate-alert").hide();
-
-                                    if (!$(".card-rb[name=penagihan_id]:checked").val()) {
-                                        $("#summary-alert, #billing-alert").show();
-                                    } else {
-                                        $("#promo_code, #btn_pay").removeAttr('disabled');
-                                        $("#summary-alert, #billing-alert").hide();
-                                    }
-                                });
-
+                            if (total >= parseInt('{{$setting->min_pembelian}}') && kota_id == 444) {
+                                $("#terserah").prop('disabled', false).parent()
+                                    .find('.card-input').css('cursor', 'pointer').css('color', '#333');
                             } else {
-                                $("#shipping-alert").show();
-                                $("#rate-alert, #billing-alert").hide();
-                                $("#heading-rate, #heading-billing").parent().hide();
-                                $(".show-ongkir, .show-delivery").text('N/A');
-                                $("#ongkir, #durasi_pengiriman, #total").val(null);
+                                $("#terserah").prop('disabled', true).parent()
+                                    .find('.card-input').css('cursor', 'no-drop').css('color', '#888');
                             }
+
+                            $("#shipping-alert, #billing-alert").hide();
+                            $("#rate-alert").show();
+                            $("#heading-rate").parent().show();
+
+                            opsi.on("change", function () {
+                                if ($(this).val() == 'logistik') {
+                                    var logistic = data['rajaongkir']['results'];
+                                    $(".logistik").show();
+
+                                    if (logistic.length > 0) {
+                                        kode_kurir.empty().append('<option></option>');
+                                        $.each(logistic, function (i, val) {
+                                            kode_kurir.append('<option value="' + val.code + '" data-index="' + i + '" ' +
+                                                'data-kode="' + val.code + '">' + val.name + '</option>');
+                                        });
+
+                                        kode_kurir.select2({
+                                            placeholder: "-- Pilih --",
+                                            allowClear: true,
+                                            width: '100%',
+                                            templateResult: format,
+                                            templateSelection: format,
+                                            escapeMarkup: function (m) {
+                                                return m;
+                                            }
+                                        });
+
+                                        kode_kurir.on('change', function () {
+                                            $(".show-ongkir, .show-delivery").html('&ndash;');
+                                            $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+
+                                            $('#preload-summary').show();
+                                            $(".list-group-flush, #summary-alert").css('opacity', '.3');
+
+                                            clearTimeout(this.delay);
+                                            this.delay = setTimeout(function () {
+                                                $('#preload-summary').hide();
+                                                $(".list-group-flush, #summary-alert").css('opacity', '1');
+
+                                                if ($(this).val() != "") {
+                                                    layanan_kurir.removeAttr('disabled').empty().append('<option></option>');
+                                                    $.each(logistic[$("option[value=" + $(this).val() + "]", this).attr('data-index')]['costs'], function (i, val) {
+                                                        layanan_kurir.append('<option value="' + val.service + '" ' +
+                                                            'data-kode="' + kode_kurir.val() + '" ' +
+                                                            'data-etd="' + val.cost[0].etd + '" ' +
+                                                            'data-ongkir="' + val.cost[0].value + '">' + val.service + '</option>');
+                                                    });
+
+                                                    layanan_kurir.select2({
+                                                        placeholder: "-- Pilih --",
+                                                        allowClear: true,
+                                                        width: '100%',
+                                                        templateResult: format,
+                                                        templateSelection: format,
+                                                        escapeMarkup: function (m) {
+                                                            return m;
+                                                        }
+                                                    });
+
+                                                } else {
+                                                    layanan_kurir.attr('disabled', 'disabled').empty();
+                                                    if ($('input[name=opsi]:checked').val() == 'logistik') {
+                                                        $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
+                                                    }
+                                                    $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+                                                }
+                                            }.bind(this), 800);
+
+                                            $("#shipping-alert, #billing-alert").hide();
+                                            $("#summary-alert, #rate-alert").show();
+                                            btn_pay.prop('disabled', true);
+                                        });
+
+                                        layanan_kurir.on('change', function () {
+                                            $('#preload-summary').show();
+                                            $(".list-group-flush, #summary-alert").css('opacity', '.3');
+
+                                            clearTimeout(this.delay);
+                                            this.delay = setTimeout(function () {
+                                                $('#preload-summary').hide();
+                                                $(".list-group-flush, #summary-alert").css('opacity', '1');
+
+                                                if ($(this).val() != "") {
+                                                    etd = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-etd');
+                                                    ongkir = $("option[value=\"" + $(this).val() + "\"]", this).attr('data-ongkir');
+
+                                                    formatETD(etd);
+
+                                                    $(".show-rate").text(kode_kurir.select2('data')[0]['text']);
+                                                    $(".show-ongkir").text("Rp" + number_format(ongkir, 2, ',', '.'));
+                                                    $(".show-delivery").html(str_etd);
+                                                    $(".show-total").text("Rp" + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
+
+                                                    $("#ongkir").val(ongkir);
+                                                    $("#durasi_pengiriman").val(etd);
+                                                    $("#form-pembayaran input[name=nama_kurir]").val(kode_kurir.select2('data')[0]['text']);
+                                                    $("#form-pembayaran input[name=layanan_kurir]").val($(this).val());
+                                                    $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
+                                                    $('#collapse-rate').collapse('hide');
+
+                                                } else {
+                                                    if ($('input[name=opsi]:checked').val() == 'logistik') {
+                                                        $(".show-rate, .show-ongkir, .show-delivery").html('&ndash;');
+                                                    }
+                                                    $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
+                                                }
+                                            }.bind(this), 800);
+
+                                            $("#heading-billing").parent().show();
+                                            $("#shipping-alert, #rate-alert").hide();
+                                            if (!$(".card-rb[name=penagihan_id]:checked").val()) {
+                                                $("#summary-alert, #billing-alert").show();
+                                            } else {
+                                                $("#promo_code, #btn_pay").removeAttr('disabled');
+                                                $("#summary-alert, #billing-alert").hide();
+                                            }
+                                        });
+
+                                    } else {
+                                        $("#shipping-alert").show();
+                                        $("#rate-alert, #billing-alert").hide();
+                                        $("#heading-rate, #heading-billing").parent().hide();
+                                        $(".show-ongkir, .show-delivery").text('N/A');
+                                        $("#ongkir, #durasi_pengiriman, #total").val(null);
+                                    }
+
+                                } else {
+                                    opsiPengiriman($(this).val());
+                                }
+                            });
                         },
                         error: function () {
                             swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
@@ -1118,6 +1186,45 @@
             } else {
                 $("#promo_code, #btn_pay").removeAttr('disabled');
                 $("#summary-alert").hide();
+            }
+        }
+
+        function opsiPengiriman(opsi) {
+            $(".logistik").hide();
+            kode_kurir.val(null).trigger('change');
+            $("#form-pembayaran input[name=nama_kurir], #form-pembayaran input[name=layanan_kurir]").val(null);
+
+            if (opsi == 'terserah') {
+                ongkir = parseInt('{{$setting->harga_pengiriman}}');
+                etd = '1-1';
+                formatETD(etd);
+
+                $(".show-ongkir").text("Rp" + number_format(ongkir, 2, ',', '.'));
+                $(".show-delivery").html(str_etd);
+                $("#ongkir").val(ongkir);
+                $("#durasi_pengiriman").val(etd);
+
+            } else {
+                ongkir = 0;
+                etd = '';
+
+                $(".show-ongkir, .show-delivery").html('&ndash;');
+                $("#ongkir, #durasi_pengiriman").val(null);
+            }
+
+            $(".show-rate").text($('label[for=' + opsi + ']').find('b').text());
+            $(".show-total").text("Rp" + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
+
+            $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
+            $('#collapse-rate').collapse('hide');
+
+            $("#heading-billing").parent().show();
+            $("#shipping-alert, #rate-alert").hide();
+            if (!$(".card-rb[name=penagihan_id]:checked").val()) {
+                $("#summary-alert, #billing-alert").show();
+            } else {
+                $("#promo_code, #btn_pay").removeAttr('disabled');
+                $("#summary-alert, #billing-alert").hide();
             }
         }
 
@@ -1262,43 +1369,47 @@
         }
 
         btn_pay.on("click", function () {
-            if (!kode_kurir.val() || !layanan_kurir.val()) {
-                swal('PERHATIAN!', 'Field logistik dan jenis layanannya tidak boleh dikosongi!', 'warning');
+            if (!$('input[name=opsi]:checked').val()) {
+                swal('PERHATIAN!', 'Field opsi pengiriman tidak boleh dikosongi!', 'warning');
             } else {
-                clearTimeout(this.delay);
-                this.delay = setTimeout(function () {
-                    $.ajax({
-                        url: '{{route('get.midtrans.snap')}}',
-                        type: "GET",
-                        data: $("#form-pembayaran").serialize(),
-                        beforeSend: function () {
-                            btn_pay.prop("disabled", true).html(
-                                'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
-                            );
-                        },
-                        complete: function () {
-                            btn_pay.prop("disabled", false)
-                                .html('CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>');
-                        },
-                        success: function (data) {
-                            snap.pay(data, {
-                                language: '{{app()->getLocale()}}',
-                                onSuccess: function (result) {
-                                    responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
-                                },
-                                onPending: function (result) {
-                                    responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
-                                },
-                                onError: function (result) {
-                                    swal('Oops..', result.status_message, 'error');
-                                }
-                            });
-                        },
-                        error: function () {
-                            swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
-                        }
-                    });
-                }.bind(this), 800);
+                if ($('input[name=opsi]:checked').val() == 'logistik' && (!kode_kurir.val() || !layanan_kurir.val())) {
+                    swal('PERHATIAN!', 'Field logistik dan jenis layanannya tidak boleh dikosongi!', 'warning');
+                } else {
+                    clearTimeout(this.delay);
+                    this.delay = setTimeout(function () {
+                        $.ajax({
+                            url: '{{route('get.midtrans.snap')}}',
+                            type: "GET",
+                            data: $("#form-pembayaran").serialize(),
+                            beforeSend: function () {
+                                btn_pay.prop("disabled", true).html(
+                                    'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
+                                );
+                            },
+                            complete: function () {
+                                btn_pay.prop("disabled", false)
+                                    .html('CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>');
+                            },
+                            success: function (data) {
+                                snap.pay(data, {
+                                    language: '{{app()->getLocale()}}',
+                                    onSuccess: function (result) {
+                                        responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                                    },
+                                    onPending: function (result) {
+                                        responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                                    },
+                                    onError: function (result) {
+                                        swal('Oops..', result.status_message, 'error');
+                                    }
+                                });
+                            },
+                            error: function () {
+                                swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                            }
+                        });
+                    }.bind(this), 800);
+                }
             }
         });
 

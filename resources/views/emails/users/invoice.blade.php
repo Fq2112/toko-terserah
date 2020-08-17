@@ -558,18 +558,33 @@
                                                             <hr class="hr-divider">
                                                             <table>
                                                                 <tr>
-                                                                    <td width="50%">
-                                                                        <img alt="Logo"
-                                                                             src="{{asset('images/kurir/'.$data->kode_kurir.'.png')}}">
-                                                                    </td>
-                                                                    <td>
-                                                                        <small
-                                                                            style="line-height: 1.5em;font-size: 14px">
-                                                                            <b style="font-size: 16px">
-                                                                                {{$data->nama_kurir}}<br>
-                                                                                {{$data->layanan_kurir}}</b>
-                                                                        </small>
-                                                                    </td>
+                                                                    @if($data->isAmbil == false && $data->is_kurir_terserah == false)
+                                                                        <td width="50%">
+                                                                            <img alt="Logo"
+                                                                                 src="{{asset('images/kurir/'.$data->kode_kurir.'.png')}}">
+                                                                        </td>
+                                                                        <td>
+                                                                            <small
+                                                                                style="line-height: 1.5em;font-size: 14px">
+                                                                                <b style="font-size: 16px">
+                                                                                    {{$data->nama_kurir}}<br>
+                                                                                    {{$data->layanan_kurir}}</b>
+                                                                            </small>
+                                                                        </td>
+                                                                    @else
+                                                                        <td width="50%">
+                                                                            <img alt="Logo"
+                                                                                 src="{{asset('images/logotype.png')}}">
+                                                                        </td>
+                                                                        <td>
+                                                                            <small
+                                                                                style="line-height: 1.5em;font-size: 14px">
+                                                                                <b style="font-size: 16px">
+                                                                                    {{$data->isAmbil == true ? 'Ambil di '.env('APP_NAME') : 'Kurir '.env('APP_NAME')}}
+                                                                                </b>
+                                                                            </small>
+                                                                        </td>
+                                                                    @endif
                                                                 </tr>
                                                             </table>
                                                         </td>

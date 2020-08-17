@@ -260,7 +260,7 @@
                                                 $status = 'MENUNGGU PEMBAYARAN';
                                             } else {
                                                 $class = 'info';
-                                                $status = 'SEDANG DIKEMAS';
+                                                $status = $row->isAmbil == false ? 'SEDANG DIKEMAS' : 'SIAP DIAMBIL';
                                             }
                                         } else {
                                             $class = 'warning';
@@ -414,13 +414,15 @@
                                                    data-toggle="tooltip" title="Faktur Pesanan">
                                                     <i class="fa fa-download" style="margin-right: 0"></i>
                                                 </a>
-                                                <button class="btn btn-color4 btn-sm"
-                                                        data-toggle="tooltip" title="Lacak Pesanan"
-                                                        onclick="lacakPesanan('{{$row->uni_code}}','{{$row->resi}}',
-                                                            '{{$row->kode_kurir}}','{{$row->layanan_kurir}}')">
-                                                    <i class="fa fa-crosshairs" style="margin-right: 0"></i>
-                                                </button>
-                                                @if(is_null($row->tgl_diterima))
+                                                @if($row->isAmbil == false && $row->is_kurir_terserah == false)
+                                                    <button class="btn btn-color4 btn-sm"
+                                                            data-toggle="tooltip" title="Lacak Pesanan"
+                                                            onclick="lacakPesanan('{{$row->uni_code}}','{{$row->resi}}',
+                                                                '{{$row->kode_kurir}}','{{$row->layanan_kurir}}')">
+                                                        <i class="fa fa-crosshairs" style="margin-right: 0"></i>
+                                                    </button>
+                                                @endif
+                                                @if($row->isAmbil == false && is_null($row->tgl_diterima))
                                                     <button class="btn btn-color2 btn-sm"
                                                             data-toggle="tooltip" title="Paket Diterima"
                                                             onclick="paketDiterima('{{$row->uni_code}}','{{$row->tgl_pengiriman}}',

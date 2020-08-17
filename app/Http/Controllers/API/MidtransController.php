@@ -55,10 +55,15 @@ class MidtransController extends Controller
 
         $arr_items = [];
         foreach ($carts as $i => $cart) {
+            if ($cart->getProduk->isGrosir == true) {
+                $price = ceil($cart->getProduk->isDiskonGrosir == true ? $cart->getProduk->harga_diskon_grosir : $cart->getProduk->harga_grosir);
+            } else {
+                $price = ceil($cart->getProduk->is_diskon == true ? $cart->getProduk->harga_diskon : $cart->getProduk->harga);
+            }
+
             $arr_items[$i] = [
                 'id' => strtoupper($cart->getProduk->kode_barang),
-                'price' => ceil($cart->getProduk->is_diskon == true ?
-                    $cart->getProduk->harga_diskon : $cart->getProduk->harga),
+                'price' => $price,
                 'quantity' => $cart->qty,
                 'name' => Str::limit($cart->getProduk->nama, 50),
                 'category' => Str::limit($cart->getProduk->getSubkategori->nama, 50)
@@ -134,7 +139,7 @@ class MidtransController extends Controller
             'pengiriman_id' => $request->pengiriman_id,
             'penagihan_id' => $request->penagihan_id,
             'uni_code' => $code,
-            'ongkir' => $request->ongkir,
+            'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
             'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
             'berat_barang' => $request->weight,
             'total_harga' => $request->total,
@@ -145,6 +150,8 @@ class MidtransController extends Controller
             'kode_kurir' => $request->kode_kurir,
             'nama_kurir' => $request->nama_kurir,
             'layanan_kurir' => $request->layanan_kurir,
+            'isAmbil' => $request->opsi == 'ambil' ? true : false,
+            'is_kurir_terserah' => $request->opsi == 'terserah' ? true : false,
         ]);
 
         foreach ($carts as $cart) {
@@ -179,7 +186,7 @@ class MidtransController extends Controller
                         'pengiriman_id' => $request->pengiriman_id,
                         'penagihan_id' => $request->penagihan_id,
                         'uni_code' => $code,
-                        'ongkir' => $request->ongkir,
+                        'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
                         'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
                         'berat_barang' => $request->weight,
                         'total_harga' => $data_tr['gross_amount'],
@@ -191,6 +198,8 @@ class MidtransController extends Controller
                         'kode_kurir' => $request->kode_kurir,
                         'nama_kurir' => $request->nama_kurir,
                         'layanan_kurir' => $request->layanan_kurir,
+                        'isAmbil' => $request->opsi == 'ambil' ? true : false,
+                        'is_kurir_terserah' => $request->opsi == 'terserah' ? true : false,
                     ]);
 
                     foreach ($carts as $cart) {
