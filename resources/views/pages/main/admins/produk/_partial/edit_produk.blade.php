@@ -203,7 +203,7 @@
                                         <div class="col-6 has-feedback">
                                             <label for="title">Diskon Grosir<small>(opsional)</small></label>
                                             <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="diskonGrosir" max="99" min="1"
+                                                <input id="diskonGrosir" type="number" name="diskonGrosir" max="99" min="1"
                                                        class="form-control" value="{{$data->diskonGrosir}}"
                                                        placeholder="1xxxxxx">
                                                 <div class="input-group-prepend">
@@ -235,6 +235,17 @@
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">gram</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 has-feedback">
+                                            <label for="min_qty">Minimal Pembelian Kuantiti Grosir</label>
+                                            <div class="input-group mb-2">
+                                                <input id="min_qty" type="number" name="min_qty" max="99999" min="1"
+                                                       class="form-control"  value="{{$data->min_qty}}"
+                                                       placeholder="1xxxxxx" >
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">pcs</div>
                                                 </div>
                                             </div>
                                         </div>

@@ -138,7 +138,7 @@
                                                 <input id="discount" type="number" name="harga" max="9999999999999"
                                                        min="1"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" >
+                                                       placeholder="1xxxxxx">
 
                                             </div>
                                         </div>
@@ -148,7 +148,8 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">Rp</div>
                                                 </div>
-                                                <input id="discount" type="number" name="harga_grosir" max="9999999999999"
+                                                <input id="harga_grosir" type="number" name="harga_grosir"
+                                                       max="9999999999999"
                                                        min="1"
                                                        class="form-control"
                                                        placeholder="1xxxxxx">
@@ -172,8 +173,8 @@
                                         <div class="col-6 has-feedback">
                                             <label for="title">Diskon Grosir<small>(opsional)</small></label>
                                             <div class="input-group mb-2">
-                                                <input id="discount" type="number" name="diskonGrosir" max="99" min="1"
-                                                       class="form-control"
+                                                <input id="diskonGrosir" type="number" name="diskonGrosir" max="99" min="1"
+                                                       class="form-control" disabled
                                                        placeholder="1xxxxxx">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">%</div>
@@ -202,6 +203,17 @@
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">gram</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 has-feedback">
+                                            <label for="min_qty">Minimal Pembelian Kuantiti Grosir</label>
+                                            <div class="input-group mb-2">
+                                                <input id="min_qty" type="number" name="min_qty" max="99999" min="1"
+                                                       class="form-control" disabled
+                                                       placeholder="1xxxxxx" >
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">pcs</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -250,4 +262,17 @@
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('admins/modules/summernote/summernote-bs4.js')}}"></script>
+    <script>
+        $('#harga_grosir').on('change', function () {
+            if($(this).val() != ''){
+                $('#min_qty').prop("disabled", false);
+                $('#diskonGrosir').prop("disabled", false);
+
+                console.log($(this).val())
+            }else{
+                $('#min_qty').val(null).prop("disabled", true);
+                $('#diskonGrosir').val(null).prop("disabled", true);
+            }
+        });
+    </script>
 @endpush

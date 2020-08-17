@@ -104,6 +104,7 @@ class ProdukController extends Controller
             $produk->update([
                 'isDiskonGrosir' => true,
                 'diskonGrosir' => $request->diskonGrosir,
+                'min_qty' => $request->min_qty,
                 'harga_diskon_grosir' => $produk->harga_grosir - $diskonGrosir
             ]);
         }
@@ -137,7 +138,8 @@ class ProdukController extends Controller
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'is_diskon' => false,
             'harga_diskon' => 0,
-            'harga_grosir' => $request->harga_grosir
+            'harga_grosir' => $request->harga_grosir,
+            'min_qty' => $request->min_qty,
         ]);
 
         if ($request->has('gambar')) {
