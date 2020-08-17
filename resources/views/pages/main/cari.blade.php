@@ -39,6 +39,15 @@
         .irs-line, .irs-bar {
             cursor: pointer;
         }
+
+        .shop-item {
+            width: unset;
+            margin-bottom: 1.25em;
+        }
+
+        ul.list-unstyled li i {
+            color: #5bb300 !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -59,6 +68,38 @@
                                     </optgroup>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="widget">
+                            <h4>Jenis Produk</h4>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="radio" style="margin: -10px 0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="semua" name="jenis"
+                                                   value="semua" checked>
+                                            <label class="custom-control-label pl-3" for="semua">Semua</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="radio" style="margin: -10px 0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="grosir" name="jenis"
+                                                   value="grosir">
+                                            <label class="custom-control-label pl-3" for="grosir">Grosir</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="radio" style="margin: -10px 0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="retail" name="jenis"
+                                                   value="retail">
+                                            <label class="custom-control-label pl-3" for="retail">Retail</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="widget">
                             <h4>Harga Produk</h4>
@@ -100,9 +141,9 @@
     <script src="{{asset('vendor/masonry/masonry.pkgd.min.js')}}"></script>
     <script src="{{asset('vendor/ion-rangeslider/js/ion.rangeslider.min.js')}}"></script>
     <script>
-        var keyword = $("#keyword"), btn_reset = $("#btn_reset"),
-            sort = $("#sort"), kat = $("#sub"), harga = $("#harga"),
-            $sort = '', $kat = '{{$kat}}', $harga = '',
+        var keyword = $("#keyword"), btn_reset = $("#btn_reset"), last_page,
+            sort = $("#sort"), kat = $("#sub"), harga = $("#harga"), jenis = $("input[name=jenis]"),
+            $sort = '', $kat = '{{$kat}}', $harga = '', $jenis = '',
             range_max = parseInt('{{abs(round((\App\Models\Produk::getMahal() + 500), -3))}}');
 
         $(function () {
@@ -187,6 +228,11 @@
             loadData();
         });
 
+        jenis.on('change', function () {
+            $jenis = $(this).val();
+            loadData();
+        });
+
         sort.on('change', function () {
             loadData();
         });
@@ -197,7 +243,7 @@
                 $.ajax({
                     url: "{{route('get.cari-data.produk')}}",
                     type: "GET",
-                    data: {kat: $kat, q: keyword.val(), harga: $harga, sort: sort.val()},
+                    data: {kat: $kat, q: keyword.val(), harga: $harga, jenis: $jenis, sort: sort.val()},
                     beforeSend: function () {
                         $('.ajax-loader').show();
                         $('#search-result, .myPagination').hide();
@@ -207,6 +253,7 @@
                         $('#search-result, .myPagination').show();
                     },
                     success: function (data) {
+                        last_page = data.last_page;
                         successLoad(data);
                     },
                     error: function () {
@@ -253,7 +300,7 @@
                 $.ajax({
                     url: $url,
                     type: "GET",
-                    data: {kat: $kat, q: keyword.val(), harga: $harga, sort: sort.val()},
+                    data: {kat: $kat, q: keyword.val(), harga: $harga, jenis: $jenis, sort: sort.val()},
                     beforeSend: function () {
                         $('.ajax-loader').show();
                         $('#search-result, .myPagination').hide();
@@ -274,8 +321,8 @@
         });
 
         function successLoad(data, page) {
-            var $q = '', total = '', $result = '', $disc_elm = '', $price = '',
-                pagination = '', $page = '', $_kat = '', $_harga = '', $_sort = '';
+            var $q = '', total = '', $result = '', $disc_elm = '', $grosir_elm = '', $price = '',
+                pagination = '', $page = '', $_kat = '', $_harga = '', $_jenis = '', $_sort = '';
 
             $q = keyword.val() != "" ? ' untuk <b>"' + keyword.val() + '"</b>' : '';
             if (data.total > 1) {
@@ -288,20 +335,31 @@
 
             if (data.total > 0) {
                 $.each(data.data, function (i, val) {
-                    $disc_elm = val.is_diskon == 1 ? '<div class="n-content"><p>-' + val.diskon + '%</p></div>' : '';
-                    $price = val.is_diskon == 1 ? '<p class="price mb-0">Rp' + number_format(val.harga_diskon, 2, ",", ".") + '</p>' +
-                        '<s>Rp' + number_format(val.harga, 2, ",", ".") + '</s>' :
-                        '<p class="price mb-0">Rp' + number_format(val.harga, 2, ",", ".") + '</p>';
+                    $grosir_elm = val.isGrosir == 1 ?
+                        '<div class="sale" style="top: 10px;left: unset !important;right: 10px">' +
+                        '<p style="font-size: 11px">GROSIR</p></div>' : '';
+
+                    if (val.isGrosir == 1) {
+                        $disc_elm = val.isDiskonGrosir == 1 ? '<div class="new"><p>-' + val.diskonGrosir + '%</p></div>' : '';
+                        $price = val.isDiskonGrosir == 1 ?
+                            '<span>Rp' + number_format(val.harga_diskon_grosir, 2, ",", ".") + '</span><br>' +
+                            '<span class="old-price">Rp' + number_format(val.harga_grosir, 2, ",", ".") + '</span>' :
+                            '<span>Rp' + number_format(val.harga_grosir, 2, ",", ".") + '</span>';
+                    } else {
+                        $disc_elm = val.is_diskon == 1 ? '<div class="new"><p>-' + val.diskon + '%</p></div>' : '';
+                        $price = val.is_diskon == 1 ?
+                            '<span>Rp' + number_format(val.harga_diskon, 2, ",", ".") + '</span><br>' +
+                            '<span class="old-price">Rp' + number_format(val.harga, 2, ",", ".") + '</span>' :
+                            '<span>Rp' + number_format(val.harga, 2, ",", ".") + '</span>';
+                    }
 
                     $result +=
-                        '<div class="col-md-4 item">' +
-                        '<div class="item-product first hover effect-10">' +
-                        '<div class="product-thumb">' +
-                        '<div class="midd"><a href="' + val.route_detail + '">' +
-                        '<img src="' + val.dir_img + '" alt="' + val.nama + '"></a>' + $disc_elm + '</div></div>' +
-                        '<div class="info-product pt-0">' +
-                        '<h4><a href="' + val.route_detail + '">' + val.nama + '</a></h4>' +
-                        '<div class="rating">' + val.stars + '</div>' + $price + '</div>' +
+                        '<div class="col-md-4 item pr-0">' +
+                        '<div class="shop-item hover effect-10">' +
+                        '<a href="' + val.route_detail + '"><img src="' + val.dir_img + '" alt="Thumbnail"></a>' +
+                        '<div class="stars"><ul class="list-unstyled">' + val.stars + '</ul></div>' + $disc_elm + $grosir_elm +
+                        '<div class="info"><h4><a href="' + val.route_detail + '">' + val.nama + '</a></h4>' +
+                        '<div class="price">' + $price + '</div></div>' +
                         '<div class="cart-overlay">' +
                         '<a href="javascript:void(0)" class="info btn_cart" ' +
                         'onclick="cart(\'' + val.nama + '\',\'' + val.cek_cart + '\',\'' + val.add_cart + '\')">' +
@@ -381,10 +439,13 @@
             if ($harga != '') {
                 $_harga = '&harga=' + $harga;
             }
+            if ($jenis != '') {
+                $_jenis = '&jenis=' + $jenis;
+            }
             if (sort.val() != '') {
                 $_sort = '&sort=' + sort.val();
             }
-            window.history.replaceState("", "", '{{url('/cari')}}?q=' + keyword.val() + $_kat + $_harga + $_sort + $page);
+            window.history.replaceState("", "", '{{url('/cari')}}?q=' + keyword.val() + $_kat + $_harga + $_jenis + $_sort + $page);
 
             document.title = keyword.val() != '' ?
                 'Cari Produk "' + keyword.val() + '" dengan Harga Terbaik | {{env('APP_TITLE')}}' :
@@ -396,7 +457,7 @@
 
             // init
             grid.masonry({
-                itemSelector: '.item'
+                itemSelector: '.item',
             });
 
             // destroy
@@ -405,7 +466,7 @@
 
             // re-init
             grid.masonry({
-                itemSelector: '.item'
+                itemSelector: '.item',
             });
         }
 

@@ -81,8 +81,12 @@
                                     <div class="item-content">
                                         <h2><a href="javascript:void(0)">{{$row->getProduk->nama}}</a></h2>
                                         <span style="font-size:12px;font-weight: 500;text-transform: none">
-                                        Rp{{number_format($row->getProduk->is_diskon == true ? $row->getProduk->harga_diskon : $row->getProduk->harga,2,',','.')}}
-                                    </span>
+                                            @if($row->getProduk->isGrosir == true)
+                                                Rp{{number_format($row->getProduk->isDiskonGrosir == true ? $row->getProduk->harga_diskon_grosir : $row->getProduk->harga_grosir,2,',','.')}}
+                                            @else
+                                                Rp{{number_format($row->getProduk->is_diskon == true ? $row->getProduk->harga_diskon : $row->getProduk->harga,2,',','.')}}
+                                            @endif
+                                        </span>
                                     </div>
                                     <div class="cart-delete green">
                                         <span style="font-weight: 500;text-transform: none">x{{$row->qty}}</span>

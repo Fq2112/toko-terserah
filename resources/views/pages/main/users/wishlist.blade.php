@@ -99,6 +99,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Produk</th>
+                                <th class="text-center">Jenis</th>
                                 <th class="text-center">Diskon</th>
                                 <th class="text-center">Harga</th>
                                 <th class="text-center">Aksi</th>
@@ -128,19 +129,42 @@
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         <span
-                                            class="label label-{{$row->getProduk->is_diskon == true ? 'success' : 'default'}}">
-                                            {{$row->getProduk->is_diskon == true ? $row->getProduk->diskon : 0}}%</span>
+                                            class="label label-{{$row->getProduk->isGrosir == true ? 'primary' : 'info'}}">
+                                            {{$row->getProduk->isGrosir == true ? 'GROSIR' : 'RETAIL'}}</span>
                                     </td>
-                                    <td style="vertical-align: middle">
-                                        <p class="single-price mb-0"
-                                           style="color: {{$row->getProduk->is_diskon == true ? '#5bb300' : ''}};">
-                                            @if($row->getProduk->is_diskon == true)
-                                                Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
-                                                <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
+                                    <td style="vertical-align: middle" align="center">
+                                        @if($row->getProduk->isGrosir == true)
+                                            <span
+                                                class="label label-{{$row->getProduk->isDiskonGrosir == true ? 'primary' : 'default'}}">
+                                                {{$row->getProduk->isDiskonGrosir == true ? $row->getProduk->diskonGrosir : 0}}%</span>
+                                        @else
+                                            <span
+                                                class="label label-{{$row->getProduk->is_diskon == true ? 'info' : 'default'}}">
+                                                {{$row->getProduk->is_diskon == true ? $row->getProduk->diskon : 0}}%</span>
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle" align="center">
+                                        @if($row->getProduk->isGrosir == true)
+                                            @if($row->getProduk->isDiskonGrosir == true)
+                                                <p class="single-price mb-0" style="color: #5bb300">
+                                                    Rp{{number_format($row->getProduk->harga_diskon_grosir,2,',','.')}}
+                                                    <s>Rp{{number_format($row->getProduk->harga_grosir,2,',','.')}}</s>
+                                                </p>
                                             @else
-                                                Rp{{number_format($row->getProduk->harga,2,',','.')}}
+                                                <p class="single-price mb-0">
+                                                    Rp{{number_format($row->getProduk->harga_grosir,2,',','.')}}</p>
                                             @endif
-                                        </p>
+                                        @else
+                                            @if($row->getProduk->is_diskon == true)
+                                                <p class="single-price mb-0" style="color: #5bb300">
+                                                    Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
+                                                    <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
+                                                </p>
+                                            @else
+                                                <p class="single-price mb-0">
+                                                    Rp{{number_format($row->getProduk->harga,2,',','.')}}</p>
+                                            @endif
+                                        @endif
                                     </td>
                                     <td style="vertical-align: middle" align="center">
                                         <div class="input-group">
@@ -185,7 +209,7 @@
             $("#dt-produk table").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [{"sortable": false, "targets": 4}],
+                columnDefs: [{"sortable": false, "targets": 5}],
                 language: {
                     "emptyTable": "Anda belum menambahkan wishlist apapun",
                     "info": "Menampilkan _START_ - _END_ dari _TOTAL_ produk",

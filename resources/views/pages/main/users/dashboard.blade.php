@@ -354,13 +354,23 @@
                                                                         style="font-size: 14px;text-transform: none">
                                                                 <ul class="list-group list-group-flush">
                                                                     <li class="list-group-item border-none">
+                                                                        Jenis
+                                                                        <b class="float-right">{{$produk->isGrosir == true ? 'Grosir' : 'Retail'}}</b>
+                                                                    </li>
+                                                                    <li class="list-group-item border-none">
                                                                         Qty.
                                                                         <b class="float-right">{{$cart->qty}}
                                                                             pcs</b>
                                                                     </li>
                                                                     <li class="list-group-item border-none">
                                                                         Harga /pcs
-                                                                        <b class="float-right">Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}</b>
+                                                                        <b class="float-right">
+                                                                            @if($produk->isGrosir == true)
+                                                                                Rp{{number_format($produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir,2,',','.')}}
+                                                                            @else
+                                                                                Rp{{number_format($produk->is_diskon == true ? $produk->harga_diskon : $produk->harga,2,',','.')}}
+                                                                            @endif
+                                                                        </b>
                                                                     </li>
                                                                     <li class="list-group-item border-none">
                                                                         Berat

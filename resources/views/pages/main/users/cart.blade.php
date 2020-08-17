@@ -144,6 +144,10 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        <span
+                                            class="label label-{{$row->getProduk->isGrosir == true ? 'primary' : 'info'}}">
+                                            Jenis: <b>{{$row->getProduk->isGrosir == true ? 'Grosir' : 'Retail'}}</b></span>
+                                        |
                                         <span class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
                                             Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span> |
                                         <span class="label label-warning">
@@ -151,12 +155,22 @@
                                         </span><br>
                                         <a href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
                                         <p class="single-price mb-0">
-                                            @if($row->getProduk->is_diskon == true)
-                                                Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
-                                                <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
-                                                <span>-{{$row->getProduk->diskon}}%</span>
+                                            @if($row->getProduk->isGrosir == true)
+                                                @if($row->getProduk->isDiskonGrosir == true)
+                                                    Rp{{number_format($row->getProduk->harga_diskon_grosir,2,',','.')}}
+                                                    <s>Rp{{number_format($row->getProduk->harga_grosir,2,',','.')}}</s>
+                                                    <span>-{{$row->getProduk->diskonGrosir}}%</span>
+                                                @else
+                                                    Rp{{number_format($row->getProduk->harga_grosir,2,',','.')}}
+                                                @endif
                                             @else
-                                                Rp{{number_format($row->getProduk->harga,2,',','.')}}
+                                                @if($row->getProduk->is_diskon == true)
+                                                    Rp{{number_format($row->getProduk->harga_diskon,2,',','.')}}
+                                                    <s>Rp{{number_format($row->getProduk->harga,2,',','.')}}</s>
+                                                    <span>-{{$row->getProduk->diskon}}%</span>
+                                                @else
+                                                    Rp{{number_format($row->getProduk->harga,2,',','.')}}
+                                                @endif
                                             @endif
                                         </p>
                                     </td>

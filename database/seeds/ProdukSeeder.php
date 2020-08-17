@@ -37,9 +37,16 @@ class ProdukSeeder extends Seeder
                 'detail' => '<h2>Detail Produk: ' . $item . '</h2><ul><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li></ul>',
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
-                'harga' => abs(round((rand(1000, 100000) + 500), -3)),
-                'is_diskon' => $cek,
-                'diskon' => $cek == true ? rand(10, 50) : null
+                'isGrosir' => true,
+                'harga_grosir' => abs(round((rand(1000, 100000) + 500), -3)),
+                'isDiskonGrosir' => $cek,
+                'diskonGrosir' => $cek == true ? rand(10, 50) : null
+            ]);
+        }
+
+        foreach (\App\Models\Produk::where('isDiskonGrosir', true)->get() as $row) {
+            $row->update([
+                'harga_diskon_grosir' => ceil($row->harga_grosir - ($row->harga_grosir * $row->diskonGrosir / 100))
             ]);
         }
 
@@ -63,14 +70,6 @@ class ProdukSeeder extends Seeder
                 'harga' => abs(round((rand(1000, 100000) + 500), -3)),
                 'is_diskon' => $cek,
                 'diskon' => $cek == true ? rand(10, 50) : null
-            ]);
-        }
-
-        foreach (\App\Models\Produk::where('is_banner', false)->get() as $row) {
-            $cek = rand(0, 1) ? true : false;
-            $row->update([
-                'is_banner' => $cek,
-                'banner' => $cek == true ? 'placeholder.jpg' : null,
             ]);
         }
 

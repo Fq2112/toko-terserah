@@ -18,8 +18,6 @@ class CreateProduksTable extends Migration
             $table->string('barcode')->nullable()->unique();
             $table->text('gambar');
             $table->text('galeri')->nullable();
-            $table->boolean('is_banner')->default(false);
-            $table->text('banner')->nullable();
             $table->string('kode_barang');
             $table->string('nama');
             $table->text('permalink')->unique();

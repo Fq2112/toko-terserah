@@ -22,13 +22,14 @@ class MainController extends Controller
     public function beranda()
     {
         $kategori = Kategori::orderBy('nama')->get();
-        $banner = Banner::orderByDesc('id')->get();
+        $banner = Banner::orderBy('urutan')->get();
 
         $top5 = Produk::where('stock', '>', 0)->withCount(['getUlasan as average_rating' => function ($q) {
             $q->select(DB::raw('coalesce(avg(bintang),0)'));
         }])->orderByDesc('average_rating')->take(5)->get();
 
-        $cek = Produk::where('stock', '>', 0)->where('is_diskon', true)->inRandomOrder()->first();
+        $cek = Produk::where('stock', '>', 0)->where('is_diskon', true)
+            ->orWhere('isDiskonGrosir', true)->where('stock', '>', 0)->inRandomOrder()->first();
         $flash = !is_null($cek) ? $cek : Produk::where('stock', '>', 0)->inRandomOrder()->first();
 
         $terbaru = Produk::where('stock', '>', 0)->orderByDesc('id')->take(10)->get();
@@ -128,7 +129,11 @@ class MainController extends Controller
     public function addCart(Request $request)
     {
         $produk = Produk::where('permalink', $request->produk)->first();
-        $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+        if ($produk->isGrosir == true) {
+            $harga = $produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir;
+        } else {
+            $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+        }
         $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
         if ($cek) {
@@ -160,7 +165,11 @@ class MainController extends Controller
     public function updateCart(Request $request)
     {
         $cart = Keranjang::find(decrypt($request->id));
-        $harga = $cart->getProduk->is_diskon == true ? $cart->getProduk->harga_diskon : $cart->getProduk->harga;
+        if ($cart->getProduk->isGrosir == true) {
+            $harga = $cart->getProduk->isDiskonGrosir == true ? $cart->getProduk->harga_diskon_grosir : $cart->getProduk->harga_grosir;
+        } else {
+            $harga = $cart->getProduk->is_diskon == true ? $cart->getProduk->harga_diskon : $cart->getProduk->harga;
+        }
         $selish = $request->qty - $request->qty_lama;
 
         $cart->update([

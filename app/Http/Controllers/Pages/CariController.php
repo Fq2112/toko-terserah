@@ -28,6 +28,7 @@ class CariController extends Controller
         $sort = $request->sort;
         $keyword = $request->q;
         $harga = $request->harga;
+        $jenis = $request->jenis;
 
         $data = Produk::where('stock', '>', 0)->when($keyword, function ($q) use ($keyword) {
             $q->where('nama', 'LIKE', '%' . $keyword . '%');
@@ -38,6 +39,14 @@ class CariController extends Controller
             $q->whereHas('getSubkategori', function ($q) use ($kat) {
                 $q->whereIn('id', explode(',', $kat));
             });
+        })->when($jenis, function ($q) use ($jenis) {
+            if ($jenis == 'retail') {
+                $q->where('isGrosir', false);
+            } elseif ($jenis == 'grosir') {
+                $q->where('isGrosir', true);
+            } else {
+                $q->where('isGrosir', false)->orWhere('isGrosir', true);
+            }
         })->when($sort, function ($q) use ($sort) {
             if ($sort == 'popularitas') {
                 $q->withCount('getKeranjang')->orderByDesc('get_keranjang_count');
@@ -60,7 +69,7 @@ class CariController extends Controller
                 'dir_img' => asset('storage/produk/thumb/' . $row['gambar']),
                 'route_detail' => route('produk', ['produk' => $row['permalink']]),
                 'rating' => count($ulasan) > 0 ? $ulasan->sum('bintang') / count($ulasan) : 0,
-                'stars' => count($ulasan) > 0 ? Rating::stars($ulasan->avg('bintang')) : Rating::stars(0),
+                'stars' => count($ulasan) > 0 ? Rating::stars_ul($ulasan->avg('bintang')) : Rating::stars_ul(0),
                 'cek_cart' => route('produk.cek.cart', ['produk' => $row['permalink']]),
                 'add_cart' => route('produk.add.cart', ['produk' => $row['permalink']]),
                 'cek_wishlist' => route('produk.cek.wishlist', ['produk' => $row['permalink']]),

@@ -97,7 +97,11 @@ class UserController extends Controller
         $wishlist = Favorit::where('user_id', Auth::id())->get();
         foreach ($wishlist as $row) {
             $produk = $row->getProduk;
-            $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+            if ($produk->isGrosir == true) {
+                $harga = $produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir;
+            } else {
+                $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+            }
             $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
             if ($produk->stock > 0) {
@@ -225,7 +229,11 @@ class UserController extends Controller
 
         foreach ($carts as $cart) {
             $produk = $cart->getProduk;
-            $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+            if ($produk->isGrosir == true) {
+                $harga = $produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir;
+            } else {
+                $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+            }
             $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
             if ($produk->stock > 0) {

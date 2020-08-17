@@ -23,12 +23,6 @@
             cursor: no-drop;
         }
 
-        .btn_wishlist {
-            background: transparent !important;
-            color: #5bb300 !important;
-            border: 1px solid #5bb300;
-        }
-
         #tab-deskripsi ul {
             margin-left: 2rem;
         }
@@ -107,6 +101,14 @@
             padding: .5em 1em;
             border: 1px solid #e4e4e4;
         }
+
+        .shop-item {
+            width: unset;
+        }
+
+        ul.list-unstyled li i {
+            color: #5bb300 !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -120,6 +122,11 @@
                                 <div class="pro-details">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            @if($produk->isGrosir == true)
+                                                <div class="sale" style="top: 10px;left: unset !important;right: 35px">
+                                                    <p style="font-size: 11px">GROSIR</p>
+                                                </div>
+                                            @endif
                                             <div class="gallery">
                                                 <div class="previews">
                                                     <a class="selected"
@@ -152,12 +159,23 @@
                                                 </p>
                                                 <p>{{$produk->deskripsi}}</p>
                                                 <p class="single-price">
-                                                    @if($produk->is_diskon == true)
-                                                        Rp{{number_format($produk->harga_diskon,2,',','.')}}
-                                                        <s>Rp{{number_format($produk->harga,2,',','.')}}
-                                                            <span class="ml-2">-{{$produk->diskon}}%</span></s>
+                                                    @if($produk->isGrosir == true)
+                                                        @if($produk->isDiskonGrosir == true)
+                                                            Rp{{number_format($produk->harga_diskon_grosir,2,',','.')}}
+                                                            <s>Rp{{number_format($produk->harga_grosir,2,',','.')}}
+                                                                <span
+                                                                    class="ml-2">-{{$produk->diskonGrosir}}%</span></s>
+                                                        @else
+                                                            Rp{{number_format($produk->harga_grosir,2,',','.')}}
+                                                        @endif
                                                     @else
-                                                        Rp{{number_format($produk->harga,2,',','.')}}
+                                                        @if($produk->is_diskon == true)
+                                                            Rp{{number_format($produk->harga_diskon,2,',','.')}}
+                                                            <s>Rp{{number_format($produk->harga,2,',','.')}}
+                                                                <span class="ml-2">-{{$produk->diskon}}%</span></s>
+                                                        @else
+                                                            Rp{{number_format($produk->harga,2,',','.')}}
+                                                        @endif
                                                     @endif
                                                 </p>
                                                 <div class="product-cart">
@@ -175,7 +193,7 @@
                                                         <button type="button" class="btn btn-color2 btn_wishlist"
                                                                 data-cek="{{route('produk.cek.wishlist', ['produk' => $produk->permalink])}}"
                                                                 data-add="{{route('produk.add.wishlist', ['produk' => $produk->permalink])}}"
-                                                            {{!is_null($cek_wishlist) ? 'disabled' : ''}}>
+                                                                {{!is_null($cek_wishlist) ? 'disabled' : ''}} style="background: transparent !important;color: #5bb300 !important;border: 1px solid #5bb300;">
                                                             <i class="fa fa-heart mr-0" style="font-size: 14px"></i>
                                                         </button>
                                                     </form>
@@ -493,46 +511,84 @@
 
                                 <div class="pro-related">
                                     <h4>PRODUK TERKAIT</h4>
-                                    <div id="product-owl" class="pro-slider">
+                                    <div class="shop-owl">
                                         @foreach($related as $row)
                                             @php
                                                 $ulasan = $row->getUlasan;
-                                                $stars = \App\Support\Facades\Rating::stars($ulasan->avg('bintang'));
+                                                $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
                                             @endphp
-                                            <div class="item-product">
-                                                <div class="product-thumb">
-                                                    <div class="midd">
-                                                        <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                            <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}"
-                                                                 alt="">
-                                                        </a>
-                                                    </div>
+                                            <div class="shop-item hover effect-10">
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                    <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}"
+                                                         alt="Thumbnail"></a>
+                                                <div class="stars">
+                                                    <ul class="list-unstyled">
+                                                        {!! $stars !!}
+                                                    </ul>
                                                 </div>
-                                                @if($row->is_diskon == true)
-                                                    <div class="new">
-                                                        <p>-{{$row->diskon}}%</p>
+
+                                                @if($row->isGrosir == true)
+                                                    @if($row->isDiskonGrosir == true)
+                                                        <div class="new">
+                                                            <p>-{{$row->diskonGrosir}}%</p>
+                                                        </div>
+                                                    @endif
+                                                    <div class="sale"
+                                                         style="top: 10px;left: unset !important;right: 10px">
+                                                        <p style="font-size: 11px">GROSIR</p>
+                                                    </div>
+                                                    <div class="info">
+                                                        <h4>
+                                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                        </h4>
+                                                        <div class="price">
+                                                            @if($row->isDiskonGrosir == true)
+                                                                <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                                <br>
+                                                                <span
+                                                                    class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                            @else
+                                                                <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    @if($row->is_diskon == true)
+                                                        <div class="new">
+                                                            <p>-{{$row->diskon}}%</p>
+                                                        </div>
+                                                    @endif
+                                                    <div class="info">
+                                                        <h4>
+                                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                        </h4>
+                                                        <div class="price">
+                                                            @if($row->is_diskon == true)
+                                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span>
+                                                                <br>
+                                                                <span
+                                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                            @else
+                                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 @endif
-                                                <div class="info-product">
-                                                    <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                            {{$row->nama}}</a></h4>
-                                                    <div class="rating">{!! $stars !!}</div>
-                                                    @if($row->is_diskon == true)
-                                                        <p class="price mb-0">
-                                                            Rp{{number_format($row->harga_diskon,2,',','.')}}</p>
-                                                        <span class="old-price">
-                                                            Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                    @else
-                                                        <p class="price mb-0">
-                                                            Rp{{number_format($row->harga,2,',','.')}}</p>
-                                                    @endif
-                                                    <div class="add-cart mt-3">
-                                                        <a href="javascript:void(0)" class="related-btn btn_cart"
-                                                           data-name="{{$row->nama}}"
-                                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
-                                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
-                                                            Tambah ke Cart</a>
-                                                    </div>
+
+                                                <div class="cart-overlay">
+                                                    <a href="javascript:void(0)" class="info btn_cart"
+                                                       data-name="{{$row->nama}}"
+                                                       data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                                       data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                                        <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                                    <p class="icon-links">
+                                                        <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                            <span class="fa fa-search"></span></a>
+                                                        <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                           data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                                           data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                            <span class="fa fa-heart"></span></a>
+                                                    </p>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -554,28 +610,16 @@
                 startCollapsed: 'accordion'
             });
 
-            $("#img-preview").owlCarousel({
-                navigation: false,
-                slideSpeed: 600,
-                autoPlay: 7000,
-                singleItem: true,
-                pagination: true,
-                navigationText: [
-                    "<i class='fa fa-caret-left'></i>",
-                    "<i class='fa fa-caret-right'></i>"
-                ],
-            });
-
-            $("#product-owl").owlCarousel({
-                navigation: false,
-                navigationText: ["<i class='fa fa-caret-left'></i>", "<i class='fa fa-caret-right'></i>"],
+            $(".shop-owl").owlCarousel({
+                navigation: true,
+                navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
                 slideSpeed: 600,
                 autoPlay: 8000,
                 items: 4,
-                itemsDesktop: [1199, 2],
+                itemsDesktop: [1199, 3],
                 itemsDesktopSmall: [979, 2],
                 itemsTablet: [768, 2],
-                itemsMobile: [479, 1],
+                itemsMobile: [479, 2],
                 pagination: false
             });
         });

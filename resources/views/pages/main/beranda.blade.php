@@ -22,6 +22,10 @@
             position: absolute;
             opacity: .1;
         }
+
+        ul.list-unstyled li i {
+            color: #5bb300 !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -107,29 +111,48 @@
                                     $ulasan = $top->getUlasan;
                                     $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
                                 @endphp
-                                <div class="top-five-popular"
+                                <div class="top-five-popular" style="cursor: pointer"
                                      onclick="window.location.href='{{route('produk',['produk' => $top->permalink])}}'">
                                     <div class="top-item">
                                         <a href="{{route('produk', ['produk' => $top->permalink])}}">
                                             <img src="{{asset('storage/produk/thumb/'.$top->gambar)}}" alt="Thumbnail">
                                         </a>
-                                        @if($top->is_diskon == true)
-                                            <div class="new">
-                                                <p>-{{$top->diskon}}%</p>
+                                        @if($top->isGrosir == true)
+                                            @if($top->isDiskonGrosir == true)
+                                                <div class="new">
+                                                    <p>-{{$top->diskonGrosir}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="sale" style="top: 10px;left: unset !important;right: 30px">
+                                                <p style="font-size: 11px">GROSIR</p>
+                                            </div>
+                                            <div class="content-info">
+                                                <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
+                                                <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
+                                                @if($top->isDiskonGrosir == true)
+                                                    <span>Rp{{number_format($top->harga_diskon_grosir,2,',','.')}}</span>
+                                                    <s>Rp{{number_format($top->harga_grosir,2,',','.')}}</s>
+                                                @else
+                                                    <span>Rp{{number_format($top->harga_grosir,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        @else
+                                            @if($top->is_diskon == true)
+                                                <div class="new">
+                                                    <p>-{{$top->diskon}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="content-info">
+                                                <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
+                                                <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
+                                                @if($top->is_diskon == true)
+                                                    <span>Rp{{number_format($top->harga_diskon,2,',','.')}}</span>
+                                                    <s>Rp{{number_format($top->harga,2,',','.')}}</s>
+                                                @else
+                                                    <span>Rp{{number_format($top->harga,2,',','.')}}</span>
+                                                @endif
                                             </div>
                                         @endif
-                                        <div class="content-info">
-                                            <a href="{{route('produk', ['produk' => $top->permalink])}}">
-                                                <h4>{{$top->nama}}</h4>
-                                            </a>
-                                            <ul class="list-unstyled">{!! $stars !!}</ul>
-                                            @if($top->is_diskon == true)
-                                                <span>Rp{{number_format($top->harga_diskon,2,',','.')}}</span>
-                                                <s>Rp{{number_format($top->harga,2,',','.')}}</s>
-                                            @else
-                                                <span>Rp{{number_format($top->harga,2,',','.')}}</span>
-                                            @endif
-                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -145,6 +168,11 @@
                             <div class="col-md-7">
                                 <div class="row">
                                     <div class="left-block">
+                                        @if($flash->isGrosir == true)
+                                            <div class="sale" style="top: 30px;left: unset !important;right: 35px">
+                                                <p style="font-size: 11px">GROSIR</p>
+                                            </div>
+                                        @endif
                                         <div class="gallery">
                                             <div class="previews">
                                                 <a class="selected"
@@ -175,10 +203,27 @@
                                                     {{$flash->nama}}</a></h2>
                                             <p>{{$flash->deskripsi}}</p>
                                             <div class="price">
-                                                <span>Rp{{number_format(ceil($flash->harga - ($flash->harga * $flash->diskon / 100)), 2, ',', '.')}}</span>
-                                                <span class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}
-                                                    <span class="ml-2"
-                                                          style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$produk->diskon}}%</span></span>
+                                                @if($flash->isGrosir == true)
+                                                    @if($flash->isDiskonGrosir == true)
+                                                        <span>Rp{{number_format($flash->harga_diskon_grosir, 2, ',', '.')}}</span>
+                                                        <span class="old-price">Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}
+                                                            <span class="ml-2"
+                                                                  style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$flash->diskonGrosir}}%</span>
+                                                        </span>
+                                                    @else
+                                                        <span>Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}</span>
+                                                    @endif
+                                                @else
+                                                    @if($flash->is_diskon == true)
+                                                        <span>Rp{{number_format($flash->harga_diskon, 2, ',', '.')}}</span>
+                                                        <span class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}
+                                                            <span class="ml-2"
+                                                                  style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$flash->diskon}}%</span>
+                                                        </span>
+                                                    @else
+                                                        <span>Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
+                                                    @endif
+                                                @endif
                                             </div>
                                             <div class="button-info">
                                                 <a href="javascript:void(0)" class="info btn_cart"
@@ -230,29 +275,58 @@
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
                                         <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    @if($row->is_diskon == true)
-                                        <div class="new">
-                                            <p>-{{$row->diskon}}%</p>
-                                        </div>
-                                    @endif
                                     <div class="stars">
                                         <ul class="list-unstyled">
                                             {!! $stars !!}
                                         </ul>
                                     </div>
-                                    <div class="info">
-                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                {{$row->nama}}</a></h4>
-                                        <div class="price">
-                                            @if($row->is_diskon == true)
-                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                <span
-                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @else
-                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @endif
+
+                                    @if($row->isGrosir == true)
+                                        @if($row->isDiskonGrosir == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskonGrosir}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                            <p style="font-size: 11px">GROSIR</p>
                                         </div>
-                                    </div>
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->isDiskonGrosir == true)
+                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                    <br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @else
+                                        @if($row->is_diskon == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskon}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->is_diskon == true)
+                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
@@ -283,29 +357,58 @@
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
                                         <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    @if($row->is_diskon == true)
-                                        <div class="new">
-                                            <p>-{{$row->diskon}}%</p>
-                                        </div>
-                                    @endif
                                     <div class="stars">
                                         <ul class="list-unstyled">
                                             {!! $stars !!}
                                         </ul>
                                     </div>
-                                    <div class="info">
-                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                {{$row->nama}}</a></h4>
-                                        <div class="price">
-                                            @if($row->is_diskon == true)
-                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                <span
-                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @else
-                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @endif
+
+                                    @if($row->isGrosir == true)
+                                        @if($row->isDiskonGrosir == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskonGrosir}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                            <p style="font-size: 11px">GROSIR</p>
                                         </div>
-                                    </div>
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->isDiskonGrosir == true)
+                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                    <br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @else
+                                        @if($row->is_diskon == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskon}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->is_diskon == true)
+                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
@@ -336,29 +439,58 @@
                                 <div class="shop-item hover effect-10">
                                     <a href="{{route('produk', ['produk' => $row->permalink])}}">
                                         <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    @if($row->is_diskon == true)
-                                        <div class="new">
-                                            <p>-{{$row->diskon}}%</p>
-                                        </div>
-                                    @endif
                                     <div class="stars">
                                         <ul class="list-unstyled">
                                             {!! $stars !!}
                                         </ul>
                                     </div>
-                                    <div class="info">
-                                        <h4><a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                {{$row->nama}}</a></h4>
-                                        <div class="price">
-                                            @if($row->is_diskon == true)
-                                                <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                <span
-                                                    class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @else
-                                                <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                            @endif
+
+                                    @if($row->isGrosir == true)
+                                        @if($row->isDiskonGrosir == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskonGrosir}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                            <p style="font-size: 11px">GROSIR</p>
                                         </div>
-                                    </div>
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->isDiskonGrosir == true)
+                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                    <br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @else
+                                        @if($row->is_diskon == true)
+                                            <div class="new">
+                                                <p>-{{$row->diskon}}%</p>
+                                            </div>
+                                        @endif
+                                        <div class="info">
+                                            <h4>
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                            </h4>
+                                            <div class="price">
+                                                @if($row->is_diskon == true)
+                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
+                                                    <span
+                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @else
+                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
