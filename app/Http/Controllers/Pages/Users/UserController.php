@@ -119,7 +119,7 @@ class UserController extends Controller
                         'produk_id' => $produk->id,
                         'qty' => $min_qty,
                         'berat' => $produk->berat,
-                        'total' => $harga,
+                        'total' => $min_qty * $harga,
                     ]);
                 }
 
@@ -253,7 +253,7 @@ class UserController extends Controller
                         'produk_id' => $produk->id,
                         'qty' => $min_qty,
                         'berat' => $produk->berat,
-                        'total' => $harga,
+                        'total' => $min_qty * $harga,
                     ]);
                 }
 

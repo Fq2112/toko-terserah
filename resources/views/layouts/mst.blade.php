@@ -268,6 +268,7 @@
         <form id="form-cart" method="post">
             @csrf
             <input type="hidden" name="_method">
+            <input type="hidden" name="cek">
             <input type="hidden" name="qty">
             <input type="hidden" name="qty_lama">
         </form>

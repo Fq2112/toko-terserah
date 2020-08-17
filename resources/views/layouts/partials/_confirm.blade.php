@@ -75,6 +75,7 @@
                 }).then(val => {
                     if (!val) throw null;
                     $("#form-cart input[name=_method]").val('PUT');
+                    $("#form-cart input[name=cek]").val('checkout');
                     $("#form-cart input[name=qty_lama]").val(qty);
                     $("#form-cart input[name=qty]").val($("#qty-cart").val());
                     $("#form-cart").attr('action', edit_uri).submit();
