@@ -75,7 +75,7 @@
                                          '{{$row->getProduk->stock}}','{{$row->qty}}',
                                          '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
                                          '{{route('produk.update.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
-                                         '{{route('produk.delete.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
+                                         '{{route('produk.delete.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id), 'cek' => 'checkout'])}}')">
                                     <div class="image-info">
                                         <img class="img-thumbnail"
                                              src="{{asset('storage/produk/thumb/'.$row->getProduk->gambar)}}" alt="">

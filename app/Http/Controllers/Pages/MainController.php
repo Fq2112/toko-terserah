@@ -181,7 +181,11 @@ class MainController extends Controller
 
         $cart->getProduk->update(['stock' => $cart->getProduk->stock - $selish]);
 
-        return back()->with('update', 'Kuantitas produk [' . $cart->getProduk->nama . '] dari cart Anda berhasil diperbarui!');
+        if ($request->has('cek') && $request->cek == 'checkout') {
+            return redirect()->route('user.cart')->with('update', 'Kuantitas produk [' . $cart->getProduk->nama . '] dari cart Anda berhasil diperbarui!');
+        } else {
+            return back()->with('update', 'Kuantitas produk [' . $cart->getProduk->nama . '] dari cart Anda berhasil diperbarui!');
+        }
     }
 
     public function deleteCart(Request $request)
@@ -190,7 +194,11 @@ class MainController extends Controller
         $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
         $cart->delete();
 
-        return back()->with('delete', 'Produk [' . $cart->getProduk->nama . '] berhasil dihapuskan dari cart Anda!');
+        if ($request->has('cek') && $request->cek == 'checkout') {
+            return redirect()->route('user.cart')->with('delete', 'Produk [' . $cart->getProduk->nama . '] berhasil dihapuskan dari cart Anda!');
+        } else {
+            return back()->with('delete', 'Produk [' . $cart->getProduk->nama . '] berhasil dihapuskan dari cart Anda!');
+        }
     }
 
     public function submitUlasan(Request $request)
