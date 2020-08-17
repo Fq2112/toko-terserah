@@ -70,7 +70,9 @@
                         <div class="px-4">
                             @foreach($carts as $row)
                                 <div class="item-box green carts"
-                                     onclick="actionOrder('{{$row->getProduk->nama}}','{{$row->getProduk->stock}}','{{$row->qty}}',
+                                     onclick="actionOrder('{{$row->getProduk->nama}}',
+                                         '{{$row->getProduk->isGrosir == true ? $row->getProduk->min_qty : 1}}',
+                                         '{{$row->getProduk->stock}}','{{$row->qty}}',
                                          '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
                                          '{{route('produk.update.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
                                          '{{route('produk.delete.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">

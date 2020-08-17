@@ -25,6 +25,7 @@ class ProdukSeeder extends Seeder
         $faker = Factory::create('id_ID');
         foreach (static::ProdukArray as $item) {
             $cek = rand(0, 1) ? true : false;
+            $stock = abs(round((rand(100, 1000) + 50), -2));
             \App\Models\Produk::create([
                 'nama' => $item,
                 'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($item)),
@@ -32,12 +33,13 @@ class ProdukSeeder extends Seeder
                 'galeri' => $cek == true ? ['placeholder.jpg', 'placeholder.jpg'] : null,
                 'kode_barang' => 'HT' . $faker->numerify('###'),
                 'berat' => rand(50, 150),
-                'stock' => rand(0, 10),
+                'stock' => $stock,
                 'deskripsi' => $faker->paragraph,
                 'detail' => '<h2>Detail Produk: ' . $item . '</h2><ul><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li><li>' . $faker->sentence . '</li></ul>',
                 'barcode' => $faker->numerify('#######'),
                 'sub_kategori_id' => rand(\App\Models\SubKategori::min('id'), \App\Models\SubKategori::max('id')),
                 'isGrosir' => true,
+                'min_qty' => $stock * 0.1,
                 'harga_grosir' => abs(round((rand(1000, 100000) + 500), -3)),
                 'isDiskonGrosir' => $cek,
                 'diskonGrosir' => $cek == true ? rand(10, 50) : null

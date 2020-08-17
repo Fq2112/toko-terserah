@@ -189,7 +189,9 @@
                                                 </button>
                                                 <button class="btn btn-color4 btn-sm"
                                                         data-toggle="tooltip" title="Sunting Cart"
-                                                        onclick="editCart('{{$row->getProduk->nama}}','{{$row->getProduk->stock}}','{{$row->qty}}',
+                                                        onclick="editCart('{{$row->getProduk->nama}}',
+                                                            '{{$row->getProduk->isGrosir == true ? $row->getProduk->min_qty : 1}}',
+                                                            '{{$row->getProduk->stock}}','{{$row->qty}}',
                                                             '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}',
                                                             '{{route('produk.update.cart', ['produk' => $row->getProduk->permalink, 'id' => encrypt($row->id)])}}')">
                                                     <i class="fa fa-edit" style="margin-right: 0"></i>
@@ -443,12 +445,12 @@
             });
         }
 
-        function editCart(name, stock, qty, cek_uri, edit_uri) {
+        function editCart(name, min_qty, stock, qty, cek_uri, edit_uri) {
             let input = document.createElement("input");
             input.id = 'qty-cart';
             input.value = qty;
             input.type = 'number';
-            input.min = '1';
+            input.min = min_qty;
             input.max = parseInt(stock) + parseInt(qty);
             input.className = 'swal-content__input';
 
@@ -476,13 +478,20 @@
             $("#qty-cart").on('keyup', function () {
                 var el = $(this);
                 if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                    el.val(1);
+                    el.val(qty);
                 }
 
                 $.get(cek_uri, function (data) {
-                    el.attr('max', parseInt(data.stock) + parseInt(qty));
+                    el.attr('max', parseInt(data.stock) + parseInt(qty)).attr('min', data.min_qty);
+                    el.parent().find('p').remove();
+
                     if (parseInt(el.val()) > parseInt(data.stock) + parseInt(qty)) {
+                        el.parent().append("<p class='text-success'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                         el.val(parseInt(data.stock) + parseInt(qty));
+                    }
+                    if(parseInt(el.val()) < data.min_qty) {
+                        el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
+                        el.val(data.min_qty);
                     }
                 });
             });

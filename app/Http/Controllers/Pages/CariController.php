@@ -34,7 +34,7 @@ class CariController extends Controller
             $q->where('nama', 'LIKE', '%' . $keyword . '%');
         })->when($harga, function ($q) use ($harga) {
             list($to, $from) = explode('-', strrev($harga), 2);
-            $q->whereBetween(DB::raw("IF(is_diskon=0, harga, harga_diskon)"), [strrev($from), strrev($to)]);
+            $q->whereBetween(DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"), [strrev($from), strrev($to)]);
         })->when($kat, function ($q) use ($kat) {
             $q->whereHas('getSubkategori', function ($q) use ($kat) {
                 $q->whereIn('id', explode(',', $kat));
@@ -55,9 +55,9 @@ class CariController extends Controller
                     $q->select(DB::raw('coalesce(avg(bintang),0)'));
                 }])->orderByDesc('average_rating');
             } elseif ($sort == 'harga-asc') {
-                $q->orderBy(DB::raw("IF(is_diskon=0, harga, harga_diskon)"));
+                $q->orderBy(DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"));
             } elseif ($sort == 'harga-desc') {
-                $q->orderByDesc(DB::raw("IF(is_diskon=0, harga, harga_diskon)"));
+                $q->orderByDesc(DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"));
             } else {
                 $q->orderBy('nama');
             }

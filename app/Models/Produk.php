@@ -11,11 +11,7 @@ class Produk extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'galeri' => 'array',
-        'harga' => 'integer',
-        'harga_diskon' => 'integer'
-    ];
+    protected $casts = ['galeri' => 'array'];
 
     public function getSubkategori()
     {

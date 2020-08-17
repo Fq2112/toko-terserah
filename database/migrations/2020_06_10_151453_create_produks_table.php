@@ -30,6 +30,7 @@ class CreateProduksTable extends Migration
             $table->string('diskon')->nullable();
             $table->string('harga_diskon')->nullable();
             $table->boolean('isGrosir')->default(false);
+            $table->string('min_qty')->nullable();
             $table->string('harga_grosir')->nullable();
             $table->boolean('isDiskonGrosir')->default(false);
             $table->string('diskonGrosir')->nullable();

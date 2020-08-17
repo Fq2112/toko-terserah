@@ -36,7 +36,7 @@
         return false;
     });
 
-    function actionOrder(name, stock, qty, cek_uri, edit_uri, delete_uri) {
+    function actionOrder(name, min_qty, stock, qty, cek_uri, edit_uri, delete_uri) {
         swal({
             title: 'Cart',
             text: 'Apakah Anda ingin mengubah kuantitas produk [' + name + '] ini atau menghapusnya dari cart Anda?',
@@ -61,7 +61,7 @@
                 input.id = 'qty-cart';
                 input.value = qty;
                 input.type = 'number';
-                input.min = '1';
+                input.min = min_qty;
                 input.max = parseInt(stock) + parseInt(qty);
                 input.className = 'swal-content__input';
 
@@ -89,13 +89,20 @@
                 $("#qty-cart").on('keyup', function () {
                     var el = $(this);
                     if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                        el.val(1);
+                        el.val(qty);
                     }
 
                     $.get(cek_uri, function (data) {
-                        el.attr('max', parseInt(data.stock) + parseInt(qty));
+                        el.attr('max', parseInt(data.stock) + parseInt(qty)).attr('min', data.min_qty);
+                        el.parent().find('p').remove();
+
                         if (parseInt(el.val()) > parseInt(data.stock) + parseInt(qty)) {
+                            el.parent().append("<p class='text-success'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                             el.val(parseInt(data.stock) + parseInt(qty));
+                        }
+                        if(parseInt(el.val()) < data.min_qty) {
+                            el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
+                            el.val(data.min_qty);
                         }
                     });
                 });

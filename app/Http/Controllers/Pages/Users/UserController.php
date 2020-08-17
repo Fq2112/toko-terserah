@@ -99,29 +99,31 @@ class UserController extends Controller
             $produk = $row->getProduk;
             if ($produk->isGrosir == true) {
                 $harga = $produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir;
+                $min_qty = $produk->min_qty;
             } else {
                 $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+                $min_qty = 1;
             }
             $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
             if ($produk->stock > 0) {
                 if ($cek) {
                     $cek->update([
-                        'qty' => $cek->qty + 1,
-                        'berat' => ($cek->qty + 1) * $produk->berat,
-                        'total' => ($cek->qty + 1) * $harga,
+                        'qty' => $cek->qty + $min_qty,
+                        'berat' => ($cek->qty + $min_qty) * $produk->berat,
+                        'total' => ($cek->qty + $min_qty) * $harga,
                     ]);
                 } else {
                     Keranjang::create([
                         'user_id' => Auth::id(),
                         'produk_id' => $produk->id,
-                        'qty' => 1,
+                        'qty' => $min_qty,
                         'berat' => $produk->berat,
                         'total' => $harga,
                     ]);
                 }
 
-                $produk->update(['stock' => $produk->stock - 1]);
+                $produk->update(['stock' => $produk->stock - $min_qty]);
             }
         }
 
@@ -231,29 +233,31 @@ class UserController extends Controller
             $produk = $cart->getProduk;
             if ($produk->isGrosir == true) {
                 $harga = $produk->isDiskonGrosir == true ? $produk->harga_diskon_grosir : $produk->harga_grosir;
+                $min_qty = $produk->min_qty;
             } else {
                 $harga = $produk->is_diskon == true ? $produk->harga_diskon : $produk->harga;
+                $min_qty = 1;
             }
             $cek = Keranjang::where('user_id', Auth::id())->where('produk_id', $produk->id)->where('isCheckOut', false)->first();
 
             if ($produk->stock > 0) {
                 if ($cek) {
                     $cek->update([
-                        'qty' => $cek->qty + 1,
-                        'berat' => ($cek->qty + 1) * $produk->berat,
-                        'total' => ($cek->qty + 1) * $harga,
+                        'qty' => $cek->qty + $min_qty,
+                        'berat' => ($cek->qty + $min_qty) * $produk->berat,
+                        'total' => ($cek->qty + $min_qty) * $harga,
                     ]);
                 } else {
                     Keranjang::create([
                         'user_id' => Auth::id(),
                         'produk_id' => $produk->id,
-                        'qty' => 1,
+                        'qty' => $min_qty,
                         'berat' => $produk->berat,
                         'total' => $harga,
                     ]);
                 }
 
-                $produk->update(['stock' => $produk->stock - 1]);
+                $produk->update(['stock' => $produk->stock - $min_qty]);
             }
         }
 

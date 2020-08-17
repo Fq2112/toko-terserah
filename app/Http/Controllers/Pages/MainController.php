@@ -115,6 +115,7 @@ class MainController extends Controller
             return response()->json([
                 'status' => true,
                 'stock' => $produk->stock,
+                'min_qty' => $produk->isGrosir == true ? $produk->min_qty : 1,
                 'message' => 'Produk [' . $produk->nama . '] tersedia.'
             ], 200);
         } else {

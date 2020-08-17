@@ -321,7 +321,7 @@
         });
 
         function successLoad(data, page) {
-            var $q = '', total = '', $result = '', $disc_elm = '', $grosir_elm = '', $price = '',
+            var $q = '', total = '', $result = '', $disc_elm = '', $grosir_elm = '', $min_qty = 1, $price = '',
                 pagination = '', $page = '', $_kat = '', $_harga = '', $_jenis = '', $_sort = '';
 
             $q = keyword.val() != "" ? ' untuk <b>"' + keyword.val() + '"</b>' : '';
@@ -340,6 +340,7 @@
                         '<p style="font-size: 11px">GROSIR</p></div>' : '';
 
                     if (val.isGrosir == 1) {
+                        $min_qty = val.min_qty;
                         $disc_elm = val.isDiskonGrosir == 1 ? '<div class="new"><p>-' + val.diskonGrosir + '%</p></div>' : '';
                         $price = val.isDiskonGrosir == 1 ?
                             '<span>Rp' + number_format(val.harga_diskon_grosir, 2, ",", ".") + '</span><br>' +
@@ -362,7 +363,7 @@
                         '<div class="price">' + $price + '</div></div>' +
                         '<div class="cart-overlay">' +
                         '<a href="javascript:void(0)" class="info btn_cart" ' +
-                        'onclick="cart(\'' + val.nama + '\',\'' + val.cek_cart + '\',\'' + val.add_cart + '\')">' +
+                        'onclick="cart(\'' + val.nama + '\',\'' + $min_qty + '\',\'' + val.cek_cart + '\',\'' + val.add_cart + '\')">' +
                         '<i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>' +
                         '<p class="icon-links">' +
                         '<a href="' + val.route_detail + '"><span class="fa fa-search"></span></a>' +
@@ -504,7 +505,7 @@
             @endauth
         }
 
-        function cart(name, cek_uri, add_uri) {
+        function cart(name, min_qty, cek_uri, add_uri) {
             @auth
             swal({
                 title: "Tambah ke Cart",
@@ -518,9 +519,9 @@
                 if (confirm) {
                     let input = document.createElement("input");
                     input.id = 'qty-cart';
-                    input.value = '1';
+                    input.value = min_qty;
                     input.type = 'number';
-                    input.min = '1';
+                    input.min = min_qty;
                     input.className = 'swal-content__input';
 
                     swal({
@@ -540,12 +541,12 @@
                     $("#qty-cart").on('keyup', function () {
                         var el = $(this);
                         if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                            el.val(1);
+                            el.val(min_qty);
                         }
 
                         $.get(cek_uri, function (data) {
                             if (data.status == true) {
-                                el.attr('max', data.stock);
+                                el.attr('max', data.stock).attr('min', data.min_qty);
                                 el.parent().find('p').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
@@ -555,6 +556,11 @@
                                         el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                                     }
                                     el.val(data.stock);
+                                }
+
+                                if(parseInt(el.val()) < data.min_qty) {
+                                    el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
+                                    el.val(data.min_qty);
                                 }
 
                             } else {

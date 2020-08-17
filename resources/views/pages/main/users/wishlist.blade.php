@@ -173,6 +173,7 @@
                                                         data-toggle="tooltip" title="Tambah ke Cart"
                                                         {{$row->getProduk->stock > 0 ? '' : 'disabled'}}
                                                         onclick="tambahCart('{{$row->getProduk->nama}}',
+                                                            '{{$row->getProduk->isGrosir == true ? $row->getProduk->min_qty : 1}}',
                                                             '{{route('produk.cek.cart', ['produk' => $row->getProduk->permalink])}}',
                                                             '{{route('produk.add.cart', ['produk' => $row->getProduk->permalink])}}')">
                                                     <i class="fa fa-shopping-cart" style="margin-right: 0"></i>
@@ -320,7 +321,7 @@
             }.bind(this), 800);
         }
 
-        function tambahCart(nama, cek_uri, add_uri) {
+        function tambahCart(nama, min_qty, cek_uri, add_uri) {
             swal({
                 title: "Tambah ke Cart",
                 text: "Apakah Anda yakin untuk menambahkan produk \"" + nama + "\" ke dalam cart Anda?",
@@ -333,9 +334,9 @@
                 if (confirm) {
                     let input = document.createElement("input");
                     input.id = 'qty-cart';
-                    input.value = '1';
+                    input.value = min_qty;
                     input.type = 'number';
-                    input.min = '1';
+                    input.min = min_qty;
                     input.className = 'swal-content__input';
 
                     swal({
@@ -355,12 +356,12 @@
                     $("#qty-cart").on('keyup', function () {
                         var el = $(this);
                         if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                            el.val(1);
+                            el.val(min_qty);
                         }
 
                         $.get(cek_uri, function (data) {
                             if (data.status == true) {
-                                el.attr('max', data.stock);
+                                el.attr('max', data.stock).attr('min', data.min_qty);
                                 el.parent().find('p').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
@@ -370,6 +371,11 @@
                                         el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                                     }
                                     el.val(data.stock);
+                                }
+
+                                if(parseInt(el.val()) < data.min_qty) {
+                                    el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
+                                    el.val(data.min_qty);
                                 }
 
                             } else {

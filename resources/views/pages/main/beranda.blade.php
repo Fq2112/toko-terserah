@@ -26,6 +26,10 @@
         ul.list-unstyled li i {
             color: #5bb300 !important;
         }
+
+        .top-five-popular .top-item:hover .content-info i {
+            color: #fff !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -229,6 +233,7 @@
                                                 <a href="javascript:void(0)" class="info btn_cart"
                                                    data-cek="{{route('produk.cek.cart', ['produk' => $flash->permalink])}}"
                                                    data-name="{{$flash->nama}}"
+                                                   data-min_qty="{{$flash->isGrosir == true ? $flash->min_qty : 1}}"
                                                    data-add="{{route('produk.add.cart', ['produk' => $flash->permalink])}}">
                                                     <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
                                                 <a href="javascript:void(0)" class="info-2 btn_wishlist"
@@ -329,6 +334,7 @@
 
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
@@ -411,6 +417,7 @@
 
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
@@ -493,6 +500,7 @@
 
                                     <div class="cart-overlay">
                                         <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
+                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
                                            data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
                                            data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
                                             <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
@@ -594,7 +602,8 @@
         });
 
         $(".btn_cart").on("click", function () {
-            var name = $(this).data('name'), cek_uri = $(this).data('cek'), add_uri = $(this).data('add');
+            var name = $(this).data('name'), min_qty = $(this).data('min_qty'),
+                cek_uri = $(this).data('cek'), add_uri = $(this).data('add');
 
             @auth
             swal({
@@ -609,9 +618,9 @@
                 if (confirm) {
                     let input = document.createElement("input");
                     input.id = 'qty-cart';
-                    input.value = '1';
+                    input.value = min_qty;
                     input.type = 'number';
-                    input.min = '1';
+                    input.min = min_qty;
                     input.className = 'swal-content__input';
 
                     swal({
@@ -631,12 +640,12 @@
                     $("#qty-cart").on('keyup', function () {
                         var el = $(this);
                         if (!el.val() || el.val() == "" || parseInt(el.val()) <= 0) {
-                            el.val(1);
+                            el.val(min_qty);
                         }
 
                         $.get(cek_uri, function (data) {
                             if (data.status == true) {
-                                el.attr('max', data.stock);
+                                el.attr('max', data.stock).attr('min', data.min_qty);
                                 el.parent().find('p').remove();
 
                                 if (parseInt(el.val()) > data.stock) {
@@ -646,6 +655,11 @@
                                         el.parent().append("<p class='text-danger'>Tersedia: <b>" + data.stock + "</b> pcs</p>");
                                     }
                                     el.val(data.stock);
+                                }
+
+                                if(parseInt(el.val()) < data.min_qty) {
+                                    el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
+                                    el.val(data.min_qty);
                                 }
 
                             } else {
