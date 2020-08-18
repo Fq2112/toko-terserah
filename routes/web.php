@@ -325,6 +325,11 @@ Route::group(['namespace' => 'Pages'], function () {
                 'as' => 'user.pengaturan'
             ]);
 
+            Route::get('membership', [
+                'uses' => 'AkunController@pengaturanMembership',
+                'as' => 'user.pengaturan.membership'
+            ]);
+
             Route::put('update', [
                 'uses' => 'AkunController@updatePengaturan',
                 'as' => 'user.update.pengaturan'
