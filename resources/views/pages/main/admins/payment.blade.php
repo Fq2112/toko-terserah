@@ -281,8 +281,7 @@
                                                                    onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
                                                                 @if($item->isAmbil)
                                                                 @else
-                                                                    <a class="dropdown-item" href="javascript:void(0)"
-                                                                       onclick="get_label('{{ucfirst($item->uni_code)}}')">Label
+                                                                    <a class="dropdown-item" href="{{route('order.label.download',['code'=>$item->uni_code])}}">Label
                                                                         Pengiriman</a>
                                                                 @endif
                                                             </div>
@@ -550,7 +549,7 @@
         @endif
 
 
-
+        /*
         function get_label(code) {
             console.log(code);
             $.ajax({
@@ -565,7 +564,7 @@
                         function () {
                             $.ajax({ //Download File from above
                                 type: 'post',
-                                url: '{{route('order.label.download')}}',
+                                url: '',
                                 data: {
                                     _token: '{{csrf_token()}}',
                                     code: code
@@ -592,7 +591,7 @@
                 }
             });
         }
-
+            */
 
     </script>
 @endpush

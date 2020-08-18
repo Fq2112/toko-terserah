@@ -163,6 +163,12 @@ class MidtransController extends Controller
         return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
     }
 
+    /**
+     * Fungsi Untuk Memproses Bila Menggunakan Credit Card
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     public function finishCallback(Request $request)
     {
         app()->setLocale($request->lang);
@@ -180,7 +186,7 @@ class MidtransController extends Controller
                         ->orderByRaw('FIELD (id, ' . $request->cart_ids . ') ASC')->get();
                     $user = User::find(implode($carts->take(1)->pluck('user_id')->toArray()));
 
-                    Pesanan::firstOrCreate([
+                    $pesanan = Pesanan::firstOrCreate([
                         'user_id' => $user->id,
                         'keranjang_ids' => $carts->pluck('id'),
                         'pengiriman_id' => $request->pengiriman_id,
@@ -207,6 +213,15 @@ class MidtransController extends Controller
                     }
                     $this->invoiceMail('finish', $code, $user, $request->pdf_url, $data_tr);
 
+                    //Todo Create Shipping label
+
+                    $labelname = $pesanan->uni_code . '.pdf';
+                    $labelPdf = PDF::loadView('exports.shipping', [
+                        'data' => $pesanan,
+                    ]);
+                    $labelPdf->setPaper('a5', 'potrait');
+                    Storage::put('public/users/order/invoice/owner/label/' . $pesanan->uni_code . '/' . $labelname, $labelPdf->output());
+
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }
             }
@@ -216,6 +231,10 @@ class MidtransController extends Controller
         }
     }
 
+    /*
+     * Memproses pembayaran Semua vendor kecuali Kartu Kredit
+     *
+     */
     public function notificationCallback()
     {
         $notif = new Notification();
@@ -234,6 +253,15 @@ class MidtransController extends Controller
 
                     $pesanan->update(['isLunas' => true]);
                     $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
+
+                    //Todo Create Shipping label
+
+                    $labelname = $pesanan->uni_code . '.pdf';
+                    $labelPdf = PDF::loadView('exports.shipping', [
+                        'data' => $pesanan,
+                    ]);
+                    $labelPdf->setPaper('a5', 'potrait');
+                    Storage::put('public/users/order/invoice/owner/label/' . $pesanan->uni_code . '/' . $labelname, $labelPdf->output());
 
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
                 }

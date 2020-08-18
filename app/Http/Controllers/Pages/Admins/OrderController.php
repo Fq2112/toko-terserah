@@ -81,17 +81,17 @@ class OrderController extends Controller
         }
     }
 
-    public function download_label(Request $request)
+    public function download_label($code)
     {
-        $filename = $request->code . '.pdf';
-        $file_path = storage_path('app/public/users/order/invoice/owner/label/' . $request->code . '/' . $filename);
+        $filename = $code . '.pdf';
+        $file_path = storage_path('app/public/users/order/invoice/owner/label/' . $code . '/' . $filename);
         if (file_exists($file_path)) {
             return Response::download($file_path, 'Shipping_Label_' . $filename, [
                 'Content-length : ' . filesize($file_path)
             ]);
         } else {
-            return \response()->json([
-                'message' => "Oops! The current file you are looking for is not available "
+            return back()->with([
+                'error' => "Oops! The current file you are looking for is not available "
             ], 404);
         }
     }

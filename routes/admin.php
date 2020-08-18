@@ -83,7 +83,7 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             'as' => 'order.label'
         ]);
 
-        Route::post('/download', [
+        Route::get('/download/{code}', [
             'uses' => 'OrderController@download_label',
             'as' => 'order.label.download'
         ]);
