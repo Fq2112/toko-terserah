@@ -164,4 +164,19 @@ class AkunController extends Controller
             }
         }
     }
+
+    public function pengaturanMembership()
+    {
+        $user = Auth::user();
+        $bio = $user->getBio;
+
+        if (!is_null($bio->ava) && !is_null($bio->phone) && !is_null($bio->dob) && !is_null($bio->gender)) {
+            return response()->json(['status' => true], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Silahkan unggah avatar dan lengkapi profil Anda terlebih dahulu, terimakasih.'
+            ], 200);
+        }
+    }
 }
