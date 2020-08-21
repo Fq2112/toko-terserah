@@ -110,4 +110,17 @@ class OrderController extends Controller
             ], 404);
         }
     }
+
+    public function get_download_invoice($user_id, $code)
+    {
+        $filename = $code . '.pdf';
+        $file_path = storage_path('app/public/users/invoice/' . $user_id . '/' . $filename);
+        if (file_exists($file_path)) {
+            return Response::download($file_path, 'Invoice_' . $filename, [
+                'Content-length : ' . filesize($file_path)
+            ]);
+        } else {
+            return back()->with('error',"Oops! The current file you are looking for is not available ");
+        }
+    }
 }

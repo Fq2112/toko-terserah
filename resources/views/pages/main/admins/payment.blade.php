@@ -277,11 +277,13 @@
                                                             </button>
                                                             <div class="dropdown-menu"
                                                                  aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                                   onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')">Invoice</a>
+                                                                <a class="dropdown-item"
+                                                                   href="{{route('admin.order.invoice.get',['user_id'=>$item->getUser->id,
+                                                                    'code' => $item->uni_code])}}">Invoice</a>
                                                                 @if($item->isAmbil)
                                                                 @else
-                                                                    <a class="dropdown-item" href="{{route('order.label.download',['code'=>$item->uni_code])}}">Label
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route('order.label.download',['code'=>$item->uni_code])}}">Label
                                                                         Pengiriman</a>
                                                                 @endif
                                                             </div>
@@ -293,12 +295,13 @@
                                                     </div>
                                                 @else
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-danger"
-                                                                data-toggle="tooltip"
-                                                                onclick="getInvoice('{{$item->getUser->id}}','{{ucfirst($item->uni_code)}}')"
-                                                                title="Download Invoice" data-html="true"
-                                                                data-placement="top"><i class="fa fa-file-pdf"></i>
-                                                        </button>
+                                                        <a class="btn btn-danger"
+                                                           href="{{route('admin.order.invoice.get',['user_id'=>$item->getUser->id,
+                                                                    'code' => $item->uni_code])}}"
+                                                           data-toggle="tooltip"
+                                                           title="Download Invoice" data-html="true"
+                                                           data-placement="top"><i class="fa fa-file-pdf"></i>
+                                                        </a>
                                                         <a href="{{route('admin.order.user',['kode'=>$item->uni_code])}}"
                                                            data-placement="right" data-toggle="tooltip" target="_blank"
                                                            title="Detail Info" type="button" class="btn btn-info">
