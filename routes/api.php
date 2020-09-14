@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'API'], function () {
 
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
+        Route::get('user', 'AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+    });
+
+    Route::group(['middleware' => 'jwt.verify'], function () {
+
+    });
+
     Route::group(['prefix' => 'midtrans'], function () {
 
         Route::get('snap', [
