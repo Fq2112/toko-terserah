@@ -24,6 +24,12 @@ Route::group(['namespace' => 'API'], function () {
 
     Route::group(['middleware' => 'jwt.verify'], function () {
 
+        Route::group(['prefix' => 'product'], function () {
+
+            Route::get('home', 'ProductController@home_mobile');
+
+        });
+
     });
 
     Route::group(['prefix' => 'midtrans'], function () {
