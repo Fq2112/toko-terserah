@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Produk;
+use App\Models\SubKategori;
+use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,11 +42,60 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * TODO filter and Search Produk take as many as Request
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_product(Request $request)
+    {
+        try {
+            $data = Produk::query()
+                ->when($request->get('name'), function ($q) use ($request) {
+                    $q->where('nama', 'LIKE', '%' . $request->get('name') . '%');
+                })->when($request->get('sub_kategori'), function ($q) use ($request) {
+                    $q->whereHas('getSubkategori', function ($q) use ($request) {
+                        $q->whereIn('id', $request->sub_kategori);
+                    });
+                })->when($request->get('jenis'), function ($q) use ($request) {
+                    if ($request->jenis == 'retail') {
+                        $q->where('isGrosir', false);
+                    } elseif ($request->jenis == 'grosir') {
+                        $q->where('isGrosir', true);
+                    } else {
+                        $q->where('isGrosir', false)->orWhere('isGrosir', true);
+                    }
+                })->where('stock', '>', 0)
+                ->orderBy('nama')->get()
+                ->take($request->get('limit') ?? 8)->toArray();
+            $data = $this->get_image_path($data);
+
+            return response()->json(
+                [
+                    'error' => false,
+                    'data' => [
+                        'count_produk' => count($data),
+                        'produk' => $data,
+                    ]
+                ], 200
+            );
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
     public function get_flash_sale()
     {
         $data = Produk::where('is_diskon', true)
             ->where('stock', '>', 1)->inRandomOrder()->limit(6)->get(['id', 'harga', 'gambar', 'diskon',
-                'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir'])->toArray();
+                'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'])->toArray();
         $data = $this->get_image_path($data);
 
         return $data;
@@ -53,7 +104,7 @@ class ProductController extends Controller
     public function get_newest()
     {
         $data = Produk::orderByDesc('created_at')->limit(6)->get(['id', 'harga', 'gambar', 'diskon',
-            'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir'])->toArray();
+            'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'])->toArray();
 
         $data = $this->get_image_path($data);
         return $data;
@@ -61,8 +112,8 @@ class ProductController extends Controller
 
     public function get_popular()
     {
-        $query = " select * from (SELECT p.id,p.harga, p.gambar, p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir,count(u.produk_id) as jumlah from produk p left join ulasans u on
-                    u.produk_id = p.id group by p.id, p.harga , p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir, p.gambar) a order by jumlah DESC limit 6";
+        $query = " select * from (SELECT p.id,p.harga, p.gambar, p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir ,p.sub_kategori_id,count(u.produk_id) as jumlah from produk p left join ulasans u on
+                    u.produk_id = p.id group by p.id, p.harga , p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir, p.gambar,p.sub_kategori_id) a order by jumlah DESC limit 6";
         $data = DB::select(DB::raw($query));
         $data = $this->get_image_path(json_decode(json_encode($data), true));
         return $data;
@@ -82,7 +133,7 @@ class ProductController extends Controller
             } else {
                 $filepath = asset('storage/produk/galeri/' . $key['gambar']);
             }
-            $merge = array_merge($data[$datum], array("image_path" => $filepath));
+            $merge = array_merge($data[$datum], array("image_path" => $filepath), array("sub_name" => SubKategori::find($key['sub_kategori_id'])->nama));
             array_push($array, $merge);
         }
         return $array;
@@ -115,12 +166,19 @@ class ProductController extends Controller
     {
         try {
             $data = Produk::find($id);
+            $review = $data->getUlasan->toArray();
+            $qna = $data->getQnA->toArray();
+
+            $review = $this->get_detail_ulasan($review);
+            $qna = $this->get_detail_qna($qna);
             return response()->json([
-                'error' => true,
+                'error' => false,
                 'data' => [
-                    'detail' => $data
+                    'detail' => $data,
+                    'review' => $review,
+                    'qna' => $qna
                 ]
-            ]);
+            ],200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
@@ -134,7 +192,30 @@ class ProductController extends Controller
                 'data' => [
                     'message' => $exception->getMessage()
                 ]
-            ]);
+            ],$exception->getStatusCode());
         }
     }
+
+    public function get_detail_ulasan($data)
+    {
+        $array = [];
+        foreach ($data as $datum => $key) {
+            $merge = array_merge($data[$datum], array("user" => User::find($key['user_id'])->name));
+            array_push($array, $merge);
+        }
+
+        return $array;
+    }
+
+    public function get_detail_qna($data)
+    {
+        $array = [];
+        foreach ($data as $datum => $key) {
+            $merge = array_merge($data[$datum], array("user" => User::find($key['user_id'])->name));
+            array_push($array, $merge);
+        }
+
+        return $array;
+    }
+
 }

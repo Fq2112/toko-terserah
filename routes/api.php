@@ -28,6 +28,10 @@ Route::group(['namespace' => 'API'], function () {
 
             Route::get('home', 'ProductController@home_mobile');
 
+            Route::get('detail/{id}', 'ProductController@get_detail');
+
+            Route::post('search', 'ProductController@get_product');
+
         });
 
     });

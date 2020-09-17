@@ -84,6 +84,8 @@ class AuthController extends Controller
                 'error' => false,
                 'data' => [
                     'user' => $user,
+                    'bio' => $user->getBio,
+                    'address' => $user->getAlamat,
                     'count_wish' => count($user->getWishlist),
                     'count_cart' => count($user->getKeranjang)
                 ]
