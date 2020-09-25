@@ -9,6 +9,7 @@ use App\Models\Pesanan;
 use App\Models\QnA;
 use App\Models\SocialProvider;
 use App\Models\Ulasan;
+use App\Models\Alamat;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;

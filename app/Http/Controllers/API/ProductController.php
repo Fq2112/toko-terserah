@@ -170,7 +170,7 @@ class ProductController extends Controller
             $qna = $data->getQnA->toArray();
 
             $review = $this->get_detail_ulasan($review);
-            $qna = $this->get_detail_qna($qna);
+            $qna = $this->get_detail_ulasan($qna);
             return response()->json([
                 'error' => false,
                 'data' => [
@@ -178,7 +178,7 @@ class ProductController extends Controller
                     'review' => $review,
                     'qna' => $qna
                 ]
-            ],200);
+            ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
@@ -192,7 +192,7 @@ class ProductController extends Controller
                 'data' => [
                     'message' => $exception->getMessage()
                 ]
-            ],$exception->getStatusCode());
+            ], 500);
         }
     }
 
@@ -200,22 +200,20 @@ class ProductController extends Controller
     {
         $array = [];
         foreach ($data as $datum => $key) {
-            $merge = array_merge($data[$datum], array("user" => User::find($key['user_id'])->name));
+            $user = User::find($key['user_id']);
+            if ($user->getBio->ava != 'placeholder.jpg') {
+                if (File::exists('storage/user/ava/' . $user->getBio->ava)) {
+                    $filepath = asset('storage/user/ava/' . $user->getBio->ava);
+                } else {
+                    $filepath = asset('storage/produk/banner/placeholder.jpg');
+                }
+            } else {
+                $filepath = asset('storage/produk/banner/placeholder.jpg');
+            }
+            $merge = array_merge($data[$datum], array("user" => $user->name), array('user_ava' => $filepath));
             array_push($array, $merge);
         }
 
         return $array;
     }
-
-    public function get_detail_qna($data)
-    {
-        $array = [];
-        foreach ($data as $datum => $key) {
-            $merge = array_merge($data[$datum], array("user" => User::find($key['user_id'])->name));
-            array_push($array, $merge);
-        }
-
-        return $array;
-    }
-
 }
