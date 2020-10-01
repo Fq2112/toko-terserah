@@ -115,8 +115,6 @@ class AuthController extends Controller
         $status=404;
         $v = "/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
 
-
-
         try{
             if($request->has('email')){
 

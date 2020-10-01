@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::group(['namespace' => 'API'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
