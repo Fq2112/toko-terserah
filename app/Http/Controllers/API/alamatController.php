@@ -51,9 +51,27 @@ class alamatController extends Controller
             $res=$user->getAlamat->where('id',$request->id);
 
             if($res){
+                $res=$res->first();
+                
+                $res->occupancy_id=DB::table('occupancy_types')
+                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
+                
+                
+                $other_link=DB::table('kecamatan as a')->join('kota as b','a.kota_id','=','b.id')
+                                ->select('a.id as kecamatan_id','a.nama as kecamatan_name','b.id as kota_id','b.nama as kota_name')
+                                ->where('a.id','=',"$res->kecamatan_id")->first();
+                
+
+                foreach($other_link as $row){
+                    foreach($other_link as $i=>$col){
+                        // return $i;
+                    $res->{$i}=$col;
+                    }
+                }
+
             return response()->json([
                 'error' => false,
-                'data' =>  $res->first()
+                'data' =>  $res
             ]);
             }
             else{
@@ -262,9 +280,9 @@ class alamatController extends Controller
             $q=$request->get('q');
             
             $kota=DB::table('occupancy_types')
-            ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS full_name'))
-            ->where('name','like',"%$q%")
-            ->get();
+                ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))
+                ->where('name','like',"%$q%")
+                ->get();
             $not_found=$this->countArray($kota);
 
             return response()->json([
