@@ -37,6 +37,24 @@ Route::group(['namespace' => 'API'], function () {
             Route::post('search', 'ProductController@get_product');
         });
 
+        Route::group(['prefix' => 'address'], function () {
+
+            Route::get('/', 'alamatController@get');
+
+            Route::get('/detail/{id}', 'alamatController@detail');
+
+            Route::get('/kota', 'alamatController@get_kota');
+            Route::get('/kecamatan', 'alamatController@get_kecamatan');
+            Route::get('/occupancy', 'alamatController@get_occupancy');
+
+            Route::post('create', 'alamatController@create');
+
+            Route::post('delete/{id}', 'alamatController@delete');
+
+            Route::post('update/{id}', 'alamatController@update');
+
+        });
+
         Route::group(['prefix' => 'wish'], function () {
             Route::post('delete/{id}', 'BuyingController@delete_wish_list');
             Route::post('mass_delete', 'BuyingController@mass_delete_wish_list');
