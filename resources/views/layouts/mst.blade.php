@@ -200,7 +200,7 @@
                                target="_blank">
                                 <i class="fab fa-facebook-f"
                                    style="color:#455CA8;font-weight:900"></i>&ensp;FACEBOOK</a>
-                            <a class="instagram" href="#" target="_blank">
+                            <a class="instagram" href="https://instagram.com/terlengkapserbamurah" target="_blank">
                                 <i class="fab fa-instagram"
                                    style="color:#E1306C;font-weight:900"></i>&ensp;INSTAGRAM</a>
                         </div>
@@ -325,7 +325,7 @@
                                 <a class="facebook" href="https://fb.com/pages/PT-Penta-Surya-Pratama/102397424580976"
                                    target="_blank">
                                     <i class="fab fa-facebook-f"></i>&ensp;FACEBOOK</a>
-                                <a class="instagram" href="#" target="_blank">
+                                <a class="instagram" href="https://instagram.com/terlengkapserbamurah" target="_blank">
                                     <i class="fab fa-instagram"></i>&ensp;INSTAGRAM</a>
                             </div>
                         </div>
