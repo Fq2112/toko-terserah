@@ -26,6 +26,8 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('check_email', 'AuthController@check_email');
     });
 
+    Route::post('search', 'ProductController@get_product');
+
     Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::group(['prefix' => 'product'], function () {
@@ -34,7 +36,7 @@ Route::group(['namespace' => 'API'], function () {
 
             Route::get('detail/{id}', 'ProductController@get_detail');
 
-            Route::post('search', 'ProductController@get_product');
+
 
             Route::post('qna', 'BuyingController@submit_qna');
 
