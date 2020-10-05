@@ -14,12 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::group(['namespace' => 'API'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('register', 'AuthController@register');
         Route::post('login', 'AuthController@login');
         Route::get('user', 'AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+
+        //check email register
+        Route::get('check_email', 'AuthController@check_email');
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {
@@ -31,6 +35,23 @@ Route::group(['namespace' => 'API'], function () {
             Route::get('detail/{id}', 'ProductController@get_detail');
 
             Route::post('search', 'ProductController@get_product');
+        });
+
+        Route::group(['prefix' => 'address'], function () {
+
+            Route::get('/', 'alamatController@get');
+
+            Route::get('/detail/{id}', 'alamatController@detail');
+
+            Route::get('/kota', 'alamatController@get_kota');
+            Route::get('/kecamatan', 'alamatController@get_kecamatan');
+            Route::get('/occupancy', 'alamatController@get_occupancy');
+
+            Route::post('create', 'alamatController@create');
+
+            Route::post('delete/{id}', 'alamatController@delete');
+
+            Route::post('update/{id}', 'alamatController@update');
 
         });
 
@@ -38,7 +59,12 @@ Route::group(['namespace' => 'API'], function () {
             Route::post('delete/{id}', 'BuyingController@delete_wish_list');
             Route::post('mass_delete', 'BuyingController@mass_delete_wish_list');
         });
+
+
     });
+
+
+
 
     Route::group(['prefix' => 'midtrans'], function () {
 
@@ -63,9 +89,7 @@ Route::group(['namespace' => 'API'], function () {
                 'uses' => 'MidtransController@notificationCallback',
                 'as' => 'post.midtrans-callback.notification'
             ]);
-
         });
-
     });
 
     Route::group(['prefix' => 'rajaongkir'], function () {
@@ -84,7 +108,5 @@ Route::group(['namespace' => 'API'], function () {
             'uses' => 'RajaOngkirController@getWaybill',
             'as' => 'get.rajaongkir.waybill'
         ]);
-
     });
-
 });

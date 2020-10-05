@@ -18,6 +18,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $credentials = $request->only('email', 'password');
 
         try {
@@ -105,5 +106,47 @@ class AuthController extends Controller
         }
 
 
+    }
+
+    public function check_email(Request $request){
+        $res=[
+            'error'=>true,
+        ];
+        $status=404;
+        $v = "/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
+
+        try{
+            if($request->has('email')){
+
+                $email=$request->email;
+                $jumlahUser=User::where('email',$email)->count();
+                if(!(bool)preg_match($v, $email)){
+                    $res['data']=['message'=>'gunakan email yang valid'];
+                }
+                elseif($jumlahUser){
+
+                    $res['data']=['message'=>'email sudah digunakan'];
+
+                }else{
+                    $res['error']=false;
+                    $res['data']=['message'=>'email dapat digunakan'];
+                    $status=200;
+                }
+            }else{
+
+                $res['data']=['message'=>'email kosong'];
+            }
+
+            return response()->json($res,$status);
+
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ], 500);
+        }
     }
 }
