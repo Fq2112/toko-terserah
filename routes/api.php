@@ -30,6 +30,16 @@ Route::group(['namespace' => 'API'], function () {
 
     Route::group(['middleware' => 'jwt.verify'], function () {
 
+        Route::group(['prefix' => 'profile'], function () {
+
+            Route::post('update/bio','ProfileController@update_bio');
+
+            Route::post('upload/ava','ProfileController@upload_ava');
+
+            Route::post('upload/background','ProfileController@upload_background');
+
+        });
+
         Route::group(['prefix' => 'product'], function () {
 
             Route::get('home', 'ProductController@home_mobile');
