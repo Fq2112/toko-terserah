@@ -26,7 +26,19 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('check_email', 'AuthController@check_email');
     });
 
+    Route::post('search', 'ProductController@get_product');
+
     Route::group(['middleware' => 'jwt.verify'], function () {
+
+        Route::group(['prefix' => 'profile'], function () {
+
+            Route::post('update/bio','ProfileController@update_bio');
+
+            Route::post('upload/ava','ProfileController@upload_ava');
+
+            Route::post('upload/background','ProfileController@upload_background');
+
+        });
 
         Route::group(['prefix' => 'product'], function () {
 
@@ -34,7 +46,12 @@ Route::group(['namespace' => 'API'], function () {
 
             Route::get('detail/{id}', 'ProductController@get_detail');
 
-            Route::post('search', 'ProductController@get_product');
+
+
+            Route::post('qna', 'BuyingController@submit_qna');
+
+            Route::post('review', 'BuyingController@submit_ulasan');
+
         });
 
         Route::group(['prefix' => 'address'], function () {
@@ -57,8 +74,10 @@ Route::group(['namespace' => 'API'], function () {
 
         Route::group(['prefix' => 'wish'], function () {
             Route::post('delete/{id}', 'BuyingController@delete_wish_list');
+
             Route::post('mass_delete', 'BuyingController@mass_delete_wish_list');
         });
+
 
 
     });

@@ -44,6 +44,84 @@ class ProfileController extends Controller
         }
     }
 
+    public function upload_ava(Request $request)
+    {
+        try {
+            $user = User::find($request->user_id);
+
+            if ($request->hasFile('ava')) {
+                $this->validate($request, ['ava' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
+                $thumbnail = $request->file('ava')->getClientOriginalName();
+//            Storage::delete('public/blog/thumbnail/' . $thumbnail);
+                $request->file('ava')->storeAs('public/users/ava/', $thumbnail);
+
+                $user->getBio->update([
+                    'ava' => $thumbnail
+                ]);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'message' => 'Berhasil Memperbarui Profil'
+                ]
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $e->getMessage()
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ], 500);
+        }
+    }
+
+    public function upload_background(Request $request)
+    {
+        try {
+            $user = User::find($request->user_id);
+
+            if ($request->hasFile('ava')) {
+                $this->validate($request, ['ava' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
+                $thumbnail =uniqid().$request->file('ava')->getClientOriginalName();
+//            Storage::delete('public/blog/thumbnail/' . $thumbnail);
+                $request->file('ava')->storeAs('public/users/ava/', $thumbnail);
+
+                $user->getBio->update([
+                    'background' => $thumbnail
+                ]);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'message' => 'Berhasil Memperbarui Profil'
+                ]
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $e->getMessage()
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ], 500);
+        }
+    }
+
     public function add_address(Request $request)
     {
         try {

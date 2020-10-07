@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\Auth\ActivationMail;
 use App\Models\Bio;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +29,7 @@ class AuthController extends Controller
                 if (!$token = JWTAuth::attempt($credentials)) {
                     return response()->json(['error' => 'invalid_credentials'], 404);
                 }
-            }else{
+            } else {
                 return response()->json(['error' => 'Silahkan aktivasi akun anda'], 400);
             }
         } catch (JWTException $e) {
@@ -67,7 +68,11 @@ class AuthController extends Controller
             'verifyToken' => Str::random(255),
         ]);
 
-        Bio::create(['user_id' => $user->id]);
+        Bio::create([
+            'user_id' => $user->id,
+            'gender' => $request->get('gender'),
+            'dob' => Carbon::parse( $request->get('dob'))
+        ]);
         Mail::to($user->email)->send(new ActivationMail($user));
         $token = JWTAuth::fromUser($user);
 
@@ -108,36 +113,36 @@ class AuthController extends Controller
 
     }
 
-    public function check_email(Request $request){
-        $res=[
-            'error'=>true,
+    public function check_email(Request $request)
+    {
+        $res = [
+            'error' => true,
         ];
-        $status=404;
+        $status = 404;
         $v = "/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
 
-        try{
-            if($request->has('email')){
+        try {
+            if ($request->has('email')) {
 
-                $email=$request->email;
-                $jumlahUser=User::where('email',$email)->count();
-                if(!(bool)preg_match($v, $email)){
-                    $res['data']=['message'=>'gunakan email yang valid'];
+                $email = $request->email;
+                $jumlahUser = User::where('email', $email)->count();
+                if (!(bool)preg_match($v, $email)) {
+                    $res['data'] = ['message' => 'gunakan email yang valid'];
+                } elseif ($jumlahUser) {
+
+                    $res['data'] = ['message' => 'email sudah digunakan'];
+
+                } else {
+                    $res['error'] = false;
+                    $res['data'] = ['message' => 'email dapat digunakan'];
+                    $status = 200;
                 }
-                elseif($jumlahUser){
+            } else {
 
-                    $res['data']=['message'=>'email sudah digunakan'];
-
-                }else{
-                    $res['error']=false;
-                    $res['data']=['message'=>'email dapat digunakan'];
-                    $status=200;
-                }
-            }else{
-
-                $res['data']=['message'=>'email kosong'];
+                $res['data'] = ['message' => 'email kosong'];
             }
 
-            return response()->json($res,$status);
+            return response()->json($res, $status);
 
 
         } catch (\Exception $exception) {
