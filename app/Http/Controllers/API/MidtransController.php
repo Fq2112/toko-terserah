@@ -25,7 +25,7 @@ class MidtransController extends Controller
     public function __construct()
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
-        Config::$isProduction = false; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        Config::$isProduction = true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         Config::$isSanitized = true; // Set sanitization on (default)
         Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
