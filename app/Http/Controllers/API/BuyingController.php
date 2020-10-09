@@ -7,9 +7,52 @@ use App\Models\Favorit;
 use App\Models\QnA;
 use App\Models\Ulasan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class BuyingController extends Controller
 {
+    private function resSuccess($wishlistt,$msg=null)
+    {
+
+        return response()->json([
+            'error' => false,
+            'data' => [
+                'address' => $wishlistt,
+                'count_address' => $this->countArray($wishlistt),
+                'message'=>$msg,
+            ]
+        ]);
+    }
+
+
+    public function get()
+    {
+        try {
+
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+            $wishlistt= $user->getWishlist;
+
+            return $this->resSuccess($wishlistt,'data berhasil diambil');
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+            return response()->json(['token_expired'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+            return response()->json(['token_invalid'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+            return response()->json(['token_absent'], $e->getStatusCode());
+
+        }
+    }
+
     public function add_wish_list(Request $request)
     {
         try {
@@ -137,4 +180,6 @@ class BuyingController extends Controller
             ], 500);
         }
     }
+
+
 }

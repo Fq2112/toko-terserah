@@ -73,6 +73,12 @@ Route::group(['namespace' => 'API'], function () {
         });
 
         Route::group(['prefix' => 'wish'], function () {
+            //mobile
+
+            Route::get('/', 'BuyingController@get');
+
+
+            // web
             Route::post('delete/{id}', 'BuyingController@delete_wish_list');
 
             Route::post('mass_delete', 'BuyingController@mass_delete_wish_list');
