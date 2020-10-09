@@ -86,6 +86,18 @@ class AuthController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
+
+            $res=[
+                'user' => $user,
+                'bio' => $user->getBio,
+                'address' => $user->getAlamat,
+                'count_wish' => count($user->getWishlist),
+                'count_cart' => count($user->getKeranjang)
+            ];
+
+            foreach($res['address'] as $row){
+                $row->getOccupancy;
+            }
             return response()->json([
                 'error' => false,
                 'data' => [
