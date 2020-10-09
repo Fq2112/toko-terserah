@@ -98,15 +98,13 @@ class AuthController extends Controller
             foreach($res['address'] as $row){
                 $row->getOccupancy;
             }
+
+            foreach($res['user']->getWishlist  as $row){
+                $row->getProduk;
+            }
             return response()->json([
                 'error' => false,
-                'data' => [
-                    'user' => $user,
-                    'bio' => $user->getBio,
-                    'address' => $user->getAlamat,
-                    'count_wish' => count($user->getWishlist),
-                    'count_cart' => count($user->getKeranjang)
-                ]
+                'data' => $res
             ]);
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
