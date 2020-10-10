@@ -86,15 +86,25 @@ class AuthController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
+
+            $res=[
+                'user' => $user,
+                'bio' => $user->getBio,
+                'address' => $user->getAlamat,
+                'count_wish' => count($user->getWishlist),
+                'count_cart' => count($user->getKeranjang)
+            ];
+
+            foreach($res['address'] as $row){
+                $row->getOccupancy;
+            }
+
+            foreach($res['user']->getWishlist  as $row){
+                $row->getProduk;
+            }
             return response()->json([
                 'error' => false,
-                'data' => [
-                    'user' => $user,
-                    'bio' => $user->getBio,
-                    'address' => $user->getAlamat,
-                    'count_wish' => count($user->getWishlist),
-                    'count_cart' => count($user->getKeranjang)
-                ]
+                'data' => $res
             ]);
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 

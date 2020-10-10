@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class alamatController extends Controller
 {
-   
+
     public function get(){
         try {
 
@@ -25,8 +25,12 @@ class alamatController extends Controller
             }
             $alamat= $user->getAlamat;
 
+            foreach($alamat as $row){
+                $row->getOccupancy;
+            }
+
             return $this->resSuccess($alamat,'data berhasil diambil');
-            
+
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -52,15 +56,15 @@ class alamatController extends Controller
 
             if($res){
                 $res=$res->first();
-                
+
                 $res->occupancy_id=DB::table('occupancy_types')
                         ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
-                
-                
+
+
                 $other_link=DB::table('kecamatan as a')->join('kota as b','a.kota_id','=','b.id')
                                 ->select('a.id as kecamatan_id','a.nama as kecamatan_name','b.id as kota_id','b.nama as kota_name')
                                 ->where('a.id','=',"$res->kecamatan_id")->first();
-                
+
 
                 foreach($other_link as $row){
                     foreach($other_link as $i=>$col){
@@ -93,7 +97,7 @@ class alamatController extends Controller
     }
 
     public function create(Request $request){
-        
+
 
         try {
 
@@ -102,7 +106,7 @@ class alamatController extends Controller
             }
 
             $validator = $this->validateForm($request);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
@@ -113,10 +117,10 @@ class alamatController extends Controller
             }
 
              Alamat::create($this->setRequest($request,$user));
-            
+
              $alamat=$user->getAlamat;
-            
-            
+
+
              return $this->resSuccess($alamat,'data berhasil dibuat');
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
@@ -130,7 +134,7 @@ class alamatController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-            
+
 
         }
     }
@@ -145,7 +149,7 @@ class alamatController extends Controller
             }
 
             $validator = $this->validateForm($request);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
@@ -163,14 +167,14 @@ class alamatController extends Controller
                 $alamat=User::where('id',$user->id)->first()->getAlamat;
 
                 return $this->resSuccess($alamat,'data berhasil diubah');
-            
+
              }
 
              return $this->resNotFound();
 
-            
-            
-            
+
+
+
             } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -182,7 +186,7 @@ class alamatController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-            
+
 
         }
     }
@@ -197,7 +201,7 @@ class alamatController extends Controller
             }
 
             $validator = $this->validateForm($request);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
@@ -214,9 +218,9 @@ class alamatController extends Controller
                 return $this->resSuccess($alamat,'data berhasil dihapus');
             }
 
-            return $this->resNotFound(); 
-            
-            
+            return $this->resNotFound();
+
+
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
@@ -229,7 +233,7 @@ class alamatController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-            
+
 
         }
     }
@@ -241,7 +245,7 @@ class alamatController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
             $q=$request->get('q');
-            
+
             $kota=DB::table('kota as k')->join('provinsi as p', 'k.provinsi_id', '=', 'p.id')
             ->select('k.id as kota_id','k.nama','p.nama as provinsi','k.kode_pos','k.tipe')
             ->where('k.nama','like',"%$q%")
@@ -253,9 +257,9 @@ class alamatController extends Controller
                 "data"=>[
                     "city"=>$kota,
                 ] ]);
-            
 
-            
+
+
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -278,7 +282,7 @@ class alamatController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
             $q=$request->get('q');
-            
+
             $kota=DB::table('occupancy_types')
                 ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))
                 ->where('name','like',"%$q%")
@@ -290,9 +294,9 @@ class alamatController extends Controller
                 "data"=>[
                     "city"=>$kota,
                 ] ]);
-            
 
-            
+
+
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -316,7 +320,7 @@ class alamatController extends Controller
             }
             $q=$request->get('q');
             $id=$request->get('kota_id');
-            
+
             $kecamatan=DB::table('kecamatan')
             ->select('id','nama')
             ->where('nama','like',"%$q%")
@@ -329,9 +333,9 @@ class alamatController extends Controller
                 "data"=>[
                     "district"=>$kecamatan,
                 ] ]);
-            
 
-            
+
+
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -352,7 +356,7 @@ class alamatController extends Controller
     }
 
     private function resNotFound(){
-         return response()->json([ 
+         return response()->json([
             'error' => true,
             'data' => [
             'message' => "data tidak ditemukan"
@@ -398,13 +402,13 @@ class alamatController extends Controller
             'nama' => 'required|string|max:255',
             'telp' => 'required|string|max:20',
             'alamat' => 'required|string|max:255',
-         
+
             'kode_pos'=>'required|integer|max:999999',
             'occupancy_id'=>'required|integer|max:9999',
             'kecamatan_id'=>'required|integer|max:99999',
         ]);
     }
-    
 
-  
+
+
 }
