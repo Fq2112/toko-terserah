@@ -91,7 +91,7 @@ class AuthController extends Controller
                 'user' => $user,
                 'bio' => $user->getBio,
                 'address' => $user->getAlamat,
-                "wishlist" => $user->getWishlist,
+                // "wishlist" => $user->getWishlist,
                 'count_wish' => count($user->getWishlist),
                 'count_cart' => count($user->getKeranjang),
 
@@ -101,18 +101,18 @@ class AuthController extends Controller
                 $row->getOccupancy;
             }
 
-            foreach ($res['wishlist']  as $row) {
-                $row->getProduk;
-                $row['count_ulasan'] = 0;
-                $row['avg_ulasan'] = 0;
+            // foreach ($res['wishlist']  as $row) {
+            //     $row->getProduk;
+            //     $row['count_ulasan'] = 0;
+            //     $row['avg_ulasan'] = 0;
 
-                foreach ($row->getProduk->getUlasan as $ls) {
-                    $row['count_ulasan']=$row['count_ulasan']+1;
-                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
-                }
+            //     foreach ($row->getProduk->getUlasan as $ls) {
+            //         $row['count_ulasan']=$row['count_ulasan']+1;
+            //         $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+            //     }
 
-                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
-            }
+            //     $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
+            // }
 
 
             return response()->json([

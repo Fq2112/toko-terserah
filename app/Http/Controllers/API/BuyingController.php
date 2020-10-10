@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favorit;
+use App\Models\Produk;
 use App\Models\QnA;
 use App\Models\Ulasan;
 use Illuminate\Http\Request;
@@ -19,22 +20,37 @@ class BuyingController extends Controller
         return response()->json([
             'error' => false,
             'data' => [
-                'address' => $wishlistt,
-                'count_address' => $this->countArray($wishlistt),
+                'data' => $wishlistt,
+                'count' => count($wishlistt),
                 'message'=>$msg,
             ]
         ]);
     }
 
 
-    public function get()
+    public function get(Request $request)
     {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $wishlistt= $user->getWishlist;
+            $q=$request->get('q');
+            $wishlistt= Favorit::where('user_id',$user->id)->whereHas('getProduk', function($query) use ($q) {
+                $query->where('nama','like',"%$q%");
+            })->get();
+
+            foreach ($wishlistt  as $row) {
+                $row['count_ulasan'] = 0;
+                $row['avg_ulasan'] = 0;
+
+                foreach ($row->getProduk->getUlasan as $ls) {
+                    $row['count_ulasan']=$row['count_ulasan']+1;
+                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+                }
+
+                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
+            }
 
             return $this->resSuccess($wishlistt,'data berhasil diambil');
 
