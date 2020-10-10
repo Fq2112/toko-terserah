@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -55,7 +56,7 @@ class ProfileController extends Controller
 
             if ($request->hasFile('ava')) {
                 $this->validate($request, ['ava' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
-                $thumbnail = $request->file('ava')->getClientOriginalName();
+                $thumbnail = uniqid().$request->file('ava')->getClientOriginalName();
 //            Storage::delete('public/blog/thumbnail/' . $thumbnail);
                 $request->file('ava')->storeAs('public/users/ava/', $thumbnail);
 
@@ -110,6 +111,61 @@ class ProfileController extends Controller
                 ]
             ], 200);
         } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $e->getMessage()
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ], 500);
+        }
+    }
+
+    public function change_password(Request $request)
+    {
+        try {
+
+            $admin = User::find($request->user_id);
+
+            if (!Hash::check($request->password, $admin->password)) {
+                return response()->json([
+                    'error' => true,
+                    'data' => [
+                        'message' => "Password Lama Salah"
+                    ]
+                ],500);
+
+            } else {
+                if ($request->new_password != $request->password_confirmation) {
+                    return response()->json([
+                        'error' => true,
+                        'data' => [
+                            'message' => "Password Konfirmasi tidak sama"
+                        ]
+                    ],500);
+
+                } else {
+                    $admin->update([
+                        'password' => bcrypt($request->new_password)
+                    ]);
+
+                    return response()->json([
+                        'error' => false,
+                        'data' => [
+                            'message' => "Password Berhasil Diubah"
+                        ]
+                    ],200);
+
+                }
+            }
+
+        }catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
                 'data' => [
