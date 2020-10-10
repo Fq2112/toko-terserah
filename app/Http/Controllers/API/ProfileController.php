@@ -16,6 +16,10 @@ class ProfileController extends Controller
         try {
             $user = User::find($request->user_id);
 
+            $user->update([
+               'name' => $request->name
+            ]);
+
             $user->getBio->update([
                 'gender' => $request->gender,
                 'dob' => $request->dob,
