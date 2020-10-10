@@ -71,7 +71,7 @@ class AuthController extends Controller
         Bio::create([
             'user_id' => $user->id,
             'gender' => $request->get('gender'),
-            'dob' => Carbon::parse( $request->get('dob'))
+            'dob' => Carbon::parse($request->get('dob'))
         ]);
         Mail::to($user->email)->send(new ActivationMail($user));
         $token = JWTAuth::fromUser($user);
@@ -87,21 +87,34 @@ class AuthController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            $res=[
+            $res = [
                 'user' => $user,
                 'bio' => $user->getBio,
                 'address' => $user->getAlamat,
+                "wishlist" => $user->getWishlist,
                 'count_wish' => count($user->getWishlist),
-                'count_cart' => count($user->getKeranjang)
+                'count_cart' => count($user->getKeranjang),
+
             ];
 
-            foreach($res['address'] as $row){
+            foreach ($res['address'] as $row) {
                 $row->getOccupancy;
             }
 
-            foreach($res['user']->getWishlist  as $row){
+            foreach ($res['wishlist']  as $row) {
                 $row->getProduk;
+                $row['count_ulasan'] = 0;
+                $row['avg_ulasan'] = 0;
+
+                foreach ($row->getProduk->getUlasan as $ls) {
+                    $row['count_ulasan']++;
+                    $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
+                }
+
+                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
             }
+
+           
             return response()->json([
                 'error' => false,
                 'data' => $res
@@ -109,18 +122,13 @@ class AuthController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
-
-
     }
 
     public function check_email(Request $request)
@@ -141,7 +149,6 @@ class AuthController extends Controller
                 } elseif ($jumlahUser) {
 
                     $res['data'] = ['message' => 'email sudah digunakan'];
-
                 } else {
                     $res['error'] = false;
                     $res['data'] = ['message' => 'email dapat digunakan'];
@@ -153,8 +160,6 @@ class AuthController extends Controller
             }
 
             return response()->json($res, $status);
-
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => false,
