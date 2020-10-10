@@ -34,6 +34,8 @@ Route::group(['namespace' => 'API'], function () {
 
             Route::post('update/bio','ProfileController@update_bio');
 
+            Route::post('update/password','ProfileController@change_password');
+
             Route::post('upload/ava','ProfileController@upload_ava');
 
             Route::post('upload/background','ProfileController@upload_background');
