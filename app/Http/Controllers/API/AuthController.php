@@ -107,14 +107,14 @@ class AuthController extends Controller
                 $row['avg_ulasan'] = 0;
 
                 foreach ($row->getProduk->getUlasan as $ls) {
-                    $row['count_ulasan']++;
-                    $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
+                    $row['count_ulasan']=$row['count_ulasan']+1;
+                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
                 }
 
-                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
+                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
             }
 
-           
+
             return response()->json([
                 'error' => false,
                 'data' => $res
