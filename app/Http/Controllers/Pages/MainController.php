@@ -47,21 +47,26 @@ class MainController extends Controller
     public function produk(Request $request)
     {
         $produk = Produk::where('permalink', $request->produk)->first();
-        $ulasan = Ulasan::where('produk_id', $produk->id)->orderByDesc('id')->get();
-        $qna = QnA::where('produk_id', $produk->id)->where('user_id', '!=', Auth::id())->orderByDesc('id')->get();
-        $qna_ku = QnA::where('produk_id', $produk->id)->where('user_id', Auth::id())->orderByDesc('id')->get();
-        $qna_tag = Template::orderBy('pertanyaan')->get();
-        $stars = Rating::stars($ulasan->avg('bintang'));
 
-        $cek_wishlist = Favorit::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
-        $cek_ulasan = Ulasan::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
+        if (!is_null($produk)) {
+            $ulasan = Ulasan::where('produk_id', $produk->id)->orderByDesc('id')->get();
+            $qna = QnA::where('produk_id', $produk->id)->where('user_id', '!=', Auth::id())->orderByDesc('id')->get();
+            $qna_ku = QnA::where('produk_id', $produk->id)->where('user_id', Auth::id())->orderByDesc('id')->get();
+            $qna_tag = Template::orderBy('pertanyaan')->get();
+            $stars = Rating::stars($ulasan->avg('bintang'));
 
-        $related = Produk::where('id', '!=', $produk->id)->whereHas('getSubkategori', function ($q) use ($produk) {
-            $q->where('id', $produk->sub_kategori_id);
-        })->orderBy('nama')->take(8)->get();
+            $cek_wishlist = Favorit::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
+            $cek_ulasan = Ulasan::where('produk_id', $produk->id)->where('user_id', Auth::id())->first();
 
-        return view('pages.main.detail', compact('produk', 'ulasan', 'qna', 'qna_ku', 'qna_tag',
-            'stars', 'cek_wishlist', 'cek_ulasan', 'related'));
+            $related = Produk::where('id', '!=', $produk->id)->whereHas('getSubkategori', function ($q) use ($produk) {
+                $q->where('id', $produk->sub_kategori_id);
+            })->orderBy('nama')->take(8)->get();
+
+            return view('pages.main.detail', compact('produk', 'ulasan', 'qna', 'qna_ku', 'qna_tag',
+                'stars', 'cek_wishlist', 'cek_ulasan', 'related'));
+        }
+
+        return redirect()->route('beranda');
     }
 
     public function galeriProduk(Request $request)
