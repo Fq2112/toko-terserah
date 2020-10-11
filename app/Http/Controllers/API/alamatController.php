@@ -157,7 +157,7 @@ class alamatController extends Controller
                         'message' => $validator->errors()->toJson()
                     ]
                 ], 400);
-            }
+            } 
 
             $alamatEdit= Alamat::find($id);
 
@@ -200,7 +200,7 @@ class alamatController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            $validator = $this->validateForm($request);
+            /*$validator = $this->validateForm($request);
 
             if ($validator->fails()) {
                 return response()->json([
@@ -209,7 +209,7 @@ class alamatController extends Controller
                         'message' => $validator->errors()->toJson()
                     ]
                 ], 400);
-            }
+            }*/
 
             if($user->getAlamat->where('id',$id)){
                 Alamat::destroy($id);
