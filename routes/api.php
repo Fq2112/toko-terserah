@@ -28,6 +28,20 @@ Route::group(['namespace' => 'API'], function () {
 
     Route::post('search', 'ProductController@get_product');
 
+    Route::group(['prefix' => 'product'], function () {
+
+        Route::get('home', 'ProductController@home_mobile');
+
+        Route::get('detail/{id}', 'ProductController@get_detail');
+
+
+
+        Route::post('qna', 'BuyingController@submit_qna')->middleware('jwt.verify');
+
+        Route::post('review', 'BuyingController@submit_ulasan')->middleware('jwt.verify');
+
+    });
+
     Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::group(['prefix' => 'profile'], function () {
@@ -42,19 +56,7 @@ Route::group(['namespace' => 'API'], function () {
 
         });
 
-        Route::group(['prefix' => 'product'], function () {
 
-            Route::get('home', 'ProductController@home_mobile');
-
-            Route::get('detail/{id}', 'ProductController@get_detail');
-
-
-
-            Route::post('qna', 'BuyingController@submit_qna');
-
-            Route::post('review', 'BuyingController@submit_ulasan');
-
-        });
 
         Route::group(['prefix' => 'address'], function () {
 
