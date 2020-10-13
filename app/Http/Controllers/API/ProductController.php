@@ -97,7 +97,7 @@ class ProductController extends Controller
     {
         $data = Produk::where('is_diskon', true)
             ->where('stock', '>', 1)->inRandomOrder()->limit(6)->get([
-                'id', 'harga', 'gambar', 'diskon',
+                'id', 'harga', 'gambar', 'diskon','nama',
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
         $data = $this->get_image_path($data);
@@ -108,7 +108,7 @@ class ProductController extends Controller
     public function get_newest()
     {
         $data = Produk::orderByDesc('created_at')->limit(6)->get([
-            'id', 'harga', 'gambar', 'diskon',
+            'id', 'harga', 'gambar', 'diskon','nama',
             'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
         ])->toArray();
 
@@ -118,7 +118,8 @@ class ProductController extends Controller
 
     public function get_popular()
     {
-        $query = " select * from (SELECT p.id,p.harga, p.gambar, p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir ,p.sub_kategori_id,count(u.produk_id) as jumlah from produk p left join ulasans u on
+        $query = " select * from (SELECT p.nama,p.id,p.harga, p.gambar, p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir ,p.sub_kategori_id,count(u.produk_id) as jumlah
+        from produk p left join ulasans u on
                     u.produk_id = p.id group by p.id, p.harga , p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir, p.gambar,p.sub_kategori_id) a order by jumlah DESC limit 6";
         $data = DB::select(DB::raw($query));
         $data = $this->get_image_path(json_decode(json_encode($data), true));
