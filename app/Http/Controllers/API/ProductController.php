@@ -127,11 +127,13 @@ class ProductController extends Controller
 
     public function get_top_rated()
     {
-        return Produk::where('stock', '>', 0)
+        $data= Produk::where('stock', '>', 0)
             ->withCount(['getUlasan as average_rating' => function ($q) {
                 $q->select(DB::raw('coalesce(avg(bintang),0)'));
             }])->orderByDesc('average_rating')->take(6)->get();
-    }
+            $data = $this->get_image_path($data);
+            return $data;
+        }
 
     public function get_image_path($data)
     {
