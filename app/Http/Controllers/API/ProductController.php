@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Produk;
 use App\Models\SubKategori;
+use App\Models\Ulasan;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -103,11 +104,17 @@ class ProductController extends Controller
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
 
-            // foreach ($data as $row) {
-            //     foreach($row->getUlasan as $ls)
-            //     $row['count_ulasan']=$row['count_ulasan']+1;
-            //     $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
-            // }
+            foreach ($data as $i => $row) {
+                $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+                $row['count_ulasan']= $row['avg_ulasan']=0;
+
+                foreach($ulasan as $ls ){
+                    $row['count_ulasan']=$row['count_ulasan']+1;
+                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+                }
+                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
+
+            }
         $data = $this->get_image_path($data);
 
         return $data;
