@@ -22,7 +22,7 @@ class ProductController extends Controller
             $flash_sale = $this->get_flash_sale();
             $newest = $this->get_newest();
             $popular = $this->get_popular();
-            $get_top_rated= $this->get_top_rated();
+            $get_top_rated = $this->get_top_rated();
             return response()->json(
                 [
                     'error' => false,
@@ -31,7 +31,7 @@ class ProductController extends Controller
                         'flash_sale' => $flash_sale,
                         'newest' => $newest,
                         'popular' => $popular,
-                        'top_rated' =>$get_top_rated
+                        'top_rated' => $get_top_rated
                     ]
                 ]
             );
@@ -100,35 +100,56 @@ class ProductController extends Controller
     {
         $data = Produk::where('is_diskon', true)
             ->where('stock', '>', 1)->inRandomOrder()->limit(6)->get([
-                'id', 'harga', 'gambar', 'diskon','nama',
+                'id', 'harga', 'gambar', 'diskon', 'nama',
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
+        $res = [];
 
-            foreach ($data as $i => $row) {
-                $ulasan = Ulasan::where('produk_id', $row['id'])->get();
-                $row['count_ulasan']= $row['avg_ulasan']=0;
+        foreach ($data as $i => $row) {
+            $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+            $row['count_ulasan'] = 0;
+            $row['avg_ulasan'] = 0;
 
-                foreach($ulasan as $ls ){
-                    $row['count_ulasan']=$row['count_ulasan']+1;
-                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
-                }
-                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
 
+            foreach ($ulasan as $ls) {
+                $row['count_ulasan'] = $row['count_ulasan'] + 1;
+                $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
             }
-        $data = $this->get_image_path($data);
+            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
+            $res[] = $row;
+        }
 
-        return $data;
+        $data = $this->get_image_path($res);
+
+        return $res;
     }
 
     public function get_newest()
     {
         $data = Produk::orderByDesc('created_at')->limit(6)->get([
-            'id', 'harga', 'gambar', 'diskon','nama',
+            'id', 'harga', 'gambar', 'diskon', 'nama',
             'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
         ])->toArray();
 
-        $data = $this->get_image_path($data);
-        return $data;
+        $res = [];
+
+        foreach ($data as $i => $row) {
+            $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+            $row['count_ulasan'] = 0;
+            $row['avg_ulasan'] = 0;
+
+
+            foreach ($ulasan as $ls) {
+                $row['count_ulasan'] = $row['count_ulasan'] + 1;
+                $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
+            }
+            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
+            $res[] = $row;
+        }
+
+        $data = $this->get_image_path($res);
+
+        return $res;
     }
 
     public function get_popular()
@@ -137,16 +158,54 @@ class ProductController extends Controller
         from produk p left join ulasans u on
                     u.produk_id = p.id group by p.id, p.harga , p.diskon, p.harga_diskon,p.harga_grosir,p.diskonGrosir, p.harga_diskon_grosir, p.gambar,p.sub_kategori_id) a order by jumlah DESC limit 6";
         $data = DB::select(DB::raw($query));
-        $data = $this->get_image_path(json_decode(json_encode($data), true));
-        return $data;
+        $data = json_decode(json_encode($data), true);
+
+        $res=[];
+
+        foreach ($data as $i => $row) {
+            $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+            $row['count_ulasan']=0;
+             $row['avg_ulasan']=0;
+
+
+            foreach($ulasan as $ls ){
+                $row['count_ulasan']=$row['count_ulasan']+1;
+                $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+            }
+            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
+            $res[]=$row;
+        }
+
+    $data = $this->get_image_path($res);
+
+    return $res;
     }
 
     public function get_top_rated()
     {
-        return Produk::where('stock', '>', 0)
+        $data = Produk::where('stock', '>', 0)
             ->withCount(['getUlasan as average_rating' => function ($q) {
                 $q->select(DB::raw('coalesce(avg(bintang),0)'));
-            }])->orderByDesc('average_rating')->take(6)->get();
+            }])->orderByDesc('average_rating')->take(6)->get()->toArray();
+        $res = [];
+
+        foreach ($data as $i => $row) {
+            $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+            $row['count_ulasan'] = 0;
+            $row['avg_ulasan'] = 0;
+
+
+            foreach ($ulasan as $ls) {
+                $row['count_ulasan'] = $row['count_ulasan'] + 1;
+                $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
+            }
+            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
+            $res[] = $row;
+        }
+
+        $data = $this->get_image_path($res);
+
+        return $res;
     }
 
     public function get_image_path($data)
