@@ -103,11 +103,11 @@ class ProductController extends Controller
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
 
-            foreach ($data as $row) {
-                foreach($row->getUlasan as $ls)
-                $row['count_ulasan']=$row['count_ulasan']+1;
-                $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
-            }
+            // foreach ($data as $row) {
+            //     foreach($row->getUlasan as $ls)
+            //     $row['count_ulasan']=$row['count_ulasan']+1;
+            //     $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+            // }
         $data = $this->get_image_path($data);
 
         return $data;
