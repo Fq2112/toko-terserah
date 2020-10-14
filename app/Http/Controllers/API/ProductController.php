@@ -82,16 +82,16 @@ class ProductController extends Controller
 
             $data = $this->get_image_path($data);
 
-            return response()->json(
-                [
-                    'error' => false,
-                    'data' => [
-                        'count_produk' => count($data),
-                        'produk' => $data,
-                    ]
-                ],
-                200
-            );
+                return response()->json(
+                    [
+                        'error' => false,
+                        'data' => [
+                            'count_produk' => count($data),
+                            'produk' => $data,
+                        ]
+                    ],
+                    200
+                );
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
