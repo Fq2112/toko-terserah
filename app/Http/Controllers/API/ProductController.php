@@ -63,7 +63,11 @@ class ProductController extends Controller
                     $q->whereHas('getSubkategori', function ($q) use ($request) {
                         $q->whereIn('id', $request->sub_kategori);
                     });
-                })->when($request->get('jenis'), function ($q) use ($request) {
+                })->when($request->get('awal'), function ($q) use ($request) {
+                    $q->whereBetween(DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"),
+                        [$request->get('awal'), $request->get('akhir')]);
+                })
+                ->when($request->get('jenis'), function ($q) use ($request) {
                     if ($request->jenis == 'retail') {
                         $q->where('isGrosir', false);
                     } elseif ($request->jenis == 'grosir') {
