@@ -252,9 +252,9 @@ class ProductController extends Controller
     {
         try {
 
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
+          $user = JWTAuth::parseToken()->authenticate();
+          $check=auth()->check();
+
             $data = Produk::find($id);
             $review = $data->getUlasan->toArray();
             $qna = $data->getQnA->toArray();
@@ -263,14 +263,26 @@ class ProductController extends Controller
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
                 'error' => false,
-                'data' => [
-                    'detail' => $data,
-                    'review' => $review,
-                    'qna' => $qna,
-                    'count_cart'=>$user->getKeranjang->count()
-                ]
+                'data' =>$this->res_get_product($data
+                ,$review
+                ,$qna,$user->getKeranjang->count(),true)
             ], 200);
-        } catch (ModelNotFoundException $e) {
+        }
+        catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            $data = Produk::find($id);
+            $review = $data->getUlasan->toArray();
+            $qna = $data->getQnA->toArray();
+            return response()->json([
+                'error' => false,
+                'data' =>
+                $this->res_get_product($data
+                ,$review
+                ,$qna,0,false)
+            ], 200);
+
+            // do whatever you want to do if a token is not present
+        }
+        catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
                 'data' => [
@@ -285,6 +297,19 @@ class ProductController extends Controller
                 ]
             ], 500);
         }
+    }
+
+    private function res_get_product($data,$review,$qna,$count_card,$is_login){
+        return [
+            'error' => false,
+            'data' => [
+                'detail' => $data,
+                'review' => $review,
+                'qna' => $qna,
+                'count_cart'=>$count_card,
+                // 'is_login'=>$user ? true : false,
+                'is_login'=>$is_login
+            ]];
     }
 
     public function get_detail_ulasan($data)
