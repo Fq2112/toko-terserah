@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Favorit;
 use App\Models\Produk;
 use App\Models\SubKategori;
 use App\Models\Ulasan;
@@ -265,7 +266,7 @@ class ProductController extends Controller
 
                 $data['count_ulasan'] = 0;
                 $data['avg_ulasan'] = 0;
-
+                $data['isWished']=Favorit::where('user_id',$user->id)->where('produk_id',$id)->count();
                 foreach ($data->getUlasan as $ls) {
                     $data['count_ulasan']=$data['count_ulasan']+1;
                     $data['avg_ulasan'] = $data['avg_ulasan']+$ls->bintang;
@@ -290,6 +291,7 @@ class ProductController extends Controller
 
             $data['count_ulasan'] = 0;
             $data['avg_ulasan'] = 0;
+            $data['isWished']=0;
 
             foreach ($data->getUlasan as $ls) {
                 $data['count_ulasan']=$data['count_ulasan']+1;
