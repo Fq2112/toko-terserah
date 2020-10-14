@@ -264,6 +264,8 @@ class ProductController extends Controller
             $review =[
                 'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first(),
                 'count'=>Ulasan::where('produk_id',$id)->count(),
+                'avg'=>DB::table('ulasans')
+                ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
             ];
 
