@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Favorit;
 use App\Models\Produk;
 use App\Models\SubKategori;
 use App\Models\Ulasan;
@@ -263,6 +264,17 @@ class ProductController extends Controller
             $review = $data->getUlasan->toArray();
             $qna = $data->getQnA->toArray();
 
+                $data['count_ulasan'] = 0;
+                $data['avg_ulasan'] = 0;
+                $data['isWished']=Favorit::where('user_id',$user->id)->where('produk_id',$id)->count();
+                foreach ($data->getUlasan as $ls) {
+                    $data['count_ulasan']=$data['count_ulasan']+1;
+                    $data['avg_ulasan'] = $data['avg_ulasan']+$ls->bintang;
+                }
+
+                $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan']/$data['count_ulasan']:0;
+
+
             $review = $this->get_detail_ulasan($review);
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
@@ -276,6 +288,19 @@ class ProductController extends Controller
             $data = Produk::find($id);
             $review = $data->getUlasan->toArray();
             $qna = $data->getQnA->toArray();
+
+            $data['count_ulasan'] = 0;
+            $data['avg_ulasan'] = 0;
+            $data['isWished']=0;
+
+            foreach ($data->getUlasan as $ls) {
+                $data['count_ulasan']=$data['count_ulasan']+1;
+                $data['avg_ulasan'] = $data['avg_ulasan']+$ls->bintang;
+            }
+
+            $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan']/$data['count_ulasan']:0;
+
+
             return response()->json([
                 'error' => false,
                 'data' =>
@@ -305,15 +330,14 @@ class ProductController extends Controller
 
     private function res_get_product($data,$review,$qna,$count_card,$is_login){
         return [
-            'error' => false,
-            'data' => [
+
                 'detail' => $data,
                 'review' => $review,
                 'qna' => $qna,
                 'count_cart'=>$count_card,
                 // 'is_login'=>$user ? true : false,
                 'is_login'=>$is_login
-            ]];
+            ];
     }
 
     public function get_detail_ulasan($data)
