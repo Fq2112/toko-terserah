@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use JWTAuth;
+
 
 class ProductController extends Controller
 {
@@ -249,6 +251,10 @@ class ProductController extends Controller
     public function get_detail($id)
     {
         try {
+
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
             $data = Produk::find($id);
             $review = $data->getUlasan->toArray();
             $qna = $data->getQnA->toArray();
@@ -260,7 +266,8 @@ class ProductController extends Controller
                 'data' => [
                     'detail' => $data,
                     'review' => $review,
-                    'qna' => $qna
+                    'qna' => $qna,
+                    'count_cart'=>$user->getKeranjang->count()
                 ]
             ], 200);
         } catch (ModelNotFoundException $e) {
