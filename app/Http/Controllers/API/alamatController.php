@@ -27,6 +27,10 @@ class alamatController extends Controller
 
             foreach($alamat as $row){
                 $row->getOccupancy;
+                $row->getKecamatan;
+                $row->getKecamatan->getKota;
+                $row->getKecamatan->getKota->getProvinsi;
+
             }
 
             return $this->resSuccess($alamat,'data berhasil diambil');
@@ -245,10 +249,14 @@ class alamatController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
             $q=$request->get('q');
+            $pro_id=$request->get('provinsi_id');
 
             $kota=DB::table('kota as k')->join('provinsi as p', 'k.provinsi_id', '=', 'p.id')
             ->select('k.id as kota_id','k.nama','p.nama as provinsi','k.kode_pos','k.tipe')
             ->where('k.nama','like',"%$q%")
+            
+            ->orderBy('k.nama','asc')
+            ->where('k.provinsi_id','=',"$pro_id")
             ->get();
             $not_found=$this->countArray($kota);
 
@@ -325,6 +333,8 @@ class alamatController extends Controller
             ->select('id','nama')
             ->where('nama','like',"%$q%")
             ->where('kota_id','=',"$id")
+            ->orderBy('nama','asc')
+
             ->get();
             $not_found=$this->countArray($kecamatan);
 
@@ -332,6 +342,46 @@ class alamatController extends Controller
                 "error"=>false,
                 "data"=>[
                     "district"=>$kecamatan,
+                ] ]);
+
+
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+            return response()->json(['token_expired'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+            return response()->json(['token_invalid'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+            return response()->json(['token_absent'], $e->getStatusCode());
+
+        }
+    }
+    public function get_provinsi(Request $request){
+        try {
+
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+            $q=$request->get('q');
+            // $id=$request->get('kota_id');
+
+            $kecamatan=DB::table('provinsi')
+            ->select('id','nama')
+            ->where('nama','like',"%$q%")
+            ->orderBy('k.nama','asc')
+
+            // ->where('kota_id','=',"$id")
+            ->get();
+            $not_found=$this->countArray($kecamatan);
+
+            return response()->json([
+                "error"=>false,
+                "data"=>[
+                    "province"=>$kecamatan,
                 ] ]);
 
 
