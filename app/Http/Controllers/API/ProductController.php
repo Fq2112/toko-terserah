@@ -261,7 +261,12 @@ class ProductController extends Controller
           $check=auth()->check();
 
             $data = Produk::find($id);
-            $review = $data->getUlasan->toArray();
+            $review =[
+                'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first(),
+                'count'=>Ulasan::where('produk_id',$id)->count(),
+                'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
+            ];
+
             $qna = $data->getQnA->toArray();
 
                 $data['count_ulasan'] = 0;
@@ -274,8 +279,6 @@ class ProductController extends Controller
 
                 $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan']/$data['count_ulasan']:0;
 
-
-            $review = $this->get_detail_ulasan($review);
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
                 'error' => false,
