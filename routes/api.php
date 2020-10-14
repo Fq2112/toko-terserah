@@ -42,6 +42,12 @@ Route::group(['namespace' => 'API'], function () {
 
     });
 
+    Route::group(['prefix' => 'master'], function () {
+
+        Route::get('sub', 'MasterController@getSubKategori');
+
+    });
+
     Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::group(['prefix' => 'profile'], function () {
