@@ -422,7 +422,7 @@ class alamatController extends Controller
             $kecamatan=DB::table('provinsi')
             ->select('id','nama')
             ->where('nama','like',"%$q%")
-            ->orderBy('k.nama','asc')
+            ->orderBy('nama','asc')
 
             // ->where('kota_id','=',"$id")
             ->get();

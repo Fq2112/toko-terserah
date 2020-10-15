@@ -11,14 +11,29 @@ use JWTAuth;
 
 class keranjangController extends Controller
 {
-    public function get()
+    public function get(Request $request)
     {
+        $id=$request->id;
+        if(!is_array($id) &&$id){
+            $id=explode(',',$id);
+        }
+
+        // return $id;
+
+        
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
 
-            $data = Keranjang::where('user_id', $user->id)
+            $data = Keranjang::
+            when($id, function($q) use ($id) {
+              
+                    $q->whereIn('id', $id);
+                
+             
+            })->
+            where('user_id', $user->id)
                 ->where('isCheckOut', false)
                 ->get();
 
