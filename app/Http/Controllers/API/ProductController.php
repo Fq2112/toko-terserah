@@ -78,8 +78,6 @@ class ProductController extends Controller
                         $q->where('isGrosir', false);
                     } elseif ($request->jenis == 'grosir') {
                         $q->where('isGrosir', true);
-                    } else {
-                        $q->where('isGrosir', false)->orWhere('isGrosir', true);
                     }
                 })->where('stock', '>', 0)
                 ->orderBy('nama')->get()

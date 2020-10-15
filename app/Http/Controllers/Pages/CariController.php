@@ -44,9 +44,7 @@ class CariController extends Controller
                 $q->where('isGrosir', false);
             } elseif ($jenis == 'grosir') {
                 $q->where('isGrosir', true);
-            } else {
-                $q->where('isGrosir', false)->orWhere('isGrosir', true);
-            }
+            } 
         })->when($sort, function ($q) use ($sort) {
             if ($sort == 'popularitas') {
                 $q->withCount('getKeranjang')->orderByDesc('get_keranjang_count');
