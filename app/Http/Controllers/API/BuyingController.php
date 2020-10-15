@@ -28,7 +28,7 @@ class BuyingController extends Controller
     }
 
 
-    public function get(Request $request)
+    public function get_wish(Request $request)
     {
         try {
 
@@ -161,6 +161,8 @@ class BuyingController extends Controller
             ], 500);
         }
     }
+
+
 
     public function submit_ulasan(Request $request)
     {
