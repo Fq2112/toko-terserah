@@ -20,6 +20,29 @@ class MasterController extends Controller
                 ],
                 200
             );
+
+            // $kat=Kategori::orderBy('nama','desc')->get(['id','nama'])->toArray();
+            // $res=[];
+
+            // foreach($kat as $i=>$row){
+            //     $row['sub']=[];
+            // $sub = SubKategori::query()->orderBy('nama')->get(['id','nama']);
+            // foreach($sub as $ls){
+            //     $row['sub'][]=$ls;
+            // }
+            // $res[]=$row;
+
+
+            // }
+
+
+            // return response()->json(
+            //     [
+            //         'error' => false,
+            //         'data' => $res
+            //     ],
+            //     200
+            // );
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,

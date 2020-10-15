@@ -58,6 +58,11 @@ class ProductController extends Controller
     {
         try {
             $data = Produk::query()
+                ->when($request->kategori, function($q) use ($request) {
+                    $q->whereHas('getSubkategori', function($q) use ($request) {
+                        $q->whereIn('id', explode(',',$request->kategori));
+                    });
+                })
                 ->when($request->get('name'), function ($q) use ($request) {
                     $q->where('nama', 'LIKE', '%' . $request->get('name') . '%');
                 })->when($request->get('sub_kategori'), function ($q) use ($request) {
