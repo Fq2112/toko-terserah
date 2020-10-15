@@ -50,6 +50,52 @@ class alamatController extends Controller
         }
     }
 
+    
+    public function set_utama(Request $request)
+    {
+        // return $request->id;
+        DB::beginTransaction();
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+            
+            $alamat=$user->getAlamat;
+         
+            foreach($alamat as $row){
+                $row->update(['isUtama'=>($request->id==$row->id ? 1: 0)]);
+                if($request->id==$row->id){
+                    
+                }
+            }
+
+            DB::commit();
+            return response()->json(
+                [
+                    'error' => false,
+                    'data' => [
+
+                        
+                        'message' => 'berhasil   diubah ' 
+                    ]
+                ],
+                200
+            );
+        } catch (Exception $e) {
+
+            DB::rollback();
+            return response()->json(
+                [
+                    'error' => true,
+                    'data' => [
+
+                        'message' => $e
+                    ]
+                ],
+                400
+            );
+        }
+    }
     public function detail(Request $request){
         try {
 
@@ -65,8 +111,11 @@ class alamatController extends Controller
                         ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
 
 
-                $other_link=DB::table('kecamatan as a')->join('kota as b','a.kota_id','=','b.id')
-                                ->select('a.id as kecamatan_id','a.nama as kecamatan_name','b.id as kota_id','b.nama as kota_name')
+                $other_link=DB::table('kecamatan as a')
+                ->join('kota as b','a.kota_id','=','b.id')
+                ->join('provinsi as c','b.provinsi_id','=','c.id')
+
+                                ->select('a.id as kecamatan_id','a.nama as kecamatan_name','b.id as kota_id','b.nama as kota_name','b.provinsi_id','c.nama as provinsi_name')
                                 ->where('a.id','=',"$res->kecamatan_id")->first();
 
 
@@ -99,6 +148,7 @@ class alamatController extends Controller
 
         }
     }
+
 
     public function create(Request $request){
 

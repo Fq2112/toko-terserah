@@ -69,6 +69,7 @@ Route::group(['namespace' => 'API'], function () {
             Route::get('/', 'alamatController@get');
 
             Route::get('/detail/{id}', 'alamatController@detail');
+            Route::post('/set_utama/{id}', 'alamatController@set_utama');
 
             Route::get('/kota', 'alamatController@get_kota');
             Route::get('/provinsi', 'alamatController@get_provinsi');
