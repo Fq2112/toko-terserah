@@ -83,6 +83,14 @@ class ProductController extends Controller
                 ->orderBy('nama')->get()
                 ->take($request->get('limit') ?? 8)->toArray();
 
+                foreach ($data as $i => $row) {
+                    $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+                    $data[$i] = array_merge($data[$i], [
+                        'avg_ulasan' => count($ulasan) > 0 ? $ulasan->avg('bintang') : 0,
+                        'count_ulasan' => count($ulasan)
+                    ]);
+                }
+
 
             $data = $this->get_image_path($data);
 
