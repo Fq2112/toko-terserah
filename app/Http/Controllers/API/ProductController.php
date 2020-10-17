@@ -297,7 +297,7 @@ class ProductController extends Controller
                 'error' => false,
                 'data' =>$this->res_get_product($data
                 ,$review
-                ,$qna,$user->getKeranjang->count(),true)
+                ,$qna,$user->getKeranjang->where('isCheckOut',false)->count(),true)
             ], 200);
         }
         catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {

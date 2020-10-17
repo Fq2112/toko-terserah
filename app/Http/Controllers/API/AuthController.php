@@ -93,7 +93,7 @@ class AuthController extends Controller
                 'address' => $user->getAlamat,
                 // "wishlist" => $user->getWishlist,
                 'count_wish' => count($user->getWishlist),
-                'count_cart' => count($user->getKeranjang),
+                'count_cart' => $user->getKeranjang->where('isCheckOut',false)->count(),
 
             ];
 

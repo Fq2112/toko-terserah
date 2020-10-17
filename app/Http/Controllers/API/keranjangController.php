@@ -13,27 +13,21 @@ class keranjangController extends Controller
 {
     public function get(Request $request)
     {
-        $id=$request->id;
-        if(!is_array($id) &&$id){
-            $id=explode(',',$id);
+        $id = $request->id;
+        if (!is_array($id) && $id) {
+            $id = explode(',', $id);
         }
 
-        // return $id;
 
-        
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
 
-            $data = Keranjang::
-            when($id, function($q) use ($id) {
-              
+            $data = Keranjang::when($id, function ($q) use ($id) {
+
                     $q->whereIn('id', $id);
-                
-             
-            })->
-            where('user_id', $user->id)
+                })->where('user_id', $user->id)
                 ->where('isCheckOut', false)
                 ->get();
 
@@ -74,7 +68,12 @@ class keranjangController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            if ($cek = DB::table('keranjang')->where('produk_id', $request->id)->where('user_id',  $user->id)->first()) {
+            if ($cek = DB::table('keranjang')
+                ->where('produk_id', $request->id)
+                ->where('user_id',  $user->id)
+                ->where('isCheckOut', false)
+                ->first()
+            ) {
                 $request->id = $cek->id;
                 $request->qty = $request->qty + $cek->qty;
                 return $this->updateCart($request);
@@ -100,6 +99,7 @@ class keranjangController extends Controller
                             'error' => true,
                             'data' => [
                                 'stok' => $produk->stock,
+
                                 'qty' => $qty,
                                 'message' => 'Stock kurang',
                             ]
@@ -131,7 +131,8 @@ class keranjangController extends Controller
                     [
                         'error' => false,
                         'data' => [
-
+                            'count_cart' => Keranjang::where('user_id', $user->id)
+                                    ->where('isCheckOut', false)->count(),
                             'qty' => $qty,
                             'message' => 'berhasil ditambah ' . $qty
                         ]
@@ -224,7 +225,8 @@ class keranjangController extends Controller
                 [
                     'error' => false,
                     'data' => [
-
+                        'count_cart' => Keranjang::where('user_id', $user->id)
+                                    ->where('isCheckOut', false)->count(),
                         'qty' => $qty,
                         'message' => 'berhasil ' . $produk->nama . ' diubah ' . $qty
                     ]
