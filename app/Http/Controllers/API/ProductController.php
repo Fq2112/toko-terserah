@@ -116,8 +116,8 @@ class ProductController extends Controller
 
     public function get_flash_sale()
     {
-        $data = Produk::where('is_diskon', true)
-            ->where('stock', '>', 1)->inRandomOrder()->limit(6)->get([
+        $data = Produk::where('stock', '>', 0)->where('is_diskon', true)->orWhere('isDiskonGrosir', true)->where('stock', '>', 0)
+        ->inRandomOrder()->limit(6)->get([
                 'id', 'harga', 'gambar', 'diskon', 'nama',
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
