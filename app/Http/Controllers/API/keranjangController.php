@@ -247,10 +247,10 @@ class keranjangController extends Controller
         }
     }
 
-    public function deleteCart($id)
+    public function deleteCart(Request $request)
     {
         try {
-            $data = Keranjang::query()->find($id);
+            $data = Keranjang::query()->find($request->get('id'));
             $data->delete();
             return response()->json(
                 [
