@@ -26,8 +26,8 @@ class keranjangController extends Controller
 
             $data = Keranjang::when($id, function ($q) use ($id) {
 
-                    $q->whereIn('id', $id);
-                })->where('user_id', $user->id)
+                $q->whereIn('id', $id);
+            })->where('user_id', $user->id)
                 ->where('isCheckOut', false)
                 ->get();
 
@@ -70,7 +70,7 @@ class keranjangController extends Controller
 
             if ($cek = DB::table('keranjang')
                 ->where('produk_id', $request->id)
-                ->where('user_id',  $user->id)
+                ->where('user_id', $user->id)
                 ->where('isCheckOut', false)
                 ->first()
             ) {
@@ -132,7 +132,7 @@ class keranjangController extends Controller
                         'error' => false,
                         'data' => [
                             'count_cart' => Keranjang::where('user_id', $user->id)
-                                    ->where('isCheckOut', false)->count(),
+                                ->where('isCheckOut', false)->count(),
                             'qty' => $qty,
                             'message' => 'berhasil ditambah ' . $qty
                         ]
@@ -177,10 +177,8 @@ class keranjangController extends Controller
             }
 
 
-
             $qty = $request->qty >= $min_qty ? $request->qty : $min_qty;
             // return  $qty_recent.'   '.$qty;
-
 
 
             if ($qty_recent > $qty) {
@@ -226,7 +224,7 @@ class keranjangController extends Controller
                     'error' => false,
                     'data' => [
                         'count_cart' => Keranjang::where('user_id', $user->id)
-                                    ->where('isCheckOut', false)->count(),
+                            ->where('isCheckOut', false)->count(),
                         'qty' => $qty,
                         'message' => 'berhasil ' . $produk->nama . ' diubah ' . $qty
                     ]
@@ -246,6 +244,30 @@ class keranjangController extends Controller
                 ],
                 400
             );
+        }
+    }
+
+    public function deleteCart($id)
+    {
+        try {
+            $data = Keranjang::query()->find($id);
+            $data->delete();
+            return response()->json(
+                [
+                    'error' => true,
+                    'data' => [
+                        'message' => "Berhasil Menghapus Item"
+                    ]
+                ],
+                200
+            );
+        } catch (Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
         }
     }
 }
