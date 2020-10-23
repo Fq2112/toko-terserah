@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Mail\Auth\ActivationMail;
 use App\Models\Bio;
+use App\Models\Pesanan;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -94,7 +95,12 @@ class AuthController extends Controller
                 // "wishlist" => $user->getWishlist,
                 'count_wish' => count($user->getWishlist),
                 'count_cart' => $user->getKeranjang->where('isCheckOut',false)->count(),
-
+                'count_status' => [
+                    'belum_bayar' => Pesanan::where('user_id', $user->id)->where('isLunas', false)->count(),
+                    'dikemas_diambil' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNull('tgl_pengiriman')->count(),
+                    'dikirim' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->count(),
+                    'selesai' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima')->count()
+                ],
             ];
 
             foreach ($res['address'] as $row) {

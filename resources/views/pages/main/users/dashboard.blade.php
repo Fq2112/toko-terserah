@@ -303,8 +303,8 @@
                                                     </li>
                                                     @if($row->is_discount == true)
                                                         <li id="discount" class="list-group-item border-none">
-                                                            Diskon <b>{{$row->discount}}%</b>
-                                                            <b class="float-right">-Rp{{number_format(ceil($carts->sum('total') * $row->discount / 100),2,',','.')}}</b>
+                                                            Diskon
+                                                            <b class="float-right">-Rp{{number_format($row->discount,2,',','.')}}</b>
                                                         </li>
                                                     @endif
                                                 </ul>
