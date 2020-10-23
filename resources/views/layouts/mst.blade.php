@@ -48,7 +48,11 @@
     <link rel="stylesheet" href="{{asset('vendor/sweetalert/sweetalert2.css')}}">
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
 
-    <style>z
+    <style>
+        .avatar img {
+            height: 40px;
+        }
+
         .header-cart {
             display: unset !important;
         }
