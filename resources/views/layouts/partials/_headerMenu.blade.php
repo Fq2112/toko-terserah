@@ -15,15 +15,19 @@
             <li class="menu-item-has-children avatar">
                 <a href="javascript:void(0)">
                     @if(Auth::check())
-                        <img class="img-thumbnail show_ava" src="{{Auth::user()->getBio->ava != "" ?
-                        asset('storage/users/ava/'.Auth::user()->getBio->ava) :
-                        asset('images/faces/'.rand(1,6).'.jpg')}}">
+                        <div class="cover-img">
+                            <img class="img-thumbnail show_ava" src="{{Auth::user()->getBio->ava != "" ?
+                            asset('storage/users/ava/'.Auth::user()->getBio->ava) :
+                            asset('images/faces/'.rand(1,6).'.jpg')}}" alt="Avatar">
+                        </div>
                         <span class="show_username" style="text-transform: none">
                         {{Auth::user()->username}}</span> <i class="fa fa-angle-down"></i>
                     @elseif(Auth::guard('admin')->check())
-                        <img class="img-thumbnail show_ava" src="{{Auth::guard('admin')->user()->ava != "" ?
-                        asset('storage/admins/ava/'.Auth::guard('admin')->user()->ava) :
-                        asset('images/faces/'.rand(1,6).'.jpg')}}">
+                        <div class="cover-img">
+                            <img class="img-thumbnail show_ava" src="{{Auth::guard('admin')->user()->ava != "" ?
+                            asset('storage/admins/ava/'.Auth::guard('admin')->user()->ava) :
+                            asset('images/faces/'.rand(1,6).'.jpg')}}" alt="Avatar">
+                        </div>
                         <span class="show_username" style="text-transform: none">
                             {{Auth::guard('admin')->user()->username}}</span> <i class="fa fa-angle-down"></i>
                     @endif

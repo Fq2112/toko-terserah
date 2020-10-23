@@ -49,6 +49,15 @@
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
 
     <style>
+        .cover-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .cover-img img {
+            object-fit: cover;
+        }
+
         .header-cart {
             display: unset !important;
         }
