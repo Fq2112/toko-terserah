@@ -106,7 +106,7 @@ Route::group(['namespace' => 'API'], function () {
             Route::post('/add_cart', 'keranjangController@addCart');
             Route::post('/update_cart', 'keranjangController@updateCart');
 
-
+            Route::post('/delete_cart', 'keranjangController@deleteCart');
 
         });
 
