@@ -96,6 +96,7 @@ class DashboardController extends Controller
             }
 
             $pesanan = Pesanan::where('id', $request->code)->whereHas('getPengiriman')->first();
+            dd($pesanan);
             $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->orderByDesc('id')->get();
 
             if (strpos($pesanan->durasi_pengiriman, 'HARI') !== false) {
