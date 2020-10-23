@@ -95,8 +95,7 @@ class DashboardController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            $pesanan = Pesanan::where('id', $request->code)->whereHas('getPengiriman')->first();
-            dd($pesanan);
+            $pesanan = Pesanan::where('uni_code', $request->code)->whereHas('getPengiriman')->first();
             $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->orderByDesc('id')->get();
 
             if (strpos($pesanan->durasi_pengiriman, 'HARI') !== false) {
