@@ -153,9 +153,9 @@ class DashboardController extends Controller
                 }
             }
 
-            $file_path = storage_path('app/public/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
+            $file_path = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
             if (file_exists($file_path)) {
-                $file_invoice = storage_path('app/public/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
+                $file_invoice = $file_path;
             } else {
                 $file_invoice = null;
             }
