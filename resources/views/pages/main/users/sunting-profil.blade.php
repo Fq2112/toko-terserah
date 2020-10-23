@@ -279,7 +279,7 @@
                                                 <i class="fa fa-undo mr-2"></i>BATAL</span>
                                             </small>
                                             <hr class="mt-0">
-                                            <div class="mt-0 stats_address" style="font-size: 14px;">
+                                            <div class="mt-0 stats_address use-nicescroll" style="font-size: 14px;max-height: 550px">
                                                 @if(count($addresses) > 0)
                                                     @foreach($addresses as $row)
                                                         <div class="row">

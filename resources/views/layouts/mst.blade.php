@@ -49,6 +49,10 @@
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
 
     <style>
+        .avatar img {
+            height: 40px;
+        }
+
         .header-cart {
             display: unset !important;
         }

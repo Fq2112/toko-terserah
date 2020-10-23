@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Keranjang;
+use App\Models\Produk;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -260,6 +261,10 @@ class keranjangController extends Controller
     {
         try {
             $data = Keranjang::query()->find($request->get('id'));
+            $produk = Produk::query()->find($data->produk_id);
+            $produk->update([
+                'stock' => $produk->stock + $data->qty
+            ]);
             $data->delete();
             return response()->json(
                 [
