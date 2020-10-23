@@ -108,7 +108,8 @@ class alamatController extends Controller
                 $res=$res->first();
 
                 $res->occupancy_id=DB::table('occupancy_types')
-                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
+                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))
+                    ->where('id',$res->occupancy_id)->first();
 
 
                 $other_link=DB::table('kecamatan as a')
