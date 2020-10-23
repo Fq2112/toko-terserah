@@ -179,12 +179,12 @@ class keranjangController extends Controller
                 $min_qty = 1;
             }
 
-
+            //ambil min qty;
             $qty = $request->qty >= $min_qty ? $request->qty : $min_qty;
             // return  $qty_recent.'   '.$qty;
             // return $request->qty ;
 
-
+            //cek dengan qty keranjang
             if ($qty_recent > $qty) {
                 $qty_re = ($qty_recent - $qty) * -1;
             } elseif ($qty_recent == $qty) {
@@ -193,8 +193,8 @@ class keranjangController extends Controller
                 $qty_re = $qty - $qty_recent;
             }
 
-
-            if ($qty > $produk->stock) {
+            // cek jika stok g cukup
+            if ($qty- $qty_recent > $produk->stock) {
                 return response()->json(
                     [
                         'error' => true,
