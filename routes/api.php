@@ -102,7 +102,7 @@ Route::group(['namespace' => 'API'], function () {
 
             Route::get('/', 'keranjangController@get');
 
-            
+
             Route::post('/add_cart', 'keranjangController@addCart');
             Route::post('/update_cart', 'keranjangController@updateCart');
 
@@ -113,9 +113,9 @@ Route::group(['namespace' => 'API'], function () {
         Route::group(['prefix' => 'dashboard'], function () {
             //mobile
             Route::get('/', 'DashboardController@get');
-            Route::get('detail/{code}', 'DashboardController@detail');
-            Route::post('received/{code}', 'DashboardController@received');
-            Route::post('reorder/{code}', 'DashboardController@reorder');
+            Route::get('detail', 'DashboardController@detail');
+            Route::post('received', 'DashboardController@received');
+            Route::post('reorder', 'DashboardController@reorder');
 
         });
 
