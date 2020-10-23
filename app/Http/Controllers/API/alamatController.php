@@ -50,7 +50,7 @@ class alamatController extends Controller
         }
     }
 
-    
+
     public function set_utama(Request $request)
     {
         // return $request->id;
@@ -59,13 +59,13 @@ class alamatController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            
+
             $alamat=$user->getAlamat;
-         
+
             foreach($alamat as $row){
                 $row->update(['isUtama'=>($request->id==$row->id ? 1: 0)]);
                 if($request->id==$row->id){
-                    
+
                 }
             }
 
@@ -75,8 +75,8 @@ class alamatController extends Controller
                     'error' => false,
                     'data' => [
 
-                        
-                        'message' => 'berhasil   diubah ' 
+
+                        'message' => 'berhasil   diubah '
                     ]
                 ],
                 200
@@ -107,8 +107,8 @@ class alamatController extends Controller
             if($res){
                 $res=$res->first();
 
-                $res->occupancy_id=DB::table('occupancy_types')
-                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
+//                $res->occupancy_id=DB::table('occupancy_types')
+//                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))->first();
 
 
                 $other_link=DB::table('kecamatan as a')
@@ -211,7 +211,7 @@ class alamatController extends Controller
                         'message' => $validator->errors()->toJson()
                     ]
                 ], 400);
-            } 
+            }
 
             $alamatEdit= Alamat::find($id);
 
@@ -304,7 +304,7 @@ class alamatController extends Controller
             $kota=DB::table('kota as k')->join('provinsi as p', 'k.provinsi_id', '=', 'p.id')
             ->select('k.id as kota_id','k.nama','p.nama as provinsi','k.kode_pos','k.tipe')
             ->where('k.nama','like',"%$q%")
-            
+
             ->orderBy('k.nama','asc')
             ->where('k.provinsi_id','=',"$pro_id")
             ->get();
