@@ -153,19 +153,12 @@ class DashboardController extends Controller
                 }
             }
 
-            $file_path = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
-            if (file_exists($file_path)) {
-                $file_invoice = $file_path;
-            } else {
-                $file_invoice = null;
-            }
-
             $pesanan->str_etd = $str_etd;
             $pesanan->carts = $carts;
             $pesanan->subtotal = $carts->sum('total');
             $pesanan->recent_track = $recent_track;
             $pesanan->full_track = $full_track;
-            $pesanan->file_invoice = $file_invoice;
+            $pesanan->file_invoice = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
 
             return response()->json([
                 'error' => false,
