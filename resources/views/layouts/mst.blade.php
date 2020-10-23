@@ -48,16 +48,7 @@
     <link rel="stylesheet" href="{{asset('vendor/sweetalert/sweetalert2.css')}}">
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
 
-    <style>
-        .cover-img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .cover-img img {
-            object-fit: cover;
-        }
-
+    <style>z
         .header-cart {
             display: unset !important;
         }
