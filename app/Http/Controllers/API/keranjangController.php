@@ -76,6 +76,7 @@ class keranjangController extends Controller
             ) {
                 $request->id = $cek->id;
                 $request->qty = $request->qty + $cek->qty;
+
                 return $this->updateCart($request);
             } else {
                 DB::beginTransaction();
@@ -160,12 +161,14 @@ class keranjangController extends Controller
     {
         DB::beginTransaction();
         try {
-            // if (!$user = JWTAuth::parseToken()->authenticate()) {
-            //     return response()->json(['user_not_found'], 404);
-            // }
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
             $cart = Keranjang::where('id', $request->id)->first();
             $produk = $cart->getProduk;
             $qty_recent = $cart->qty;
+
+            // return $qty_recent;
 
 
             if ($produk->isGrosir == true) {
@@ -180,6 +183,7 @@ class keranjangController extends Controller
 
             $qty = $request->qty >= $min_qty ? $request->qty : $min_qty;
             // return  $qty_recent.'   '.$qty;
+            // return $request->qty ;
 
 
 
@@ -190,6 +194,7 @@ class keranjangController extends Controller
             } else {
                 $qty_re = $qty - $qty_recent;
             }
+
 
             if ($qty > $produk->stock) {
                 return response()->json(
@@ -217,10 +222,14 @@ class keranjangController extends Controller
             ]);
 
 
+
+
+
             //save in table 2
 
             //save in table 3....with a sql error
             DB::commit();
+
             return response()->json(
                 [
                     'error' => false,
