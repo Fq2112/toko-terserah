@@ -34,6 +34,7 @@ class keranjangController extends Controller
 
             foreach ($data as $row) {
                 $row->getProduk->select('id');
+                $row->getProduk->getWishlist;
             }
 
             return response()->json(
