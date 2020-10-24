@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Favorit;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use Exception;
@@ -35,7 +36,7 @@ class keranjangController extends Controller
             foreach ($data as $row) {
                 $row->getProduk->select('id');
                 $row->getProduk->getWishlist = [
-                    "hello" => "bitcch"
+                    Favorit::query()->where('user_id',$user->id )->where('produk_id',$row->getProduk->id)->first()
                 ];
             }
 
