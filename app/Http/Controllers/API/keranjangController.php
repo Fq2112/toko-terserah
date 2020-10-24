@@ -31,6 +31,7 @@ class keranjangController extends Controller
                 $q->whereIn('id', $id);
             })->where('user_id', $user->id)
                 ->where('isCheckOut', false)
+                ->orderbyDesc('created_at')
                 ->get();
 
             foreach ($data as $row) {
