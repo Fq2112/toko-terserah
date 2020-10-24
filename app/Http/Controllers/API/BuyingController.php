@@ -122,7 +122,7 @@ class BuyingController extends Controller
 
             $cek = Favorit::where('user_id', $user->id)
                 ->where('produk_id', $id)
-                ->fisrt();
+                ->first();
 
             if ($cek) {
                 $cek->delete();
