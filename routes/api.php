@@ -89,7 +89,7 @@ Route::group(['namespace' => 'API'], function () {
             //mobile
 
             Route::get('/', 'BuyingController@get_wish');
-
+            Route::post('/switch', 'BuyingController@switchWish');
 
             // web
             Route::post('delete/{id}', 'BuyingController@delete_wish_list');
