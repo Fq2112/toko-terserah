@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class BuyingController extends Controller
 {
-    private function resSuccess($wishlistt,$msg=null)
+    private function resSuccess($wishlistt, $msg = null)
     {
 
         return response()->json([
@@ -22,7 +22,7 @@ class BuyingController extends Controller
             'data' => [
                 'data' => $wishlistt,
                 'count' => count($wishlistt),
-                'message'=>$msg,
+                'message' => $msg,
             ]
         ]);
     }
@@ -35,9 +35,9 @@ class BuyingController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $q=$request->get('q');
-            $wishlistt= Favorit::where('user_id',$user->id)->whereHas('getProduk', function($query) use ($q) {
-                $query->where('nama','like',"%$q%");
+            $q = $request->get('q');
+            $wishlistt = Favorit::where('user_id', $user->id)->whereHas('getProduk', function ($query) use ($q) {
+                $query->where('nama', 'like', "%$q%");
             })->get();
 
             foreach ($wishlistt  as $row) {
@@ -45,27 +45,23 @@ class BuyingController extends Controller
                 $row['avg_ulasan'] = 0;
 
                 foreach ($row->getProduk->getUlasan as $ls) {
-                    $row['count_ulasan']=$row['count_ulasan']+1;
-                    $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+                    $row['count_ulasan'] = $row['count_ulasan'] + 1;
+                    $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
                 }
 
-                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
+                $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
             }
 
-            return $this->resSuccess($wishlistt,'data berhasil diambil');
-
+            return $this->resSuccess($wishlistt, 'data berhasil diambil');
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
 
@@ -110,6 +106,53 @@ class BuyingController extends Controller
                     'message' => $exception->getMessage()
                 ]
             ], 500);
+        }
+    }
+
+    public function switchWish(Request $request)
+    {
+        $id = $request->id;
+
+
+
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $cek = Favorit::where('user_id', $user->id)
+                ->where('produk_id', $id)
+                ->fisrt();
+
+            if ($cek) {
+                $cek->delete();
+                $status = false;
+            } else {
+                Favorit::create([
+                    'user_id' => $user->id,
+                    'produk_id' => $id,
+                ]);
+                $status = true;
+            }
+
+
+            return response()->json(
+                [
+                    'error' => false,
+                    'data' => [
+
+                        'status_wished' => $status,
+                    ]
+                ],
+                200
+            );
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
         }
     }
 
@@ -198,6 +241,4 @@ class BuyingController extends Controller
             ], 500);
         }
     }
-
-
 }
