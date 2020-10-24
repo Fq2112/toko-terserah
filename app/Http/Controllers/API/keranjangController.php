@@ -136,6 +136,8 @@ class keranjangController extends Controller
                             'count_cart' => Keranjang::where('user_id', $user->id)
                                 ->where('isCheckOut', false)->count(),
                             'qty' => $qty,
+                            'add_cart' => $qty,
+
                             'message' => 'berhasil ditambah ' . $qty
                         ]
                     ],
@@ -195,7 +197,7 @@ class keranjangController extends Controller
             }
 
             // cek jika stok g cukup
-            if ($qty- $qty_recent > $produk->stock) {
+            if ($qty - $qty_recent > $produk->stock) {
                 return response()->json(
                     [
                         'error' => true,
@@ -236,6 +238,7 @@ class keranjangController extends Controller
                         'count_cart' => Keranjang::where('user_id', $user->id)
                             ->where('isCheckOut', false)->count(),
                         'qty' => $qty,
+                        'add_cart' => $qty - $qty_recent,
                         'message' => 'berhasil ' . $produk->nama . ' diubah ' . $qty
                     ]
                 ],
