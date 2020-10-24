@@ -36,7 +36,7 @@ class keranjangController extends Controller
             foreach ($data as $row) {
                 $row->getProduk->select('id');
                 $row->getProduk->getWishlist = [
-                    Favorit::query()->where('user_id',$user->id )->where('produk_id',$row->getProduk->id)->first()
+                    Favorit::query()->where('user_id',$user->id )->where('produk_id',$row->getProduk->id)->first() ?? ''
                 ];
             }
 
