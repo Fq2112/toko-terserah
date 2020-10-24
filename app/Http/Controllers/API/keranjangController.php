@@ -32,9 +32,9 @@ class keranjangController extends Controller
                 ->where('isCheckOut', false)
                 ->get();
 
-            foreach ($data as $row) {
-                $row->getProduk->select('id');
-            }
+//            foreach ($data as $row) {
+//                $row->getProduk->select('id');
+//            }
 
             return response()->json(
                 [
