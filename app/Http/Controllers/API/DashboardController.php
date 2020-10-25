@@ -99,8 +99,8 @@ class DashboardController extends Controller
             }
 
             $pesanan = Pesanan::where('uni_code', $request->code)->whereHas('getPengiriman')->first();
-            $carts = Keranjang::query()->whereIn('id', $pesanan->keranjang_ids)->has('getProduk')->orderByDesc('id')->get();
-
+            $carts = Keranjang::query()->whereIn('id', $pesanan->keranjang_ids)->whereHas('getProduk')->orderByDesc('id')->get();
+dd($carts);
             if (strpos($pesanan->durasi_pengiriman, 'HARI') !== false) {
                 $unit = '';
             } elseif (strpos($pesanan->durasi_pengiriman, 'JAM') !== false) {
