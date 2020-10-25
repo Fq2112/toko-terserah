@@ -11,6 +11,28 @@
     <link rel="stylesheet" href="{{asset('vendor/sweetalert/sweetalert2.css')}}">
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
     <style>
+        body {
+            margin: 0 auto;
+            background: #f0f4f7;
+        }
+
+        .img-empty {
+            display: none;
+            width: 100%;
+            position: absolute;
+            top: 20%;
+        }
+
+        .text-empty{
+            display: none;
+            text-align: center;
+            position: absolute;
+            top: 62%;
+            color: #1f455e;
+            font-size: 6vw;
+            margin: 0;
+        }
+
         .swal-overlay {
             z-index: 9999999 !important;
         }
@@ -31,6 +53,8 @@
     </style>
 </head>
 <body>
+<img class="img-empty" alt="empty" src="{{asset('images/empty-page.gif')}}">
+<h2 class="text-empty">Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.</h2>
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/sweetalert/sweetalert.min.js')}}"></script>
 <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>
@@ -45,6 +69,10 @@
             },
             onError: function (result) {
                 swal('Oops..', result.status_message, 'error');
+            },
+            onClose: function () {
+                $(".img-empty, .text-empty").show();
+                swal('PERHATIAN!', 'Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.', 'warning');
             }
         });
     });
