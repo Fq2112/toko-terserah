@@ -39,7 +39,7 @@ class MidtransController extends Controller
 
     public function snap(Request $request)
     {
-        app()->setLocale($request->lang);
+        app()->setLocale('id');
 
         $user = User::find($request->user_id);
         $split_name = explode(" ", $user->name);
@@ -122,9 +122,32 @@ class MidtransController extends Controller
         ]);
     }
 
+    public function snapWebview(Request $request)
+    {
+        $data = [
+            'snap_token' => $request->snap_token,
+            'cart_ids' => $request->cart_ids,
+            'pengiriman_id' => $request->pengiriman_id,
+            'penagihan_id' => $request->penagihan_id,
+            'ongkir' => $request->ongkir,
+            'durasi_pengiriman' => $request->durasi_pengiriman,
+            'weight' => ceil($request->weight * 1000),
+            'total' => $request->total,
+            'note' => $request->note,
+            'promo_code' => $request->promo_code,
+            'discount_price' => $request->discount_price,
+            'kode_kurir' => $request->kode_kurir,
+            'nama_kurir' => $request->nama_kurir,
+            'layanan_kurir' => $request->layanan_kurir,
+            'opsi' => $request->opsi,
+        ];
+
+        return view('pages.webviews.snap-midtrans', compact('data'));
+    }
+
     public function unfinishCallback(Request $request)
     {
-        app()->setLocale($request->lang);
+        app()->setLocale('id');
 
         $data_tr = collect(Transaction::status($request->transaction_id))->toArray();
         $code = $data_tr['order_id'];
@@ -171,7 +194,7 @@ class MidtransController extends Controller
      */
     public function finishCallback(Request $request)
     {
-        app()->setLocale($request->lang);
+        app()->setLocale('id');
         $data_tr = collect(Transaction::status($request->transaction_id))->toArray();
         $code = $data_tr['order_id'];
 

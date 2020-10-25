@@ -131,6 +131,11 @@ Route::group(['namespace' => 'API'], function () {
             'as' => 'get.midtrans.snap'
         ]);
 
+        Route::get('snap-webview', [
+            'uses' => 'MidtransController@snapWebview',
+            'as' => 'get.midtrans.snap-webview'
+        ]);
+
         Route::group(['prefix' => 'callback'], function () {
 
             Route::get('finish', [
