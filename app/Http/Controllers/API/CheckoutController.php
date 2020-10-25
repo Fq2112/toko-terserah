@@ -41,7 +41,6 @@ class CheckoutController extends Controller
             app()->setLocale('id');
 
             $code = strtoupper(uniqid('PYM') . now()->timestamp);
-            $user = User::find($request->user_id);
             $split_name = explode(" ", $user->name);
             $address = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
             $main_address = $address != "" ? $address->alamat . ' - ' . $address->kode_pos . ' (' . $address->getOccupancy->name . ').' : null;
