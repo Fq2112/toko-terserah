@@ -110,6 +110,24 @@ Route::group(['namespace' => 'API'], function () {
 
         });
 
+        Route::group(['prefix' => 'checkout'], function () {
+
+            Route::group(['prefix' => 'midtrans'], function () {
+
+                Route::get('snap', [
+                    'uses' => 'CheckoutController@snap',
+                    'as' => 'get.midtrans.snap'
+                ]);
+
+                Route::get('snap-webview', [
+                    'uses' => 'CheckoutController@snapWebview',
+                    'as' => 'get.midtrans.snap-webview'
+                ]);
+
+            });
+
+        });
+
         Route::group(['prefix' => 'dashboard'], function () {
             //mobile
             Route::get('/', 'DashboardController@get');
@@ -121,19 +139,11 @@ Route::group(['namespace' => 'API'], function () {
 
     });
 
-
-
-
     Route::group(['prefix' => 'midtrans'], function () {
 
         Route::get('snap', [
             'uses' => 'MidtransController@snap',
             'as' => 'get.midtrans.snap'
-        ]);
-
-        Route::get('snap-webview', [
-            'uses' => 'MidtransController@snapWebview',
-            'as' => 'get.midtrans.snap-webview'
         ]);
 
         Route::group(['prefix' => 'callback'], function () {
@@ -152,6 +162,7 @@ Route::group(['namespace' => 'API'], function () {
                 'uses' => 'MidtransController@notificationCallback',
                 'as' => 'post.midtrans-callback.notification'
             ]);
+
         });
     });
 
@@ -171,5 +182,7 @@ Route::group(['namespace' => 'API'], function () {
             'uses' => 'RajaOngkirController@getWaybill',
             'as' => 'get.rajaongkir.waybill'
         ]);
+
     });
+
 });
