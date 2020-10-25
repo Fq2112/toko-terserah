@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\DB;
+use PDO;
 
 class alamatController extends Controller
 {
@@ -464,6 +465,23 @@ class alamatController extends Controller
             ]], 404);
     }
 
+    private function getUtama(){
+        if (!$user = JWTAuth::parseToken()->authenticate()) {
+            return response()->json(['user_not_found'], 404);
+        }
+
+        $row= Alamat::where('user_id',$user->id)->where('isUtama',1)->first();
+
+
+            $row->getOccupancy;
+            $row->getKecamatan;
+            $row->getKecamatan->getKota;
+            $row->getKecamatan->getKota->getProvinsi;
+
+
+        return $row;
+    }
+
     private function resSuccess($alamat,$msg=null)
     {
 
@@ -472,7 +490,9 @@ class alamatController extends Controller
             'data' => [
                 'address' => $alamat,
                 'count_address' => $this->countArray($alamat),
+                'isUtama'=>$this->getUtama(),
                 'message'=>$msg,
+
             ]
         ]);
     }
