@@ -100,7 +100,6 @@ class DashboardController extends Controller
 
             $pesanan = Pesanan::where('uni_code', $request->code)->whereHas('getPengiriman')->first();
             $carts = Keranjang::query()->whereIn('id', $pesanan->keranjang_ids)->whereHas('getProduk')->orderByDesc('id')->get();
-dd($carts);
             if (strpos($pesanan->durasi_pengiriman, 'HARI') !== false) {
                 $unit = '';
             } elseif (strpos($pesanan->durasi_pengiriman, 'JAM') !== false) {
@@ -155,9 +154,13 @@ dd($carts);
                     }
                 }
             }
+            $array_carts = [];
+            foreach ($carts as $cart) {
+                array_push($array_carts,$cart->getProduk);
+            }
 
             $pesanan->str_etd = $str_etd;
-            $pesanan->carts = $carts;
+            $pesanan->carts = $array_carts;
             $pesanan->subtotal = $carts->sum('total');
             $pesanan->recent_track = $recent_track;
             $pesanan->full_track = $full_track;
