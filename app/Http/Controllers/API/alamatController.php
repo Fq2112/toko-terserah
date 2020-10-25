@@ -470,16 +470,16 @@ class alamatController extends Controller
             return response()->json(['user_not_found'], 404);
         }
 
-        $alamat= Alamat::where('user_id',$user->id)->where('isUtama',1)->first();
+        $row= Alamat::where('user_id',$user->id)->where('isUtama',1)->first();
 
-        foreach($alamat as $row){
+
             $row->getOccupancy;
             $row->getKecamatan;
             $row->getKecamatan->getKota;
             $row->getKecamatan->getKota->getProvinsi;
 
-        }
-        return $alamat;
+
+        return $row;
     }
 
     private function resSuccess($alamat,$msg=null)
