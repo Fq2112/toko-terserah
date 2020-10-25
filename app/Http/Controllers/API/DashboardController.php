@@ -156,7 +156,8 @@ class DashboardController extends Controller
             }
             $array_carts = [];
             foreach ($carts as $cart) {
-                array_push($array_carts,$cart->getProduk);
+                $cart->produk = $cart->getProduk;
+                array_push($array_carts,$cart);
             }
 
             $pesanan->str_etd = $str_etd;
