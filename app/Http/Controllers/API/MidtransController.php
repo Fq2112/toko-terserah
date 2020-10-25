@@ -25,7 +25,7 @@ class MidtransController extends Controller
     public function __construct()
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
-        Config::$isProduction = true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        Config::$isProduction = false; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         Config::$isSanitized = true; // Set sanitization on (default)
         Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
@@ -120,29 +120,6 @@ class MidtransController extends Controller
             ],
             'item_details' => array_merge($arr_items, $arr_ship_disc),
         ]);
-    }
-
-    public function snapWebview(Request $request)
-    {
-        $data = [
-            'snap_token' => $request->snap_token,
-            'cart_ids' => $request->cart_ids,
-            'pengiriman_id' => $request->pengiriman_id,
-            'penagihan_id' => $request->penagihan_id,
-            'ongkir' => $request->ongkir,
-            'durasi_pengiriman' => $request->durasi_pengiriman,
-            'weight' => ceil($request->weight * 1000),
-            'total' => $request->total,
-            'note' => $request->note,
-            'promo_code' => $request->promo_code,
-            'discount_price' => $request->discount_price,
-            'kode_kurir' => $request->kode_kurir,
-            'nama_kurir' => $request->nama_kurir,
-            'layanan_kurir' => $request->layanan_kurir,
-            'opsi' => $request->opsi,
-        ];
-
-        return view('pages.webviews.snap-midtrans', compact('data'));
     }
 
     public function unfinishCallback(Request $request)
