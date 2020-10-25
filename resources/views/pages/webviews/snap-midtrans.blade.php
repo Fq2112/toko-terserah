@@ -12,21 +12,19 @@
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
     <style>
         body {
-            margin: 0 auto;
+            margin: 0 1em;
         }
 
         .img-empty {
             display: none;
             width: 100%;
             position: absolute;
-            top: 20%;
         }
 
         .text-empty{
             display: none;
             text-align: center;
             position: absolute;
-            top: 62%;
             font-size: 6vw;
             margin-bottom: 0;
         }
@@ -71,8 +69,8 @@
             },
             onClose: function () {
                 $("body").css("background", "#f0f4f7");
-                $(".img-empty").attr("src", "{{asset('images/empty-page.gif')}}");
-                $(".text-empty").css("color", "#1f455e").text("Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.");
+                $(".img-empty").css("top", "20%").attr("src", "{{asset('images/empty-page.gif')}}");
+                $(".text-empty").css("top", "62%").css("color", "#1f455e").text("Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.");
                 $(".img-empty, .text-empty").show();
                 swal('PERHATIAN!', 'Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.', 'warning');
             }
@@ -127,8 +125,8 @@
                     },
                     success: function () {
                         $("body").css("background", "#fff");
-                        $(".img-empty").attr("src", "{{asset('images/success-page.gif')}}");
-                        $(".text-empty").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)');
+                        $(".img-empty").css("top", "15%").attr("src", "{{asset('images/success-page.gif')}}");
+                        $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)');
                         $(".img-empty, .text-empty").show();
                         swal({
                             title: "SUKSES!",
