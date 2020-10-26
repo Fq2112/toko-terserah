@@ -143,7 +143,7 @@ class DashboardController extends Controller
                         'courier' => $pesanan->kode_kurir
                     ]
                 ])->getBody()->getContents();
-                dd($response);
+                $response = json_decode($response);
 
                 if($response['rajaongkir']['status']['code'] == 200) {
                     if($pesanan->kode_kurir != 'pos') {
