@@ -144,12 +144,12 @@ class DashboardController extends Controller
                     ]
                 ])->getBody()->getContents();
                 $response = json_decode($response,true);;
-                dd(krsort($response['rajaongkir']['result']['manifest']));
+//                dd(krsort($response['rajaongkir']['result']['manifest']));
                 if($response['rajaongkir']['status']['code'] == 200) {
                     if($pesanan->kode_kurir != 'pos') {
                         $i=count($response['rajaongkir']['result']['manifest']);
                         $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i-1 : 0];
-                        $full_track = rsort($response['rajaongkir']['result']['manifest']);
+                        $full_track = array_reverse($response['rajaongkir']['result']['manifest']);
                     }else{
                         $recent_track = $response['rajaongkir']['result']['manifest'][0];
                         $full_track = $response['rajaongkir']['result']['manifest'];
