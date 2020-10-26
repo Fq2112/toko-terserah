@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
@@ -159,7 +160,8 @@ class DashboardController extends Controller
                 $cart->produk = $cart->getProduk;
                 array_push($array_carts,$cart);
             }
-
+            $pesanan->alamat_pengiriman = Alamat::find($pesanan->pengiriman_id);
+            $pesanan->alamat_penagihan = Alamat::find($pesanan->penagihan_id);
             $pesanan->str_etd = $str_etd;
             $pesanan->carts = $array_carts;
             $pesanan->subtotal = $carts->sum('total');
