@@ -144,7 +144,7 @@ class DashboardController extends Controller
                     ]
                 ])->getBody()->getContents();
                 $response = json_encode(json_decode($response));
-                dd($response);
+                dd($response['rajaongkir']);
                 if($response['rajaongkir']['status']['code'] == 200) {
                     if($pesanan->kode_kurir != 'pos') {
                         $i=count($response['rajaongkir']['result']['manifest']);
