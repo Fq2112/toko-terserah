@@ -12,25 +12,21 @@
     <link rel="stylesheet" href="{{asset('css/additional.css')}}">
     <style>
         body {
-            margin: 0 auto;
-            background: #f0f4f7;
+            margin: 0 1em;
         }
 
         .img-empty {
             display: none;
             width: 100%;
             position: absolute;
-            top: 20%;
         }
 
         .text-empty{
             display: none;
             text-align: center;
             position: absolute;
-            top: 62%;
-            color: #1f455e;
             font-size: 6vw;
-            margin: 0;
+            margin-bottom: 0;
         }
 
         .swal-overlay {
@@ -53,8 +49,8 @@
     </style>
 </head>
 <body>
-<img class="img-empty" alt="empty" src="{{asset('images/empty-page.gif')}}">
-<h2 class="text-empty">Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.</h2>
+<img class="img-empty" alt="empty" src="#">
+<h2 class="text-empty"></h2>
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/sweetalert/sweetalert.min.js')}}"></script>
 {{--<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>--}}
@@ -72,6 +68,9 @@
                 swal('Oops..', result.status_message, 'error');
             },
             onClose: function () {
+                $("body").css("background", "#f0f4f7");
+                $(".img-empty").css("top", "20%").attr("src", "{{asset('images/empty-page.gif')}}");
+                $(".text-empty").css("top", "62%").css("color", "#1f455e").text("Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.");
                 $(".img-empty, .text-empty").show();
                 swal('PERHATIAN!', 'Sesi pembayaran Anda berakhir! Silahkan ulangi lagi.', 'warning');
             }
@@ -124,21 +123,21 @@
                     complete: function () {
                         swal.close();
                     },
-                    success: function (data) {
+                    success: function () {
+                        $("body").css("background", "#fff");
+                        $(".img-empty").css("top", "15%").attr("src", "{{asset('images/success-page.gif')}}");
+                        $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)');
+                        $(".img-empty, .text-empty").show();
                         swal({
                             title: "SUKSES!",
-                            text: data,
+                            text: 'Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)',
                             icon: 'success',
-                            buttons: false,
                             closeOnEsc: false,
                             closeOnClickOutside: false,
                         });
-                        setTimeout(function () {
-                            //location.href = '{{route('user.dashboard')}}'
-                        }, 7000);
                     },
                     error: function () {
-                        swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                        swal('Oops..', 'Terjadi kesalahan! Silahkan checkout ulang pesanan Anda.', 'error');
                     }
                 });
             }.bind(this), 800);
