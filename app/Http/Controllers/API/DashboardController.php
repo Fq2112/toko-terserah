@@ -36,11 +36,11 @@ class DashboardController extends Controller
             $status = $request->status;
             $pesanan = Pesanan::where('user_id', $user->id)->when($status, function ($q) use ($status) {
                 if($status == 'belum_bayar') {
-                    $q->where('isLunas', false);
+                    $q->where('isLunas', false)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima');
                 } elseif($status == 'dikemas_diambil') {
-                    $q->where('isLunas', true)->whereNull('tgl_pengiriman');
+                    $q->where('isLunas', true)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima');
                 } elseif($status == 'dikirim') {
-                    $q->where('isLunas', true)->whereNotNull('tgl_pengiriman');
+                    $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNull('tgl_diterima');
                 } elseif($status == 'selesai') {
                     $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima');
                 }
