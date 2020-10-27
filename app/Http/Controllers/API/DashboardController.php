@@ -53,8 +53,7 @@ class DashboardController extends Controller
                 $cart = Keranjang::whereIn('id', $row->keranjang_ids)->orderByDesc('id')->first();
 
                 $recent_track = null;
-                if($row->isAmbil == false && $row->is_kurir_terserah == false &&
-                    ($status == 'DALAM PENGIRIMAN' || $status == 'PESANAN SELESAI')) {
+                if($row->isAmbil == false && $row->is_kurir_terserah == false && ($status == 'dikirim' || $status == 'selesai')) {
                     $response = $this->client->post(env('RajaOngkir_URL') . '/waybill', [
                         'form_params' => [
                             'waybill' => $row->resi,
