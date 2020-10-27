@@ -126,6 +126,11 @@ Route::group(['namespace' => 'API'], function () {
 
             });
 
+            Route::get('promo', [
+                'uses' => 'CheckoutController@promo',
+                'as' => 'get.checkout.promo'
+            ]);
+
         });
 
         Route::group(['prefix' => 'dashboard'], function () {

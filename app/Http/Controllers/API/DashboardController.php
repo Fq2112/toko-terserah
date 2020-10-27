@@ -38,14 +38,11 @@ class DashboardController extends Controller
                 if($status == 'belum_bayar') {
                     $q->where('isLunas', false);
                 } elseif($status == 'dikemas_diambil') {
-                    $q->where('isLunas', true)
-                    ->whereNull('tgl_pengiriman');
+                    $q->where('isLunas', true)->whereNull('tgl_pengiriman');
                 } elseif($status == 'dikirim') {
-                    $q->where('isLunas', true)
-                    ->whereNotNull('tgl_pengiriman');
-                } else {
-                    $q->where('isLunas', true)
-                    ->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima');
+                    $q->where('isLunas', true)->whereNotNull('tgl_pengiriman');
+                } elseif($status == 'selesai') {
+                    $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima');
                 }
             })->orderByDesc('id')->get();
 

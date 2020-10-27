@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Alamat;
 use App\Models\Keranjang;
-use App\User;
+use App\Models\Pesanan;
+use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Midtrans\Config;
@@ -156,6 +157,65 @@ class CheckoutController extends Controller
             ];
 
             return view('pages.webviews.snap-midtrans', compact('data'));
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
+    public function promo(Request $request)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $promo = PromoCode::where('promo_code', $request->kode)->first();
+            $pesanan = Pesanan::where('promo_code', $request->kode)->where('user_id', $user->id)->first();
+            $amount = ceil($request->subtotal);
+
+            if ($promo) {
+                if ($pesanan) {
+                    return response()->json([
+                        'error' => true,
+                        'message' => 'Anda telah menggunakan kode promo itu!'
+                    ], 400);
+
+                } else {
+                    if (now() > $promo->end) {
+                        return response()->json([
+                            'error' => true,
+                            'message' => 'Kode promo yang Anda masukkan telah kedaluwarsa.'
+                        ], 400);
+
+                    } else {
+                        $discount_price = ceil($promo->discount);
+                        $subtotal = $amount - $discount_price;
+                        $total = ceil($subtotal + $request->ongkir);
+
+                        return response()->json([
+                            'error' => false,
+                            'data' => [
+                                'caption' => $promo->description,
+                                'total' => $total,
+                                'discount_price' => $discount_price,
+                                'str_discount' => '-Rp' . number_format($discount_price, 2, ',', '.'),
+                                'str_total' => 'Rp' . number_format($total, 2, ',', '.')
+                            ],
+                        ], 200);
+                    }
+                }
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Kode promo yang Anda masukkan tidak ditemukan.'
+                ], 400);
+            }
 
         } catch (\Exception $exception) {
             return response()->json([
