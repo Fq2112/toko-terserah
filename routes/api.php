@@ -137,6 +137,7 @@ Route::group(['namespace' => 'API'], function () {
             //mobile
             Route::get('/', 'DashboardController@get');
             Route::get('detail/{code}', 'DashboardController@detail');
+            Route::get('invoice/{code}', 'DashboardController@invoice');
             Route::post('received/{code}', 'DashboardController@received');
             Route::post('reorder/{code}', 'DashboardController@reorder');
 

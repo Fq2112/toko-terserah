@@ -42,7 +42,7 @@ class DashboardController extends Controller
                 } elseif($status == 'dikirim') {
                     $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNull('tgl_diterima');
                 } elseif($status == 'selesai') {
-                    $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima');
+                    $q->where('isLunas', true)->whereNotNull('tgl_diterima');
                 }
             })->orderByDesc('id')->get();
 
@@ -171,6 +171,28 @@ class DashboardController extends Controller
                 'error' => false,
                 'data' => $pesanan
             ], 200);
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
+    public function invoice(Request $request)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $pesanan = Pesanan::where('uni_code', $request->code)->first();
+            $file = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
+
+            return view('pages.webviews.invoice', compact('file'));
 
         } catch (\Exception $exception) {
             return response()->json([
