@@ -165,6 +165,7 @@ class DashboardController extends Controller
             $pesanan->recent_track = $recent_track;
             $pesanan->full_track = $full_track;
             $pesanan->file_invoice = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
+            $pesanan->status = $status;
 
             return response()->json([
                 'error' => false,

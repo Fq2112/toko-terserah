@@ -491,6 +491,7 @@ class alamatController extends Controller
                 'address' => $alamat,
                 'count_address' => $this->countArray($alamat),
                 'isUtama'=>$this->getUtama(),
+                'surabaya'=>Kota::where('nama','surabaya')->first(),
                 'message'=>$msg,
 
             ]
