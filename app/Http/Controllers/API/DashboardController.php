@@ -60,7 +60,7 @@ class DashboardController extends Controller
                             'courier' => $row->kode_kurir
                         ]
                     ])->getBody()->getContents();
-
+                    $response = json_decode($response,true);
                     if($response['rajaongkir']['status']['code'] == 200) {
                         if($row->kode_kurir != 'pos') {
                             $i=count($response['rajaongkir']['result']['manifest']);
