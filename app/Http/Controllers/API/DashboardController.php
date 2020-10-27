@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
@@ -142,12 +143,13 @@ class DashboardController extends Controller
                         'courier' => $pesanan->kode_kurir
                     ]
                 ])->getBody()->getContents();
-
+                $response = json_decode($response,true);;
+//                dd(krsort($response['rajaongkir']['result']['manifest']));
                 if($response['rajaongkir']['status']['code'] == 200) {
                     if($pesanan->kode_kurir != 'pos') {
                         $i=count($response['rajaongkir']['result']['manifest']);
                         $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i-1 : 0];
-                        $full_track = rsort($response['rajaongkir']['result']['manifest']);
+                        $full_track = array_reverse($response['rajaongkir']['result']['manifest']);
                     }else{
                         $recent_track = $response['rajaongkir']['result']['manifest'][0];
                         $full_track = $response['rajaongkir']['result']['manifest'];
@@ -159,7 +161,8 @@ class DashboardController extends Controller
                 $cart->produk = $cart->getProduk;
                 array_push($array_carts,$cart);
             }
-
+            $pesanan->alamat_pengiriman = Alamat::find($pesanan->pengiriman_id);
+            $pesanan->alamat_penagihan = Alamat::find($pesanan->penagihan_id);
             $pesanan->str_etd = $str_etd;
             $pesanan->carts = $array_carts;
             $pesanan->subtotal = $carts->sum('total');
