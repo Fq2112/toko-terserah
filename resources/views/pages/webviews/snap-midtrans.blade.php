@@ -128,6 +128,7 @@
                         $(".img-empty").css("top", "15%").attr("src", "{{asset('images/success-page.gif')}}");
                         $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)');
                         $(".img-empty, .text-empty").show();
+
                         swal({
                             title: "SUKSES!",
                             text: 'Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)',
@@ -135,6 +136,7 @@
                             closeOnEsc: false,
                             closeOnClickOutside: false,
                         });
+                        window.history.pushState('page2', 'Title', window.location.origin+'/'+window.location.pathname+'#telah-success');
                     },
                     error: function () {
                         swal('Oops..', 'Terjadi kesalahan! Silahkan checkout ulang pesanan Anda.', 'error');
