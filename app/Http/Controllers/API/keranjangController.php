@@ -268,6 +268,10 @@ class keranjangController extends Controller
     public function deleteCart(Request $request)
     {
         try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
             $data = Keranjang::query()->find($request->get('id'));
             $produk = Produk::query()->find($data->produk_id);
             $produk->update([
@@ -278,7 +282,11 @@ class keranjangController extends Controller
                 [
                     'error' => true,
                     'data' => [
-                        'message' => "Berhasil Menghapus Item"
+                        'message' => "Berhasil Menghapus Item",
+                        "count_produk"=>Keranjang::where('user_id',$user->id)
+                        ->where('isCheckOut', false)
+                        ->orderbyDesc('created_at')
+                        ->count(),
                     ]
                 ],
                 200
