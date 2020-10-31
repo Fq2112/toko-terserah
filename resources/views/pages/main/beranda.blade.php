@@ -1,6 +1,7 @@
 @extends('layouts.mst')
 @section('title', 'Beranda | '.env('APP_TITLE'))
 @push('styles')
+
     <style>
         section.no-banner {
             background: url('{{asset('images/no-promotion.jpg')}}') no-repeat center;

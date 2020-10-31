@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Favorit;
+use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\SubKategori;
 use App\Models\Ulasan;
@@ -282,6 +283,11 @@ class ProductController extends Controller
 
             $qna = $data->getQnA->toArray();
 
+            // $cek_komen=Pesanan::where('user_id',$user->id)
+            // ->whereNotNull('tgl_diterima')
+            // ->whereNotNull('tgl_diterima')
+            // ->where('keranjang_ids','like',"%$id%")->count();
+
                 $data['count_ulasan'] = 0;
                 $data['avg_ulasan'] = 0;
                 $data['isWished']=Favorit::where('user_id',$user->id)->where('produk_id',$id)->count();
@@ -295,7 +301,10 @@ class ProductController extends Controller
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
                 'error' => false,
-                'data' =>$this->res_get_product($data
+                // 'count_buy'=>$cek_komen,
+                'data' =>
+
+                $this->res_get_product($data
                 ,$review
                 ,$qna,$user->getKeranjang->where('isCheckOut',false)->count(),true)
             ], 200);

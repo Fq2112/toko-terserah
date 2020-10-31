@@ -39,27 +39,24 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('qna', 'BuyingController@submit_qna')->middleware('jwt.verify');
 
         Route::post('review', 'BuyingController@submit_ulasan')->middleware('jwt.verify');
-
     });
 
     Route::group(['prefix' => 'master'], function () {
 
         Route::get('sub', 'MasterController@getSubKategori');
-
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::group(['prefix' => 'profile'], function () {
 
-            Route::post('update/bio','ProfileController@update_bio');
+            Route::post('update/bio', 'ProfileController@update_bio');
 
-            Route::post('update/password','ProfileController@change_password');
+            Route::post('update/password', 'ProfileController@change_password');
 
-            Route::post('upload/ava','ProfileController@upload_ava');
+            Route::post('upload/ava', 'ProfileController@upload_ava');
 
-            Route::post('upload/background','ProfileController@upload_background');
-
+            Route::post('upload/background', 'ProfileController@upload_background');
         });
 
 
@@ -82,7 +79,6 @@ Route::group(['namespace' => 'API'], function () {
             Route::post('delete/{id}', 'alamatController@delete');
 
             Route::post('update/{id}', 'alamatController@update');
-
         });
 
         Route::group(['prefix' => 'wish'], function () {
@@ -107,7 +103,6 @@ Route::group(['namespace' => 'API'], function () {
             Route::post('/update_cart', 'keranjangController@updateCart');
 
             Route::post('/delete_cart', 'keranjangController@deleteCart');
-
         });
 
         Route::group(['prefix' => 'checkout'], function () {
@@ -123,6 +118,10 @@ Route::group(['namespace' => 'API'], function () {
                     'uses' => 'CheckoutController@snapWebview',
                     'as' => 'get.midtrans.snap-webview'
                 ]);
+                Route::get('/success', function () {
+                    return view('pages.webviews.midtrans-success-notice', ['intruksi' => 'untuk trigger ganti screen']);
+                });
+
 
             });
 
@@ -130,7 +129,6 @@ Route::group(['namespace' => 'API'], function () {
                 'uses' => 'CheckoutController@promo',
                 'as' => 'get.checkout.promo'
             ]);
-
         });
 
         Route::group(['prefix' => 'dashboard'], function () {
@@ -140,10 +138,10 @@ Route::group(['namespace' => 'API'], function () {
             Route::get('invoice/{code}', 'DashboardController@invoice');
             Route::post('received/{code}', 'DashboardController@received');
             Route::post('reorder/{code}', 'DashboardController@reorder');
-
         });
-
     });
+
+
 
     Route::group(['prefix' => 'midtrans'], function () {
 
@@ -168,7 +166,6 @@ Route::group(['namespace' => 'API'], function () {
                 'uses' => 'MidtransController@notificationCallback',
                 'as' => 'post.midtrans-callback.notification'
             ]);
-
         });
     });
 
@@ -188,7 +185,5 @@ Route::group(['namespace' => 'API'], function () {
             'uses' => 'RajaOngkirController@getWaybill',
             'as' => 'get.rajaongkir.waybill'
         ]);
-
     });
-
 });
