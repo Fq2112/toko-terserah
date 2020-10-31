@@ -157,7 +157,7 @@ class DashboardController extends Controller
             foreach ($carts as $cart) {
                 $cart->produk = $cart->getProduk;
                 array_push($array_carts,$cart);
-                array_push($array_produk,$$cart->getProduk->id);
+                array_push($array_produk,$cart->getProduk->id);
             }
             $pesanan->alamat_pengiriman = Alamat::find($pesanan->pengiriman_id);
             $pesanan->alamat_penagihan = Alamat::find($pesanan->penagihan_id);
