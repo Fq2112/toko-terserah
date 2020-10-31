@@ -309,7 +309,11 @@ class ProductController extends Controller
                 ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
             ];
-            $qna = $data->getQnA->toArray();
+            $qna = $data->getQnA;
+
+            foreach($qna as $dt){
+                $dt['user']=$dt->getUser->name;
+            }
 
             $data['count_ulasan'] = 0;
             $data['avg_ulasan'] = 0;
