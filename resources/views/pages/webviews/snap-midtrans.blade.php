@@ -136,6 +136,9 @@
                             closeOnEsc: false,
                             closeOnClickOutside: false,
                         });
+                        setTimeout(function (){
+                            window.location = window.location.origin+'/api/checkout/midtrans/success?token='+"{{$data['token']}}";
+                        },3000);
 
                     },
                     error: function () {
