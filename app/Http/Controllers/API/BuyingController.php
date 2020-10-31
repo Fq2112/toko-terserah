@@ -217,7 +217,7 @@ class BuyingController extends Controller
                 $request->file('thumbnail')->storeAs('public/produk/ulasan/', $thumbnail);
             }
 
-            foreach (json_decode($request->get('produk_ids')) as $item) {
+            foreach (json_decode($request->get('produk_ids'),true) as $item) {
                 Ulasan::query()->create([
                     'user_id' => $request->get('user_id'),
                     'produk_id' => $item,

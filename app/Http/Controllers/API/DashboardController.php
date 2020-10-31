@@ -153,9 +153,11 @@ class DashboardController extends Controller
                 }
             }
             $array_carts = [];
+            $array_produk = [];
             foreach ($carts as $cart) {
                 $cart->produk = $cart->getProduk;
                 array_push($array_carts,$cart);
+                array_push($array_produk,$cart->getProduk->id);
             }
             $pesanan->alamat_pengiriman = Alamat::find($pesanan->pengiriman_id);
             $pesanan->alamat_penagihan = Alamat::find($pesanan->penagihan_id);
@@ -166,6 +168,7 @@ class DashboardController extends Controller
             $pesanan->full_track = $full_track;
             $pesanan->file_invoice = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
             $pesanan->status = $status;
+            $pesanan->produk_ids = $array_produk;
 
             return response()->json([
                 'error' => false,
