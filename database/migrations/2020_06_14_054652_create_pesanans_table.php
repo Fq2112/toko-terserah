@@ -43,6 +43,7 @@ class CreatePesanansTable extends Migration
             $table->dateTime('tgl_diterima')->nullable();
             $table->boolean('isAmbil')->default(false);
             $table->boolean('is_kurir_terserah')->default(false);
+            $table->boolean('is_reviewed')->default(false);
             $table->timestamps();
         });
     }

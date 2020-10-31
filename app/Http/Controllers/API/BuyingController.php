@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favorit;
+use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\QnA;
 use App\Models\Ulasan;
@@ -40,7 +41,7 @@ class BuyingController extends Controller
                 $query->where('nama', 'like', "%$q%");
             })->get();
 
-            foreach ($wishlistt  as $row) {
+            foreach ($wishlistt as $row) {
                 $row['count_ulasan'] = 0;
                 $row['avg_ulasan'] = 0;
 
@@ -112,7 +113,6 @@ class BuyingController extends Controller
     public function switchWish(Request $request)
     {
         $id = $request->id;
-
 
 
         try {
@@ -206,7 +206,6 @@ class BuyingController extends Controller
     }
 
 
-
     public function submit_ulasan(Request $request)
     {
         try {
@@ -218,14 +217,21 @@ class BuyingController extends Controller
                 $request->file('thumbnail')->storeAs('public/produk/ulasan/', $thumbnail);
             }
 
-            Ulasan::query()->create([
-                'user_id' => $request->get('user_id'),
-                'produk_id' => $request->get('produk_id'),
-                'deskripsi' => $request->get('ulasan'),
-                'gambar' => $thumbnail,
-                'bintang' => $request->get('bintang')
-            ]);
+            foreach (json_decode($request->get('produk_ids')) as $item) {
+                Ulasan::query()->create([
+                    'user_id' => $request->get('user_id'),
+                    'produk_id' => $item,
+                    'deskripsi' => $request->get('ulasan'),
+                    'gambar' => $thumbnail,
+                    'bintang' => $request->get('bintang')
+                ]);
+            }
 
+            $pesanan = Pesanan::query()->where('uni_code',$request->get('uni_code'))->first();
+
+            $pesanan->update([
+                'is_reviewed' => true
+            ]);
             return response()->json([
                 'error' => false,
                 'data' => [
