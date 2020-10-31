@@ -154,6 +154,7 @@ class CheckoutController extends Controller
                 'nama_kurir' => $request->nama_kurir,
                 'layanan_kurir' => $request->layanan_kurir,
                 'opsi' => $request->opsi,
+                'token'=>$request->token,
             ];
 
             return view('pages.webviews.snap-midtrans', compact('data'));
