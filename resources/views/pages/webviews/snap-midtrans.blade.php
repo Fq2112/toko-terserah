@@ -138,7 +138,7 @@
                         });
                         setTimeout(function (){
                             window.location = window.location.origin+'/api/checkout/midtrans/success?token='+"{{$data['token']}}";
-                        },3000);
+                        },1500);
 
                     },
                     error: function () {
