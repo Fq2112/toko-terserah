@@ -280,7 +280,7 @@ class ProductController extends Controller
                 'avg'=>DB::table('ulasans')->where('produk_id',$id)
                 ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-                'ulasan' => $ulasan->with('user'),
+                'ulasan' => $ulasan->with('getUser'),
             ];
 
             $qna = $data->getQnA->toArray();
