@@ -246,7 +246,7 @@ class BuyingController extends Controller
             if ($request->hasFile('gambar')) {
                 $this->validate($request, ['gambar' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
                 $thumbnail = $request->file('gambar')->getClientOriginalName();
-                $request->file('thumbnail')->storeAs('public/produk/ulasan/', $thumbnail);
+                $request->file('gambar')->storeAs('public/produk/ulasan/', $thumbnail);
             }
 
             return response()->json([
