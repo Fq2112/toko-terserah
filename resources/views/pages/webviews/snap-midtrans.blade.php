@@ -21,7 +21,7 @@
             position: absolute;
         }
 
-        .text-empty{
+        .text-empty {
             display: none;
             text-align: center;
             position: absolute;
@@ -126,19 +126,19 @@
                     success: function () {
                         $("body").css("background", "#fff");
                         $(".img-empty").css("top", "15%").attr("src", "{{asset('images/success-page.gif')}}");
-                        $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)');
+                        $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Anda akan dialihkan ke menu "Riwayat Pesanan", terimakasih :)');
                         $(".img-empty, .text-empty").show();
-                        window.history.pushState('page2', 'Title', window.location.origin+'/'+window.location.pathname+'#telah-success');
-                        swal({
+                        window.history.pushState('page2', 'Title', window.location.origin + '/' + window.location.pathname + '#telah-success');
+                        /*swal({
                             title: "SUKSES!",
                             text: 'Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)',
                             icon: 'success',
                             closeOnEsc: false,
                             closeOnClickOutside: false,
-                        });
-                        setTimeout(function (){
-                            window.location = window.location.origin+'/api/checkout/midtrans/success?token='+"{{$data['token']}}";
-                        },3000);
+                        });*/
+                        setTimeout(function () {
+                            window.location = window.location.origin + '/api/checkout/midtrans/success?token=' + "{{$data['token']}}";
+                        }, 2000);
 
                     },
                     error: function () {
