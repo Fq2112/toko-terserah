@@ -313,6 +313,8 @@ class ProductController extends Controller
         }
         catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $data = Produk::find($id);
+            $ulasan = Ulasan::query()->where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first();
+
             $review =[
                 'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first(),
                 'count'=>Ulasan::where('produk_id',$id)->count(),
