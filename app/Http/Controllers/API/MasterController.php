@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
-    public function getSubKategori()
+    public function getSubKategori(Request $request)
     {
         try {
-            $data = SubKategori::query()->orderBy('nama')->get();
+            $data = SubKategori::query()->when($request->nama,function ($query) use($request) {
+                $query->where('nama', 'LIKE', '%' . $request->get('nama') . '%');
+            })->orderBy('nama')->get();
 
             return response()->json(
                 [
