@@ -96,10 +96,10 @@ class AuthController extends Controller
                 'count_wish' => count($user->getWishlist),
                 'count_cart' => $user->getKeranjang->where('isCheckOut',false)->count(),
                 'count_status' => [
-                    'belum_bayar' => Pesanan::where('user_id', $user->id)->where('isLunas', false)->count(),
-                    'dikemas_diambil' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNull('tgl_pengiriman')->count(),
-                    'dikirim' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->count(),
-                    'selesai' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNotNull('tgl_diterima')->count()
+                    'belum_bayar' => Pesanan::where('user_id', $user->id)->where('isLunas', false)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
+                    'dikemas_diambil' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
+                    'dikirim' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
+                    'selesai' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_diterima')->count()
                 ],
             ];
 
