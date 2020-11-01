@@ -280,7 +280,8 @@ class ProductController extends Controller
                 'avg'=>DB::table('ulasans')->where('produk_id',$id)
                 ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-//                'ulasan' => $ulasan->with('getUser'),
+                'ulasan' => Ulasan::query()->where('produk_id',$id)->with('getUser')->orderBy('bintang','desc')->orderBy('created_at','desc')->get(),
+
             ];
 
             $qna = $data->getQnA->toArray();
@@ -321,7 +322,7 @@ class ProductController extends Controller
                 'avg'=>DB::table('ulasans')
                 ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-//                'ulasan' => Ulasan::query()->where('produk_id',$id)->with('getUser')->orderBy('bintang','desc')->orderBy('created_at','desc')->get(),
+                'ulasan' => Ulasan::query()->where('produk_id',$id)->with('getUser')->orderBy('bintang','desc')->orderBy('created_at','desc')->get(),
             ];
             $qna = $data->getQnA;
 
