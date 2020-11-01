@@ -209,20 +209,12 @@ class BuyingController extends Controller
     public function submit_ulasan(Request $request)
     {
         try {
-            $thumbnail = '';
-
-            if ($request->hasFile('gambar')) {
-                $this->validate($request, ['gambar' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
-                $thumbnail = $request->file('gambar')->getClientOriginalName();
-                $request->file('thumbnail')->storeAs('public/produk/ulasan/', $thumbnail);
-            }
-
             foreach (json_decode($request->get('produk_ids'),true) as $item) {
                 Ulasan::query()->create([
                     'user_id' => $request->get('user_id'),
                     'produk_id' => $item,
                     'deskripsi' => $request->get('ulasan'),
-                    'gambar' => $thumbnail,
+                    'gambar' => $request->get('gambar'),
                     'bintang' => $request->get('bintang')
                 ]);
             }
@@ -239,6 +231,32 @@ class BuyingController extends Controller
                 ]
             ], 201);
         } catch (\Exception $exception) {
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ], 500);
+        }
+    }
+
+    public function _ulasan_image(Request $request)
+    {
+        try {
+            if ($request->hasFile('gambar')) {
+                $this->validate($request, ['gambar' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
+                $thumbnail = $request->file('gambar')->getClientOriginalName();
+                $request->file('thumbnail')->storeAs('public/produk/ulasan/', $thumbnail);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'message' => 'Berhasil Upload File'
+                ]
+            ], 200);
+        }
+        catch (\Exception $exception) {
             return response()->json([
                 'error' => false,
                 'data' => [

@@ -39,6 +39,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('qna', 'BuyingController@submit_qna')->middleware('jwt.verify');
 
         Route::post('review', 'BuyingController@submit_ulasan')->middleware('jwt.verify');
+        Route::post('review/image', 'BuyingController@_ulasan_image')->middleware('jwt.verify');
     });
 
     Route::group(['prefix' => 'master'], function () {
