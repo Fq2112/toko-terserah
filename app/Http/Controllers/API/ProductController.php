@@ -273,13 +273,16 @@ class ProductController extends Controller
           $check=auth()->check();
 
             $data = Produk::find($id);
+            $ulasan = Ulasan::query()->where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first();
             $review =[
-                'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first(),
+                'data'=> $ulasan,
                 'count'=>Ulasan::where('produk_id',$id)->count(),
                 'avg'=>DB::table('ulasans')->where('produk_id',$id)
                 ->avg('bintang'),
                 'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-
+                'ulasan' => $ulasan->with('user') // bring along details of the friend
+                ->join('ulasans', 'ulasans.user_id', '=', 'user.id')
+                    ->get(['ulasans.*']),
             ];
 
             $qna = $data->getQnA->toArray();
