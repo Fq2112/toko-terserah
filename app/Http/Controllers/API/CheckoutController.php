@@ -111,39 +111,45 @@ class CheckoutController extends Controller
                 ]);
             }
 
-            return Snap::getSnapToken([
-                'enabled_payments' => $this->channels,
-                'transaction_details' => [
-                    'order_id' => $code,
-                    'gross_amount' => $request->total,
-                ],
-                'customer_details' => [
-                    'first_name' => array_shift($split_name),
-                    'last_name' => implode(" ", $split_name),
-                    'phone' => $user->getBio->phone,
-                    'email' => $user->email,
-                    'address' => $main_address,
-                    'billing_address' => [
-                        'first_name' => array_shift($split_bill_name),
-                        'last_name' => implode(" ", $split_bill_name),
-                        'address' => $billing->alamat,
-                        'city' => $billing->getKecamatan->getKota->getProvinsi->nama . ', ' . $billing->getKecamatan->getKota->nama,
-                        'postal_code' => $billing->kode_pos,
-                        'phone' => $billing->telp,
-                        'country_code' => 'IDN'
-                    ],
-                    'shipping_address' => [
-                        'first_name' => array_shift($split_shipping_name),
-                        'last_name' => implode(" ", $split_shipping_name),
-                        'address' => $shipping->alamat,
-                        'city' => $shipping->getKecamatan->getKota->getProvinsi->nama . ', ' . $shipping->getKecamatan->getKota->nama,
-                        'postal_code' => $shipping->kode_pos,
-                        'phone' => $shipping->telp,
-                        'country_code' => 'IDN'
-                    ],
-                ],
-                'item_details' => array_merge($arr_items, $arr_ship_disc),
-            ]);
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'uni_code' => $code,
+                    'snap' => Snap::getSnapToken([
+                        'enabled_payments' => $this->channels,
+                        'transaction_details' => [
+                            'order_id' => $code,
+                            'gross_amount' => $request->total,
+                        ],
+                        'customer_details' => [
+                            'first_name' => array_shift($split_name),
+                            'last_name' => implode(" ", $split_name),
+                            'phone' => $user->getBio->phone,
+                            'email' => $user->email,
+                            'address' => $main_address,
+                            'billing_address' => [
+                                'first_name' => array_shift($split_bill_name),
+                                'last_name' => implode(" ", $split_bill_name),
+                                'address' => $billing->alamat,
+                                'city' => $billing->getKecamatan->getKota->getProvinsi->nama . ', ' . $billing->getKecamatan->getKota->nama,
+                                'postal_code' => $billing->kode_pos,
+                                'phone' => $billing->telp,
+                                'country_code' => 'IDN'
+                            ],
+                            'shipping_address' => [
+                                'first_name' => array_shift($split_shipping_name),
+                                'last_name' => implode(" ", $split_shipping_name),
+                                'address' => $shipping->alamat,
+                                'city' => $shipping->getKecamatan->getKota->getProvinsi->nama . ', ' . $shipping->getKecamatan->getKota->nama,
+                                'postal_code' => $shipping->kode_pos,
+                                'phone' => $shipping->telp,
+                                'country_code' => 'IDN'
+                            ],
+                        ],
+                        'item_details' => array_merge($arr_items, $arr_ship_disc),
+                    ])
+                ]
+            ], 200);
 
         } catch (\Exception $exception) {
             return response()->json([
