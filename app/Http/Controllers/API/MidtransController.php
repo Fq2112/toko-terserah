@@ -10,6 +10,7 @@ use App\Models\Pesanan;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -87,6 +88,30 @@ class MidtransController extends Controller
             'name' => 'Ongkir'
         ];
 
+        $check = Pesanan::where('uni_code', $request->code)->first();
+        if(!$check) {
+            Pesanan::firstOrCreate([
+                'user_id' => $user->id,
+                'keranjang_ids' => explode(',', $request->cart_ids),
+                'pengiriman_id' => $request->pengiriman_id,
+                'penagihan_id' => $request->penagihan_id,
+                'uni_code' => $request->code,
+                'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
+                'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
+                'berat_barang' => $request->weight,
+                'total_harga' => $request->total,
+                'note' => $request->note,
+                'promo_code' => $request->promo_code,
+                'is_discount' => !is_null($request->discount_price) ? 1 : 0,
+                'discount' => $request->discount_price,
+                'kode_kurir' => $request->kode_kurir,
+                'nama_kurir' => $request->nama_kurir,
+                'layanan_kurir' => $request->layanan_kurir,
+                'isAmbil' => $request->opsi == 'ambil' ? true : false,
+                'is_kurir_terserah' => $request->opsi == 'terserah' ? true : false,
+            ]);
+        }
+
         return Snap::getSnapToken([
             'enabled_payments' => $this->channels,
             'transaction_details' => [
@@ -122,7 +147,7 @@ class MidtransController extends Controller
         ]);
     }
 
-    public function unfinishCallback(Request $request)
+    /*public function unfinishCallback(Request $request)
     {
         app()->setLocale('id');
 
@@ -163,12 +188,6 @@ class MidtransController extends Controller
         return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $code . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
     }
 
-    /**
-     * Fungsi Untuk Memproses Bila Menggunakan Credit Card
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|string
-     */
     public function finishCallback(Request $request)
     {
         app()->setLocale('id');
@@ -229,41 +248,57 @@ class MidtransController extends Controller
         } catch (\Exception $exception) {
             return response()->json($exception, 500);
         }
-    }
+    }*/
 
-    /*
-     * Memproses pembayaran Semua vendor kecuali Kartu Kredit
-     *
-     */
     public function notificationCallback()
     {
         $notif = new Notification();
         $data_tr = collect(Transaction::status($notif->transaction_id))->toArray();
+        $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
+        $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
+        $user = User::find($pesanan->user_id);
 
         try {
             if (!array_key_exists('fraud_status', $data_tr) ||
                 (array_key_exists('fraud_status', $data_tr) && $data_tr['fraud_status'] == 'accept')) {
 
-                if ($data_tr['payment_type'] != 'credit_card' &&
-                    ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement')) {
+                if($data_tr['transaction_status'] == 'pending') {
+                    DB::beginTransaction();
 
-                    $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
-                    $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
-                    $user = User::find($pesanan->user_id);
+                    foreach ($carts as $cart) {
+                        $cart->update(['isCheckOut' => true]);
+                    }
+                    $this->invoiceMail('unfinish', $notif->order_id, $user, null, $data_tr);
+
+                    DB::commit();
+                    return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
+
+                } elseif ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement') {
+                    DB::beginTransaction();
 
                     $pesanan->update(['isLunas' => true]);
                     $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
 
-                    //Todo Create Shipping label
-
+                    // Todo Create Shipping label
                     $labelname = $pesanan->uni_code . '.pdf';
-                    $labelPdf = PDF::loadView('exports.shipping', [
-                        'data' => $pesanan,
-                    ]);
+                    $labelPdf = PDF::loadView('exports.shipping', ['data' => $pesanan]);
                     $labelPdf->setPaper('a5', 'potrait');
                     Storage::put('public/users/order/invoice/owner/label/' . $pesanan->uni_code . '/' . $labelname, $labelPdf->output());
 
+                    DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
+
+                } elseif($data_tr['transaction_status'] == 'expired') {
+                    DB::beginTransaction();
+
+                    foreach ($carts as $cart) {
+                        $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
+                        $cart->delete();
+                    }
+                    $pesanan->delete();
+
+                    DB::commit();
+                    return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' telah dibatalkan!';
                 }
             }
 

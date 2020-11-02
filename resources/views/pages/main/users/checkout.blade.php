@@ -1393,10 +1393,12 @@
                                 snap.pay(data, {
                                     language: '{{app()->getLocale()}}',
                                     onSuccess: function (result) {
-                                        responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                                        //responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                                        responseMidtrans('finish', result);
                                     },
                                     onPending: function (result) {
-                                        responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                                        //responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                                        responseMidtrans('unfinish', result);
                                     },
                                     onError: function (result) {
                                         swal('Oops..', result.status_message, 'error');
@@ -1416,7 +1418,7 @@
             if (result.payment_type == 'credit_card' || result.payment_type == 'bank_transfer' ||
                 result.payment_type == 'echannel' || result.payment_type == 'gopay' || result.payment_type == 'cstore') {
 
-                $("#form-pembayaran input[name=transaction_id]").val(result.transaction_id);
+                /*$("#form-pembayaran input[name=transaction_id]").val(result.transaction_id);
                 $("#form-pembayaran input[name=pdf_url]").val(result.pdf_url);
 
                 clearTimeout(this.delay);
@@ -1461,7 +1463,31 @@
                             swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
                         }
                     });
-                }.bind(this), 800);
+                }.bind(this), 800);*/
+
+                swal({
+                    title: 'Loading...',
+                    text: 'Mohon tunggu, transaksi Anda sedang diproses',
+                    content: preloader,
+                    icon: 'warning',
+                    buttons: false,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                    timer: 2000
+                });
+
+                setTimeout(function () {
+                    swal({
+                        title: "SUKSES!",
+                        text:  'Pesanan Anda berhasil di checkout! Anda akan dialihkan ke halaman "Dashboard", terimakasih :)',
+                        icon: 'success',
+                        buttons: false,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false,
+                        timer: 2000
+                    });
+                    location.href = '{{route('user.dashboard')}}'
+                }, 2000);
 
             } else {
                 swal('Oops..', 'Maaf kanal pembayaran yang Anda pilih masih maintenance, silahkan pilih kanal lainnya.', 'error');

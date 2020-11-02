@@ -59,10 +59,12 @@
     $(function () {
         snap.pay('{{$data['snap_token']}}', {
             onSuccess: function (result) {
-                responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                //responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                responseMidtrans('finish', result);
             },
             onPending: function (result) {
-                responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                //responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                responseMidtrans('unfinish', result);
             },
             onError: function (result) {
                 swal('Oops..', result.status_message, 'error');
@@ -81,7 +83,7 @@
         if (result.payment_type == 'credit_card' || result.payment_type == 'bank_transfer' ||
             result.payment_type == 'echannel' || result.payment_type == 'gopay' || result.payment_type == 'cstore') {
 
-            clearTimeout(this.delay);
+            /*clearTimeout(this.delay);
             this.delay = setTimeout(function () {
                 $.ajax({
                     url: url,
@@ -129,13 +131,13 @@
                         $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Anda akan dialihkan ke menu "Riwayat Pesanan", terimakasih :)');
                         $(".img-empty, .text-empty").show();
                         window.history.pushState('page2', 'Title', window.location.origin + '/' + window.location.pathname + '#telah-success');
-                        /*swal({
+                        /!*swal({
                             title: "SUKSES!",
                             text: 'Pesanan Anda berhasil di checkout! Silahkan klik icon "History" di pojok kanan atas untuk melihat status pesanan Anda, terimakasih :)',
                             icon: 'success',
                             closeOnEsc: false,
                             closeOnClickOutside: false,
-                        });*/
+                        });*!/
                         setTimeout(function () {
                             window.location = window.location.origin + '/api/checkout/midtrans/success?token=' + "{{$data['token']}}";
                         }, 2000);
@@ -145,7 +147,29 @@
                         swal('Oops..', 'Terjadi kesalahan! Silahkan checkout ulang pesanan Anda.', 'error');
                     }
                 });
-            }.bind(this), 800);
+            }.bind(this), 800);*/
+
+            swal({
+                title: 'Loading...',
+                text: 'Mohon tunggu, transaksi Anda sedang diproses',
+                content: preloader,
+                icon: 'warning',
+                buttons: false,
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+                timer: 2000
+            });
+
+            setTimeout(function () {
+                $("body").css("background", "#fff");
+                $(".img-empty").css("top", "15%").attr("src", "{{asset('images/success-page.gif')}}");
+                $(".text-empty").css("top", "57%").css("color", "#1b6286").text('Pesanan Anda berhasil di checkout! Anda akan dialihkan ke menu "Riwayat Pesanan", terimakasih :)');
+                $(".img-empty, .text-empty").show();
+                window.history.pushState('page2', 'Title', window.location.origin + '/' + window.location.pathname + '#telah-success');
+                setTimeout(function () {
+                    window.location = window.location.origin + '/api/checkout/midtrans/success?token=' + "{{$data['token']}}";
+                }, 2000);
+            }, 2000);
 
         } else {
             swal('Oops..', 'Maaf kanal pembayaran yang Anda pilih masih maintenance, silahkan pilih kanal lainnya.', 'error');

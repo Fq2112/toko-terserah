@@ -87,6 +87,30 @@ class CheckoutController extends Controller
                 'name' => 'Ongkir'
             ];
 
+            $check = Pesanan::where('uni_code', $request->code)->first();
+            if(!$check) {
+                Pesanan::firstOrCreate([
+                    'user_id' => $user->id,
+                    'keranjang_ids' => explode(',', $request->cart_ids),
+                    'pengiriman_id' => $request->pengiriman_id,
+                    'penagihan_id' => $request->penagihan_id,
+                    'uni_code' => $request->code,
+                    'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
+                    'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
+                    'berat_barang' => $request->weight,
+                    'total_harga' => $request->total,
+                    'note' => $request->note,
+                    'promo_code' => $request->promo_code,
+                    'is_discount' => !is_null($request->discount_price) ? 1 : 0,
+                    'discount' => $request->discount_price,
+                    'kode_kurir' => $request->kode_kurir,
+                    'nama_kurir' => $request->nama_kurir,
+                    'layanan_kurir' => $request->layanan_kurir,
+                    'isAmbil' => $request->opsi == 'ambil' ? true : false,
+                    'is_kurir_terserah' => $request->opsi == 'terserah' ? true : false,
+                ]);
+            }
+
             return Snap::getSnapToken([
                 'enabled_payments' => $this->channels,
                 'transaction_details' => [
