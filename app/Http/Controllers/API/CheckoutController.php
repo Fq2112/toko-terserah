@@ -32,7 +32,7 @@ class CheckoutController extends Controller
         $this->channels = ["credit_card", "bca_va", "echannel", "bni_va", "permata_va", "other_va", "gopay", "indomaret", "alfamart"];
     }
 
-    public function cek($code)
+    public function check($code)
     {
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
