@@ -292,15 +292,8 @@ class MidtransController extends Controller
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
 
                 } elseif($data_tr['transaction_status'] == 'expired') {
-                    DB::beginTransaction();
-
-                    foreach ($carts as $cart) {
-                        $cart->getProduk->update(['stock' => $cart->getProduk->stock + $cart->qty]);
-                        $cart->delete();
-                    }
                     $pesanan->delete();
 
-                    DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' telah dibatalkan!';
                 }
             }

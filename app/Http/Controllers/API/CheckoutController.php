@@ -39,12 +39,16 @@ class CheckoutController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            $cek = Pesanan::where('uni_code', $code)->where('user_id', $user->id)->first();
+            $cek = Pesanan::where('uni_code', $code)->where('user_id', $user->id)->where('isLunas', true)->first();
+            if($cek) {
+                $carts = Keranjang::whereIn('id', $cek->keranjang_ids)->count();
+                $carts_checkout = Keranjang::whereIn('id', $cek->keranjang_ids)->where('isCheckout', true)->count();
+            }
 
             return response()->json([
                 'error' => false,
                 'data' => [
-                    'condition' => $cek ? true : false,
+                    'condition' => $cek ? ($carts == $carts_checkout ? true : false) : false,
                     'result' => $cek,
                 ]
             ]);
