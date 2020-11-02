@@ -317,7 +317,7 @@ class ProductController extends Controller
             $ulasan = Ulasan::query()->where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->with('getUser')->first();
 
             $review =[
-                'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->first(),
+                'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->with('getUser')->first(),
                 'count'=>Ulasan::where('produk_id',$id)->count(),
                 'avg'=>DB::table('ulasans')
                 ->avg('bintang'),
