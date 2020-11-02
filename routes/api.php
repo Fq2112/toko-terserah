@@ -115,6 +115,11 @@ Route::group(['namespace' => 'API'], function () {
                     'as' => 'get.midtrans.snap'
                 ]);
 
+                Route::get('check/{code}', [
+                    'uses' => 'CheckoutController@check',
+                    'as' => 'get.midtrans.check'
+                ]);
+
                 Route::get('snap-webview', [
                     'uses' => 'CheckoutController@snapWebview',
                     'as' => 'get.midtrans.snap-webview'

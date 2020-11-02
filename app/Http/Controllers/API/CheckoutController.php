@@ -32,6 +32,34 @@ class CheckoutController extends Controller
         $this->channels = ["credit_card", "bca_va", "echannel", "bni_va", "permata_va", "other_va", "gopay", "indomaret", "alfamart"];
     }
 
+    public function cek($code)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $cek = Pesanan::where('uni_code', $code)->where('user_id', $user->id)->first();
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'condition' => $cek ? true : false,
+                    'result' => $cek,
+                ]
+            ]);
+
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
     public function snap(Request $request)
     {
         try {
@@ -88,7 +116,7 @@ class CheckoutController extends Controller
             ];
 
             $check = Pesanan::where('uni_code', $code)->first();
-            if(!$check) {
+            if (!$check) {
                 Pesanan::firstOrCreate([
                     'user_id' => $user->id,
                     'keranjang_ids' => explode(',', $request->cart_ids),
@@ -184,7 +212,7 @@ class CheckoutController extends Controller
                 'nama_kurir' => $request->nama_kurir,
                 'layanan_kurir' => $request->layanan_kurir,
                 'opsi' => $request->opsi,
-                'token'=>$request->token,
+                'token' => $request->token,
             ];
 
             return view('pages.webviews.snap-midtrans', compact('data'));
