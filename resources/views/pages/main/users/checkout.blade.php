@@ -1393,11 +1393,11 @@
                                 snap.pay(data, {
                                     language: '{{app()->getLocale()}}',
                                     onSuccess: function (result) {
-                                        //responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);
+                                        {{--responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);--}}
                                         responseMidtrans('finish', result);
                                     },
                                     onPending: function (result) {
-                                        //responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);
+                                        {{--responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);--}}
                                         responseMidtrans('unfinish', result);
                                     },
                                     onError: function (result) {
