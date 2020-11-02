@@ -232,9 +232,9 @@ class ProductController extends Controller
         $array = [];
         foreach ($data as $datum => $key) {
             if ($key['gambar'] == "placeholder.jpg" || $key['gambar'] == "") {
-                $filepath = asset('storage/produk/galeri/' . $key['gambar']);
+                $filepath = asset('storage/produk/thumb/' . $key['gambar']);
             } else {
-                $filepath = asset('storage/produk/galeri/' . $key['gambar']);
+                $filepath = asset('storage/produk/thumb/' . $key['gambar']);
             }
             $merge = array_merge($data[$datum], array("image_path" => $filepath), array("sub_name" => SubKategori::find($key['sub_kategori_id'])->nama));
             array_push($array, $merge);
