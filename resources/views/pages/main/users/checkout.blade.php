@@ -1483,9 +1483,11 @@
                         buttons: false,
                         closeOnEsc: false,
                         closeOnClickOutside: false,
-                        timer: 2000
+                        timer: 3000
                     });
-                    location.href = '{{route('user.dashboard')}}'
+                    setTimeout(function () {
+                        location.href = '{{route('user.dashboard')}}'
+                    }, 3000);
                 }, 2000);
 
             } else {
