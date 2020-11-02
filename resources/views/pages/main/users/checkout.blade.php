@@ -1468,7 +1468,6 @@
                 swal({
                     title: 'Loading...',
                     text: 'Mohon tunggu, transaksi Anda sedang diproses',
-                    content: preloader,
                     icon: 'warning',
                     buttons: false,
                     closeOnEsc: false,
