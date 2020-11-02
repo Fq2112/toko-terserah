@@ -87,14 +87,14 @@ class CheckoutController extends Controller
                 'name' => 'Ongkir'
             ];
 
-            $check = Pesanan::where('uni_code', $request->code)->first();
+            $check = Pesanan::where('uni_code', $code)->first();
             if(!$check) {
                 Pesanan::firstOrCreate([
                     'user_id' => $user->id,
                     'keranjang_ids' => explode(',', $request->cart_ids),
                     'pengiriman_id' => $request->pengiriman_id,
                     'penagihan_id' => $request->penagihan_id,
-                    'uni_code' => $request->code,
+                    'uni_code' => $code,
                     'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
                     'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
                     'berat_barang' => $request->weight,

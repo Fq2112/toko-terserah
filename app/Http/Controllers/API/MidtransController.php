@@ -276,6 +276,9 @@ class MidtransController extends Controller
                 } elseif ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement') {
                     DB::beginTransaction();
 
+                    foreach ($carts as $cart) {
+                        $cart->update(['isCheckOut' => true]);
+                    }
                     $pesanan->update(['isLunas' => true]);
                     $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
 
