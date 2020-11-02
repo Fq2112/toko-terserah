@@ -47,7 +47,7 @@ class DashboardController extends Controller
             })->orderByDesc('id')->get();
 
             foreach ($pesanan as $i => $row) {
-                $cart = Keranjang::whereIn('id', $row->keranjang_ids)->orderByDesc('id')->first();
+                $cart = Keranjang::whereIn('id', $row->keranjang_ids)->where('isCheckout', true)->orderByDesc('id')->first();
 
                 $recent_track = null;
                 if($row->isAmbil == false && $row->is_kurir_terserah == false && ($status == 'dikirim' || $status == 'selesai')) {
