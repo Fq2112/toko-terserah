@@ -7,6 +7,7 @@ use App\Mail\Users\InvoiceMail;
 use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
+use App\Models\Produk;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -87,12 +88,16 @@ class MidtransController extends Controller
             'quantity' => 1,
             'name' => 'Ongkir'
         ];
+        $keranjang_ids=explode(',', $request->cart_ids);
+        foreach($keranjang_ids as $i=> $dt){
+            $keranjang_ids[$i]="$dt";
+        }
 
         $check = Pesanan::where('uni_code', $request->code)->first();
-        if(!$check) {
+        if (!$check) {
             Pesanan::firstOrCreate([
                 'user_id' => $user->id,
-                'keranjang_ids' => explode(',', $request->cart_ids),
+                'keranjang_ids' => $keranjang_ids,
                 'pengiriman_id' => $request->pengiriman_id,
                 'penagihan_id' => $request->penagihan_id,
                 'uni_code' => $request->code,
@@ -259,10 +264,12 @@ class MidtransController extends Controller
         $user = User::find($pesanan->user_id);
 
         try {
-            if (!array_key_exists('fraud_status', $data_tr) ||
-                (array_key_exists('fraud_status', $data_tr) && $data_tr['fraud_status'] == 'accept')) {
+            if (
+                !array_key_exists('fraud_status', $data_tr) ||
+                (array_key_exists('fraud_status', $data_tr) && $data_tr['fraud_status'] == 'accept')
+            ) {
 
-                if($data_tr['transaction_status'] == 'pending') {
+                if ($data_tr['transaction_status'] == 'pending') {
                     DB::beginTransaction();
 
                     foreach ($carts as $cart) {
@@ -272,7 +279,6 @@ class MidtransController extends Controller
 
                     DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
-
                 } elseif ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement') {
                     DB::beginTransaction();
 
@@ -290,14 +296,40 @@ class MidtransController extends Controller
 
                     DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
+                } elseif ($data_tr['transaction_status'] == 'expired') {
 
-                } elseif($data_tr['transaction_status'] == 'expired') {
+
+
+                    $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)
+                        ->where('isCheckout', true)
+                        ->first();
+
+                    $check_next_trans = Pesanan::where('id', '>', $pesanan->id)
+                        ->where('user_id', $user->id)
+                        ->where('keranjang_ids', $pesanan->keranjang_ids)->count();
+
+                    DB::beginTransaction();
+
+                    if ($carts && $check_next_trans == 0) {
+                        $ker = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
+                        foreach ($ker as $dt) {
+                            $produk = Produk::findOrFail($dt->produk_id);
+
+                            $produk->update([
+                                'stock' => $produk->stock + $dt->qty,
+                            ]);
+
+                            $dt->delete();
+                        }
+
+                    }
+
                     $pesanan->delete();
+                    DB::commit();
 
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' telah dibatalkan!';
                 }
             }
-
         } catch (\Exception $exception) {
             return response()->json($exception, 500);
         }
@@ -311,7 +343,6 @@ class MidtransController extends Controller
             $type = $data_tr['payment_type'];
             $bank = $data_tr['card_type'];
             $account = $data_tr['masked_card'];
-
         } else if ($data_tr['payment_type'] == 'bank_transfer') {
             $type = $data_tr['payment_type'];
 
@@ -322,17 +353,14 @@ class MidtransController extends Controller
                 $bank = implode((array)$data_tr['va_numbers'][0]->bank);
                 $account = implode((array)$data_tr['va_numbers'][0]->va_number);
             }
-
         } else if ($data_tr['payment_type'] == 'echannel') {
             $type = 'bank_transfer';
             $bank = 'mandiri';
             $account = $data_tr['bill_key'];
-
         } else if ($data_tr['payment_type'] == 'cstore') {
             $type = $data_tr['payment_type'];
             $bank = $data_tr['store'];
             $account = $data_tr['payment_code'];
-
         } else {
             $type = $data_tr['payment_type'];
             $bank = $data_tr['payment_type'];
