@@ -48,7 +48,7 @@ class keranjangController extends Controller
                     'data' => [
                         'count_produk' => count($data),
                         'produk' => $data,
-                        'bio_set'=>Bio::where('user_id',$user->id)->whereNotNull('phone')->count() ?true :false
+                        'bio_set'=>DB::query("SELECT * FROM `bio` where user_id='".$user->id."' and (phone is null or phone = '')")->count() ? true:false
                     ]
                 ],
                 200
