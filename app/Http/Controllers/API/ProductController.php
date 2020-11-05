@@ -293,10 +293,12 @@ class ProductController extends Controller
             // ->whereNotNull('tgl_diterima')
             // ->where('keranjang_ids','like',"%$id%")->count();
             $dt = array();
-            foreach ($data->galeri as $i => $row) {
-                $dt[] = File::exists(asset('storage/produk/thumb/' . $row)) ? asset('storage/produk/thumb/' . $row) : asset('storage/produk/galeri/' . $row);
+            if (is_array($data->galeri)) {
+                foreach ($data->galeri as $i => $row) {
+                    $dt[] = File::exists(asset('storage/produk/thumb/' . $row)) ? asset('storage/produk/thumb/' . $row) : asset('storage/produk/galeri/' . $row);
+                }
             }
-            $data->galeri = count($dt)?$dt:[asset('storage/produk/thumb/'.$data->gambar)];
+            $data->galeri = count($dt) ? $dt : [asset('storage/produk/thumb/' . $data->gambar)];
 
 
             $data['count_ulasan'] = 0;
