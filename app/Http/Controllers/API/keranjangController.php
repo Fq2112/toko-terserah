@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bio;
 use App\Models\Favorit;
 use App\Models\Keranjang;
 use App\Models\Produk;
@@ -47,6 +48,7 @@ class keranjangController extends Controller
                     'data' => [
                         'count_produk' => count($data),
                         'produk' => $data,
+                        'bio_set'=>Bio::where('user_id',$user->id)->whereNotNull('phone')->count() ?true :false
                     ]
                 ],
                 200

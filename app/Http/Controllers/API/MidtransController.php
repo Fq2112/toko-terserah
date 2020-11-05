@@ -88,9 +88,9 @@ class MidtransController extends Controller
             'quantity' => 1,
             'name' => 'Ongkir'
         ];
-        $keranjang_ids=explode(',', $request->cart_ids);
-        foreach($keranjang_ids as $i=> $dt){
-            $keranjang_ids[$i]="$dt";
+        $keranjang_ids = explode(',', $request->cart_ids);
+        foreach ($keranjang_ids as $i => $dt) {
+            $keranjang_ids[$i] = "$dt";
         }
 
         $check = Pesanan::where('uni_code', $request->code)->first();
@@ -299,18 +299,24 @@ class MidtransController extends Controller
                 } elseif ($data_tr['transaction_status'] == 'expired') {
 
 
+                    $check_next_trans = $check_next_trans2 = 0;
 
                     $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)
                         ->where('isCheckout', true)
                         ->first();
+                    if (is_array($pesanan->keranjang_ids)) {
+                        $check_next_trans = Pesanan::where('id', '>', $pesanan->id)
+                            ->where('user_id', $user->id)
+                            ->where('keranjang_ids', '["' . implode('","', $pesanan->keranjang_ids) . '"]')->count();
 
-                    $check_next_trans = Pesanan::where('id', '>', $pesanan->id)
-                        ->where('user_id', $user->id)
-                        ->where('keranjang_ids', $pesanan->keranjang_ids)->count();
+                        $check_next_trans2 = Pesanan::where('id', '>', $pesanan->id)
+                            ->where('user_id', $user->id)
+                            ->where('keranjang_ids', '[' . implode(',', $pesanan->keranjang_ids) . ']')->count();
+                    }
 
                     DB::beginTransaction();
 
-                    if ($carts && $check_next_trans == 0) {
+                    if ($carts && ($check_next_trans == 0 && $check_next_trans2 == 0)) {
                         $ker = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
                         foreach ($ker as $dt) {
                             $produk = Produk::findOrFail($dt->produk_id);
@@ -321,7 +327,6 @@ class MidtransController extends Controller
 
                             $dt->delete();
                         }
-
                     }
 
                     $pesanan->delete();
