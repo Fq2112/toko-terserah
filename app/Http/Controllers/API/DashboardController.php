@@ -82,7 +82,7 @@ class DashboardController extends Controller
 
             return response()->json([
                 'error' => false,
-                'data' => $pesanan->take($request->limit ?? 8),
+                'data' => $result,
                 'count_cart' => Keranjang::where('user_id', $user->id)->where('isCheckout', 0)->count(),
             ], 200);
         } catch (\Exception $exception) {
