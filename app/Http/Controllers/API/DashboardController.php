@@ -80,7 +80,7 @@ class DashboardController extends Controller
             }
 
             $result2=[];
-            $limit=$request->limit ?? 8;
+            $limit=99999;
 
             for($i=0;$i<($limit<=count($result) ?$limit : count($result)) ; $i++){
                 $result2[]=$result[$i];
