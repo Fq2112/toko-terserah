@@ -79,10 +79,17 @@ class DashboardController extends Controller
                 }
             }
 
+            $result2=[];
+            $limit=$request->limit ?? 8;
+
+            for($i=0;$i<($limit<=count($result) ?$limit : count($result)) ; $i++){
+                $result2[]=$result[$i];
+            }
+
 
             return response()->json([
                 'error' => false,
-                'data' => $result,
+                'data' => $result2,
                 'count_cart' => Keranjang::where('user_id', $user->id)->where('isCheckout', 0)->count(),
             ], 200);
         } catch (\Exception $exception) {
