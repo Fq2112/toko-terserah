@@ -45,6 +45,7 @@ class DashboardController extends Controller
                     $q->where('isLunas', true)->whereNotNull('tgl_diterima');
                 }
             })->orderByDesc('id')->get();
+            $result=[];
 
             foreach ($pesanan as $i => $row) {
                 $cart = Keranjang::whereIn('id', $row->keranjang_ids)->where('isCheckout', true)->orderByDesc('id')->first();
@@ -69,13 +70,19 @@ class DashboardController extends Controller
                 }
 
                 $row->total_produk = count($row->keranjang_ids) - 1;
+
                 $row->recent_produk = !is_null($cart) ? $cart->getProduk: [];
                 $row->recent_track = $recent_track;
+
+                if(!is_null($cart)){
+                    $result[]=$row;
+                }
             }
+
 
             return response()->json([
                 'error' => false,
-                'data' => $pesanan->take($request->limit ?? 8),
+                'data' => array_slice($result,$request->limit ?? 8),
                 'count_cart' => Keranjang::where('user_id', $user->id)->where('isCheckout', 0)->count(),
             ], 200);
         } catch (\Exception $exception) {
