@@ -192,7 +192,7 @@
                                             <label for="title">Diskon <small>(opsional)</small></label>
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="diskon" max="99"
-                                                       min="1"
+                                                       min="0"
                                                        class="form-control" value="{{$data->diskon}}"
                                                        placeholder="1xxxxxx">
                                                 <div class="input-group-prepend">
@@ -203,7 +203,7 @@
                                         <div class="col-6 has-feedback">
                                             <label for="title">Diskon Grosir<small>(opsional)</small></label>
                                             <div class="input-group mb-2">
-                                                <input id="diskonGrosir" type="number" name="diskonGrosir" max="99" min="1"
+                                                <input id="diskonGrosir" type="number" name="diskonGrosir" max="99" min="0"
                                                        class="form-control" value="{{$data->diskonGrosir}}"
                                                        placeholder="1xxxxxx">
                                                 <div class="input-group-prepend">
