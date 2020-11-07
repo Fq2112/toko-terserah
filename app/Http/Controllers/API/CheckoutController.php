@@ -32,6 +32,38 @@ class CheckoutController extends Controller
         $this->channels = ["credit_card", "bca_va", "echannel", "bni_va", "permata_va", "other_va", "gopay", "indomaret", "alfamart"];
     }
 
+    public function check($code)
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $cek = Pesanan::where('uni_code', $code)->where('user_id', $user->id)->where('isLunas', true)->first();
+            if($cek) {
+                $carts = Keranjang::whereIn('id', $cek->keranjang_ids)->count();
+                $carts_checkout = Keranjang::whereIn('id', $cek->keranjang_ids)->where('isCheckout', true)->count();
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'condition' => $cek ? ($carts == $carts_checkout ? true : false) : false,
+                    'result' => $cek,
+                ]
+            ]);
+
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
     public function snap(Request $request)
     {
         try {
@@ -87,39 +119,69 @@ class CheckoutController extends Controller
                 'name' => 'Ongkir'
             ];
 
-            return Snap::getSnapToken([
-                'enabled_payments' => $this->channels,
-                'transaction_details' => [
-                    'order_id' => $code,
-                    'gross_amount' => $request->total,
-                ],
-                'customer_details' => [
-                    'first_name' => array_shift($split_name),
-                    'last_name' => implode(" ", $split_name),
-                    'phone' => $user->getBio->phone,
-                    'email' => $user->email,
-                    'address' => $main_address,
-                    'billing_address' => [
-                        'first_name' => array_shift($split_bill_name),
-                        'last_name' => implode(" ", $split_bill_name),
-                        'address' => $billing->alamat,
-                        'city' => $billing->getKecamatan->getKota->getProvinsi->nama . ', ' . $billing->getKecamatan->getKota->nama,
-                        'postal_code' => $billing->kode_pos,
-                        'phone' => $billing->telp,
-                        'country_code' => 'IDN'
-                    ],
-                    'shipping_address' => [
-                        'first_name' => array_shift($split_shipping_name),
-                        'last_name' => implode(" ", $split_shipping_name),
-                        'address' => $shipping->alamat,
-                        'city' => $shipping->getKecamatan->getKota->getProvinsi->nama . ', ' . $shipping->getKecamatan->getKota->nama,
-                        'postal_code' => $shipping->kode_pos,
-                        'phone' => $shipping->telp,
-                        'country_code' => 'IDN'
-                    ],
-                ],
-                'item_details' => array_merge($arr_items, $arr_ship_disc),
-            ]);
+            $check = Pesanan::where('uni_code', $code)->first();
+            if (!$check) {
+                Pesanan::firstOrCreate([
+                    'user_id' => $user->id,
+                    'keranjang_ids' => explode(',', $request->cart_ids),
+                    'pengiriman_id' => $request->pengiriman_id,
+                    'penagihan_id' => $request->penagihan_id,
+                    'uni_code' => $code,
+                    'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
+                    'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
+                    'berat_barang' => $request->weight,
+                    'total_harga' => $request->total,
+                    'note' => $request->note,
+                    'promo_code' => $request->promo_code,
+                    'is_discount' => !is_null($request->discount_price) ? 1 : 0,
+                    'discount' => $request->discount_price,
+                    'kode_kurir' => $request->kode_kurir,
+                    'nama_kurir' => $request->nama_kurir,
+                    'layanan_kurir' => $request->layanan_kurir,
+                    'isAmbil' => $request->opsi == 'ambil' ? true : false,
+                    'is_kurir_terserah' => $request->opsi == 'terserah' ? true : false,
+                ]);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'uni_code' => $code,
+                    'snap' => Snap::getSnapToken([
+                        'enabled_payments' => $this->channels,
+                        'transaction_details' => [
+                            'order_id' => $code,
+                            'gross_amount' => $request->total,
+                        ],
+                        'customer_details' => [
+                            'first_name' => array_shift($split_name),
+                            'last_name' => implode(" ", $split_name),
+                            'phone' => $user->getBio->phone,
+                            'email' => $user->email,
+                            'address' => $main_address,
+                            'billing_address' => [
+                                'first_name' => array_shift($split_bill_name),
+                                'last_name' => implode(" ", $split_bill_name),
+                                'address' => $billing->alamat,
+                                'city' => $billing->getKecamatan->getKota->getProvinsi->nama . ', ' . $billing->getKecamatan->getKota->nama,
+                                'postal_code' => $billing->kode_pos,
+                                'phone' => $billing->telp,
+                                'country_code' => 'IDN'
+                            ],
+                            'shipping_address' => [
+                                'first_name' => array_shift($split_shipping_name),
+                                'last_name' => implode(" ", $split_shipping_name),
+                                'address' => $shipping->alamat,
+                                'city' => $shipping->getKecamatan->getKota->getProvinsi->nama . ', ' . $shipping->getKecamatan->getKota->nama,
+                                'postal_code' => $shipping->kode_pos,
+                                'phone' => $shipping->telp,
+                                'country_code' => 'IDN'
+                            ],
+                        ],
+                        'item_details' => array_merge($arr_items, $arr_ship_disc),
+                    ])
+                ]
+            ], 200);
 
         } catch (\Exception $exception) {
             return response()->json([
@@ -154,7 +216,7 @@ class CheckoutController extends Controller
                 'nama_kurir' => $request->nama_kurir,
                 'layanan_kurir' => $request->layanan_kurir,
                 'opsi' => $request->opsi,
-                'token'=>$request->token,
+                'token' => $request->token,
             ];
 
             return view('pages.webviews.snap-midtrans', compact('data'));

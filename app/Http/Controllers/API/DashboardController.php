@@ -35,55 +35,63 @@ class DashboardController extends Controller
 
             $status = $request->status;
             $pesanan = Pesanan::where('user_id', $user->id)->when($status, function ($q) use ($status) {
-                if($status == 'belum_bayar') {
+                if ($status == 'belum_bayar') {
                     $q->where('isLunas', false)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima');
-                } elseif($status == 'dikemas_diambil') {
+                } elseif ($status == 'dikemas_diambil') {
                     $q->where('isLunas', true)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima');
-                } elseif($status == 'dikirim') {
+                } elseif ($status == 'dikirim') {
                     $q->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNull('tgl_diterima');
-                } elseif($status == 'selesai') {
+                } elseif ($status == 'selesai') {
                     $q->where('isLunas', true)->whereNotNull('tgl_diterima');
                 }
             })->orderByDesc('id')->get();
+            $result=[];
 
             foreach ($pesanan as $i => $row) {
-                $cart = Keranjang::whereIn('id', $row->keranjang_ids)->orderByDesc('id')->first();
+                $cart = Keranjang::whereIn('id', $row->keranjang_ids)->where('isCheckout', true)->orderByDesc('id')->first();
 
                 $recent_track = null;
-                if($row->isAmbil == false && $row->is_kurir_terserah == false && ($status == 'dikirim' || $status == 'selesai')) {
+                if ($row->isAmbil == false && $row->is_kurir_terserah == false && ($status == 'dikirim' || $status == 'selesai')) {
                     $response = $this->client->post(env('RajaOngkir_URL') . '/waybill', [
                         'form_params' => [
                             'waybill' => $row->resi,
                             'courier' => $row->kode_kurir
                         ]
                     ])->getBody()->getContents();
-                    $response = json_decode($response,true);
-                    if($response['rajaongkir']['status']['code'] == 200) {
-                        if($row->kode_kurir != 'pos') {
-                            $i=count($response['rajaongkir']['result']['manifest']);
-                            $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i-1 : 0];
-                        }else{
+                    $response = json_decode($response, true);
+                    if ($response['rajaongkir']['status']['code'] == 200) {
+                        if ($row->kode_kurir != 'pos') {
+                            $i = count($response['rajaongkir']['result']['manifest']);
+                            $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i - 1 : 0];
+                        } else {
                             $recent_track = $response['rajaongkir']['result']['manifest'][0];
                         }
                     }
                 }
 
                 $row->total_produk = count($row->keranjang_ids) - 1;
-                $row->recent_produk = $cart->getProduk;
+
+                $row->recent_produk = !is_null($cart) ? $cart->getProduk: [];
                 $row->recent_track = $recent_track;
+
+                if(!is_null($cart)){
+                    $result[]=$row;
+                }
             }
+
 
             return response()->json([
                 'error' => false,
-                'data' => $pesanan->take($request->limit ?? 8)
+                'data' => $pesanan->take($request->limit ?? 8),
+                'count_cart' => Keranjang::where('user_id', $user->id)->where('isCheckout', 0)->count(),
             ], 200);
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
                 'data' => [
                     'message' => $exception->getMessage()
-                ]
+                ],
+                'count_cart' => 0,
             ]);
         }
     }
@@ -106,18 +114,18 @@ class DashboardController extends Controller
             }
 
             if (strpos($pesanan->durasi_pengiriman, '+') !== false) {
-                $str_etd = '&ge; ' . str_replace('+','',$pesanan->durasi_pengiriman) . $unit;
+                $str_etd = '&ge; ' . str_replace('+', '', $pesanan->durasi_pengiriman) . $unit;
             } else {
                 if ($pesanan->durasi_pengiriman == '1-1') {
                     $str_etd = '&le; 1' . $unit;
                 } else {
-                    $str_etd = str_replace('-',' – ',$pesanan->durasi_pengiriman) . $unit;
+                    $str_etd = str_replace('-', ' – ', $pesanan->durasi_pengiriman) . $unit;
                 }
             }
 
-            if(is_null($pesanan->tgl_diterima)) {
-                if(is_null($pesanan->tgl_pengiriman)) {
-                    if($pesanan->isLunas == false){
+            if (is_null($pesanan->tgl_diterima)) {
+                if (is_null($pesanan->tgl_pengiriman)) {
+                    if ($pesanan->isLunas == false) {
                         $status = 'MENUNGGU PEMBAYARAN';
                     } else {
                         $status = $pesanan->isAmbil == false ? 'SEDANG DIKEMAS' : 'SIAP DIAMBIL';
@@ -131,22 +139,24 @@ class DashboardController extends Controller
 
             $recent_track = null;
             $full_track = [];
-            if($pesanan->isAmbil == false && $pesanan->is_kurir_terserah == false &&
-                ($status == 'DALAM PENGIRIMAN' || $status == 'PESANAN SELESAI')) {
+            if (
+                $pesanan->isAmbil == false && $pesanan->is_kurir_terserah == false &&
+                ($status == 'DALAM PENGIRIMAN' || $status == 'PESANAN SELESAI')
+            ) {
                 $response = $this->client->post(env('RajaOngkir_URL') . '/waybill', [
                     'form_params' => [
                         'waybill' => $pesanan->resi,
                         'courier' => $pesanan->kode_kurir
                     ]
                 ])->getBody()->getContents();
-                $response = json_decode($response,true);;
-//                dd(krsort($response['rajaongkir']['result']['manifest']));
-                if($response['rajaongkir']['status']['code'] == 200) {
-                    if($pesanan->kode_kurir != 'pos') {
-                        $i=count($response['rajaongkir']['result']['manifest']);
-                        $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i-1 : 0];
+                $response = json_decode($response, true);;
+                //                dd(krsort($response['rajaongkir']['result']['manifest']));
+                if ($response['rajaongkir']['status']['code'] == 200) {
+                    if ($pesanan->kode_kurir != 'pos') {
+                        $i = count($response['rajaongkir']['result']['manifest']);
+                        $recent_track = $response['rajaongkir']['result']['manifest'][$i ? $i - 1 : 0];
                         $full_track = array_reverse($response['rajaongkir']['result']['manifest']);
-                    }else{
+                    } else {
                         $recent_track = $response['rajaongkir']['result']['manifest'][0];
                         $full_track = $response['rajaongkir']['result']['manifest'];
                     }
@@ -156,8 +166,8 @@ class DashboardController extends Controller
             $array_produk = [];
             foreach ($carts as $cart) {
                 $cart->produk = $cart->getProduk;
-                array_push($array_carts,$cart);
-                array_push($array_produk,$cart->getProduk->id);
+                array_push($array_carts, $cart);
+                array_push($array_produk, $cart->getProduk->id);
             }
             $pesanan->alamat_pengiriman = Alamat::find($pesanan->pengiriman_id);
             $pesanan->alamat_penagihan = Alamat::find($pesanan->penagihan_id);
@@ -174,7 +184,6 @@ class DashboardController extends Controller
                 'error' => false,
                 'data' => $pesanan
             ], 200);
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -196,7 +205,6 @@ class DashboardController extends Controller
             $file = asset('storage/users/invoice/' . $pesanan->user_id . '/' . $pesanan->uni_code . '.pdf');
 
             return view('pages.webviews.invoice', compact('file'));
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -223,7 +231,6 @@ class DashboardController extends Controller
                     'message' => 'Penerimaan paket pesanan [' . $pesanan->uni_code . '] Anda berhasil dikonfirmasi!'
                 ]
             ], 200);
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -282,7 +289,6 @@ class DashboardController extends Controller
                     'message' => 'Semua produk yang masih tersedia dan ada di pesanan [' . $pesanan->uni_code . '] berhasil ditambahkan ke cart Anda! Apakah Anda ingin checkout sekarang?'
                 ]
             ], 200);
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,

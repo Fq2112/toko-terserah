@@ -115,6 +115,11 @@ Route::group(['namespace' => 'API'], function () {
                     'as' => 'get.midtrans.snap'
                 ]);
 
+                Route::get('check/{code}', [
+                    'uses' => 'CheckoutController@check',
+                    'as' => 'get.midtrans.check'
+                ]);
+
                 Route::get('snap-webview', [
                     'uses' => 'CheckoutController@snapWebview',
                     'as' => 'get.midtrans.snap-webview'
@@ -153,7 +158,7 @@ Route::group(['namespace' => 'API'], function () {
 
         Route::group(['prefix' => 'callback'], function () {
 
-            Route::get('finish', [
+            /*Route::get('finish', [
                 'uses' => 'MidtransController@finishCallback',
                 'as' => 'get.midtrans-callback.finish'
             ]);
@@ -161,7 +166,7 @@ Route::group(['namespace' => 'API'], function () {
             Route::get('unfinish', [
                 'uses' => 'MidtransController@unfinishCallback',
                 'as' => 'get.midtrans-callback.unfinish'
-            ]);
+            ]);*/
 
             Route::post('payment', [
                 'uses' => 'MidtransController@notificationCallback',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Mail\Auth\ActivationMail;
 use App\Models\Bio;
+use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\User;
 use Carbon\Carbon;
@@ -88,15 +89,21 @@ class AuthController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
+            $cek = Pesanan::where('user_id', $user->id)->where('isLunas', false)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima')->first();
+            if ($cek) {
+                $carts = Keranjang::whereIn('id', $cek->keranjang_ids)->count();
+                $carts_checkout = Keranjang::whereIn('id', $cek->keranjang_ids)->where('isCheckout', true)->count();
+            }
+
             $res = [
                 'user' => $user,
                 'bio' => $user->getBio,
                 'address' => $user->getAlamat,
                 // "wishlist" => $user->getWishlist,
                 'count_wish' => count($user->getWishlist),
-                'count_cart' => $user->getKeranjang->where('isCheckOut',false)->count(),
+                'count_cart' => $user->getKeranjang->where('isCheckOut', false)->count(),
                 'count_status' => [
-                    'belum_bayar' => Pesanan::where('user_id', $user->id)->where('isLunas', false)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
+                    'belum_bayar' => $cek ? ($carts == $carts_checkout ? 1 : 0) : 0,
                     'dikemas_diambil' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
                     'dikirim' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_pengiriman')->whereNull('tgl_diterima')->count(),
                     'selesai' => Pesanan::where('user_id', $user->id)->where('isLunas', true)->whereNotNull('tgl_diterima')->count()

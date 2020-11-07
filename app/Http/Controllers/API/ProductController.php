@@ -59,9 +59,9 @@ class ProductController extends Controller
     {
         try {
             $data = Produk::query()
-                ->when($request->kategori, function($q) use ($request) {
-                    $q->whereHas('getSubkategori', function($q) use ($request) {
-                        $q->whereIn('id', explode(',',$request->kategori));
+                ->when($request->kategori, function ($q) use ($request) {
+                    $q->whereHas('getSubkategori', function ($q) use ($request) {
+                        $q->whereIn('id', explode(',', $request->kategori));
                     });
                 })
                 ->when($request->get('name'), function ($q) use ($request) {
@@ -71,8 +71,10 @@ class ProductController extends Controller
                         $q->whereIn('id', $request->sub_kategori);
                     });
                 })->when($request->get('awal'), function ($q) use ($request) {
-                    $q->whereBetween(DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"),
-                        [$request->get('awal'), $request->get('akhir')]);
+                    $q->whereBetween(
+                        DB::raw("IF(isGrosir=0, IF(is_diskon=0, CAST(harga as UNSIGNED), CAST(harga_diskon as UNSIGNED)), IF(isDiskonGrosir=0, CAST(harga_grosir as UNSIGNED), CAST(harga_diskon_grosir as UNSIGNED)))"),
+                        [$request->get('awal'), $request->get('akhir')]
+                    );
                 })
                 ->when($request->get('jenis'), function ($q) use ($request) {
                     if ($request->jenis == 'retail') {
@@ -84,27 +86,27 @@ class ProductController extends Controller
                 ->orderBy('nama')->get()
                 ->take($request->get('limit') ?? 8)->toArray();
 
-                foreach ($data as $i => $row) {
-                    $ulasan = Ulasan::where('produk_id', $row['id'])->get();
-                    $data[$i] = array_merge($data[$i], [
-                        'avg_ulasan' => count($ulasan) > 0 ? $ulasan->avg('bintang') : 0,
-                        'count_ulasan' => count($ulasan)
-                    ]);
-                }
+            foreach ($data as $i => $row) {
+                $ulasan = Ulasan::where('produk_id', $row['id'])->get();
+                $data[$i] = array_merge($data[$i], [
+                    'avg_ulasan' => count($ulasan) > 0 ? $ulasan->avg('bintang') : 0,
+                    'count_ulasan' => count($ulasan)
+                ]);
+            }
 
 
             $data = $this->get_image_path($data);
 
-                return response()->json(
-                    [
-                        'error' => false,
-                        'data' => [
-                            'count_produk' => count($data),
-                            'produk' => $data,
-                        ]
-                    ],
-                    200
-                );
+            return response()->json(
+                [
+                    'error' => false,
+                    'data' => [
+                        'count_produk' => count($data),
+                        'produk' => $data,
+                    ]
+                ],
+                200
+            );
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -118,7 +120,7 @@ class ProductController extends Controller
     public function get_flash_sale()
     {
         $data = Produk::where('stock', '>', 0)->where('is_diskon', true)->orWhere('isDiskonGrosir', true)->where('stock', '>', 0)
-        ->inRandomOrder()->limit(6)->get([
+            ->inRandomOrder()->limit(6)->get([
                 'id', 'harga', 'gambar', 'diskon', 'nama',
                 'harga_diskon', 'harga_grosir', 'diskonGrosir', 'harga_diskon_grosir', 'sub_kategori_id'
             ])->toArray();
@@ -179,25 +181,25 @@ class ProductController extends Controller
         $data = DB::select(DB::raw($query));
         $data = json_decode(json_encode($data), true);
 
-        $res=[];
+        $res = [];
 
         foreach ($data as $i => $row) {
             $ulasan = Ulasan::where('produk_id', $row['id'])->get();
-            $row['count_ulasan']=0;
-             $row['avg_ulasan']=0;
+            $row['count_ulasan'] = 0;
+            $row['avg_ulasan'] = 0;
 
 
-            foreach($ulasan as $ls ){
-                $row['count_ulasan']=$row['count_ulasan']+1;
-                $row['avg_ulasan'] = $row['avg_ulasan']+$ls->bintang;
+            foreach ($ulasan as $ls) {
+                $row['count_ulasan'] = $row['count_ulasan'] + 1;
+                $row['avg_ulasan'] = $row['avg_ulasan'] + $ls->bintang;
             }
-            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan']/$row['count_ulasan']:0;
-            $res[]=$row;
+            $row['avg_ulasan'] = $row['avg_ulasan'] ? $row['avg_ulasan'] / $row['count_ulasan'] : 0;
+            $res[] = $row;
         }
 
-    $data = $this->get_image_path($res);
+        $data = $this->get_image_path($res);
 
-    return $res;
+        return $res;
     }
 
     public function get_top_rated()
@@ -232,9 +234,9 @@ class ProductController extends Controller
         $array = [];
         foreach ($data as $datum => $key) {
             if ($key['gambar'] == "placeholder.jpg" || $key['gambar'] == "") {
-                $filepath = asset('storage/produk/galeri/' . $key['gambar']);
+                $filepath = asset('storage/produk/thumb/' . $key['gambar']);
             } else {
-                $filepath = asset('storage/produk/galeri/' . $key['gambar']);
+                $filepath = asset('storage/produk/thumb/' . $key['gambar']);
             }
             $merge = array_merge($data[$datum], array("image_path" => $filepath), array("sub_name" => SubKategori::find($key['sub_kategori_id'])->nama));
             array_push($array, $merge);
@@ -269,18 +271,18 @@ class ProductController extends Controller
     {
         try {
 
-          $user = JWTAuth::parseToken()->authenticate();
-          $check=auth()->check();
+            $user = JWTAuth::parseToken()->authenticate();
+            $check = auth()->check();
 
             $data = Produk::find($id);
-            $ulasan = Ulasan::query()->where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->with('getUser')->first();
-            $review =[
-                'data'=> $ulasan,
-                'count'=>Ulasan::where('produk_id',$id)->count(),
-                'avg'=>DB::table('ulasans')->where('produk_id',$id)
-                ->avg('bintang'),
-                'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-                'ulasan' => Ulasan::query()->where('produk_id',$id)->with('getUser')->orderBy('bintang','desc')->orderBy('created_at','desc')->get(),
+            $ulasan = Ulasan::query()->where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first();
+            $review = [
+                'data' => $ulasan,
+                'count' => Ulasan::where('produk_id', $id)->count(),
+                'avg' => DB::table('ulasans')->where('produk_id', $id)
+                    ->avg('bintang'),
+                'image' => Ulasan::where('produk_id', $id)->take(4)->get('gambar'),
+                'ulasan' => Ulasan::query()->where('produk_id', $id)->with('getUser')->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->get(),
 
             ];
 
@@ -290,16 +292,24 @@ class ProductController extends Controller
             // ->whereNotNull('tgl_diterima')
             // ->whereNotNull('tgl_diterima')
             // ->where('keranjang_ids','like',"%$id%")->count();
-
-                $data['count_ulasan'] = 0;
-                $data['avg_ulasan'] = 0;
-                $data['isWished']=Favorit::where('user_id',$user->id)->where('produk_id',$id)->count();
-                foreach ($data->getUlasan as $ls) {
-                    $data['count_ulasan']=$data['count_ulasan']+1;
-                    $data['avg_ulasan'] = $data['avg_ulasan']+$ls->bintang;
+            $dt = array();
+            if (is_array($data->galeri)) {
+                foreach ($data->galeri as $i => $row) {
+                    $dt[] = File::exists(asset('storage/produk/thumb/' . $row)) ? asset('storage/produk/thumb/' . $row) : asset('storage/produk/galeri/' . $row);
                 }
+            }
+            $data->galeri = count($dt) ? $dt : [asset('storage/produk/thumb/' . $data->gambar)];
 
-                $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan']/$data['count_ulasan']:0;
+
+            $data['count_ulasan'] = 0;
+            $data['avg_ulasan'] = 0;
+            $data['isWished'] = Favorit::where('user_id', $user->id)->where('produk_id', $id)->count();
+            foreach ($data->getUlasan as $ls) {
+                $data['count_ulasan'] = $data['count_ulasan'] + 1;
+                $data['avg_ulasan'] = $data['avg_ulasan'] + $ls->bintang;
+            }
+
+            $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan'] / $data['count_ulasan'] : 0;
 
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
@@ -307,52 +317,58 @@ class ProductController extends Controller
                 // 'count_buy'=>$cek_komen,
                 'data' =>
 
-                $this->res_get_product($data
-                ,$review
-                ,$qna,$user->getKeranjang->where('isCheckOut',false)->count(),true)
+                $this->res_get_product(
+                    $data,
+                    $review,
+                    $qna,
+                    $user->getKeranjang->where('isCheckOut', false)->count(),
+                    true
+                )
             ], 200);
-        }
-        catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $data = Produk::find($id);
-            $ulasan = Ulasan::query()->where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->with('getUser')->first();
+            $ulasan = Ulasan::query()->where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first();
 
-            $review =[
-                'data'=>Ulasan::where('produk_id',$id)->orderBy('bintang','desc')->orderBy('created_at','desc')->with('getUser')->first(),
-                'count'=>Ulasan::where('produk_id',$id)->count(),
-                'avg'=>DB::table('ulasans')
-                ->avg('bintang'),
-                'image'=>Ulasan::where('produk_id',$id)->take(4)->get('gambar'),
-                'ulasan' => Ulasan::query()->where('produk_id',$id)->with('getUser')->orderBy('bintang','desc')->orderBy('created_at','desc')->get(),
+            $review = [
+                'data' => Ulasan::where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first(),
+                'count' => Ulasan::where('produk_id', $id)->count(),
+                'avg' => DB::table('ulasans')
+                    ->avg('bintang'),
+                'image' => Ulasan::where('produk_id', $id)->take(4)->get('gambar'),
+                'ulasan' => Ulasan::query()->where('produk_id', $id)->with('getUser')->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->get(),
             ];
             $qna = $data->getQnA;
 
-            foreach($qna as $dt){
-                $dt['user']=$dt->getUser->name;
+            foreach ($qna as $dt) {
+                $dt['user'] = $dt->getUser->name;
             }
 
             $data['count_ulasan'] = 0;
             $data['avg_ulasan'] = 0;
-            $data['isWished']=0;
+            $data['isWished'] = 0;
 
             foreach ($data->getUlasan as $ls) {
-                $data['count_ulasan']=$data['count_ulasan']+1;
-                $data['avg_ulasan'] = $data['avg_ulasan']+$ls->bintang;
+                $data['count_ulasan'] = $data['count_ulasan'] + 1;
+                $data['avg_ulasan'] = $data['avg_ulasan'] + $ls->bintang;
             }
 
-            $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan']/$data['count_ulasan']:0;
+            $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan'] / $data['count_ulasan'] : 0;
 
 
             return response()->json([
                 'error' => false,
                 'data' =>
-                $this->res_get_product($data
-                ,$review
-                ,$qna,0,false)
+                $this->res_get_product(
+                    $data,
+                    $review,
+                    $qna,
+                    0,
+                    false
+                )
             ], 200);
 
             // do whatever you want to do if a token is not present
-        }
-        catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
                 'data' => [
@@ -369,16 +385,17 @@ class ProductController extends Controller
         }
     }
 
-    private function res_get_product($data,$review,$qna,$count_card,$is_login){
+    private function res_get_product($data, $review, $qna, $count_card, $is_login)
+    {
         return [
 
-                'detail' => $data,
-                'review' => $review,
-                'qna' => $qna,
-                'count_cart'=>$count_card,
-                // 'is_login'=>$user ? true : false,
-                'is_login'=>$is_login
-            ];
+            'detail' => $data,
+            'review' => $review,
+            'qna' => $qna,
+            'count_cart' => $count_card,
+            // 'is_login'=>$user ? true : false,
+            'is_login' => $is_login
+        ];
     }
 
     public function get_detail_ulasan($data)
