@@ -69,7 +69,7 @@ class DashboardController extends Controller
                 }
 
                 $row->total_produk = count($row->keranjang_ids) - 1;
-                $row->recent_produk = $cart->getProduk;
+                $row->recent_produk = !is_null($cart) ? $cart->getProduk: [];
                 $row->recent_track = $recent_track;
             }
 
