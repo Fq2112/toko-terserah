@@ -925,12 +925,13 @@
     <script src="{{asset('vendor/lightgallery/dist/js/lightgallery-all.min.js')}}"></script>
     <script src="{{asset('vendor/lightgallery/modules/lg-video.min.js')}}"></script>
     {{--<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>--}}
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_SERVER_KEY')}}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="{{env('MIDTRANS_SERVER_KEY')}}"></script>
 
     <script>
         var collapse = $('.panel-collapse'), upload_input = $("#file"), link_input = $("#link"), check_file = null,
             btn_pay = $("#btn_pay"), opsi = $("input[name=opsi]"), kode_kurir = $("#kode_kurir"),
-            layanan_kurir = $("#layanan_kurir"),
+            layanan_kurir = $("#layanan_kurir"), min_transaksi = 10000,
             harga_diskon = 0, ongkir = 0, etd = '', str_etd = '', unit = '', total = parseInt('{{$subtotal}}');
 
         $(function () {
@@ -1374,42 +1375,48 @@
                 if ($('input[name=opsi]:checked').val() == 'logistik' && (!kode_kurir.val() || !layanan_kurir.val())) {
                     swal('PERHATIAN!', 'Field logistik dan jenis layanannya tidak boleh dikosongi!', 'warning');
                 } else {
-                    clearTimeout(this.delay);
-                    this.delay = setTimeout(function () {
-                        $.ajax({
-                            url: '{{route('get.midtrans.snap')}}',
-                            type: "GET",
-                            data: $("#form-pembayaran").serialize(),
-                            beforeSend: function () {
-                                btn_pay.prop("disabled", true).html(
-                                    'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
-                                );
-                            },
-                            complete: function () {
-                                btn_pay.prop("disabled", false)
-                                    .html('CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>');
-                            },
-                            success: function (data) {
-                                snap.pay(data, {
-                                    language: '{{app()->getLocale()}}',
-                                    onSuccess: function (result) {
-                                        {{--responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);--}}
-                                        responseMidtrans('finish', result);
-                                    },
-                                    onPending: function (result) {
-                                        {{--responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);--}}
-                                        responseMidtrans('unfinish', result);
-                                    },
-                                    onError: function (result) {
-                                        swal('Oops..', result.status_message, 'error');
-                                    }
-                                });
-                            },
-                            error: function () {
-                                swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
-                            }
-                        });
-                    }.bind(this), 800);
+                    if (parseInt($("#form-pembayaran input[name=total]").val()) < parseInt(min_transaksi)) {
+                        swal('PERHATIAN!', 'Maaf saat ini Anda tidak bisa melanjutkan proses checkout, ' +
+                            'karena total transaksi pembelian Anda masih kurang dari ' +
+                            'Rp' + number_format(parseInt(min_transaksi), 2, ',', '.') + ' :(', 'warning');
+                    } else {
+                        clearTimeout(this.delay);
+                        this.delay = setTimeout(function () {
+                            $.ajax({
+                                url: '{{route('get.midtrans.snap')}}',
+                                type: "GET",
+                                data: $("#form-pembayaran").serialize(),
+                                beforeSend: function () {
+                                    btn_pay.prop("disabled", true).html(
+                                        'LOADING&hellip; <span class="spinner-border spinner-border-sm float-right" role="status" aria-hidden="true"></span>'
+                                    );
+                                },
+                                complete: function () {
+                                    btn_pay.prop("disabled", false)
+                                        .html('CHECKOUT / LANJUT PEMBAYARAN <i class="fa fa-chevron-right float-right"></i>');
+                                },
+                                success: function (data) {
+                                    snap.pay(data, {
+                                        language: '{{app()->getLocale()}}',
+                                        onSuccess: function (result) {
+                                            {{--responseMidtrans('{{route('get.midtrans-callback.finish')}}', result);--}}
+                                            responseMidtrans('finish', result);
+                                        },
+                                        onPending: function (result) {
+                                            {{--responseMidtrans('{{route('get.midtrans-callback.unfinish')}}', result);--}}
+                                            responseMidtrans('unfinish', result);
+                                        },
+                                        onError: function (result) {
+                                            swal('Oops..', result.status_message, 'error');
+                                        }
+                                    });
+                                },
+                                error: function () {
+                                    swal('Oops..', 'Terjadi kesalahan! Silahkan, segarkan browser Anda.', 'error');
+                                }
+                            });
+                        }.bind(this), 800);
+                    }
                 }
             }
         });
@@ -1478,7 +1485,7 @@
                 setTimeout(function () {
                     swal({
                         title: "SUKSES!",
-                        text:  'Pesanan Anda berhasil di checkout! Anda akan dialihkan ke halaman "Dashboard", terimakasih :)',
+                        text: 'Pesanan Anda berhasil di checkout! Anda akan dialihkan ke halaman "Dashboard", terimakasih :)',
                         icon: 'success',
                         buttons: false,
                         closeOnEsc: false,
