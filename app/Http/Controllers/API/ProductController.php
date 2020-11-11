@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Favorit;
 use App\Models\Pesanan;
 use App\Models\Produk;
+use App\Models\PromoCode;
 use App\Models\SubKategori;
 use App\Models\Ulasan;
 use App\User;
@@ -264,6 +265,49 @@ class ProductController extends Controller
         }
 
         return $array;
+    }
+
+    public function get_voucher(Request $request)
+    {
+        $q = $request->q;
+
+
+        try {
+
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+            $voucher_digunakan=Pesanan::where('user_id',$user->id)
+            ->whereNotNull('promo_code')
+            ->pluck('promo_code');
+
+
+            $promo=PromoCode::where('promo_code', 'LIKE', "%$q%")
+            ->whereDate('start','<=',now())
+            ->whereDate('end','>=',now())
+            ->whereNotIn('promo_code',$voucher_digunakan)
+            ->get();
+
+            return response()->json([
+                'error'=>false,
+                'data'=>[
+                    'daftar'=>$promo,
+                    'jumlah'=>count($promo)
+                ]
+            ]);
+
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+            return response()->json(['error'=>true,'message'=>'token_expired'],400);
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+            return response()->json(['error'=>true,'message'=>'token_invalid'],400);
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+            return response()->json(['error'=>true,'message'=>'token_absent'], 400);
+        }
     }
 
 

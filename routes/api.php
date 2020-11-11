@@ -36,6 +36,10 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('detail/{id}', 'ProductController@get_detail');
 
 
+        Route::get('voucher_list', 'ProductController@get_voucher')->middleware('jwt.verify');
+
+
+
 
         Route::post('qna', 'BuyingController@submit_qna')->middleware('jwt.verify');
 
