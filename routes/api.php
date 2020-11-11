@@ -20,6 +20,7 @@ Route::group(['namespace' => 'API'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('register', 'AuthController@register');
         Route::post('login', 'AuthController@login');
+        Route::post('login_email', 'AuthController@login_email');
         Route::get('user', 'AuthController@getAuthenticatedUser')->middleware('jwt.verify');
 
         //check email register

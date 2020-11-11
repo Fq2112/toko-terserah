@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -41,6 +43,27 @@ class AuthController extends Controller
         }
 
         return response()->json(compact('token'));
+    }
+
+    public function login_email(Request $request)
+    {
+       $user=User::where('email',$request->email)->first();
+
+       if($user){
+        return response()->json([
+            'error'=>false,
+            'data'=>[
+                'token'=>auth('api')->login($user)
+            ]
+        ]);
+       }else{
+           return response()->json([
+            'error'=>true,
+            'data'=>[
+                'message'=>'tidak ditemukan!'
+            ]
+            ],400);
+       }
     }
 
     public function register(Request $request)
