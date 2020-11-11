@@ -51,6 +51,8 @@ Route::group(['namespace' => 'API'], function () {
 
         Route::group(['prefix' => 'profile'], function () {
 
+            Route::get('membercard', 'ProfileController@membercard');
+
             Route::post('update/bio', 'ProfileController@update_bio');
 
             Route::post('update/password', 'ProfileController@change_password');
