@@ -4,21 +4,44 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alamat;
+use App\Models\Bio;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ProfileController extends Controller
 {
+    public function membercard()
+    {
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+            $bio = Bio::where('user_id', $user->id)->first();
+            $alamat = Alamat::where('user_id', $user->id)->where('isUtama', true)->first();
+
+            return view('pages.webviews.membercard', compact('user', 'bio', 'alamat'));
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
+        }
+    }
+
     public function update_bio(Request $request)
     {
         try {
             $user = User::find($request->user_id);
 
             $user->update([
-               'name' => $request->name
+                'name' => $request->name
             ]);
 
             $user->getBio->update([
@@ -56,7 +79,7 @@ class ProfileController extends Controller
 
             if ($request->hasFile('ava')) {
                 $this->validate($request, ['ava' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
-                $thumbnail = uniqid().$request->file('ava')->getClientOriginalName();
+                $thumbnail = uniqid() . $request->file('ava')->getClientOriginalName();
 //            Storage::delete('public/blog/thumbnail/' . $thumbnail);
                 $request->file('ava')->storeAs('public/users/ava/', $thumbnail);
 
@@ -95,7 +118,7 @@ class ProfileController extends Controller
 
             if ($request->hasFile('ava')) {
                 $this->validate($request, ['ava' => 'required|image|mimes:jpg,jpeg,gif,png|max:5120']);
-                $thumbnail =uniqid().$request->file('ava')->getClientOriginalName();
+                $thumbnail = uniqid() . $request->file('ava')->getClientOriginalName();
 //            Storage::delete('public/blog/thumbnail/' . $thumbnail);
                 $request->file('ava')->storeAs('public/users/ava/', $thumbnail);
 
@@ -139,7 +162,7 @@ class ProfileController extends Controller
                     'data' => [
                         'message' => "Password Lama Salah"
                     ]
-                ],500);
+                ], 500);
 
             } else {
                 if ($request->new_password != $request->password_confirmation) {
@@ -148,7 +171,7 @@ class ProfileController extends Controller
                         'data' => [
                             'message' => "Password Konfirmasi tidak sama"
                         ]
-                    ],500);
+                    ], 500);
 
                 } else {
                     $admin->update([
@@ -160,12 +183,12 @@ class ProfileController extends Controller
                         'data' => [
                             'message' => "Password Berhasil Diubah"
                         ]
-                    ],200);
+                    ], 200);
 
                 }
             }
 
-        }catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => true,
                 'data' => [

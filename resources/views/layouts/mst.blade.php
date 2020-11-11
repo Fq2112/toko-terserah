@@ -217,7 +217,7 @@
             <div class="container">
                 <div class="logo">
                     <a href="{{route('beranda')}}">
-                        <img src="{{asset('images/logotype.png')}}" alt="Logo">
+                        <img src="{{asset('images/logo-TT.png')}}" width="73" alt="Logo">
                     </a>
                 </div>
 

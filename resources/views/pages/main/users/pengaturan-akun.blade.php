@@ -218,8 +218,8 @@
                                             <span>{{$bio->dob != "" ? \Carbon\Carbon::parse($bio->dob)->formatLocalized('%d %b %Y') : 'Birthday (–)'}}</span>
                                             <span>{{\Carbon\Carbon::parse($user->created_at)->formatLocalized('%d %b %Y')}}</span>
                                         </div>
-                                        <img class="center img-responsive" alt="Logo" style="width:30%;"
-                                             src="{{asset('images/logotype-30.png')}}">
+                                        <img class="center img-responsive" alt="Logo" style="width:30%;opacity: .3"
+                                             src="{{asset('images/logo-TT.png')}}">
                                         <span class="more">
                                             {!! DNS1D::getBarcodeHTML(str_pad($user->id,6,0,STR_PAD_LEFT), 'C39') !!}
                                         </span>
