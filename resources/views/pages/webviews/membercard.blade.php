@@ -19,7 +19,7 @@
                 overflow-x: hidden;
                 position: absolute;
                 top: 100%;
-                left: 0;
+                left: calc(50% - 135px);
             }
         }
     </style>
