@@ -9,6 +9,20 @@
     <title>Membercard Webview | Toko Terserah (Terlengkap Serba Murah)</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('css/membercard.css')}}">
+    <style>
+        @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+            html {
+                transform: rotate(-90deg);
+                transform-origin: left top;
+                width: 100vh;
+                height: 100vw;
+                overflow-x: hidden;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
