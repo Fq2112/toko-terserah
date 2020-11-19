@@ -44,7 +44,6 @@ class ProductController extends Controller
                     'error' => false,
                     'data' => [
                         'voucher_count' => $promo_count,
-
                         'banner' => $banner,
                         'flash_sale' => $flash_sale,
                         'newest' => $newest,
@@ -299,24 +298,31 @@ class ProductController extends Controller
 
                     return $q->whereNotIn('promo_code', $voucher_digunakan);
                 })
+                ->orderBy('end')
                 ->get();
+
+
+            $dt = [];
+            foreach ($promo as $i => $row) {
+                $dt[$i] = $row;
+                $dt[$i]->banner = $row->banner && File::exists('storage/promo_banner/' . $row->banner) ? asset('storage/promo_banner/' . $row->banner) : asset('images/voucher-no-image.jpg');
+            }
+
 
             return response()->json([
                 'error' => false,
                 'data' => [
-                    'daftar' => $promo,
+                    'daftar' => $dt,
                     'jumlah' => count($promo)
                 ]
             ]);
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-            return response()->json(['error' => true, 'message' => 'token_expired'], 400);
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-            return response()->json(['error' => true, 'message' => 'token_invalid'], 400);
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-            return response()->json(['error' => true, 'message' => 'token_absent'], 400);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ]);
         }
     }
 
@@ -325,18 +331,20 @@ class ProductController extends Controller
     {
         try {
 
-            $user = JWTAuth::parseToken()->authenticate();
+            $user = auth('api')->user();
             $check = auth()->check();
 
             $data = Produk::find($id);
-            $ulasan = Ulasan::query()->where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first();
+            $ulasan = Ulasan::query()->where('produk_id', $id)->orderBy('bintang', 'desc')
+                ->orderBy('created_at', 'desc')->with('getUser')->first();
             $review = [
                 'data' => $ulasan,
                 'count' => Ulasan::where('produk_id', $id)->count(),
                 'avg' => DB::table('ulasans')->where('produk_id', $id)
                     ->avg('bintang'),
                 'image' => Ulasan::where('produk_id', $id)->take(4)->get('gambar'),
-                'ulasan' => Ulasan::query()->where('produk_id', $id)->with('getUser')->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->get(),
+                'ulasan' => Ulasan::query()->where('produk_id', $id)->with('getUser')->orderBy('bintang', 'desc')
+                    ->orderBy('created_at', 'desc')->get(),
 
             ];
 
@@ -349,15 +357,23 @@ class ProductController extends Controller
             $dt = array();
             if (is_array($data->galeri)) {
                 foreach ($data->galeri as $i => $row) {
-                    $dt[] = File::exists(asset('storage/produk/thumb/' . $row)) ? asset('storage/produk/thumb/' . $row) : asset('storage/produk/galeri/' . $row);
+                    $dt[] = $row && File::exists('storage/produk/thumb/' . $row) ?
+                        asset('storage/produk/thumb/' . $row) : asset('storage/produk/galeri/' . $row);
                 }
             }
-            $data->galeri = count($dt) ? $dt : [asset('storage/produk/thumb/' . $data->gambar)];
+            if ($gam = $data->gambar) {
 
+                $data->gambar =
+                    $gam && File::exists('storage/produk/thumb/' . $gam) ?
+                    asset('storage/produk/thumb/' . $gam)
+                    : asset('storage/produk/galeri/' . $gam);
+                $data->galeri= count($dt) ? $dt :[$data->gambar];
+            }
 
             $data['count_ulasan'] = 0;
             $data['avg_ulasan'] = 0;
-            $data['isWished'] = Favorit::where('user_id', $user->id)->where('produk_id', $id)->count();
+            $data['isWished'] = $user ? Favorit::where('user_id', $user->id)->where('produk_id', $id)->count() : 0;
+
             foreach ($data->getUlasan as $ls) {
                 $data['count_ulasan'] = $data['count_ulasan'] + 1;
                 $data['avg_ulasan'] = $data['avg_ulasan'] + $ls->bintang;
@@ -368,67 +384,17 @@ class ProductController extends Controller
             $qna = $this->get_detail_ulasan($qna);
             return response()->json([
                 'error' => false,
-                // 'count_buy'=>$cek_komen,
+
                 'data' =>
 
                 $this->res_get_product(
                     $data,
                     $review,
                     $qna,
-                    $user->getKeranjang->where('isCheckOut', false)->count(),
-                    true
+                    ($user ? $user->getKeranjang->where('isCheckOut', false)->count() : 0),
+                    (bool) $user
                 )
             ], 200);
-        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            $data = Produk::find($id);
-            $ulasan = Ulasan::query()->where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first();
-
-            $review = [
-                'data' => Ulasan::where('produk_id', $id)->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->with('getUser')->first(),
-                'count' => Ulasan::where('produk_id', $id)->count(),
-                'avg' => DB::table('ulasans')
-                    ->avg('bintang'),
-                'image' => Ulasan::where('produk_id', $id)->take(4)->get('gambar'),
-                'ulasan' => Ulasan::query()->where('produk_id', $id)->with('getUser')->orderBy('bintang', 'desc')->orderBy('created_at', 'desc')->get(),
-            ];
-            $qna = $data->getQnA;
-
-            foreach ($qna as $dt) {
-                $dt['user'] = $dt->getUser->name;
-            }
-
-            $data['count_ulasan'] = 0;
-            $data['avg_ulasan'] = 0;
-            $data['isWished'] = 0;
-
-            foreach ($data->getUlasan as $ls) {
-                $data['count_ulasan'] = $data['count_ulasan'] + 1;
-                $data['avg_ulasan'] = $data['avg_ulasan'] + $ls->bintang;
-            }
-
-            $data['avg_ulasan'] = $data['avg_ulasan'] ? $data['avg_ulasan'] / $data['count_ulasan'] : 0;
-
-
-            return response()->json([
-                'error' => false,
-                'data' =>
-                $this->res_get_product(
-                    $data,
-                    $review,
-                    $qna,
-                    0,
-                    false
-                )
-            ], 200);
-
-            // do whatever you want to do if a token is not present
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'error' => true,
-                'data' => [
-                    'message' => $e->getMessage()
-                ]
-            ]);
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,

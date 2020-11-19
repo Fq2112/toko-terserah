@@ -36,7 +36,7 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('detail/{id}', 'ProductController@get_detail');
 
 
-        Route::get('voucher_list', 'ProductController@get_voucher')->middleware('jwt.verify');
+        Route::get('voucher_list', 'ProductController@get_voucher');
 
 
 
