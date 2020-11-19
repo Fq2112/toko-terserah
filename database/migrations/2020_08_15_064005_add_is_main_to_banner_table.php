@@ -26,7 +26,8 @@ class AddIsMainToBannerTable extends Migration
     public function down()
     {
         Schema::table('banner', function (Blueprint $table) {
-            //
+            $table->dropColumn('urutan');
+
         });
     }
 }

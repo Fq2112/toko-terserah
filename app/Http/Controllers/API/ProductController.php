@@ -22,21 +22,34 @@ class ProductController extends Controller
 {
     public function home_mobile()
     {
+
         try {
+            $user = auth('api')->user();
+            $date = now()->format('Y-m-d');
             $banner = $this->get_banner();
             $flash_sale = $this->get_flash_sale();
             $newest = $this->get_newest();
             $popular = $this->get_popular();
             $get_top_rated = $this->get_top_rated();
+
+            $promo_count = PromoCode::select('id')
+                ->whereDate('start', '<=', $date)
+                ->whereDate('end', '>=', $date)
+                ->when($user, function ($q) use ($user) {
+                    $except = Pesanan::where('user_id', $user->id)->whereNotNull('promo_code')->pluck('promo_code');
+                    return  $q->whereNotIn('promo_code', $except);
+                })->count();
             return response()->json(
                 [
                     'error' => false,
                     'data' => [
+                        'voucher_count' => $promo_count,
+
                         'banner' => $banner,
                         'flash_sale' => $flash_sale,
                         'newest' => $newest,
                         'popular' => $popular,
-                        'top_rated' => $get_top_rated
+                        'top_rated' => $get_top_rated,
                     ]
                 ]
             );
@@ -274,39 +287,36 @@ class ProductController extends Controller
 
         try {
 
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
+            $user = auth('api')->user();
 
-            $voucher_digunakan=Pesanan::where('user_id',$user->id)
-            ->whereNotNull('promo_code')
-            ->pluck('promo_code');
+            $promo = PromoCode::where('promo_code', 'LIKE', "%$q%")
+                ->whereDate('start', '<=', now())
+                ->whereDate('end', '>=', now())
+                ->when($user, function ($q) use ($user) {
+                    $voucher_digunakan = Pesanan::where('user_id', $user->id)
+                        ->whereNotNull('promo_code')
+                        ->pluck('promo_code');
 
-
-            $promo=PromoCode::where('promo_code', 'LIKE', "%$q%")
-            ->whereDate('start','<=',now())
-            ->whereDate('end','>=',now())
-            ->whereNotIn('promo_code',$voucher_digunakan)
-            ->get();
+                    return $q->whereNotIn('promo_code', $voucher_digunakan);
+                })
+                ->get();
 
             return response()->json([
-                'error'=>false,
-                'data'=>[
-                    'daftar'=>$promo,
-                    'jumlah'=>count($promo)
+                'error' => false,
+                'data' => [
+                    'daftar' => $promo,
+                    'jumlah' => count($promo)
                 ]
             ]);
-
-
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-            return response()->json(['error'=>true,'message'=>'token_expired'],400);
+            return response()->json(['error' => true, 'message' => 'token_expired'], 400);
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
-            return response()->json(['error'=>true,'message'=>'token_invalid'],400);
+            return response()->json(['error' => true, 'message' => 'token_invalid'], 400);
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
-            return response()->json(['error'=>true,'message'=>'token_absent'], 400);
+            return response()->json(['error' => true, 'message' => 'token_absent'], 400);
         }
     }
 
