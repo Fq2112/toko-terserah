@@ -209,8 +209,9 @@
                                                     <span class="input-group-text"><i class="fa fa-images"></i></span>
                                                 </div>
                                                 <div class="custom-file">
-                                                    <input type="file" name="banner" class="custom-file-input"
-                                                           accept="image/*" onchange="readURL(this)" required>
+                                                    <input id="banner" type="file" name="banner"
+                                                           class="custom-file-input" accept="image/*"
+                                                           onchange="readURL(this)" required>
                                                     <label class="custom-file-label" id="txt_banner">
                                                         Choose File</label>
                                                 </div>
@@ -396,23 +397,15 @@
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
 
             $("#form-blogPost").attr('action', '{{route('add.promo')}}');
-            $("#form-blogPost input[name=_method], #form-blogPost input[name=id], #form-blogPost input[name=admin_id], #title").val('');
-            $(".input-files").show();
+            $("#form-blogPost input[name=_method], #form-blogPost input[name=id], #form-blogPost input[name=admin_id]").val(null);
+            $("#promo_code, #start-date, #end-date, #discount, #banner").val(null);
+            $('#description').summernote('code', null);
+            $("#banner").attr('required', 'required');
+            $("#txt_banner").text('Choose File');
             $("#form-blogPost button[type=submit]").text('Submit');
-            $("#category_id").val('default').selectpicker('refresh');
-            $('#_content').summernote('code', '');
-            $("#thumbnail").attr('required', 'required');
-            $("#txt_thumbnail, #txt_photo").text('Choose File');
-            $("#count_files").text('Allowed extension: jpg, jpeg, gif, png. Allowed size: < 5 MB');
-            $("#name_en").val("");
-            $("#name_id").val("");
-            $("#price").val("");
-            $('#_content_en').summernote('code', "");
-            $('#_content_id').summernote('code', "");
         });
 
         function set_end_date(value) {
-
             $('#end-date').attr({
                 "min": value
             });
@@ -450,7 +443,6 @@
             $("#form-blogPost").attr('action', '{{route('update.promo')}}');
             $("#form-blogPost input[name=_method]").val('PUT');
             $("#form-blogPost input[name=id]").val(id);
-            $(".input-files").hide();
             $("#form-blogPost button[type=submit]").text('Save Changes');
 
             $.get(url, function (data) {
@@ -458,13 +450,14 @@
                 $("#form-blogPost input[name=admin_id]").val(data.admin_id);
                 $("#promo_code").val(data.promo_code);
                 $("#discount").val(data.discount);
-                $("#price").val(data.price);
                 $("#start-date").val(data.start);
                 $("#end-date").attr({
                     "min": data.start,
                     "value": data.end
                 });
                 $('#description').summernote('code', data.description);
+                $("#txt_banner").text(data.banner);
+                $("#img_preview").attr('src', '{{asset('storage/voucher/banner')}}/' + data.banner);
 
             }).fail(function () {
                 swal("Error!", "There's no any selected record!", "error");
