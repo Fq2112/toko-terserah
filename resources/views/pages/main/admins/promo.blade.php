@@ -487,7 +487,7 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $("#txt_banner").text(e.target.result);
+                    $("#txt_banner").text(input.files[0].name);
                     $('#img_preview').attr('src', e.target.result);
                 }
 
