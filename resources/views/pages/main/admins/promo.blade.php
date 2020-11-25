@@ -221,7 +221,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row form-group">
                                         <div class="col">
                                             <img src="" alt="" id="img_preview" class="img-thumbnail">
                                         </div>
@@ -487,6 +487,7 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
+                    $("#txt_banner").text(e.target.result);
                     $('#img_preview').attr('src', e.target.result);
                 }
 
