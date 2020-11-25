@@ -46,7 +46,7 @@
 
     <li class="dropdown {{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/*') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-            <i class="fas fa-cogs"></i><span>Lain Lain</span></a>
+            <i class="fas fa-cogs"></i><span>Lain-Lain</span></a>
         <ul class="dropdown-menu">
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/promo*') ?
                 'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Promo</a></li>

@@ -1,5 +1,5 @@
 @extends('layouts.mst_admin')
-@section('title', __('admin.sidebar.head').': '.__('admin.tables.blog-category').' | '.env('APP_TITLE'))
+@section('title', 'Admin '.env('APP_NAME').': Promo | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -25,9 +25,9 @@
             <h1>Daftar Promo </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Data Master</div>
-                <div class="breadcrumb-item">Category</div>
-                <div class="breadcrumb-item">Main Category</div>
+                <div class="breadcrumb-item">Tables</div>
+                <div class="breadcrumb-item">Lain-Lain</div>
+                <div class="breadcrumb-item">Promo</div>
             </div>
         </div>
 
@@ -148,7 +148,7 @@
 
                                     <div class="row form-group">
                                         <div class="col has-feedback">
-                                            <label for="title">Promo Code</label>
+                                            <label for="promo_code">Promo Code</label>
                                             <input id="promo_code" type="text" maxlength="191" name="promo_code"
                                                    class="form-control"
                                                    placeholder="Write its promo code here&hellip;" required>
@@ -158,7 +158,7 @@
 
                                     <div class="row form-group has-feedback">
                                         <div class="col">
-                                            <label for="_content">Deskripsi</label>
+                                            <label for="description">Deskripsi</label>
                                             <textarea id="description" type="text" name="description"
                                                       class="summernote form-control"
                                                       placeholder="Write something about your post here&hellip;"></textarea>
@@ -168,7 +168,7 @@
 
                                     <div class="row form-group">
                                         <div class="col">
-                                            <label for="thumbnail">Dimulai Pada</label>
+                                            <label for="start-date">Dimulai Pada</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <label for="thumbnail">Berakhir Pada</label>
+                                            <label for="end-date">Berakhir Pada</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -189,21 +189,40 @@
 
                                             </div>
                                         </div>
+                                        <div class="col">
+                                            <label for="discount">Besar Diskon</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><b>Rp</b></span>
+                                                </div>
+                                                <input id="discount" type="number" name="discount"
+                                                       class="form-control" placeholder="1xxxxxx" required>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-6 has-feedback">
-                                            <label for="title">Besar Diskon</label>
-                                            <div class="input-group mb-2">
+                                        <div class="col">
+                                            <label for="banner">Banner</label>
+                                            <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text">Rp</div>
+                                                    <span class="input-group-text"><i class="fa fa-images"></i></span>
                                                 </div>
-                                                <input id="discount" type="number" name="discount"
-                                                       class="form-control"
-                                                       placeholder="1xxxxxx" required>
-
+                                                <div class="custom-file">
+                                                    <input type="file" name="banner" class="custom-file-input"
+                                                           accept="image/*" onchange="readURL(this)" required>
+                                                    <label class="custom-file-label" id="txt_banner">
+                                                        Choose File</label>
+                                                </div>
                                             </div>
-
+                                            <div class="form-text text-muted">
+                                                Ekstensi : jpg, jpeg, gif, png. Allowed size: < 5 MB
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="" alt="" id="img_preview" class="img-thumbnail">
                                         </div>
                                     </div>
 
@@ -369,8 +388,8 @@
             $("#content2").toggle(300);
             $(this).toggleClass('btn-primary btn-outline-primary');
             $("#btn_create strong").html(function (i, v) {
-                return v === '<i class="fas fa-plus mr-2"></i>Create' ?
-                    '<i class="fas fa-th-list mr-2"></i>View' : '<i class="fas fa-plus mr-2"></i>Create';
+                return v === '<i class="fas fa-plus mr-2"></i>Tambah Promo' ?
+                    '<i class="fas fa-th-list mr-2"></i>Daftar Promo' : '<i class="fas fa-plus mr-2"></i>Tambah Promo';
             });
 
             $(".fix-label-group .bootstrap-select").addClass('p-0');
@@ -421,8 +440,8 @@
             $("#content2").toggle(300);
             $("#btn_create").toggleClass('btn-primary btn-outline-primary');
             $("#btn_create strong").html(function (i, v) {
-                return v === '<i class="fas fa-plus mr-2"></i>Create' ?
-                    '<i class="fas fa-th-list mr-2"></i>View' : '<i class="fas fa-plus mr-2"></i>Create';
+                return v === '<i class="fas fa-plus mr-2"></i>Tambah Promo' ?
+                    '<i class="fas fa-th-list mr-2"></i>Daftar Promo' : '<i class="fas fa-plus mr-2"></i>Tambah Promo';
             });
 
             $(".fix-label-group .bootstrap-select").addClass('p-0');
@@ -468,6 +487,18 @@
                     document.getElementById('update_form_' + id).submit();
                 }
             });
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img_preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
         }
     </script>
 @endpush

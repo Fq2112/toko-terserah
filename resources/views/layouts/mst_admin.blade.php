@@ -16,7 +16,13 @@
     <link rel="stylesheet" href="{{asset('vendor/sweetalert/sweetalert2.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/izitoast/css/iziToast.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-datepicker/bootstrap-datepicker.css')}}">
-@stack('styles')
+    <style>
+        .has-feedback .form-control-feedback {
+            top: 28px;
+            right: 14px;
+        }
+    </style>
+    @stack('styles')
 
 <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('admins/css/style.css')}}">
@@ -204,7 +210,7 @@
         $(this).getNiceScroll().resize();
     });
 
-        @if(!\Illuminate\Support\Facades\Request::is('sys-admin/tables*'))
+    @if(!\Illuminate\Support\Facades\Request::is('sys-admin/tables*'))
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {
         document.title = text;

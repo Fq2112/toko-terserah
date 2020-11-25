@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PromoCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PromoController extends Controller
 {
@@ -24,14 +25,22 @@ class PromoController extends Controller
         $check = PromoCode::where('promo_code', $request->promo_code)->first();
 
         if (empty($check)) {
+            if ($request->hasFile('banner')) {
+                $banner = $request->file('banner')->getClientOriginalName();
+                $request->banner->storeAs('public/voucher/banner/', $banner);
+            } else {
+                $banner = null;
+            }
+
             PromoCode::create([
                 'promo_code' => $request->promo_code,
                 'start' => Carbon::parse($request->start),
                 'end' => Carbon::parse($request->end),
                 'description' => $request->description,
                 'discount' => $request->discount,
+                'banner' => $banner,
             ]);
-            return back()->with('success', 'Successfully add new Promo!');
+            return back()->with('success', 'Promo ['.$request->promo_code.'] is successfully created!');
         } else {
             return back()->with('error', 'Promo Code already taken please use another name');
         }
@@ -46,23 +55,36 @@ class PromoController extends Controller
     public function update_data(Request $request)
     {
         $promo = PromoCode::find($request->id);
+        if ($request->hasFile('banner')) {
+            if(!is_null($promo->banner)) {
+                Storage::delete('public/voucher/banner/'.$promo->banner);
+            }
+            $banner = $request->file('banner')->getClientOriginalName();
+            $request->banner->storeAs('public/voucher/banner/', $banner);
+        } else {
+            $banner = $promo->banner;
+        }
+
         $promo->update([
             'promo_code' => $request->promo_code,
             'start' => Carbon::parse($request->start),
             'end' => Carbon::parse($request->end),
             'description' => $request->description,
             'discount' => $request->discount,
+            'banner' => $banner,
         ]);
-        return back()->with('success', 'Successfully add new Promo!');
+        return back()->with('success', 'Promo ['.$promo->promo_code.'] is successfully updated!');
 
     }
 
     public function delete_data($id)
     {
-        $post = PromoCode::find(decrypt($id));
+        $promo = PromoCode::find(decrypt($id));
+        if(!is_null($promo->banner)) {
+            Storage::delete('public/voucher/banner/'.$promo->banner);
+        }
+        $promo->delete();
 
-        $post->delete();
-
-        return back()->with('success', __('admin.alert.blog.delete', ['param' => $post->title]));
+        return back()->with('success', 'Promo ['.$promo->promo_code.'] is successfully deleted!');
     }
 }
