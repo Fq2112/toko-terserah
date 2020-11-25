@@ -79,6 +79,10 @@
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
                                             <td style="vertical-align: middle">
                                                 <strong>{{$row->promo_code}}</strong>
+                                                @if(!is_null($row->banner))
+                                                    <img alt="thumb" class="img-thumbnail" width="100"
+                                                         src="{{asset('storage/voucher/banner/'.$row->banner)}}">
+                                                @endif
                                             </td>
                                             <td style="vertical-align: middle">
                                                 {{$row->description}}
