@@ -305,7 +305,7 @@ class ProductController extends Controller
             $dt = [];
             foreach ($promo as $i => $row) {
                 $dt[$i] = $row;
-                $dt[$i]->banner = $row->banner && File::exists('storage/promo_banner/' . $row->banner) ? asset('storage/promo_banner/' . $row->banner) : asset('images/voucher-no-image.jpg');
+                $dt[$i]->banner = $row->banner && File::exists('storage/voucher/banner/' . $row->banner) ? asset('storage/voucher/banner/' . $row->banner) : asset('images/voucher-no-image.jpg');
             }
 
 
