@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+
+
 Route::group(['namespace' => 'API'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
@@ -22,6 +25,10 @@ Route::group(['namespace' => 'API'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('login_email', 'AuthController@login_email');
         Route::get('user', 'AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+
+        Route::get('get_kode', 'AuthController@sendParams');
+        Route::post('sosialite', 'AuthController@sosialite');
+
 
         //check email register
         Route::get('check_email', 'AuthController@check_email');

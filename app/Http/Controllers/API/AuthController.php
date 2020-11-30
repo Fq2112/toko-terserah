@@ -7,8 +7,10 @@ use App\Mail\Auth\ActivationMail;
 use App\Models\Bio;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
+use App\Models\SocialProvider;
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +20,8 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -47,23 +51,23 @@ class AuthController extends Controller
 
     public function login_email(Request $request)
     {
-       $user=User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-       if($user){
-        return response()->json([
-            'error'=>false,
-            'data'=>[
-                'token'=>auth('api')->login($user)
-            ]
-        ]);
-       }else{
-           return response()->json([
-            'error'=>true,
-            'data'=>[
-                'message'=>'tidak ditemukan!'
-            ]
-            ],400);
-       }
+        if ($user) {
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'token' => auth('api')->login($user)
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => 'tidak ditemukan!'
+                ]
+            ], 400);
+        }
     }
 
     public function register(Request $request)
@@ -203,6 +207,99 @@ class AuthController extends Controller
                     'message' => $exception->getMessage()
                 ]
             ], 500);
+        }
+    }
+
+    public function sendParams()
+    {
+        try {
+            $path = 'login_log/kode_login' . now()->format('Y_m_d') . '.json';
+            $kode = bcrypt(now() . rand(0, 999));
+
+            $array = Storage::disk('local')->exists($path) ?
+                json_decode(Storage::disk('local')->get($path), true) : [];
+
+
+            $array[] = ['kode' => $kode, 'used_at' => null, 'created_at' => now()];
+
+            Storage::delete('login_log/kode_login' . now()->subDay() . '.json');
+            Storage::put('login_log/kode_login' . now()->format('Y_m_d') . '.json', json_encode($array));
+
+            return response()->json(['error'=>false,'token'=>$kode]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ],500);
+        }
+    }
+
+    public function sosialite(Request $r)
+    {
+        try {
+            $res = [];
+            $status = 201;
+            $path = 'login_log/kode_login' . now()->format('Y_m_d') . '.json';
+
+            $array = Storage::disk('local')->exists($path) ?
+                json_decode(Storage::disk('local')->get($path), true) : [];
+
+            $kode = array_column($array, 'kode');
+
+            $index = array_search($r->header('token'), $kode);
+
+            if ($index >= 0 && is_null($array[$index]['used_at'])) {
+
+                //token used
+                $array[$index]['used_at'] = now();
+                Storage::put('login_log/kode_login' . now()->format('Y_m_d') . '.json', json_encode($array));
+
+                $user=User::where('email',$r->email)->first();
+
+                if(!$user){
+                    Storage::disk('local')
+                    ->put('public/users/ava/' . $r->id . ".jpg", file_get_contents($r->ava));
+
+                    $user = User::firstOrCreate([
+                        'email' => $r->email,
+                        'name' => $r->name,
+                        'username' => strtok($r->email, '@').rand(0,9),
+                        'password' => bcrypt('secret'),
+                        'status' => true,
+                    ]);
+
+                    Bio::create(['user_id' => $user->id, 'ava' => $r->id . ".jpg"]);
+
+                SocialProvider::create([
+                    'user_id' => $user->id,
+                    'provider_id' =>  $r->id ,
+                    'provider' => 'google'
+                ]);
+                }
+
+                if ($user->getBio->ava == "") {
+                    Storage::disk('local')
+                        ->put('public/users/ava/' . $r->id . ".jpg", file_get_contents($r->ava));
+
+                    $user->getBio->update(['ava' => $r->id . ".jpg"]);
+                }
+
+                $res = [
+                    'error' => false, 'token' => auth('api')->login($user),
+                ];
+            } else {
+                $status = 401;
+                $res = [
+                    'error' => true, 'message' => 'token invalid',
+                ];
+            }
+
+            return response()->json($res);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ],500);
         }
     }
 }
