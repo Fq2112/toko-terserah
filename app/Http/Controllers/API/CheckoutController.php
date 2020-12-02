@@ -40,7 +40,7 @@ class CheckoutController extends Controller
             }
 
             $cek = Pesanan::where('uni_code', $code)->where('user_id', $user->id)->where('isLunas', true)->first();
-            if($cek) {
+            if ($cek) {
                 $carts = Keranjang::whereIn('id', $cek->keranjang_ids)->count();
                 $carts_checkout = Keranjang::whereIn('id', $cek->keranjang_ids)->where('isCheckout', true)->count();
             }
@@ -52,8 +52,6 @@ class CheckoutController extends Controller
                     'result' => $cek,
                 ]
             ]);
-
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -182,7 +180,6 @@ class CheckoutController extends Controller
                     ])
                 ]
             ], 200);
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -220,7 +217,6 @@ class CheckoutController extends Controller
             ];
 
             return view('pages.webviews.snap-midtrans', compact('data'));
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
@@ -243,19 +239,21 @@ class CheckoutController extends Controller
             $amount = ceil($request->subtotal);
 
             if ($promo) {
+                $ker = false;
                 if ($pesanan) {
+                    $ker = Keranjang::whereIn('id', $pesanan->keranjang_ids)->first();
+                }
+                if ($pesanan && ($ker ? $ker->isCheckOut : false)) {
                     return response()->json([
                         'error' => true,
-                        'message' => 'Anda telah menggunakan kode promo itu!'
+                        'message' => 'Anda telah menggunakan kode promo ini!'
                     ], 400);
-
                 } else {
                     if (now() > $promo->end) {
                         return response()->json([
                             'error' => true,
                             'message' => 'Kode promo yang Anda masukkan telah kedaluwarsa.'
                         ], 400);
-
                     } else {
                         $discount_price = ceil($promo->discount);
                         $subtotal = $amount - $discount_price;
@@ -279,7 +277,6 @@ class CheckoutController extends Controller
                     'message' => 'Kode promo yang Anda masukkan tidak ditemukan.'
                 ], 400);
             }
-
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,
