@@ -437,13 +437,14 @@ class alamatController extends Controller
         $row = Alamat::where('user_id', $user->id)->where('isUtama', 1)->first();
 
 
-        $row->getOccupancy;
-        $row->getKecamatan;
-        $row->getKecamatan->getKota;
-        $row->getKecamatan->getKota->getProvinsi;
+        if($row) {
+            $row->getOccupancy;
+            $row->getKecamatan;
+            $row->getKecamatan->getKota;
+            $row->getKecamatan->getKota->getProvinsi;
+        }
 
-
-        return $row;
+        return $row?$row:null;
     }
 
     private function resSuccess($alamat, $msg = null)
