@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Favorit;
+use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\PromoCode;
@@ -292,9 +293,20 @@ class ProductController extends Controller
                 ->whereDate('start', '<=', now())
                 ->whereDate('end', '>=', now())
                 ->when($user, function ($q) use ($user) {
-                    $voucher_digunakan = Pesanan::where('user_id', $user->id)
+                    $voucher_digunakan = [];
+                    $pesanan = Pesanan::where('user_id', $user->id)
                         ->whereNotNull('promo_code')
-                        ->pluck('promo_code');
+                        ->select('keranjang_ids', 'promo_code')
+                        ->get();
+                    // ->pluck('promo_code');
+
+                    foreach ($voucher_digunakan as $t) {
+                        $check_keranjang = Keranjang::whereIn('id', $t->keranjang_ids)->first();
+                        if ($check_keranjang && $check_keranjang->isCheckOut) {
+                            $voucher_digunakan[] = $t->promo_code;
+                        }
+                    }
+
 
                     return $q->whereNotIn('promo_code', $voucher_digunakan);
                 })
@@ -367,7 +379,7 @@ class ProductController extends Controller
                     $gam && File::exists('storage/produk/thumb/' . $gam) ?
                     asset('storage/produk/thumb/' . $gam)
                     : asset('storage/produk/galeri/' . $gam);
-                $data->galeri= count($dt) ? $dt :[$data->gambar];
+                $data->galeri = count($dt) ? $dt : [$data->gambar];
             }
 
             $data['count_ulasan'] = 0;
