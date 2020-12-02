@@ -136,7 +136,7 @@
                                                     <div class="input-group-text">Rp</div>
                                                 </div>
                                                 <input id="discount" type="number" name="harga" max="9999999999999"
-                                                       min="1"
+                                                       min="0"
                                                        class="form-control"
                                                        placeholder="1xxxxxx">
 
@@ -150,7 +150,7 @@
                                                 </div>
                                                 <input id="harga_grosir" type="number" name="harga_grosir"
                                                        max="9999999999999"
-                                                       min="1"
+                                                       min="0"
                                                        class="form-control"
                                                        placeholder="1xxxxxx">
                                             </div>

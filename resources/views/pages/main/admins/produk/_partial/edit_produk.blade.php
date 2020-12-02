@@ -165,9 +165,9 @@
                                                 </div>
                                                 <input id="discount" type="number" name="harga"
                                                        max="9999999999999"
-                                                       min="1" value="{{$data->harga}}"
+                                                       min="0" value="{{$data->harga}}"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" required>
+                                                       placeholder="1xxxxxx" >
 
                                             </div>
                                         </div>
@@ -179,9 +179,9 @@
                                                 </div>
                                                 <input id="discount" type="number" name="harga_grosir"
                                                        max="9999999999999"
-                                                       min="1" value="{{$data->harga_grosir}}"
+                                                       min="0" value="{{$data->harga_grosir}}"
                                                        class="form-control"
-                                                       placeholder="1xxxxxx" required>
+                                                       placeholder="1xxxxxx" >
 
                                             </div>
                                         </div>
