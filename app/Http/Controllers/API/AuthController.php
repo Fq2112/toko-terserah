@@ -248,7 +248,7 @@ class AuthController extends Controller
 
             $index = array_search($r->header('token'), $kode);
 
-            if ($index >= 0 && is_null($array[$index]['used_at'])) {
+            if (is_numeric($index)&&$index >= 0 && is_null($array[$index]['used_at'])) {
 
                 //token used
                 $array[$index]['used_at'] = now();

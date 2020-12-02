@@ -18,36 +18,34 @@ use PDO;
 class alamatController extends Controller
 {
 
-    public function get(){
+    public function get()
+    {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $alamat= $user->getAlamat;
+            $alamat = $user->getAlamat;
+            // return 'a';
 
-            foreach($alamat as $row){
-                $row->getOccupancy;
-                $row->getKecamatan;
-                $row->getKecamatan->getKota;
-                $row->getKecamatan->getKota->getProvinsi;
+                foreach ($alamat as $row) {
+                    $row->getOccupancy;
+                    $row->getKecamatan;
+                    $row->getKecamatan->getKota;
+                    $row->getKecamatan->getKota->getProvinsi;
+                }
 
-            }
 
-            return $this->resSuccess($alamat,'data berhasil diambil');
-
+            return $this->resSuccess($alamat, 'data berhasil diambil');
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
 
@@ -61,12 +59,11 @@ class alamatController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
 
-            $alamat=$user->getAlamat;
+            $alamat = $user->getAlamat;
 
-            foreach($alamat as $row){
-                $row->update(['isUtama'=>($request->id==$row->id ? 1: 0)]);
-                if($request->id==$row->id){
-
+            foreach ($alamat as $row) {
+                $row->update(['isUtama' => ($request->id == $row->id ? 1 : 0)]);
+                if ($request->id == $row->id) {
                 }
             }
 
@@ -97,62 +94,60 @@ class alamatController extends Controller
             );
         }
     }
-    public function detail(Request $request){
+    public function detail(Request $request)
+    {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $res=$user->getAlamat->where('id',$request->id);
+            $res = $user->getAlamat->where('id', $request->id);
 
-            if($res){
-                $res=$res->first();
+            if ($res) {
+                $res = $res->first();
 
-                $res->occupancy_id=DB::table('occupancy_types')
-                        ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))
-                    ->where('id',$res->occupancy_id)->first();
-
-
-                $other_link=DB::table('kecamatan as a')
-                ->join('kota as b','a.kota_id','=','b.id')
-                ->join('provinsi as c','b.provinsi_id','=','c.id')
-
-                                ->select('a.id as kecamatan_id','a.nama as kecamatan_name','b.id as kota_id','b.nama as kota_name','b.provinsi_id','c.nama as provinsi_name')
-                                ->where('a.id','=',"$res->kecamatan_id")->first();
+                $res->occupancy_id = DB::table('occupancy_types')
+                    ->select('id', 'name', 'image', DB::raw('CONCAT("' . asset('images/icons/occupancy') . '/",image) AS image'))
+                    ->where('id', $res->occupancy_id)->first();
 
 
-                foreach($other_link as $row){
-                    foreach($other_link as $i=>$col){
+                $other_link = DB::table('kecamatan as a')
+                    ->join('kota as b', 'a.kota_id', '=', 'b.id')
+                    ->join('provinsi as c', 'b.provinsi_id', '=', 'c.id')
+
+                    ->select('a.id as kecamatan_id', 'a.nama as kecamatan_name', 'b.id as kota_id', 'b.nama as kota_name', 'b.provinsi_id', 'c.nama as provinsi_name')
+                    ->where('a.id', '=', "$res->kecamatan_id")->first();
+
+
+                foreach ($other_link as $row) {
+                    foreach ($other_link as $i => $col) {
                         // return $i;
-                    $res->{$i}=$col;
+                        $res->{$i} = $col;
                     }
                 }
 
-            return response()->json([
-                'error' => false,
-                'data' =>  $res
-            ]);
-            }
-            else{
+                return response()->json([
+                    'error' => false,
+                    'data' =>  $res
+                ]);
+            } else {
                 return $this->resNotFound();
             }
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
 
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
 
         try {
@@ -172,31 +167,27 @@ class alamatController extends Controller
                 ], 400);
             }
 
-             Alamat::create($this->setRequest($request,$user));
+            Alamat::create($this->setRequest($request, $user));
 
-             $alamat=$user->getAlamat;
+            $alamat = $user->getAlamat;
 
 
-             return $this->resSuccess($alamat,'data berhasil dibuat');
-
+            return $this->resSuccess($alamat, 'data berhasil dibuat');
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
-
         }
     }
 
-    public function update(Request $request){
-        $id=$request->id;
+    public function update(Request $request)
+    {
+        $id = $request->id;
 
         try {
 
@@ -215,40 +206,32 @@ class alamatController extends Controller
                 ], 400);
             }
 
-            $alamatEdit= Alamat::find($id);
+            $alamatEdit = Alamat::find($id);
 
-             if($alamatEdit && $user->getAlamat->where('id',$id)){
-                $alamatEdit->update($this->setRequest($request,$user));
+            if ($alamatEdit && $user->getAlamat->where('id', $id)) {
+                $alamatEdit->update($this->setRequest($request, $user));
 
-                $alamat=User::where('id',$user->id)->first()->getAlamat;
+                $alamat = User::where('id', $user->id)->first()->getAlamat;
 
-                return $this->resSuccess($alamat,'data berhasil diubah');
+                return $this->resSuccess($alamat, 'data berhasil diubah');
+            }
 
-             }
-
-             return $this->resNotFound();
-
-
-
-
-            } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return $this->resNotFound();
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
-
         }
     }
 
-    public function delete(Request $request){
-        $id=$request->id;
+    public function delete(Request $request)
+    {
+        $id = $request->id;
 
         try {
 
@@ -267,222 +250,203 @@ class alamatController extends Controller
                 ], 400);
             }*/
 
-            if($user->getAlamat->where('id',$id)){
+            if ($user->getAlamat->where('id', $id)) {
                 Alamat::destroy($id);
-                $alamat=User::where('id',$user->id)->first()->getAlamat;
+                $alamat = User::where('id', $user->id)->first()->getAlamat;
 
-                return $this->resSuccess($alamat,'data berhasil dihapus');
+                return $this->resSuccess($alamat, 'data berhasil dihapus');
             }
 
             return $this->resNotFound();
-
-
-
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
-
         }
     }
 
-    public function get_kota(Request $request){
+    public function get_kota(Request $request)
+    {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $q=$request->get('q');
-            $pro_id=$request->get('provinsi_id');
+            $q = $request->get('q');
+            $pro_id = $request->get('provinsi_id');
 
-            $kota=DB::table('kota as k')->join('provinsi as p', 'k.provinsi_id', '=', 'p.id')
-            ->select('k.id as kota_id','k.nama','p.nama as provinsi','k.kode_pos','k.tipe')
-            ->where('k.nama','like',"%$q%")
+            $kota = DB::table('kota as k')->join('provinsi as p', 'k.provinsi_id', '=', 'p.id')
+                ->select('k.id as kota_id', 'k.nama', 'p.nama as provinsi', 'k.kode_pos', 'k.tipe')
+                ->where('k.nama', 'like', "%$q%")
 
-            ->orderBy('k.nama','asc')
-            ->where('k.provinsi_id','=',"$pro_id")
-            ->get();
-            $not_found=$this->countArray($kota);
-
-            return response()->json([
-                "error"=>false,
-                "data"=>[
-                    "city"=>$kota,
-                ] ]);
-
-
-
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-            return response()->json(['token_expired'], $e->getStatusCode());
-
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-            return response()->json(['token_invalid'], $e->getStatusCode());
-
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-            return response()->json(['token_absent'], $e->getStatusCode());
-
-        }
-    }
-
-    public function get_occupancy(Request $request){
-        try {
-
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-            $q=$request->get('q');
-
-            $kota=DB::table('occupancy_types')
-                ->select('id','name','image',DB::raw('CONCAT("'.asset('images/icons/occupancy').'/",image) AS image'))
-                ->where('name','like',"%$q%")
+                ->orderBy('k.nama', 'asc')
+                ->where('k.provinsi_id', '=', "$pro_id")
                 ->get();
-            $not_found=$this->countArray($kota);
+            $not_found = $this->countArray($kota);
 
             return response()->json([
-                "error"=>false,
-                "data"=>[
-                    "city"=>$kota,
-                ] ]);
-
-
-
+                "error" => false,
+                "data" => [
+                    "city" => $kota,
+                ]
+            ]);
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
 
-    public function get_kecamatan(Request $request){
+    public function get_occupancy(Request $request)
+    {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $q=$request->get('q');
-            $id=$request->get('kota_id');
+            $q = $request->get('q');
 
-            $kecamatan=DB::table('kecamatan')
-            ->select('id','nama')
-            ->where('nama','like',"%$q%")
-            ->where('kota_id','=',"$id")
-            ->orderBy('nama','asc')
-
-            ->get();
-            $not_found=$this->countArray($kecamatan);
+            $kota = DB::table('occupancy_types')
+                ->select('id', 'name', 'image', DB::raw('CONCAT("' . asset('images/icons/occupancy') . '/",image) AS image'))
+                ->where('name', 'like', "%$q%")
+                ->get();
+            $not_found = $this->countArray($kota);
 
             return response()->json([
-                "error"=>false,
-                "data"=>[
-                    "district"=>$kecamatan,
-                ] ]);
-
-
-
+                "error" => false,
+                "data" => [
+                    "city" => $kota,
+                ]
+            ]);
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
-    public function get_provinsi(Request $request){
+
+    public function get_kecamatan(Request $request)
+    {
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-            $q=$request->get('q');
+            $q = $request->get('q');
+            $id = $request->get('kota_id');
+
+            $kecamatan = DB::table('kecamatan')
+                ->select('id', 'nama')
+                ->where('nama', 'like', "%$q%")
+                ->where('kota_id', '=', "$id")
+                ->orderBy('nama', 'asc')
+
+                ->get();
+            $not_found = $this->countArray($kecamatan);
+
+            return response()->json([
+                "error" => false,
+                "data" => [
+                    "district" => $kecamatan,
+                ]
+            ]);
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+            return response()->json(['token_expired'], $e->getStatusCode());
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+            return response()->json(['token_invalid'], $e->getStatusCode());
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+            return response()->json(['token_absent'], $e->getStatusCode());
+        }
+    }
+    public function get_provinsi(Request $request)
+    {
+        try {
+
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+            $q = $request->get('q');
             // $id=$request->get('kota_id');
 
-            $kecamatan=DB::table('provinsi')
-            ->select('id','nama')
-            ->where('nama','like',"%$q%")
-            ->orderBy('nama','asc')
+            $kecamatan = DB::table('provinsi')
+                ->select('id', 'nama')
+                ->where('nama', 'like', "%$q%")
+                ->orderBy('nama', 'asc')
 
-            // ->where('kota_id','=',"$id")
-            ->get();
-            $not_found=$this->countArray($kecamatan);
+                // ->where('kota_id','=',"$id")
+                ->get();
+            $not_found = $this->countArray($kecamatan);
 
             return response()->json([
-                "error"=>false,
-                "data"=>[
-                    "province"=>$kecamatan,
-                ] ]);
-
-
-
+                "error" => false,
+                "data" => [
+                    "province" => $kecamatan,
+                ]
+            ]);
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return response()->json(['token_absent'], $e->getStatusCode());
-
         }
     }
 
-    private function countArray($model){
+    private function countArray($model)
+    {
         return count(!is_null($model) ? $model : []);
     }
 
-    private function resNotFound(){
-         return response()->json([
+    private function resNotFound()
+    {
+        return response()->json([
             'error' => true,
             'data' => [
-            'message' => "data tidak ditemukan"
-            ]], 404);
+                'message' => "data tidak ditemukan"
+            ]
+        ], 404);
     }
 
-    private function getUtama(){
+    private function getUtama()
+    {
         if (!$user = JWTAuth::parseToken()->authenticate()) {
             return response()->json(['user_not_found'], 404);
         }
 
-        $row= Alamat::where('user_id',$user->id)->where('isUtama',1)->first();
+        $row = Alamat::where('user_id', $user->id)->where('isUtama', 1)->first();
 
 
-            $row->getOccupancy;
-            $row->getKecamatan;
-            $row->getKecamatan->getKota;
-            $row->getKecamatan->getKota->getProvinsi;
+        $row->getOccupancy;
+        $row->getKecamatan;
+        $row->getKecamatan->getKota;
+        $row->getKecamatan->getKota->getProvinsi;
 
 
         return $row;
     }
 
-    private function resSuccess($alamat,$msg=null)
+    private function resSuccess($alamat, $msg = null)
     {
 
         return response()->json([
@@ -490,47 +454,45 @@ class alamatController extends Controller
             'data' => [
                 'address' => $alamat,
                 'count_address' => $this->countArray($alamat),
-                'isUtama'=>$this->getUtama(),
-                'surabaya'=>Kota::where('nama','surabaya')->first(),
-                'message'=>$msg,
+                'isUtama' => count($alamat)?$this->getUtama():null,
+                'surabaya' => Kota::where('nama', 'surabaya')->first(),
+                'message' => $msg,
 
             ]
         ]);
     }
 
-    private function setRequest($request,$user){
-        $lat=$request->get('lat');
-        $long=$request->get('long');
-        $send=[
+    private function setRequest($request, $user)
+    {
+        $lat = $request->get('lat');
+        $long = $request->get('long');
+        $send = [
             'user_id' => $user->id,
             'nama' => $request->get('nama'),
             'telp' => $request->get('telp'),
             'alamat' => $request->get('alamat'),
-            'kode_pos'=>$request->get('kode_pos'),
-            'occupancy_id'=>$request->get('occupancy_id'),
-            'kecamatan_id'=>$request->get('kecamatan_id'),
-         ];
+            'kode_pos' => $request->get('kode_pos'),
+            'occupancy_id' => $request->get('occupancy_id'),
+            'kecamatan_id' => $request->get('kecamatan_id'),
+        ];
 
-         if($lat || $long){
-            $send['lat']=$lat;
-            $send['long']=$long;
-
-         }
+        if ($lat || $long) {
+            $send['lat'] = $lat;
+            $send['long'] = $long;
+        }
         return $send;
     }
 
-    private function validateForm($request){
+    private function validateForm($request)
+    {
         return Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'telp' => 'required|string|max:20',
             'alamat' => 'required|string|max:255',
 
-            'kode_pos'=>'required|integer|max:999999',
-            'occupancy_id'=>'required|integer|max:9999',
-            'kecamatan_id'=>'required|integer|max:99999',
+            'kode_pos' => 'required|integer|max:999999',
+            'occupancy_id' => 'required|integer|max:9999',
+            'kecamatan_id' => 'required|integer|max:99999',
         ]);
     }
-
-
-
 }
