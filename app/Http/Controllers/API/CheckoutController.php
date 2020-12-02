@@ -235,15 +235,22 @@ class CheckoutController extends Controller
             }
 
             $promo = PromoCode::where('promo_code', $request->kode)->first();
-            $pesanan = Pesanan::where('promo_code', $request->kode)->where('user_id', $user->id)->first();
+            $pesanan = Pesanan::where('promo_code', $request->kode)
+                ->where('user_id', $user->id)
+                ->get();
             $amount = ceil($request->subtotal);
 
             if ($promo) {
-                $ker = false;
-                if ($pesanan) {
-                    $ker = Keranjang::whereIn('id', $pesanan->keranjang_ids)->first();
+                $inUsed = false;
+
+                foreach ($pesanan as $t) {
+                    $check_keranjang = Keranjang::whereIn('id', $t->keranjang_ids)->first();
+                    if ($check_keranjang && $check_keranjang->isCheckOut) {
+                        $inUsed = true;
+                        break;
+                    }
                 }
-                if ($pesanan && ($ker ? $ker->isCheckOut : false)) {
+                if ($inUsed) {
                     return response()->json([
                         'error' => true,
                         'message' => 'Anda telah menggunakan kode promo ini!'
