@@ -19,6 +19,9 @@ Route::group(['prefix' => 'faq'],function(){
     Route::get('/cara_belanja', function () {
      return view('faq.cara_belanja');
     });
+    Route::get('/cara_cek_order', function () {
+        return view('faq.cara_cek_order');
+       });
 });
 
 Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
