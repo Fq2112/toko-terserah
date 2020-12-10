@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::group(['prefix' => 'faq'],function(){
+    Route::get('/cara_belanja', function () {
+     return view('faq.cara_belanja');
+    });
+});
+
 Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
 
     Route::get('cek-username', [
