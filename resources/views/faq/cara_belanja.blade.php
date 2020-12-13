@@ -26,7 +26,7 @@
             <li>Anda juga bisa melakukan pembelian secara langsung dengan mengunjungi outlet kami di Kota berikut :
                 <br>- Surabaya
             </li>
-            <li>Sehubungan tidak semua tipe yang terdapat di product list kami ready stok di setiap outlet, maka dari itu mohon sekiranya dapat melakukan cek stok melalui live chat kami.
+            <li>Sehubungan tidak semua tipe yang terdapat di product list kami ready stok di setiap outlet, maka dari itu mohon sekiranya dapat melakukan cek stok melalui Whatsapp kami.
                 Standart Waktu Pengiriman untuk Pesanan secara online dan telepon adalah 5-7 Hari Kerja sejak kami melakukan otorisasi atas pembayaran yang telah dilakukan.
                 </li>
         </ul>
