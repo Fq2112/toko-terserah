@@ -21,6 +21,14 @@
             <li>Kami juga melayani pembelian melalui telepon 0811-3191-081 (telp/Whatsapp)</li>
             <li>Anda juga bisa berbelanja dan menghubungi kami melalui email info@tokoterserah.com</li>
         </ul>
-
+    <h3>Kunjungan Langsung</h3>
+        <ul>
+            <li>Anda juga bisa melakukan pembelian secara langsung dengan mengunjungi outlet kami di Kota berikut :
+                <br>- Surabaya
+            </li>
+            <li>Sehubungan tidak semua tipe yang terdapat di product list kami ready stok di setiap outlet, maka dari itu mohon sekiranya dapat melakukan cek stok melalui live chat kami.
+                Standart Waktu Pengiriman untuk Pesanan secara online dan telepon adalah 5-7 Hari Kerja sejak kami melakukan otorisasi atas pembayaran yang telah dilakukan.
+                </li>
+        </ul>
 </body>
 </html>
