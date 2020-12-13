@@ -22,6 +22,9 @@ Route::group(['prefix' => 'faq'],function(){
     Route::get('/cara_cek_order', function () {
         return view('faq.cara_cek_order');
        });
+       Route::get('/cara_daftar_akun', function () {
+        return view('faq.cara_daftar_akun');
+       });
 });
 
 Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
