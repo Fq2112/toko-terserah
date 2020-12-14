@@ -830,20 +830,105 @@
                                 <h5 class="text-center mb-2" style="text-transform: none">Pastikan pesanan Anda
                                     benar</h5>
                                 <hr class="mt-0">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="promo_code">Kode Promo</label>
-                                        <div class="input-group">
-                                            <input id="promo_code" type="text" class="form-control" name="promo_code"
-                                                   placeholder="Masukkan kode promo Anda..." disabled>
-                                            <span class="input-group-btn">
-                                                <button id="btn_set" class="btn btn-color2" type="button"
-                                                        disabled style="font-size: 14px">SET</button>
-                                            </span>
+                                <div class="component-accordion" style="display: none">
+                                    <div class="panel-group" id="accordion3" role="tablist">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading-voucher">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse"
+                                                       href="#collapse-voucher" aria-expanded="false"
+                                                       aria-controls="collapse-voucher" class="collapsed">
+                                                        Gunakan Voucher<b>&ndash;</b>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse-voucher" class="panel-collapse collapse"
+                                                 role="tabpanel" aria-labelledby="heading-voucher" style="height: 0;"
+                                                 aria-expanded="false" data-parent="#accordion3">
+                                                <div class="panel-body pb-0">
+                                                    <div class="row use-nicescroll" style="max-height: 250px">
+                                                        @if(count($vouchers) > 0)
+                                                            @foreach($vouchers as $row)
+                                                                <div class="col-lg-12">
+                                                                    <label class="card-label"
+                                                                           for="voucher_{{$row->id}}">
+                                                                        <input id="voucher_{{$row->id}}"
+                                                                               class="card-rb" type="radio"
+                                                                               name="promo_code"
+                                                                               value="{{$row->getVoucher->promo_code}}"
+                                                                               data-name="{{$row->getVoucher->promo_code}}">
+                                                                        <div class="card card-input"
+                                                                             onclick="getVoucher('{{$row->getVoucher->promo_code}}',
+                                                                                 '{{\Illuminate\Support\Str::limit($row->getVoucher->promo_code,10,'...')}}')">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12">
+                                                                                    <div class="media p-4">
+                                                                                        <div
+                                                                                            class="media-left media-middle"
+                                                                                            style="width: 20%">
+                                                                                            <img class="media-object"
+                                                                                                 alt="icon"
+                                                                                                 src="{{asset('storage/voucher/banner/'.$row->getVoucher->banner)}}">
+                                                                                        </div>
+                                                                                        <div class="ml-2 media-body">
+                                                                                            <h5 class="mt-0 mb-1">
+                                                                                                <i class="fa fa-ticket-alt mr-2"></i>{{$row->getVoucher->promo_code}}
+                                                                                            </h5>
+                                                                                            <blockquote class="mb-0"
+                                                                                                        style="font-size: 14px;text-transform: none">
+                                                                                                <table class="m-0"
+                                                                                                       style="font-size: 14px">
+                                                                                                    <tr data-toggle="tooltip"
+                                                                                                        data-placement="left"
+                                                                                                        title="Diskon">
+                                                                                                        <td>
+                                                                                                            <i class="fa fa-percentage"></i>
+                                                                                                        </td>
+                                                                                                        <td>&nbsp;</td>
+                                                                                                        <td>-Rp{{App\Support\Facades\NumberShorten::redenominate($row->getVoucher->discount)}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr data-toggle="tooltip"
+                                                                                                        data-placement="left"
+                                                                                                        title="Hingga">
+                                                                                                        <td>
+                                                                                                            <i class="fa fa-calendar-check"></i>
+                                                                                                        </td>
+                                                                                                        <td>&nbsp;</td>
+                                                                                                        <td>{{\Carbon\Carbon::parse($row->getVoucher->end)->formatLocalized('%d %B %Y')}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr data-toggle="tooltip"
+                                                                                                        data-placement="left"
+                                                                                                        title="Keterangan">
+                                                                                                        <td>
+                                                                                                            <i class="fa fa-info-circle"></i>
+                                                                                                        </td>
+                                                                                                        <td>&nbsp;</td>
+                                                                                                        <td>{{$row->getVoucher->description}}</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </blockquote>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <div class="col-lg-12">
+                                                                <img width="256" class="img-responsive" alt="Empty"
+                                                                     src="{{asset('images/empty-cart.gif')}}">
+                                                                <h3 class="mt-0 mb-1">Anda belum memiliki voucher</h3>
+                                                                <h4 class="m-0" style="text-transform: none">
+                                                                    Ayo belanja di {{env('APP_NAME')}} dan dapatkan
+                                                                    voucher belanjanya sekarang!</h4>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span id="error_promo" class="help-block">
-                                            <b style="text-transform: none"></b>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -1159,7 +1244,8 @@
                                             if (!$(".card-rb[name=penagihan_id]:checked").val()) {
                                                 $("#summary-alert, #billing-alert").show();
                                             } else {
-                                                $("#promo_code, #btn_pay").removeAttr('disabled');
+                                                $("#accordion3").parent().show();
+                                                btn_pay.removeAttr('disabled');
                                                 $("#summary-alert, #billing-alert").hide();
                                             }
                                         });
@@ -1184,7 +1270,8 @@
                 }.bind(this), 800);
 
             } else {
-                $("#promo_code, #btn_pay").removeAttr('disabled');
+                $("#accordion3").parent().show();
+                btn_pay.removeAttr('disabled');
                 $("#summary-alert").hide();
             }
         }
@@ -1223,7 +1310,7 @@
             if (!$(".card-rb[name=penagihan_id]:checked").val()) {
                 $("#summary-alert, #billing-alert").show();
             } else {
-                $("#promo_code, #btn_pay").removeAttr('disabled');
+                btn_pay.removeAttr('disabled');
                 $("#summary-alert, #billing-alert").hide();
             }
         }
@@ -1274,25 +1361,13 @@
             }
         }
 
-        $("#promo_code").on('keyup', function (e) {
-            if (!$(this).val()) {
-                $("#btn_set").attr('disabled', 'disabled');
-            } else {
-                $("#btn_set").removeAttr('disabled');
-                if (e.keyCode === 13) {
-                    $("#btn_set").click();
-                }
-            }
+        function getVoucher(code, str_code) {
+            $('#collapse-voucher').collapse('hide');
 
-            $("#promo_code").css('border-color', '#ced4da');
-            $("#error_promo").hide().find('b').text(null);
-        });
-
-        $("#btn_set").on('click', function () {
             clearTimeout(this.delay);
             this.delay = setTimeout(function () {
                 $.ajax({
-                    url: "{!! route('get.cari-promo.cart',['subtotal' => $subtotal])!!}&ongkir=" + ongkir + "&kode=" + $("#promo_code").val(),
+                    url: "{!! route('get.cari-promo.cart',['subtotal' => $subtotal])!!}&ongkir=" + ongkir + "&kode=" + code,
                     type: "GET",
                     beforeSend: function () {
                         $('#preload-summary').show();
@@ -1302,38 +1377,18 @@
                         $('#preload-summary').hide();
                         $(".list-group-flush").css('opacity', '1');
                     },
-                    success: function (data) {
-                        if (data == 0) {
-                            swal('Kode Promo', 'Kode promo yang Anda masukkan tidak ditemukan.', 'error');
-                            $("#promo_code").css('border-color', '#dc3545');
-                            $("#error_promo").show().find('b').text("Kode promo yang Anda masukkan tidak ditemukan.").css('color', '#dc3545');
-                            $("#btn_set").attr('disabled', 'disabled');
+                    success: function (val) {
+                        if(val.error == true) {
+                            swal('Voucher', val.message, 'error');
                             resetter();
-
-                        } else if (data == 1) {
-                            swal('Kode Promo', 'Anda telah menggunakan kode promo itu!', 'error');
-                            $("#promo_code").css('border-color', '#dc3545');
-                            $("#error_promo").show().find('b').text("Anda telah menggunakan kode promo itu!").css('color', '#dc3545');
-                            $("#btn_set").attr('disabled', 'disabled');
-                            resetter();
-
-                        } else if (data == 2) {
-                            swal('Kode Promo', 'Kode promo yang Anda masukkan telah kedaluwarsa.', 'error');
-                            $("#promo_code").css('border-color', '#dc3545');
-                            $("#error_promo").show().find('b').text("Kode promo yang Anda masukkan telah kedaluwarsa.").css('color', '#dc3545');
-                            $("#btn_set").attr('disabled', 'disabled');
-                            resetter();
-
                         } else {
-                            harga_diskon = data.discount_price;
-                            $("#promo_code").css('border-color', '#ced4da');
-                            $("#error_promo").show().find('b').text(data.caption).css('color', '#5bb300');
-                            $("#btn_set").removeAttr('disabled');
+                            harga_diskon = val.data.discount_price;
+                            $("#heading-voucher h4 a").html('Voucher<b>'+str_code +'</b>');
 
-                            $("#discount").show().find('b').text(data.str_discount);
-                            $(".show-total").text(data.str_total);
+                            $("#discount").show().find('b').text(val.data.str_discount);
+                            $(".show-total").text(val.data.str_total);
                             $("#form-pembayaran input[name=discount_price]").val(harga_diskon);
-                            $("#form-pembayaran input[name=total]").val(data.total);
+                            $("#form-pembayaran input[name=total]").val(val.data.total);
                         }
                     },
                     error: function () {
@@ -1341,7 +1396,7 @@
                     }
                 });
             }.bind(this), 800);
-        });
+        }
 
         $("#discount i").on("click", function () {
             swal({
@@ -1362,6 +1417,9 @@
 
         function resetter() {
             harga_diskon = 0;
+            $("#heading-voucher h4 a").html('Gunakan Voucher<b>&ndash;</b>');
+            $("input[name='promo_code']").prop('checked', false);
+
             $("#discount").hide().find('b').text(null);
             $(".show-total").text('Rp' + number_format(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon), 2, ',', '.'));
             $("#form-pembayaran input[name=discount_price]").val(null);

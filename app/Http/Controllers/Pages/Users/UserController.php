@@ -9,6 +9,7 @@ use App\Models\Favorit;
 use App\Models\Pesanan;
 use App\Models\PromoCode;
 use App\Models\Setting;
+use App\Models\VouucherUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -139,6 +140,9 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $bio = $user->getBio;
+        $vouchers = VouucherUser::whereHas('getVoucher', function ($q) {
+            $q->where('start', '<=', now())->where('end', '>=', now()->subDay());
+        })->where('user_id', $user->id)->where('is_use', false)->whereNull('used_at')->get()->sortByDesc('getVoucher.discount');
         $addresses = Alamat::where('user_id', $user->id)->orderByDesc('id')->get();
         $setting = Setting::first();
         $code = strtoupper(uniqid('PYM') . now()->timestamp);
@@ -155,36 +159,34 @@ class UserController extends Controller
         $total_weight = 0;
 
         return view('pages.main.users.checkout', compact('user', 'bio', 'addresses', 'setting',
-            'code', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
+            'vouchers', 'code', 'cart_ids', 'carts', 'total_item', 'subtotal', 'total_weight'));
     }
 
     public function cariPromo(Request $request)
     {
         $promo = PromoCode::where('promo_code', $request->kode)->first();
-        $pesanan = Pesanan::where('promo_code', $request->kode)->where('user_id', Auth::id())->first();
         $amount = ceil($request->subtotal);
+        $min = ceil($promo->discount + 10000);
 
-        if ($promo) {
-            if ($pesanan) {
-                return 1;
-            } else {
-                if (now() > $promo->end) {
-                    return 2;
-                } else {
-                    $discount_price = ceil($promo->discount);
-                    $subtotal = $amount - $discount_price;
-                    $total = ceil($subtotal + $request->ongkir);
-                    return [
-                        'caption' => $promo->description,
-                        'total' => $total,
-                        'discount_price' => $discount_price,
-                        'str_discount' => '-Rp' . number_format($discount_price, 2, ',', '.'),
-                        'str_total' => 'Rp' . number_format($total, 2, ',', '.')
-                    ];
-                }
-            }
+        if($min > $amount) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Voucher tidak dapat digunakan! Minimal belanja sebesar Rp'.number_format($min,2,',','.').'.'
+            ], 200);
         } else {
-            return 0;
+            $discount_price = ceil($promo->discount);
+            $subtotal = $amount - $discount_price;
+            $total = ceil($subtotal + $request->ongkir);
+            return response()->json([
+                'error' => false,
+                'data' => [
+                    'caption' => $promo->description,
+                    'total' => $total,
+                    'discount_price' => $discount_price,
+                    'str_discount' => '-Rp' . number_format($discount_price, 2, ',', '.'),
+                    'str_total' => 'Rp' . number_format($total, 2, ',', '.')
+                ]
+            ], 200);
         }
     }
 
