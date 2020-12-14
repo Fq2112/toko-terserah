@@ -919,10 +919,8 @@
                                                             <div class="col-lg-12">
                                                                 <img width="256" class="img-responsive" alt="Empty"
                                                                      src="{{asset('images/empty-cart.gif')}}">
-                                                                <h3 class="mt-0 mb-1">Anda belum memiliki voucher</h3>
-                                                                <h4 class="m-0" style="text-transform: none">
-                                                                    Ayo belanja di {{env('APP_NAME')}} dan dapatkan
-                                                                    voucher belanjanya sekarang!</h4>
+                                                                <p align="center">Ayo belanja di {{env('APP_NAME')}}
+                                                                    dan dapatkan voucher belanjanya sekarang!</p>
                                                             </div>
                                                         @endif
                                                     </div>
