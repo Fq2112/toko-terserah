@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             QnAseeder::class,
             SettingSeeder::class,
             TemplateSeeder::class,
-            BannerSeeder::class
+            BannerSeeder::class,
+            VouucherUserSeeder::class
         ]);
     }
 }

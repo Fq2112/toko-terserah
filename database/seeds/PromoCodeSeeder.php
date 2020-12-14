@@ -18,6 +18,7 @@ class PromoCodeSeeder extends Seeder
                 'end' => now()->addMonth(),
                 'description' => \Faker\Factory::create()->sentence,
                 'discount' => \Faker\Factory::create()->numerify('#####'),
+                'minim_beli' => \Faker\Factory::create()->numerify('#####')
             ]);
         }
 
