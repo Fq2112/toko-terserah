@@ -264,6 +264,8 @@ class MidtransController extends Controller
         $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
         $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
         $user = User::find($pesanan->user_id);
+        $promo = PromoCode::whereRaw('CAST(minim_beli as UNSIGNED) <= ?', [$pesanan->total_harga])
+            ->where('start', '<=', now())->where('end', '>=', now()->subDay())->get();
 
         try {
             if (
@@ -285,7 +287,7 @@ class MidtransController extends Controller
                     foreach ($carts as $cart) {
                         $cart->update(['isCheckOut' => true]);
                     }
-                    $this->invoiceMail('unfinish', $notif->order_id, $user, null, $data_tr);
+                    $this->invoiceMail('unfinish', $notif->order_id, $user, null, $data_tr, 0);
 
                     /* TODO update voucher if pesanan unpaid */
                     if(!is_null($voucher)) {
@@ -302,14 +304,12 @@ class MidtransController extends Controller
                         $cart->update(['isCheckOut' => true]);
                     }
                     $pesanan->update(['isLunas' => true]);
-                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
+                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr, count($promo));
 
                     /* TODO update voucher if pesanan paid */
                     if(!is_null($voucher)) {
                         $voucher->update(['is_use' => true, 'used_at' => now()]);
                     } else {
-                        $promo = PromoCode::whereRaw('CAST(minim_beli as UNSIGNED) <= ?', [$pesanan->total_harga])
-                            ->where('start', '<=', now())->where('end', '>=', now()->subDay())->get();
                         if(count($promo) > 0) {
                             foreach ($promo as $item) {
                                 VouucherUser::query()->create([
@@ -377,7 +377,7 @@ class MidtransController extends Controller
         }
     }
 
-    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr)
+    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr, $total_voucher)
     {
         $data = Pesanan::where('uni_code', $code)->first();
 
@@ -433,6 +433,6 @@ class MidtransController extends Controller
             $instruction = null;
         }
 
-        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction));
+        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction, $total_voucher));
     }
 }
