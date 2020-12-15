@@ -308,7 +308,7 @@ class MidtransController extends Controller
                     if(!is_null($voucher)) {
                         $voucher->update(['is_use' => true, 'used_at' => now()]);
                     } else {
-                        $promo = PromoCode::where('minim_beli', '<=',$pesanan->total_harga)
+                        $promo = PromoCode::whereRaw('CAST(minim_beli as UNSIGNED) <= ?', [$pesanan->total_harga])
                             ->where('start', '<=', now())->where('end', '>=', now()->subDay())->get();
                         if(count($promo) > 0) {
                             foreach ($promo as $item) {
