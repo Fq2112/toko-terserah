@@ -58,7 +58,7 @@
                                         <th width="15%">Kode Voucher</th>
                                         <th width="20%">Deskripsi</th>
                                         <th>Besar Diskon (Rp)</th>
-                                        <th  width="15%">Minimal pembelian (Rp)</th>
+                                        <th width="15%">Minimal pembelian (Rp)</th>
                                         <th class="text-center" width="15%">Mulai</th>
                                         <th class="text-center" width="15%">Selesai</th>
                                         <th class="text-center" width="15%">Status</th>
@@ -102,36 +102,44 @@
                                                 {{\Carbon\Carbon::parse($row->end)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle">
                                                 @if(now() < $row->start || now() > $row->end)
-                                                    <span class="badge badge-warning"> Telah Berjalan / Belum Berjalan</span>
+                                                    <span
+                                                        class="badge badge-warning"> Telah Berjalan / Belum Berjalan</span>
                                                 @else
                                                     <span class="badge badge-info">  Sedang Bejalan</span>
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle" align="center">
-                                                @if(now() < $row->start || now() > $row->end)
-                                                    <button data-placement="left" data-toggle="tooltip" title="Edit"
-                                                            type="button" class="btn btn-warning mr-1"
-                                                            onclick="editBlogPost('{{$row->id}}','{{route('get.promo', ['id' => $row->id])}}')">
-                                                        <i class="fa fa-edit"></i></button>
-                                                @endif
-                                                {{--                                                <form action="{{route('admin.reset')}}" id="update_form_{{$row->id}}"--}}
-                                                {{--                                                      method="post">--}}
-                                                {{--                                                    @CSRF--}}
-                                                {{--                                                    <input type="hidden" name="id" value="{{$row->id}}">--}}
-                                                {{--                                                </form>--}}
-                                                @if(\Illuminate\Support\Facades\Auth::user()->role == \App\Support\Role::OWNER)
+                                                <div class="btn-group" role="group" aria-label="Basic example">
                                                     @if(now() < $row->start || now() > $row->end)
-                                                        <a href="{{route('delete.promo', ['id' => encrypt($row->id)])}}"
-                                                           class="btn btn-danger delete-data" data-toggle="tooltip"
-                                                           title="Delete" data-placement="right">
-                                                            <i class="fas fa-trash-alt"></i></a>
-                                                    @else
-                                                        <button data-placement="left" data-toggle="tooltip"
-                                                                title="Sedang berjalan"
-                                                                type="button" class="btn btn-success mr-1">
-                                                            <i class="fa fa-info"></i></button>
+                                                        <button data-placement="left" data-toggle="tooltip" title="Edit"
+                                                                type="button" class="btn btn-warning mr-1"
+                                                                onclick="editBlogPost('{{$row->id}}','{{route('get.promo', ['id' => $row->id])}}')">
+                                                            <i class="fa fa-edit"></i></button>
                                                     @endif
-                                                @endif
+                                                    {{--                                                <form action="{{route('admin.reset')}}" id="update_form_{{$row->id}}"--}}
+                                                    {{--                                                      method="post">--}}
+                                                    {{--                                                    @CSRF--}}
+                                                    {{--                                                    <input type="hidden" name="id" value="{{$row->id}}">--}}
+                                                    {{--                                                </form>--}}
+                                                    @if(\Illuminate\Support\Facades\Auth::user()->role == \App\Support\Role::OWNER)
+                                                        @if(now() < $row->start || now() > $row->end)
+                                                            <a href="{{route('delete.promo', ['id' => encrypt($row->id)])}}"
+                                                               class="btn btn-danger delete-data" data-toggle="tooltip"
+                                                               title="Delete" data-placement="right">
+                                                                <i class="fas fa-trash-alt"></i></a>
+                                                        @else
+                                                            <a data-placement="top" data-toggle="tooltip" href="{{route('user.promo',['id' => encrypt($row->id)])}}"
+                                                                    title="Daftar Penerima Voucher"
+                                                                    type="button" class="btn btn-info mr-1">
+                                                                <i class="fa fa-users"></i></a>
+
+                                                            <button data-placement="top" data-toggle="tooltip"
+                                                                    title="Sedang berjalan"
+                                                                    type="button" class="btn btn-success mr-1">
+                                                                <i class="fa fa-info"></i></button>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

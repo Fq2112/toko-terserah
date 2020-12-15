@@ -323,6 +323,12 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'uses' => 'PromoController@delete_data',
                 'as' => 'delete.promo'
             ]);
+
+
+            Route::get('{id}/list', [
+                'uses' => 'PromoController@list_user',
+                'as' => 'user.promo'
+            ]);
         });
 
         Route::group(['prefix' => 'setting', 'middleware' => 'owner'], function () {
