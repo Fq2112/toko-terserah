@@ -22,7 +22,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Daftar Promo </h1>
+            <h1>Daftar Voucher </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Tables</div>
@@ -38,7 +38,7 @@
                         <div class="card-header">
                             <div class="card-header-form">
                                 <button id="btn_create" class="btn btn-primary text-uppercase">
-                                    <strong><i class="fas fa-plus mr-2"></i>Tambah Promo</strong>
+                                    <strong><i class="fas fa-plus mr-2"></i>Tambah Voucher</strong>
                                 </button>
                             </div>
                         </div>
@@ -55,9 +55,10 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th width="15%">Promo Code</th>
+                                        <th width="15%">Kode Voucher</th>
                                         <th width="20%">Deskripsi</th>
-                                        <th>Besar Promo (Rp)</th>
+                                        <th>Besar Diskon (Rp)</th>
+                                        <th  width="15%">Minimal pembelian (Rp)</th>
                                         <th class="text-center" width="15%">Mulai</th>
                                         <th class="text-center" width="15%">Selesai</th>
                                         <th class="text-center" width="15%">Status</th>
@@ -91,15 +92,19 @@
                                                 {{number_format($row->discount)}}
                                             </td>
 
+                                            <td style="vertical-align: middle">
+                                                {{number_format($row->minim_beli)}}
+                                            </td>
+
                                             <td style="vertical-align: middle" align="center">
                                                 {{\Carbon\Carbon::parse($row->start)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 {{\Carbon\Carbon::parse($row->end)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle">
                                                 @if(now() < $row->start || now() > $row->end)
-                                                    <span class="badge badge-warning">Promo Telah Berjalan / Belum Berjalan</span>
+                                                    <span class="badge badge-warning"> Telah Berjalan / Belum Berjalan</span>
                                                 @else
-                                                    <span class="badge badge-info"> Promo Sedang Bejalan</span>
+                                                    <span class="badge badge-info">  Sedang Bejalan</span>
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle" align="center">
@@ -122,7 +127,7 @@
                                                             <i class="fas fa-trash-alt"></i></a>
                                                     @else
                                                         <button data-placement="left" data-toggle="tooltip"
-                                                                title="Promo is running"
+                                                                title="Sedang berjalan"
                                                                 type="button" class="btn btn-success mr-1">
                                                             <i class="fa fa-info"></i></button>
                                                     @endif
@@ -152,10 +157,10 @@
 
                                     <div class="row form-group">
                                         <div class="col has-feedback">
-                                            <label for="promo_code">Promo Code</label>
+                                            <label for="promo_code">Voucher</label>
                                             <input id="promo_code" type="text" maxlength="191" name="promo_code"
                                                    class="form-control"
-                                                   placeholder="Write its promo code here&hellip;" required>
+                                                   placeholder="Write its Voucher Name  here&hellip;" required>
                                             <span class="glyphicon glyphicon-text-width form-control-feedback"></span>
                                         </div>
                                     </div>
@@ -193,6 +198,10 @@
 
                                             </div>
                                         </div>
+
+                                    </div>
+
+                                    <div class="row form-group">
                                         <div class="col">
                                             <label for="discount">Besar Diskon</label>
                                             <div class="input-group mb-2">
@@ -203,7 +212,19 @@
                                                        class="form-control" placeholder="1xxxxxx" required>
                                             </div>
                                         </div>
+
+                                        <div class="col">
+                                            <label for="discount">Minimal Belanja untuk mendapatkan voucher</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><b>Rp</b></span>
+                                                </div>
+                                                <input id="minim_beli" type="number" name="minim_beli"
+                                                       class="form-control" placeholder="1xxxxxx" required>
+                                            </div>
+                                        </div>
                                     </div>
+
 
                                     <div class="row form-group">
                                         <div class="col">
@@ -317,6 +338,10 @@
     <script src="{{asset('admins/modules/summernote/summernote-bs4.js')}}"></script>
     <script>
         $(function () {
+            $('#start-date').attr({
+                "min": new Date().toISOString().split("T")[0]
+            });
+
             var export_filename = 'Blog Categories Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
@@ -393,8 +418,8 @@
             $("#content2").toggle(300);
             $(this).toggleClass('btn-primary btn-outline-primary');
             $("#btn_create strong").html(function (i, v) {
-                return v === '<i class="fas fa-plus mr-2"></i>Tambah Promo' ?
-                    '<i class="fas fa-th-list mr-2"></i>Daftar Promo' : '<i class="fas fa-plus mr-2"></i>Tambah Promo';
+                return v === '<i class="fas fa-plus mr-2"></i>Tambah Voucher' ?
+                    '<i class="fas fa-th-list mr-2"></i>Daftar Voucher' : '<i class="fas fa-plus mr-2"></i>Tambah Voucher';
             });
 
             $(".fix-label-group .bootstrap-select").addClass('p-0');
@@ -455,6 +480,7 @@
                 $("#promo_code").val(data.promo_code);
                 $("#discount").val(data.discount);
                 $("#start-date").val(data.start);
+                $("#minim_beli").val(data.minim_beli);
                 $("#end-date").attr({
                     "min": data.start,
                     "value": data.end

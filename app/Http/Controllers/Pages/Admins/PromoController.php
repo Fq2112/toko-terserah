@@ -39,6 +39,7 @@ class PromoController extends Controller
                 'description' => $request->description,
                 'discount' => $request->discount,
                 'banner' => $banner,
+                'minim_beli' => $request->minim_beli
             ]);
             return back()->with('success', 'Promo ['.$request->promo_code.'] is successfully created!');
         } else {
