@@ -618,6 +618,17 @@
                                                 </td>
                                             </tr>
                                         @endif
+                                        @if($total_voucher > 0)
+                                            <tr>
+                                                <td>
+                                                    <div class="alert alert-success text-center">
+                                                        Selamat Anda mendapatkan <b>{{$total_voucher}}</b> voucher
+                                                        belanja di {{env('APP_NAME')}}! Silahkan gunakan voucher
+                                                        tersebut ketika Anda melakukan checkout.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
                                         <tr>
                                             <td>
                                                 <div style="font-size:20px;line-height:20px;">&nbsp;</div>
