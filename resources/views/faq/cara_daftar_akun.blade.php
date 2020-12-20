@@ -8,7 +8,7 @@
 </head>
 <body>
     <p>Pertama Klin Icon Akun :
-        <br><img src="{{asset('images/faq/daftarakun_1.jpg')}}" width="300" alt="" >
+        <br><img src="{{asset('images/faq/daftarakun_1.jpg')}}" width="150" alt="">
     </p>
 
 </body>
