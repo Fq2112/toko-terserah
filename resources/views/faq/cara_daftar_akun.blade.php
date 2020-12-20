@@ -7,9 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <p><h4>Pertama Klin Icon Akun :</h4>
-        <br><img src="{{asset('images/faq/daftarakun_1.jpg')}}" width="150" alt="">
-    </p>
+    <p><h4>Pertama Klin Icon Akun :</p>
+    <br><img src="{{asset('images/faq/daftarakun_1.jpg')}}" width="180" alt="">
 
 </body>
 </html>
