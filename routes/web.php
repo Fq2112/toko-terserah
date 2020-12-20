@@ -44,7 +44,7 @@ Route::group(['prefix' => 'faq'],function(){
         return view('faq.syarat_dan_ketentuan');
     });
     Route::get('/tentang_kami', function () {
-        return view('faq.tentang_kami');
+        return view('faq.tentang_kam');
     });
 });
 
