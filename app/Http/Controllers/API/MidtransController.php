@@ -8,6 +8,8 @@ use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\Produk;
+use App\Models\PromoCode;
+use App\Models\VouucherUser;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -262,6 +264,8 @@ class MidtransController extends Controller
         $pesanan = Pesanan::where('uni_code', $notif->order_id)->first();
         $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)->get();
         $user = User::find($pesanan->user_id);
+        $promo = PromoCode::whereRaw('CAST(minim_beli as UNSIGNED) <= ?', [$pesanan->total_harga])
+            ->where('start', '<=', now())->where('end', '>=', now()->subDay())->get();
 
         try {
             if (
@@ -269,16 +273,30 @@ class MidtransController extends Controller
                 (array_key_exists('fraud_status', $data_tr) && $data_tr['fraud_status'] == 'accept')
             ) {
 
+                if(!is_null($pesanan->promo_code) && $pesanan->is_discount == true) {
+                    $voucher = VouucherUser::whereHas('getVoucher', function ($q) use ($pesanan) {
+                        $q->where('promo_code', $pesanan->promo_code);
+                    })->where('user_id', $user->id)->first();
+                } else {
+                    $voucher = null;
+                }
+
                 if ($data_tr['transaction_status'] == 'pending') {
                     DB::beginTransaction();
 
                     foreach ($carts as $cart) {
                         $cart->update(['isCheckOut' => true]);
                     }
-                    $this->invoiceMail('unfinish', $notif->order_id, $user, null, $data_tr);
+                    $this->invoiceMail('unfinish', $notif->order_id, $user, null, $data_tr, 0);
+
+                    /* TODO update voucher if pesanan unpaid */
+                    if(!is_null($voucher)) {
+                        $voucher->update(['is_use' => true, 'used_at' => null]);
+                    }
 
                     DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil di checkout! Kami akan langsung mengirimkan pesanan Anda sesaat setelah Anda menyelesaikan pembayarannya, terima kasih banyak dan Anda akan dialihkan ke halaman Dashboard [Riwayat Pemesanan] :)';
+
                 } elseif ($data_tr['transaction_status'] == 'capture' || $data_tr['transaction_status'] == 'settlement') {
                     DB::beginTransaction();
 
@@ -286,7 +304,21 @@ class MidtransController extends Controller
                         $cart->update(['isCheckOut' => true]);
                     }
                     $pesanan->update(['isLunas' => true]);
-                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr);
+                    $this->invoiceMail('finish', $notif->order_id, $user, null, $data_tr, count($promo));
+
+                    /* TODO update voucher if pesanan paid */
+                    if(!is_null($voucher)) {
+                        $voucher->update(['is_use' => true, 'used_at' => now()]);
+                    } else {
+                        if(count($promo) > 0) {
+                            foreach ($promo as $item) {
+                                VouucherUser::query()->create([
+                                    'user_id' => $user->id,
+                                    'voucher_id' => $item->id,
+                                ]);
+                            }
+                        }
+                    }
 
                     // Todo Create Shipping label
                     $labelname = $pesanan->uni_code . '.pdf';
@@ -296,9 +328,8 @@ class MidtransController extends Controller
 
                     DB::commit();
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' berhasil dikonfirmasi! Tetap awasi status pesanan Anda pada halaman Dashboard.';
+
                 } elseif ($data_tr['transaction_status'] == 'expired') {
-
-
                     $check_next_trans = $check_next_trans2 = 0;
 
                     $carts = Keranjang::whereIn('id', $pesanan->keranjang_ids)
@@ -330,6 +361,12 @@ class MidtransController extends Controller
                     }
 
                     $pesanan->delete();
+
+                    /* TODO update voucher if pesanan expired */
+                    if(!is_null($voucher)) {
+                        $voucher->update(['is_use' => false, 'used_at' => null]);
+                    }
+
                     DB::commit();
 
                     return $carts->sum('qty') . ' item pesanan Anda dengan ID Pembayaran #' . $notif->order_id . ' telah dibatalkan!';
@@ -340,7 +377,7 @@ class MidtransController extends Controller
         }
     }
 
-    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr)
+    private function invoiceMail($status, $code, $user, $pdf_url, $data_tr, $total_voucher)
     {
         $data = Pesanan::where('uni_code', $code)->first();
 
@@ -396,6 +433,6 @@ class MidtransController extends Controller
             $instruction = null;
         }
 
-        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction));
+        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction, $total_voucher));
     }
 }

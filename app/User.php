@@ -10,6 +10,7 @@ use App\Models\QnA;
 use App\Models\SocialProvider;
 use App\Models\Ulasan;
 use App\Models\Alamat;
+use App\Models\VouucherUser;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -101,6 +102,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(QnA::class, 'user_id');
     }
 
+    public function getVoucher()
+    {
+        return $this->hasMany(VouucherUser::class,'user_id');
+    }
     /**
      * Sends the password reset notification.
      *

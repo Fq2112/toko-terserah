@@ -289,9 +289,12 @@ class ProductController extends Controller
 
             $user = auth('api')->user();
 
-            $promo = PromoCode::where('promo_code', 'LIKE', "%$q%")
+            $promo = PromoCode::query()->where('promo_code', 'LIKE', "%$q%")
                 ->whereDate('start', '<=', now())
                 ->whereDate('end', '>=', now())
+                ->whereHas('getVoucher',function ($query) use($user){
+                    $query->where('user_id',$user->id)->where('is_use',false)->where('used_at',null);
+                })
                 ->when($user, function ($q) use ($user) {
                     $voucher_digunakan = [];
                     $pesanan = Pesanan::where('user_id', $user->id)

@@ -1,8 +1,13 @@
 @extends('layouts.mst')
 @section('title', 'Beranda | '.env('APP_TITLE'))
 @push('styles')
-
     <style>
+        .item-image img.fixed-height {
+            object-fit: cover;
+            width: 100%;
+            height: 500px;
+        }
+
         section.no-banner {
             background: url('{{asset('images/no-promotion.jpg')}}') no-repeat center;
             -webkit-background-size: contain;
@@ -91,7 +96,10 @@
                                             $route = '#';
                                         }
                                     @endphp
-                                    <a href="{{$route}}"><img src="{{asset('storage/banner/'.$row->banner)}}"></a>
+                                    <a href="{{$route}}">
+                                        <img class="fixed-height" src="{{asset('storage/banner/'.$row->banner)}}"
+                                             alt="Slider">
+                                    </a>
                                 </div>
                             @endforeach
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages\Admins;
 
 use App\Http\Controllers\Controller;
 use App\Models\PromoCode;
+use App\Models\VouucherUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,7 @@ class PromoController extends Controller
                 'description' => $request->description,
                 'discount' => $request->discount,
                 'banner' => $banner,
+                'minim_beli' => $request->minim_beli
             ]);
             return back()->with('success', 'Promo ['.$request->promo_code.'] is successfully created!');
         } else {
@@ -50,6 +52,15 @@ class PromoController extends Controller
     {
         $data = PromoCode::find($id);
         return $data;
+    }
+
+    public function list_user($id)
+    {
+        $data = VouucherUser::query()->where('voucher_id',decrypt($id))->with('getUser')->with('getVoucher')->get();
+
+        return view('pages.main.admins.promo_user',[
+            'data' => $data
+        ]);
     }
 
     public function update_data(Request $request)

@@ -11,20 +11,21 @@ class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $code, $data, $payment, $filename, $instruction;
+    public $code, $data, $payment, $filename, $instruction, $total_voucher;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($code, $data, $payment, $filename, $instruction)
+    public function __construct($code, $data, $payment, $filename, $instruction, $total_voucher)
     {
         $this->code = $code;
         $this->data = $data;
         $this->payment = $payment;
         $this->filename = $filename;
         $this->instruction = $instruction;
+        $this->total_voucher = $total_voucher;
     }
 
     /**
@@ -37,8 +38,9 @@ class InvoiceMail extends Mailable
         $data = $this->data;
         $payment = $this->payment;
         $code = $this->code;
+        $total_voucher = $this->total_voucher;
 
-        if ($data->finish_payment == false) {
+        if ($data->isLunas == false) {
             $subject = 'Menunggu Pembayaran ' . strtoupper(str_replace('_', ' ', $payment['type'])) .
                 ' #' . $code;
         } else {
@@ -51,7 +53,7 @@ class InvoiceMail extends Mailable
         }
 
         return $this->from(env('MAIL_USERNAME'), env('APP_TITLE'))->subject($subject)
-            ->view('emails.users.invoice', compact('code', 'data', 'payment'))
+            ->view('emails.users.invoice', compact('code', 'data', 'payment', 'total_voucher'))
             ->attach(public_path('storage/users/invoice/' . $data->user_id . '/' . $this->filename));
     }
 }
