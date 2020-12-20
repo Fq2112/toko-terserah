@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Metode Pembayaran</i>
+<i>MetodePembayaran</i>
 </body>
 </html>

@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Cara Mengubah Alamat</i>
+<i>Cara MengubahAlamat</i>
 </body>
 </html>

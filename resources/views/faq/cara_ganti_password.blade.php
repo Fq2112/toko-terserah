@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Cara Ganti Password</i>
+<i>Cara GantiPassword</i>
 </body>
 </html>

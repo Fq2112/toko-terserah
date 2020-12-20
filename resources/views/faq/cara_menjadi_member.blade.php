@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Cara Menjadi Member</i>
+<i>Cara MenjadiMember</i>
 </body>
 </html>

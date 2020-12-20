@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Tentang Kami</i>
+<i>TentangKami</i>
 </body>
 </html>

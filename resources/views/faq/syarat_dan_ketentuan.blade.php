@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Syarat dan Ketentuan</i>
+<i>Syaratdan Ketentuan</i>
 </body>
 </html>

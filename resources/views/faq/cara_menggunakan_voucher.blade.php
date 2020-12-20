@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-<i>Cara Menggunakan Voucher</i>
+<i>Cara MenggunakanVoucher</i>
 </body>
 </html>
