@@ -140,6 +140,7 @@
                 <b class="primary">Dikirim Ke</b><br>
                 {{$data->getPengiriman->nama}}<br>
                 {{$data->getPengiriman->alamat}}
+                {{$data->getPengiriman->telp}}
             </td>
             <td>
                 <b class="primary">FAKTUR #:</b> {{$code}}<br>
