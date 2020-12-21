@@ -18,6 +18,5 @@
     <font size="4">Masuk halaman akun, kemudian pilih Kartu Member :</font><br><br>
     <img class="tengah" src="{{asset('images/faq/member_1.jpg')}}" width="250" alt=""><br><br>
     <img class="tengah" src="{{asset('images/faq/member_2.jpg')}}" width="250" alt=""><br><br>
-
 </body>
 </html>
