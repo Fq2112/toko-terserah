@@ -6,6 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style>
+    img.tengah {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
 <body>
     <font size="4">Pertama tekan tombol profile/akun :</font><br><br>
     <img class="tengah" src="{{asset('images/faq/gantipassword_1.jpg')}}" width="250" alt=""><br><br>
