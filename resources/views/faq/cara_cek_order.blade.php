@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-<i>cek order</i>
+    <font size="4">Pertama silahkan tekan tombol profile :</font><br>
+    <img src="{{asset('images/faq/cekorder_1.jpg')}}" width="250" alt="">
+    <font size="4">Dibagian header anda bisa melihat pesanan ada, seperti contoh dibawah ini :</font><br>
+    <img src="{{asset('images/faq/cekorder_2.jpg')}}" width="250" alt="">
+
 </body>
 </html>
