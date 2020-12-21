@@ -6,8 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style type="text/css">
+    .left    { text-align: left;}
+    .right   { text-align: right;}
+    .center  { text-align: center;}
+    .justify { text-align: justify;}
+ </style>
 <body>
-    <p>Syarat dan ketentuan ini menguraikan aturan dan peraturan untuk penggunaan Aplikasi atau Situs Web Toko Terserah, yang berlokasi di tokoterserah.com.
+    <p class="justify">Syarat dan ketentuan ini menguraikan aturan dan peraturan untuk penggunaan Aplikasi atau Situs Web Toko Terserah, yang berlokasi di tokoterserah.com.
 
         Dengan mengakses aplikasi atau situs web ini, kami menganggap Anda menerima syarat dan ketentuan ini. Jangan terus menggunakan Toko Terserah jika Anda tidak setuju untuk mengambil semua syarat dan ketentuan yang dinyatakan di halaman ini. Syarat dan Ketentuan kami dibuat dengan bantuan Syarat & Ketentuan Generator Online dan Generator Syarat & Ketentuan Gratis .
 
