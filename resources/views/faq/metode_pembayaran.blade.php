@@ -7,8 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <font size="4">Pertama Klin Icon Akun :</font><br>
-    <img src="{{asset('images/faq/daftarakun_1.jpg')}}" width="200" alt="">
-
+<i>MetodePembayaran</i>
 </body>
 </html>

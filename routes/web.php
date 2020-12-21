@@ -21,10 +21,31 @@ Route::group(['prefix' => 'faq'],function(){
     });
     Route::get('/cara_cek_order', function () {
         return view('faq.cara_cek_order');
-       });
-       Route::get('/cara_daftar_akun', function () {
+    });
+    Route::get('/cara_daftar_akun', function () {
         return view('faq.cara_daftar_akun');
-       });
+    });
+    Route::get('/cara_ganti_password', function () {
+        return view('faq.cara_ganti_password');
+    });
+    Route::get('/cara_menggunakan_voucher', function () {
+        return view('faq.cara_menggunakan_voucher');
+    });
+    Route::get('/cara_mengubah_alamat', function () {
+        return view('faq.cara_mengubah_alamat');
+    });
+    Route::get('/cara_menjadi_member', function () {
+        return view('faq.cara_menjadi_member');
+    });
+    Route::get('/metode_pembayaran', function () {
+        return view('faq.metode_pembayaran');
+    });
+    Route::get('/syarat_dan_ketentuan', function () {
+        return view('faq.syarat_dan_ketentuan');
+    });
+    Route::get('/tentang_kami', function () {
+        return view('faq.tentang_kami');
+    });
 });
 
 Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function () {
