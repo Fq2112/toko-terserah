@@ -154,6 +154,12 @@ class ProdukController extends Controller
             ]);
         }
 
+        if($request->harga_grosir > 0){
+            $data->update([
+                'isGrosir' => true
+            ]);
+        }
+
         if ($request->has('gambar')) {
             $file = $request->file('gambar');
             $filename = uniqid() . $file->getClientOriginalName();
