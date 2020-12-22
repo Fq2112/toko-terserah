@@ -63,6 +63,12 @@ class ProdukController extends Controller
             'harga_grosir' => $request->harga_grosir
         ]);
 
+        if($request->harga_grosir > 0){
+            $produk->update([
+                'isGrosir' => true
+            ]);
+        }
+
         if ($request->has('galeri')) {
             $files = $request->file('galeri');
             $img = array();
@@ -141,6 +147,12 @@ class ProdukController extends Controller
             'harga_grosir' => $request->harga_grosir,
             'min_qty' => $request->min_qty,
         ]);
+
+        if($request->harga_grosir < 1 || $request->harga_grosir == null){
+            $data->update([
+                'isGrosir' => false
+            ]);
+        }
 
         if ($request->has('gambar')) {
             $file = $request->file('gambar');
