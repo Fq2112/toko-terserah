@@ -86,21 +86,18 @@
                     <div class="top-slider-section">
                         <div id="single-slider" class="single-slider">
                             @foreach($banner as $row)
-                                <div class="item-image">
-                                    @php
-                                        if(!is_null($row->produk)) {
-                                            $produk = \App\Models\Produk::find($row->produk);
-                                            $route = route('produk', ['produk' => $produk->permalink]);
-                                        } else {
-                                            $produk = null;
-                                            $route = '#';
-                                        }
-                                    @endphp
-                                    <a href="{{$route}}">
-                                        <img class="fixed-height" src="{{asset('storage/banner/'.$row->banner)}}"
-                                             alt="Slider">
-                                    </a>
-                                </div>
+                                @php
+                                    $produk = !is_null($row->produk) ? \App\Models\Produk::find($row->produk) : null;
+                                    $route = !is_null($produk) ? route('produk', ['produk' => $produk->permalink]) : '#';
+                                @endphp
+                                @if(is_null($row->produk) || (!is_null($row->produk) && !is_null($produk)))
+                                    <div class="item-image">
+                                        <a href="{{$route}}">
+                                            <img class="fixed-height" src="{{asset('storage/banner/'.$row->banner)}}"
+                                                 alt="Slider">
+                                        </a>
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -666,7 +663,7 @@
                                     el.val(data.stock);
                                 }
 
-                                if(parseInt(el.val()) < data.min_qty) {
+                                if (parseInt(el.val()) < data.min_qty) {
                                     el.parent().append("<p class='text-danger'>Pembelian minimal: <b>" + data.min_qty + "</b> pcs</p>");
                                     el.val(data.min_qty);
                                 }
