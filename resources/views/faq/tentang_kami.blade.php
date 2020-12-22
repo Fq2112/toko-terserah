@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<i>Tentang Kami</i>
+    <p>Toko Terserah hadir untuk anda dan keluarga anda, kami akan melakukan yang terbaik bagi siapapun konsumen kami, pelayanan adalah yang paling utama bagi kami.
+    </p>
 </body>
 </html>
