@@ -1,5 +1,5 @@
 @extends('layouts.mst_admin')
-@section('title','Sub kategori | '.env('APP_TITLE'))
+@section('title','Admin '.env('APP_NAME').': Sub Kategori Produk | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"

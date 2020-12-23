@@ -1,5 +1,5 @@
 @extends('layouts.mst_admin')
-@section('title', __('admin.sidebar.head').': Inbox | '.__('lang.title'))
+@section('title', 'Admin '.env('APP_NAME').': Pengaturan Web | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/summernote/summernote-bs4.css')}}">
     <style>

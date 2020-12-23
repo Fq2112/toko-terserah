@@ -49,7 +49,7 @@
             <i class="fas fa-cogs"></i><span>Lain-Lain</span></a>
         <ul class="dropdown-menu">
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/promo*') ?
-                'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Promo</a></li>
+                'active' : ''}}"><a href="{{route('admin.promo')}}" class="nav-link">Voucher</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/banner*') ?
                             'active' : ''}}"><a href="{{route('admin.banner.show')}}" class="nav-link">Banner</a>
             </li>

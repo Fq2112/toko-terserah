@@ -1,5 +1,5 @@
 @extends('layouts.mst_admin')
-@section('title', __('admin.sidebar.head').': '.__('admin.tables.blog-category').' | '.env('APP_TITLE'))
+@section('title', 'Admin '.env('APP_NAME').': List Akun Admin | '.env('APP_TITLE'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
