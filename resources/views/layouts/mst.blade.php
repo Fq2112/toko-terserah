@@ -192,8 +192,8 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-6">
                         <div class="contacts">
-                            <p><a href="tel:+628113051081"><i class="fa fa-phone fa-flip-horizontal pl-0"></i><b>Telepon:</b>
-                                    +62 811-3051-081</a></p>
+                            <p><a href="tel:+628113191081"><i class="fa fa-phone fa-flip-horizontal pl-0"></i><b>Telepon:</b>
+                                    +62 811-3191-081</a></p>
                             <p><a href="mailto:{{env('MAIL_USERNAME')}}"><i
                                         class="fa fa-envelope"></i><b>Email:</b> {{env('MAIL_USERNAME')}}</a></p>
                         </div>
@@ -319,9 +319,8 @@
                                     <i class="fa fa-map-marked-alt" style="color: #fff"></i>
                                     Jl. Raya Lontar No. 46 Surabaya – 60216
                                 </li>
-                                <li><a href="tel:+628113051081"><i class="fa fa-phone fa-flip-horizontal"
-                                                                   style="padding-right: 0;padding-left: 10px;"></i> +62
-                                        811-3051-081</a></li>
+                                <li><a href="tel:+628113191081"><i class="fa fa-phone fa-flip-horizontal"
+                                                                   style="padding-right: 0;padding-left: 10px;"></i> +62 811-3191-081</a></li>
                                 <li><a href="mailto:{{env('MAIL_USERNAME')}}"><i class="fa fa-envelope"></i>
                                         {{env('MAIL_USERNAME')}}</a></li>
                             </ul>
