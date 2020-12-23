@@ -150,7 +150,7 @@
                 <div id="co-left" style="margin-top: 0">
                     {{env('APP_TITLE')}}<br>Jl. Raya Lontar No. 46 Surabaya – 60216<br>
                     Surabaya, Jawa Timur &ndash; 60216<br>
-                    Phone: +62 811-3051-081<br>
+                    Phone: +62 811-3191-081<br>
                 </div>
                 <br>
                 <div class="uppercase" style="

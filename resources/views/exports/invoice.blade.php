@@ -114,7 +114,7 @@
                 <div id="co-left">
                     {{env('APP_NAME')}}<br>Jl. Raya Lontar No. 46<br>
                     Surabaya, Jawa Timur &ndash; 60216<br>
-                    Telepon: +62 811-3051-081<br>
+                    Telepon: +62 811-3191-081<br>
                     {{env('APP_URL')}}<br>{{env('MAIL_USERNAME')}}
                 </div>
             </td>
@@ -135,6 +135,7 @@
                 <b class="primary">Kepada Yth.</b><br>
                 {{$data->getPenagihan->nama}}<br>
                 {{$data->getPenagihan->alamat}}
+                {{$data->getPenagihan->telp}}
             </td>
             <td>
                 <b class="primary">Dikirim Ke</b><br>
