@@ -29,7 +29,7 @@ class MidtransController extends Controller
     public function __construct()
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
-        Config::$isProduction = false; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        Config::$isProduction = true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         Config::$isSanitized = true; // Set sanitization on (default)
         Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
@@ -398,7 +398,7 @@ class MidtransController extends Controller
         } else if ($data_tr['payment_type'] == 'echannel') {
             $type = 'bank_transfer';
             $bank = 'mandiri';
-            $account = $data_tr['bill_key'];
+            $account = $data_tr['biller_code'].' / '.$data_tr['bill_key'];
         } else if ($data_tr['payment_type'] == 'cstore') {
             $type = $data_tr['payment_type'];
             $bank = $data_tr['store'];

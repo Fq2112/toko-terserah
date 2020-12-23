@@ -53,8 +53,8 @@
 <h2 class="text-empty"></h2>
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/sweetalert/sweetalert.min.js')}}"></script>
-{{--<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>--}}
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_SERVER_KEY')}}"></script>
+<script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_CLIENT_KEY')}}"></script>
+{{--<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{env('MIDTRANS_SERVER_KEY')}}"></script>--}}
 <script>
     $(function () {
         snap.pay('{{$data['snap_token']}}', {
