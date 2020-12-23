@@ -134,13 +134,13 @@
             <td>
                 <b class="primary">Kepada Yth.</b><br>
                 {{$data->getPenagihan->nama}}<br>
-                {{$data->getPenagihan->alamat}}
+                {{$data->getPenagihan->alamat}}<br>
                 {{$data->getPenagihan->telp}}
             </td>
             <td>
                 <b class="primary">Dikirim Ke</b><br>
                 {{$data->getPengiriman->nama}}<br>
-                {{$data->getPengiriman->alamat}}
+                {{$data->getPengiriman->alamat}}<br>
                 {{$data->getPengiriman->telp}}
             </td>
             <td>
