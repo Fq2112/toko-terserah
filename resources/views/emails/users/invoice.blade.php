@@ -573,7 +573,7 @@
                                                                         </td>
                                                                     @else
                                                                         <td width="50%">
-                                                                            <img alt="Logo"
+                                                                            <img alt="Logo" style="width: 85%"
                                                                                  src="{{asset('images/logo-TT.png')}}">
                                                                         </td>
                                                                         <td>
