@@ -389,16 +389,24 @@
                                                     <tr>
                                                         <td>
                                                             <small style="line-height: 2em">
-                                                                @if($data->isLunas == false)
-                                                                    <b style="font-size: 22px">Mohon untuk segera
-                                                                        menyeleseaikan pembayaran Anda</b><br>
-                                                                    Checkout berhasil
-                                                                    pada {{now()->formatLocalized('%d %B %Y – %H:%M')}}
+                                                                @if($status == 'expired')
+                                                                    <b style="font-size: 22px">Pesanan Anda telah
+                                                                        dibatalkan oleh {{env('APP_NAME')}}</b><br>
+                                                                    Mohon untuk tidak melakukan pembayaran apapun.
+                                                                    Silakan hubungi {{env('APP_NAME')}} jika memiliki
+                                                                    pertanyaan terkait pesanan Anda.
                                                                 @else
-                                                                    <b style="font-size: 22px">Kami akan mengirimkan
-                                                                        produk yang Anda pesan sesegera mungkin</b><br>
-                                                                    Terima kasih telah menyelesaikan transaksi
-                                                                    di {{env('APP_TITLE')}}
+                                                                    @if($data->isLunas == false)
+                                                                        <b style="font-size: 22px">Mohon untuk segera
+                                                                            menyeleseaikan pembayaran Anda</b><br>
+                                                                        Checkout berhasil
+                                                                        pada {{now()->formatLocalized('%d %B %Y – %H:%M')}}
+                                                                    @else
+                                                                        <b style="font-size: 22px">Kami akan mengirimkan
+                                                                            produk yang Anda pesan sesegera mungkin</b><br>
+                                                                        Terima kasih telah menyelesaikan transaksi
+                                                                        di {{env('APP_TITLE')}}
+                                                                    @endif
                                                                 @endif
                                                             </small>
                                                         </td>
@@ -502,14 +510,14 @@
                                                         <td>
                                                             <small><b>Due Date</b></small>
                                                             <hr class="hr-divider">
-                                                            <span>{{now()->addDay()->formatLocalized('%d %B %Y – %H:%M')}}</span>
+                                                            <span>{{$status == 'expired' ? now()->formatLocalized('%d %B %Y – %H:%M') : now()->addDay()->formatLocalized('%d %B %Y – %H:%M')}}</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             <small><b>Status Pembayaran</b></small>
                                                             <hr class="hr-divider">
-                                                            <span>{{$data->isLunas == false ? 'Menunggu Pembayaran' : 'Pembayaran Diterima'}}</span>
+                                                            <span>{{$status == 'expired' ? 'Pembayaran Dibatalkan' : ($data->isLunas == false ? 'Menunggu Pembayaran' : 'Pembayaran Diterima')}}</span>
                                                         </td>
                                                     </tr>
                                                 </table>

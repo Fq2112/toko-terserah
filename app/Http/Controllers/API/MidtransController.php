@@ -364,6 +364,7 @@ class MidtransController extends Controller
                     }
 
                     $pesanan->delete();
+                    $this->invoiceMail('expired', $notif->order_id, $user, null, $data_tr, 0);
 
                     /* TODO update voucher if pesanan expired */
                     if(!is_null($voucher)) {
@@ -436,6 +437,6 @@ class MidtransController extends Controller
             $instruction = null;
         }
 
-        Mail::to($user->email)->send(new InvoiceMail($code, $data, $payment, $filename, $instruction, $total_voucher));
+        Mail::to($user->email)->send(new InvoiceMail($status, $code, $data, $payment, $filename, $instruction, $total_voucher));
     }
 }

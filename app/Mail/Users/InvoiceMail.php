@@ -11,15 +11,16 @@ class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $code, $data, $payment, $filename, $instruction, $total_voucher;
+    public $status, $code, $data, $payment, $filename, $instruction, $total_voucher;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($code, $data, $payment, $filename, $instruction, $total_voucher)
+    public function __construct($status, $code, $data, $payment, $filename, $instruction, $total_voucher)
     {
+        $this->status = $status;
         $this->code = $code;
         $this->data = $data;
         $this->payment = $payment;
@@ -35,17 +36,22 @@ class InvoiceMail extends Mailable
      */
     public function build()
     {
+        $status = $this->status;
         $data = $this->data;
         $payment = $this->payment;
         $code = $this->code;
         $total_voucher = $this->total_voucher;
 
-        if ($data->isLunas == false) {
-            $subject = 'Menunggu Pembayaran ' . strtoupper(str_replace('_', ' ', $payment['type'])) .
-                ' #' . $code;
+        if($status == 'expired') {
+            $subject = 'Pesanan dengan ID Pembayaran #' . $code . ' Telah Dibatalkan';
         } else {
-            $subject = 'Checkout Pesanan dengan ID Pembayaran #' . $code . ' Berhasil Dikonfirmasi pada ' .
-                Carbon::parse($data->created_at)->formatLocalized('%d %B %Y – %H:%M');
+            if ($data->isLunas == false) {
+                $subject = 'Menunggu Pembayaran ' . strtoupper(str_replace('_', ' ', $payment['type'])) .
+                    ' #' . $code;
+            } else {
+                $subject = 'Checkout Pesanan dengan ID Pembayaran #' . $code . ' Berhasil Dikonfirmasi pada ' .
+                    Carbon::parse($data->created_at)->formatLocalized('%d %B %Y – %H:%M');
+            }
         }
 
         if (!is_null($this->instruction)) {
@@ -53,7 +59,7 @@ class InvoiceMail extends Mailable
         }
 
         return $this->from(env('MAIL_USERNAME'), env('APP_TITLE'))->subject($subject)
-            ->view('emails.users.invoice', compact('code', 'data', 'payment', 'total_voucher'))
+            ->view('emails.users.invoice', compact('status','code', 'data', 'payment', 'total_voucher'))
             ->attach(public_path('storage/users/invoice/' . $data->user_id . '/' . $this->filename));
     }
 }
