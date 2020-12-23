@@ -7,6 +7,7 @@ use App\Models\Alamat;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\PromoCode;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Midtrans\Config;
@@ -19,8 +20,10 @@ class CheckoutController extends Controller
 
     public function __construct()
     {
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
-        Config::$isProduction = true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        $setting = Setting::query()->first();
+
+        Config::$serverKey =  $setting->is_maintenance == true ? env('MIDTRANS_SB_SERVER_KEY') : env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
+        Config::$isProduction =  $setting->is_maintenance == true ? false : true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         Config::$isSanitized = true; // Set sanitization on (default)
         Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
@@ -196,7 +199,7 @@ class CheckoutController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-
+            $setting = Setting::query()->first();
             $data = [
                 'snap_token' => $request->snap_token,
                 'cart_ids' => $request->cart_ids,
@@ -216,7 +219,7 @@ class CheckoutController extends Controller
                 'token' => $request->token,
             ];
 
-            return view('pages.webviews.snap-midtrans', compact('data'));
+            return view('pages.webviews.snap-midtrans', compact('setting','data'));
         } catch (\Exception $exception) {
             return response()->json([
                 'error' => true,

@@ -9,6 +9,7 @@ use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\Produk;
 use App\Models\PromoCode;
+use App\Models\Setting;
 use App\Models\VouucherUser;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -28,8 +29,10 @@ class MidtransController extends Controller
 
     public function __construct()
     {
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
-        Config::$isProduction = true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        $setting = Setting::query()->first();
+
+        Config::$serverKey =  $setting->is_maintenance == true ? env('MIDTRANS_SB_SERVER_KEY') : env('MIDTRANS_SERVER_KEY'); // Set your Merchant Server Key
+        Config::$isProduction =  $setting->is_maintenance == true ? false : true; // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         Config::$isSanitized = true; // Set sanitization on (default)
         Config::$is3ds = true; // Set 3DS transaction for credit card to true
 
