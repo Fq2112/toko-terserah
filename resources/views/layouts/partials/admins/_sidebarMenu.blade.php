@@ -22,7 +22,14 @@
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-shopping-bag"></i><span>Produk</span></a>
         <ul class="dropdown-menu">
-            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/gudang*') ?
+            <?php
+            $stock_alert = \App\Models\Produk::query()->where('stock', '<=', 10)->get();
+            ?>
+            @if(!empty($stock_alert))
+                    <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/gudang/akan_habis') ?
+                'active' : ''}}"><a href="{{route('admin.show.produk.habis')}}" class="nav-link">Produk Akan Habis ( {{count($stock_alert)}} )</a></li>
+            @endif
+            <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/gudang/show*') ?
                 'active' : ''}}"><a href="{{route('admin.show.produk')}}" class="nav-link">Manajemen Produk</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/produk/qna/*') ?
                 'active' : ''}}"><a href="{{route('admin.show.qna')}}" class="nav-link">Tanya Jawab</a></li>
@@ -54,7 +61,8 @@
                             'active' : ''}}"><a href="{{route('admin.banner.show')}}" class="nav-link">Banner</a>
             </li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/qn*') ?
-                            'active' : ''}}"><a href="{{route('admin.qna.show')}}" class="nav-link">Template Pertanyaan</a>
+                            'active' : ''}}"><a href="{{route('admin.qna.show')}}" class="nav-link">Template
+                    Pertanyaan</a>
             </li>
             <li class="{{\Illuminate\Support\Facades\Request::is('*sys-admin/msc/setting*') ?
                 'active' : ''}}"><a href="{{route('admin.setting.general')}}" class="nav-link">Pengaturan</a></li>

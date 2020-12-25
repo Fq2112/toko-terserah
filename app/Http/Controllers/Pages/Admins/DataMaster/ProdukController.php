@@ -18,6 +18,14 @@ class ProdukController extends Controller
         ]);
     }
 
+    public function habis(Request $request)
+    {
+        $data = Produk::query()->where('stock', '<=', 10)->get();
+        return view('pages.main.admins.produk.habis', [
+            'data' => $data
+        ]);
+    }
+
     public function add_product_page()
     {
         return view('pages.main.admins.produk._partial.tambah_produk');
@@ -63,7 +71,7 @@ class ProdukController extends Controller
             'harga_grosir' => $request->harga_grosir
         ]);
 
-        if($request->harga_grosir > 0){
+        if ($request->harga_grosir > 0) {
             $produk->update([
                 'isGrosir' => true
             ]);
@@ -148,13 +156,13 @@ class ProdukController extends Controller
             'min_qty' => $request->min_qty,
         ]);
 
-        if($request->harga_grosir < 1 || $request->harga_grosir == null){
+        if ($request->harga_grosir < 1 || $request->harga_grosir == null) {
             $data->update([
                 'isGrosir' => false
             ]);
         }
 
-        if($request->harga_grosir > 0){
+        if ($request->harga_grosir > 0) {
             $data->update([
                 'isGrosir' => true
             ]);

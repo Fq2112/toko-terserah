@@ -178,7 +178,7 @@
                                             <label for="description">Deskripsi</label>
                                             <textarea id="description" type="text" name="description"
                                                       class="summernote form-control"
-                                                      placeholder="Write something about your post here&hellip;"></textarea>
+                                                      placeholder="Write something about your post here&hellip;" required></textarea>
                                             <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                                         </div>
                                     </div>

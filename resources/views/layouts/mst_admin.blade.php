@@ -57,6 +57,55 @@
             <ul class="navbar-nav mr-auto">
                 <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
             </ul>
+
+            <ul class="navbar-nav navbar-right">
+                <?php
+                $stock_alert = \App\Models\Produk::query()->where('stock','<=',10)->get();
+                ?>
+                @if($role->isRoot() || $role->isOwner())
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="#" data-toggle="dropdown"
+                           class="nav-link nav-link-lg message-toggle {{count($contacts) > 0 ? 'beep' : ''}}">
+                            <i class="fa fa-shopping-basket"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">Produk Akan Habis</div>
+                            <div class="dropdown-list-content dropdown-list-message">
+                                @if(count($stock_alert) > 0)
+                                    @foreach($stock_alert as $row)
+                                        <a href="{{route('admin.show.produk.edit',['kode_barang'=>$row->kode_barang])}}" class="dropdown-item">
+                                            <div class="dropdown-item-avatar">
+                                                <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}"
+                                                     class="rounded-circle" alt="Avatar">
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                <b>{{$row->nama}}</b>
+                                                <p>Terseisa <strong>{{$row->stock}} pcs</strong></p>
+                                                <div class="time">
+{{--                                                    {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}--}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @else
+                                    <a class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
+                                        </div>
+                                        <div class="dropdown-item-desc">
+                                            <p>Tampaknya tidak ada pesan yang ditemukan 3 hari ini...</p>
+                                        </div>
+                                    </a>
+                                @endif
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="{{route('admin.show.produk.habis')}}">
+                                    Semua Item<i class="fas fa-chevron-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                @endif
+
             <ul class="navbar-nav navbar-right">
                 @if($role->isRoot() || $role->isOwner())
                     <li class="dropdown dropdown-list-toggle">

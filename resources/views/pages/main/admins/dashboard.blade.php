@@ -20,6 +20,19 @@
         <div class="section-header">
             <h1>Welcome to Dashboard</h1>
         </div>
+        <?php
+        $stock_alert = \App\Models\Produk::query()->where('stock','<=',10)->get();
+        ?>
+        @if(!empty($stock_alert))
+        <div class="row">
+            <div class="col-lg-12  col-md-6">
+
+                <div class="alert alert-danger" role="alert">
+                    <span class="fa fa-info-circle"></span> PERHATIAN !! terdapat {{count($stock_alert)}} item yang akan habis, segera menambahkan stock. <a href="{{route('admin.show.produk.habis')}}" class="alert-link">Lihat keseluruhan item</a>.
+                </div>
+            </div>
+        </div>
+        @endif
 
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">

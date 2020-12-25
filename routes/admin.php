@@ -194,6 +194,12 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'as' => 'admin.show.produk'
             ]);
 
+            Route::get('/akan_habis', [
+                'uses' => 'ProdukController@habis',
+                'as' => 'admin.show.produk.habis'
+            ]);
+
+
             Route::get('tambah', [
                 'uses' => 'ProdukController@add_product_page',
                 'as' => 'admin.show.produk.tambah'
