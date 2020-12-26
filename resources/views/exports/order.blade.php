@@ -123,6 +123,7 @@
 
         <th width="300px">Detail Kurir</th>
 
+        <th>Status</th>
         <th>Total</th>
     </tr>
 
@@ -159,7 +160,13 @@
                 Berat      : {{$item->berat_barang ?? ' - '}} gr<br>
                 Ongkir     : {{number_format($item->ongkir)}}<br>
             </td>
-
+            <td>
+                @if($item->isLunas == 1)
+                   Telah Dibayarkan
+                @else
+                    Belum Dibaayarkan
+                @endif
+            </td>
             <td align="center">Rp{{number_format($item->total_harga)}}</td>
         </tr>
     @endforeach
