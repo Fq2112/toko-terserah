@@ -68,6 +68,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             'as' => 'admin.order'
         ]);
 
+        Route::post('/report', [
+            'uses' => 'OrderController@print_order',
+            'as' => 'admin.order.print'
+        ]);
+
         Route::post('resi', [
             'uses' => 'OrderController@update_resi',
             'as' => 'order.resi'

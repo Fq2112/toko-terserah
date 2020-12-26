@@ -24,6 +24,33 @@ class OrderController extends Controller
         ]);
     }
 
+    public function print_order(Request $request)
+    {
+
+//        dd($request->all());
+        $data = Pesanan::query()->when($request->start, function ($query) use ($request) {
+            $query->whereBetween('updated_at', [Carbon::parse($request->start)->subDay(), Carbon::parse($request->end)->addDay()]);
+        })->when($request->jenis, function ($query) use ($request) {
+            if ($request->jenis == 'semua') {
+
+            } elseif ($request->jenis == 'true') {
+                $query->where('isLunas', true);
+            } elseif ($request->jenis == 'false') {
+                $query->where('isLunas', false);
+            }
+        })->orderBy('updated_at', 'DESC')->get();
+//        dd($data);
+        $pdf = PDF::loadView('exports.order',
+            [
+                'data' => $data
+            ])
+            ->setPaper('a4', 'landscape');
+
+
+        return $pdf->stream('Laporan Pemesanan Periode' . $request->start . '.pdf');
+
+    }
+
     public function show_order(Request $request)
     {
         $data = Pesanan::where('uni_code', $request->kode)->first();
@@ -120,7 +147,7 @@ class OrderController extends Controller
                 'Content-length : ' . filesize($file_path)
             ]);
         } else {
-            return back()->with('error',"Oops! The current file you are looking for is not available ");
+            return back()->with('error', "Oops! The current file you are looking for is not available ");
         }
     }
 }

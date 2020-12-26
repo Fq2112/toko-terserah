@@ -417,6 +417,50 @@
         </div>
     </div>
 
+    <div class="modal fade " id="modal_export" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cetak Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-blogCategory" method="post" action="{{route('admin.order.print')}}"
+                      enctype="multipart/form-data">
+                    {{csrf_field()}}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Periode :</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="date" class="form-control" id="start_data" name="start">
+                                </div>
+
+                                <div class="col-6">
+                                    <input type="date" class="form-control" id="end_data" name="end">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis" class="col-form-label">Status :</label>
+                            <select name="jenis" class="form-control">
+                                <option value="all">Semua</option>
+                                <option value="true">Telah Dibayarkan</option>
+                                <option value="false">Belum Dibayarkan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @push("scripts")
     <script src="{{asset('admins/modules/datatables/datatables.min.js')}}"></script>
@@ -427,6 +471,16 @@
     <script src="{{asset('admins/modules/summernote/summernote-bs4.js')}}"></script>
     <script>
         $(function () {
+
+            $('#start_data').attr({
+                "max": new Date().toISOString().split("T")[0]
+            });
+
+            $('#end_data').attr({
+                "max": new Date().toISOString().split("T")[0]
+            });
+
+
             var export_filename = 'Blog Categories Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
@@ -454,11 +508,13 @@
                             extension: '.xls'
                         }, {
                             text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Print</strong>',
-                            extend: 'print',
                             exportOptions: {
                                 columns: [0, 2, 3, 4]
                             },
-                            className: 'btn btn-info assets-select-btn export-print'
+                            className: 'btn btn-info assets-select-btn export-print',
+                            action: function (e, dt, node, config) {
+                                open_export();
+                            }
                         },
                         // {
                         //     text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
@@ -499,6 +555,11 @@
                     },
                 });
         });
+
+        function open_export() {
+
+            $('#modal_export').modal('show')
+        }
 
         function openModal(id_tanya, tanya) {
             $('#id_pesanan').val(id_tanya);
