@@ -45,6 +45,8 @@ Route::group(['namespace' => 'API'], function () {
 
         Route::get('voucher_list', 'ProductController@get_voucher');
 
+        Route::post('use_voucher', 'ProductController@use_voucher');
+
 
 
 

@@ -11,6 +11,7 @@ use App\Models\Produk;
 use App\Models\PromoCode;
 use App\Models\SubKategori;
 use App\Models\Ulasan;
+use App\Models\VouucherUser;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class ProductController extends Controller
                 ->whereDate('end', '>=', $date)
                 ->when($user, function ($q) use ($user) {
                     $except = Pesanan::where('user_id', $user->id)->whereNotNull('promo_code')->pluck('promo_code');
-                    return  $q->whereNotIn('promo_code', $except);
+                    return $q->whereNotIn('promo_code', $except);
                 })->count();
             return response()->json(
                 [
@@ -292,8 +293,8 @@ class ProductController extends Controller
             $promo = PromoCode::query()->where('promo_code', 'LIKE', "%$q%")
                 ->whereDate('start', '<=', now())
                 ->whereDate('end', '>=', now())
-                ->whereHas('getVoucher',function ($query) use($user){
-                    $query->where('user_id',$user->id)->where('is_use',false)->where('used_at',null);
+                ->whereHas('getVoucher', function ($query) use ($user) {
+                    $query->where('user_id', $user->id)->where('is_use', false)->where('used_at', null);
                 })
                 ->when($user, function ($q) use ($user) {
                     $voucher_digunakan = [];
@@ -341,6 +342,32 @@ class ProductController extends Controller
         }
     }
 
+    public function use_voucher(Request $request)
+    {
+        try {
+            $data = VouucherUser::query()->where('user_id',$request->user_id)->where('voucher_id',$request->voucher_id)
+                ->first();
+
+            $data->update([
+               'is_use' => true,
+                'used_at' => now()
+            ]);
+
+            return response()->json([
+                'error' => false,
+                'data' => [
+                        'message' => 'voucher berhasil dipakai'
+                ]
+            ],200);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'error' => true,
+                'data' => [
+                    'message' => $exception->getMessage()
+                ]
+            ],500);
+        }
+    }
 
     public function get_detail($id)
     {
@@ -380,8 +407,8 @@ class ProductController extends Controller
 
                 $data->gambar =
                     $gam && File::exists('storage/produk/thumb/' . $gam) ?
-                    asset('storage/produk/thumb/' . $gam)
-                    : asset('storage/produk/galeri/' . $gam);
+                        asset('storage/produk/thumb/' . $gam)
+                        : asset('storage/produk/galeri/' . $gam);
                 $data->galeri = count($dt) ? $dt : [$data->gambar];
             }
 
@@ -402,13 +429,13 @@ class ProductController extends Controller
 
                 'data' =>
 
-                $this->res_get_product(
-                    $data,
-                    $review,
-                    $qna,
-                    ($user ? $user->getKeranjang->where('isCheckOut', false)->count() : 0),
-                    (bool) $user
-                )
+                    $this->res_get_product(
+                        $data,
+                        $review,
+                        $qna,
+                        ($user ? $user->getKeranjang->where('isCheckOut', false)->count() : 0),
+                        (bool)$user
+                    )
             ], 200);
         } catch (\Exception $exception) {
             return response()->json([
