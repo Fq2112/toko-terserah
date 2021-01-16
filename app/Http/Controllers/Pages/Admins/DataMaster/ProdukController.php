@@ -68,7 +68,8 @@ class ProdukController extends Controller
             'stock' => $request->stock,
             'berat' => $request->berat,
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
-            'harga_grosir' => $request->harga_grosir
+            'harga_grosir' => $request->harga_grosir,
+            'galeri' => []
         ]);
 
         if ($request->harga_grosir > 0) {
@@ -223,7 +224,7 @@ class ProdukController extends Controller
 
         if ($request->has('galeri')) {
             $files = $request->file('galeri');
-            $img = $data->galeri;
+            $img = $data->galeri ?? [];
             foreach ($files as $fileGaleri) {
                 $extention = $fileGaleri->getClientOriginalExtension();
                 $filenames = uniqid() . $fileGaleri->getClientOriginalName();
