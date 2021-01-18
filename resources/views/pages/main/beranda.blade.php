@@ -45,10 +45,10 @@
         @endif
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 use-nicescroll2" style="max-height: 520px;overflow-y: scroll;">
                     <div class="shop-sidebar">
                         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
-                        <ul class="shop-category use-nicescroll2" style="max-height: 520px;overflow: auto;">
+                        <ul class="shop-category">
                             @foreach($kategori as $kat)
                                 <li class="category-dropdown">
                                     <a href="javascript:void(0)">{{$kat->nama}} <i class="fa fa-caret-right"></i></a>
