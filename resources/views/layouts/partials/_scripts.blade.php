@@ -404,7 +404,7 @@
         x.parentNode.insertBefore(s, x);
     };
 
-    $(document).on('mouseover', '.use-nicescroll', function () {
+    $(document).on('mouseover', '.use-nicescroll, .use-nicescroll2', function () {
         $(this).getNiceScroll().resize();
     });
 </script>
