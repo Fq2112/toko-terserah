@@ -381,7 +381,7 @@
             cursorborder: 'none',
             horizrailenabled: false,
             autohidemode: 'leave',
-            zindex: 999999,
+            zindex: 198,
         });
 
         var options = {
