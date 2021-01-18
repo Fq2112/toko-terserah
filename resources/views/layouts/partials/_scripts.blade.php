@@ -407,8 +407,4 @@
     $(document).on('mouseover', '.use-nicescroll', function () {
         $(this).getNiceScroll().resize();
     });
-
-    $(document).on('mouseover', '.use-nicescroll2', function () {
-        $(this).getNiceScroll().resize();
-    });
 </script>
