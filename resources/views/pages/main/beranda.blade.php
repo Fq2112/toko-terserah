@@ -116,56 +116,75 @@
                         </h2>
                         <div id="shop" class="shop-product">
                             @php $data_top5 = count($top5) > 0 ? $top5 : \App\Models\Produk::where('stock', '>', 0)->orderByDesc('id')->take(5)->get(); @endphp
-                            @foreach($data_top5 as $top)
-                                @php
-                                    $ulasan = $top->getUlasan;
-                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                @endphp
-                                <div class="top-five-popular" style="cursor: pointer"
-                                     onclick="window.location.href='{{route('produk',['produk' => $top->permalink])}}'">
-                                    <div class="top-item">
-                                        <a href="{{route('produk', ['produk' => $top->permalink])}}">
-                                            <img src="{{asset('storage/produk/thumb/'.$top->gambar)}}" alt="Thumbnail">
-                                        </a>
-                                        @if($top->isGrosir == true)
-                                            @if($top->isDiskonGrosir == true)
-                                                <div class="new">
-                                                    <p>-{{$top->diskonGrosir}}%</p>
-                                                </div>
-                                            @endif
-                                            <div class="sale" style="top: 10px;left: unset !important;right: 30px">
-                                                <p style="font-size: 11px">GROSIR</p>
-                                            </div>
-                                            <div class="content-info">
-                                                <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
-                                                <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
+                            @if(count($data_top5) > 0)
+                                @foreach($data_top5 as $top)
+                                    @php
+                                        $ulasan = $top->getUlasan;
+                                        $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    @endphp
+                                    <div class="top-five-popular" style="cursor: pointer"
+                                         onclick="window.location.href='{{route('produk',['produk' => $top->permalink])}}'">
+                                        <div class="top-item">
+                                            <a href="{{route('produk', ['produk' => $top->permalink])}}">
+                                                <img src="{{asset('storage/produk/thumb/'.$top->gambar)}}"
+                                                     alt="Thumbnail">
+                                            </a>
+                                            @if($top->isGrosir == true)
                                                 @if($top->isDiskonGrosir == true)
-                                                    <span>Rp{{number_format($top->harga_diskon_grosir,2,',','.')}}</span>
-                                                    <s>Rp{{number_format($top->harga_grosir,2,',','.')}}</s>
-                                                @else
-                                                    <span>Rp{{number_format($top->harga_grosir,2,',','.')}}</span>
+                                                    <div class="new">
+                                                        <p>-{{$top->diskonGrosir}}%</p>
+                                                    </div>
                                                 @endif
-                                            </div>
-                                        @else
-                                            @if($top->is_diskon == true)
-                                                <div class="new">
-                                                    <p>-{{$top->diskon}}%</p>
+                                                <div class="sale" style="top: 10px;left: unset !important;right: 30px">
+                                                    <p style="font-size: 11px">GROSIR</p>
+                                                </div>
+                                                <div class="content-info">
+                                                    <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
+                                                    <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
+                                                    @if($top->isDiskonGrosir == true)
+                                                        <span>Rp{{number_format($top->harga_diskon_grosir,2,',','.')}}</span>
+                                                        <s>Rp{{number_format($top->harga_grosir,2,',','.')}}</s>
+                                                    @else
+                                                        <span>Rp{{number_format($top->harga_grosir,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            @else
+                                                @if($top->is_diskon == true)
+                                                    <div class="new">
+                                                        <p>-{{$top->diskon}}%</p>
+                                                    </div>
+                                                @endif
+                                                <div class="content-info">
+                                                    <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
+                                                    <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
+                                                    @if($top->is_diskon == true)
+                                                        <span>Rp{{number_format($top->harga_diskon,2,',','.')}}</span>
+                                                        <s>Rp{{number_format($top->harga,2,',','.')}}</s>
+                                                    @else
+                                                        <span>Rp{{number_format($top->harga,2,',','.')}}</span>
+                                                    @endif
                                                 </div>
                                             @endif
-                                            <div class="content-info">
-                                                <ul class="list-unstyled mb-2">{!! $stars !!}</ul>
-                                                <h4 style="color: unset;font-size: 14px">{{$top->nama}}</h4>
-                                                @if($top->is_diskon == true)
-                                                    <span>Rp{{number_format($top->harga_diskon,2,',','.')}}</span>
-                                                    <s>Rp{{number_format($top->harga,2,',','.')}}</s>
-                                                @else
-                                                    <span>Rp{{number_format($top->harga,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="top-five-popular">
+                                    <div class="top-item">
+                                        <a href="#">
+                                            <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data">
+                                        </a>
+                                        <div class="new">
+                                            <p>EMPTY</p>
+                                        </div>
+                                        <div class="content-info">
+                                            <ul class="list-unstyled mb-2">&nbsp;</ul>
+                                            <h4 style="color: unset;font-size: 14px">&nbsp;</h4>
+                                            <span>&nbsp;</span>
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -175,85 +194,108 @@
                             <strong class="strong-green"><i class="fa fa-bolt"></i> Flash</strong> Sale
                         </h2>
                         <div class="deals">
-                            <div class="col-md-7">
-                                <div class="row">
-                                    <div class="left-block">
-                                        @if($flash->isGrosir == true)
-                                            <div class="sale" style="top: 30px;left: unset !important;right: 35px">
-                                                <p style="font-size: 11px">GROSIR</p>
-                                            </div>
-                                        @endif
-                                        <div class="gallery">
-                                            <div class="previews">
-                                                <a class="selected"
-                                                   data-full="{{asset('storage/produk/thumb/'.$flash->gambar)}}">
-                                                    <img width="100" alt="Thumbnail"
-                                                         src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"></a>
-                                                @if(!is_null($flash->galeri))
-                                                    @foreach($flash->galeri as $img)
-                                                        <a data-full="{{asset('storage/produk/galeri/'.$img)}}">
-                                                            <img width="100" alt="Galeri"
-                                                                 src="{{asset('storage/produk/galeri/'.$img)}}"></a>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                            <div class="full">
-                                                <img src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"
-                                                     alt="Thumbnail">
+                            @if(!is_null($flash))
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="left-block">
+                                            @if($flash->isGrosir == true)
+                                                <div class="sale" style="top: 30px;left: unset !important;right: 35px">
+                                                    <p style="font-size: 11px">GROSIR</p>
+                                                </div>
+                                            @endif
+                                            <div class="gallery">
+                                                <div class="previews">
+                                                    <a class="selected"
+                                                       data-full="{{asset('storage/produk/thumb/'.$flash->gambar)}}">
+                                                        <img width="100" alt="Thumbnail"
+                                                             src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"></a>
+                                                    @if(!is_null($flash->galeri))
+                                                        @foreach($flash->galeri as $img)
+                                                            <a data-full="{{asset('storage/produk/galeri/'.$img)}}">
+                                                                <img width="100" alt="Galeri"
+                                                                     src="{{asset('storage/produk/galeri/'.$img)}}"></a>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                                <div class="full">
+                                                    <img src="{{asset('storage/produk/thumb/'.$flash->gambar)}}"
+                                                         alt="Thumbnail">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="row">
-                                    <div class="right-block">
-                                        <div class="content-info">
-                                            <h2><a href="{{route('produk', ['produk' => $flash->permalink])}}">
-                                                    {{$flash->nama}}</a></h2>
-                                            <p>{{$flash->deskripsi}}</p>
-                                            <div class="price">
-                                                @if($flash->isGrosir == true)
-                                                    @if($flash->isDiskonGrosir == true)
-                                                        <span>Rp{{number_format($flash->harga_diskon_grosir, 2, ',', '.')}}</span>
-                                                        <span class="old-price">Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="right-block">
+                                            <div class="content-info">
+                                                <h2><a href="{{route('produk', ['produk' => $flash->permalink])}}">
+                                                        {{$flash->nama}}</a></h2>
+                                                <p>{{$flash->deskripsi}}</p>
+                                                <div class="price">
+                                                    @if($flash->isGrosir == true)
+                                                        @if($flash->isDiskonGrosir == true)
+                                                            <span>Rp{{number_format($flash->harga_diskon_grosir, 2, ',', '.')}}</span>
+                                                            <span class="old-price">Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}
                                                             <span class="ml-2"
                                                                   style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$flash->diskonGrosir}}%</span>
                                                         </span>
+                                                        @else
+                                                            <span>Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}</span>
+                                                        @endif
                                                     @else
-                                                        <span>Rp{{number_format($flash->harga_grosir, 2, ',', '.')}}</span>
-                                                    @endif
-                                                @else
-                                                    @if($flash->is_diskon == true)
-                                                        <span>Rp{{number_format($flash->harga_diskon, 2, ',', '.')}}</span>
-                                                        <span class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}
+                                                        @if($flash->is_diskon == true)
+                                                            <span>Rp{{number_format($flash->harga_diskon, 2, ',', '.')}}</span>
+                                                            <span class="old-price">Rp{{number_format($flash->harga, 2, ',', '.')}}
                                                             <span class="ml-2"
                                                                   style="text-decoration: none;color: #555 !important;font-size: 20px">-{{$flash->diskon}}%</span>
                                                         </span>
-                                                    @else
-                                                        <span>Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
+                                                        @else
+                                                            <span>Rp{{number_format($flash->harga, 2, ',', '.')}}</span>
+                                                        @endif
                                                     @endif
-                                                @endif
-                                            </div>
-                                            <div class="button-info">
-                                                <a href="javascript:void(0)" class="info btn_cart"
-                                                   data-cek="{{route('produk.cek.cart', ['produk' => $flash->permalink])}}"
-                                                   data-name="{{$flash->nama}}"
-                                                   data-min_qty="{{$flash->isGrosir == true ? $flash->min_qty : 1}}"
-                                                   data-add="{{route('produk.add.cart', ['produk' => $flash->permalink])}}">
-                                                    <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
-                                                <a href="javascript:void(0)" class="info-2 btn_wishlist"
-                                                   data-cek="{{route('produk.cek.wishlist', ['produk' => $flash->permalink])}}"
-                                                   data-add="{{route('produk.add.wishlist', ['produk' => $flash->permalink])}}">
-                                                    <i class="fa fa-heart"></i></a>
-                                                <a class="info-2"
-                                                   href="{{route('produk', ['produk' => $flash->permalink])}}">
-                                                    <i class="fa fa-search"></i></a>
+                                                </div>
+                                                <div class="button-info">
+                                                    <a href="javascript:void(0)" class="info btn_cart"
+                                                       data-cek="{{route('produk.cek.cart', ['produk' => $flash->permalink])}}"
+                                                       data-name="{{$flash->nama}}"
+                                                       data-min_qty="{{$flash->isGrosir == true ? $flash->min_qty : 1}}"
+                                                       data-add="{{route('produk.add.cart', ['produk' => $flash->permalink])}}">
+                                                        <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                                    <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                       data-cek="{{route('produk.cek.wishlist', ['produk' => $flash->permalink])}}"
+                                                       data-add="{{route('produk.add.wishlist', ['produk' => $flash->permalink])}}">
+                                                        <i class="fa fa-heart"></i></a>
+                                                    <a class="info-2"
+                                                       href="{{route('produk', ['produk' => $flash->permalink])}}">
+                                                        <i class="fa fa-search"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="left-block">
+                                            <div class="sale" style="top: 30px;left: unset !important;right: 35px">
+                                                <p style="font-size: 11px">EMPTY</p>
+                                            </div>
+                                            <div class="gallery">
+                                                <div class="previews">
+                                                    <a class="selected"
+                                                       data-full="{{asset('images/empty-page.gif')}}">
+                                                        <img width="100" alt="Empty Data"
+                                                             src="{{asset('images/empty-page.gif')}}"></a>
+                                                </div>
+                                                <div class="full">
+                                                    <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -278,249 +320,318 @@
                 <div class="tab-content pane-style no-margin">
                     <div id="produk-terbaru" class="tab-pane fade in active">
                         <div class="shop-owl">
-                            @foreach($terbaru as $row)
-                                @php
-                                    $ulasan = $row->getUlasan;
-                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                @endphp
-                                <div class="shop-item hover effect-10">
-                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    <div class="stars">
-                                        <ul class="list-unstyled">
-                                            {!! $stars !!}
-                                        </ul>
+                            @if(count($terbaru) > 0)
+                                @foreach($terbaru as $row)
+                                    @php
+                                        $ulasan = $row->getUlasan;
+                                        $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    @endphp
+                                    <div class="shop-item hover effect-10">
+                                        <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                            <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                        <div class="stars">
+                                            <ul class="list-unstyled">
+                                                {!! $stars !!}
+                                            </ul>
+                                        </div>
+
+                                        @if($row->isGrosir == true)
+                                            @if($row->isDiskonGrosir == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskonGrosir}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                                <p style="font-size: 11px">GROSIR</p>
+                                            </div>
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->isDiskonGrosir == true)
+                                                        <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @else
+                                            @if($row->is_diskon == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskon}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->is_diskon == true)
+                                                        <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="cart-overlay">
+                                            <a href="javascript:void(0)" class="info btn_cart"
+                                               data-name="{{$row->nama}}"
+                                               data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
+                                               data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                                <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                            <p class="icon-links">
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-search"></span></a>
+                                                <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                   data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                                   data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-heart"></span></a>
+                                            </p>
+                                        </div>
                                     </div>
-
-                                    @if($row->isGrosir == true)
-                                        @if($row->isDiskonGrosir == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskonGrosir}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
-                                            <p style="font-size: 11px">GROSIR</p>
+                                @endforeach
+                            @else
+                                <div class="shop-item hover effect-10">
+                                    <a href="#">
+                                        <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
+                                    <div class="stars">
+                                        <ul class="list-unstyled">&nbsp;</ul>
+                                    </div>
+                                    <div class="new">
+                                        <p>EMPTY</p>
+                                    </div>
+                                    <div class="info">
+                                        <h4>
+                                            <a href="#">&nbsp;</a>
+                                        </h4>
+                                        <div class="price">
+                                            <span>&nbsp;</span>
                                         </div>
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->isDiskonGrosir == true)
-                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
-                                                    <br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @else
-                                        @if($row->is_diskon == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskon}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->is_diskon == true)
-                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="cart-overlay">
-                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
-                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
-                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
-                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
-                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
-                                        <p class="icon-links">
-                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-search"></span></a>
-                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
-                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
-                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-heart"></span></a>
-                                        </p>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endif
                         </div>
                     </div>
 
                     <div id="produk-terlaris" class="tab-pane fade">
                         <div class="shop-owl">
                             @php $data_terlaris = count($terlaris) > 0 ? $terlaris : $terbaru; @endphp
-                            @foreach($data_terlaris as $row)
-                                @php
-                                    $ulasan = $row->getUlasan;
-                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                @endphp
-                                <div class="shop-item hover effect-10">
-                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    <div class="stars">
-                                        <ul class="list-unstyled">
-                                            {!! $stars !!}
-                                        </ul>
+                            @if(count($data_terlaris) > 0)
+                                @foreach($data_terlaris as $row)
+                                    @php
+                                        $ulasan = $row->getUlasan;
+                                        $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    @endphp
+                                    <div class="shop-item hover effect-10">
+                                        <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                            <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                        <div class="stars">
+                                            <ul class="list-unstyled">
+                                                {!! $stars !!}
+                                            </ul>
+                                        </div>
+
+                                        @if($row->isGrosir == true)
+                                            @if($row->isDiskonGrosir == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskonGrosir}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                                <p style="font-size: 11px">GROSIR</p>
+                                            </div>
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->isDiskonGrosir == true)
+                                                        <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @else
+                                            @if($row->is_diskon == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskon}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->is_diskon == true)
+                                                        <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="cart-overlay">
+                                            <a href="javascript:void(0)" class="info btn_cart"
+                                               data-name="{{$row->nama}}"
+                                               data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
+                                               data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                                <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                            <p class="icon-links">
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-search"></span></a>
+                                                <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                   data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                                   data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-heart"></span></a>
+                                            </p>
+                                        </div>
                                     </div>
-
-                                    @if($row->isGrosir == true)
-                                        @if($row->isDiskonGrosir == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskonGrosir}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
-                                            <p style="font-size: 11px">GROSIR</p>
+                                @endforeach
+                            @else
+                                <div class="shop-item hover effect-10">
+                                    <a href="#">
+                                        <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
+                                    <div class="stars">
+                                        <ul class="list-unstyled">&nbsp;</ul>
+                                    </div>
+                                    <div class="new">
+                                        <p>EMPTY</p>
+                                    </div>
+                                    <div class="info">
+                                        <h4>
+                                            <a href="#">&nbsp;</a>
+                                        </h4>
+                                        <div class="price">
+                                            <span>&nbsp;</span>
                                         </div>
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->isDiskonGrosir == true)
-                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
-                                                    <br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @else
-                                        @if($row->is_diskon == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskon}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->is_diskon == true)
-                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="cart-overlay">
-                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
-                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
-                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
-                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
-                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
-                                        <p class="icon-links">
-                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-search"></span></a>
-                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
-                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
-                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-heart"></span></a>
-                                        </p>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endif
                         </div>
                     </div>
 
                     <div id="produk-unggulan" class="tab-pane fade">
                         <div class="shop-owl">
                             @php $data_unggulan = count($unggulan) > 0 ? $unggulan : $terbaru; @endphp
-                            @foreach($data_unggulan as $row)
-                                @php
-                                    $ulasan = $row->getUlasan;
-                                    $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
-                                @endphp
-                                <div class="shop-item hover effect-10">
-                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                        <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
-                                    <div class="stars">
-                                        <ul class="list-unstyled">
-                                            {!! $stars !!}
-                                        </ul>
+                            @if(count($data_unggulan) > 0)
+                                @foreach($data_unggulan as $row)
+                                    @php
+                                        $ulasan = $row->getUlasan;
+                                        $stars = \App\Support\Facades\Rating::stars_ul($ulasan->avg('bintang'));
+                                    @endphp
+                                    <div class="shop-item hover effect-10">
+                                        <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                            <img src="{{asset('storage/produk/thumb/'.$row->gambar)}}" alt="Thumbnail"></a>
+                                        <div class="stars">
+                                            <ul class="list-unstyled">
+                                                {!! $stars !!}
+                                            </ul>
+                                        </div>
+
+                                        @if($row->isGrosir == true)
+                                            @if($row->isDiskonGrosir == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskonGrosir}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="sale" style="top: 10px;left: unset !important;right: 10px">
+                                                <p style="font-size: 11px">GROSIR</p>
+                                            </div>
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->isDiskonGrosir == true)
+                                                        <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @else
+                                            @if($row->is_diskon == true)
+                                                <div class="new">
+                                                    <p>-{{$row->diskon}}%</p>
+                                                </div>
+                                            @endif
+                                            <div class="info">
+                                                <h4>
+                                                    <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
+                                                </h4>
+                                                <div class="price">
+                                                    @if($row->is_diskon == true)
+                                                        <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span>
+                                                        <br>
+                                                        <span
+                                                            class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @else
+                                                        <span>Rp{{number_format($row->harga,2,',','.')}}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="cart-overlay">
+                                            <a href="javascript:void(0)" class="info btn_cart"
+                                               data-name="{{$row->nama}}"
+                                               data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
+                                               data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
+                                               data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
+                                                <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
+                                            <p class="icon-links">
+                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-search"></span></a>
+                                                <a href="javascript:void(0)" class="info-2 btn_wishlist"
+                                                   data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
+                                                   data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
+                                                    <span class="fa fa-heart"></span></a>
+                                            </p>
+                                        </div>
                                     </div>
-
-                                    @if($row->isGrosir == true)
-                                        @if($row->isDiskonGrosir == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskonGrosir}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="sale" style="top: 10px;left: unset !important;right: 10px">
-                                            <p style="font-size: 11px">GROSIR</p>
+                                @endforeach
+                            @else
+                                <div class="shop-item hover effect-10">
+                                    <a href="#">
+                                        <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
+                                    <div class="stars">
+                                        <ul class="list-unstyled">&nbsp;</ul>
+                                    </div>
+                                    <div class="new">
+                                        <p>EMPTY</p>
+                                    </div>
+                                    <div class="info">
+                                        <h4>
+                                            <a href="#">&nbsp;</a>
+                                        </h4>
+                                        <div class="price">
+                                            <span>&nbsp;</span>
                                         </div>
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->isDiskonGrosir == true)
-                                                    <span>Rp{{number_format($row->harga_diskon_grosir,2,',','.')}}</span>
-                                                    <br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga_grosir,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @else
-                                        @if($row->is_diskon == true)
-                                            <div class="new">
-                                                <p>-{{$row->diskon}}%</p>
-                                            </div>
-                                        @endif
-                                        <div class="info">
-                                            <h4>
-                                                <a href="{{route('produk', ['produk' => $row->permalink])}}">{{$row->nama}}</a>
-                                            </h4>
-                                            <div class="price">
-                                                @if($row->is_diskon == true)
-                                                    <span>Rp{{number_format($row->harga_diskon,2,',','.')}}</span><br>
-                                                    <span
-                                                        class="old-price">Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @else
-                                                    <span>Rp{{number_format($row->harga,2,',','.')}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="cart-overlay">
-                                        <a href="javascript:void(0)" class="info btn_cart" data-name="{{$row->nama}}"
-                                           data-min_qty="{{$row->isGrosir == true ? $row->min_qty : 1}}"
-                                           data-cek="{{route('produk.cek.cart', ['produk' => $row->permalink])}}"
-                                           data-add="{{route('produk.add.cart', ['produk' => $row->permalink])}}">
-                                            <i class="fa fa-shopping-cart mr-2"></i>Tambah ke Cart</a>
-                                        <p class="icon-links">
-                                            <a href="{{route('produk', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-search"></span></a>
-                                            <a href="javascript:void(0)" class="info-2 btn_wishlist"
-                                               data-cek="{{route('produk.cek.wishlist', ['produk' => $row->permalink])}}"
-                                               data-add="{{route('produk.add.wishlist', ['produk' => $row->permalink])}}">
-                                                <span class="fa fa-heart"></span></a>
-                                        </p>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
