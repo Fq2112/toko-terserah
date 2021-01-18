@@ -374,6 +374,16 @@
             zindex: 99999999,
         });
 
+        $(".use-nicescroll2").niceScroll({
+            cursorcolor: "rgb(91,179,0)",
+            cursorwidth: "8px",
+            background: "rgba(222, 222, 222, .75)",
+            cursorborder: 'none',
+            horizrailenabled: false,
+            autohidemode: 'leave',
+            zindex: 999999,
+        });
+
         var options = {
             whatsapp: "+628113191081",
             email: "{{env('MAIL_USERNAME')}}",
