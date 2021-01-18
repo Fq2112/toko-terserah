@@ -97,6 +97,12 @@
                                                  alt="Slider">
                                         </a>
                                     </div>
+                                @else
+                                    <div class="item-image">
+                                        <a href="#">
+                                            <img class="fixed-height" src="{{asset('images/empty-page.gif')}}" alt="Empty Data">
+                                        </a>
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
@@ -178,9 +184,15 @@
                                             <p>EMPTY</p>
                                         </div>
                                         <div class="content-info">
-                                            <ul class="list-unstyled mb-2">&nbsp;</ul>
-                                            <h4 style="color: unset;font-size: 14px">&nbsp;</h4>
-                                            <span>&nbsp;</span>
+                                            <ul class="list-unstyled mb-2">
+                                                <li><i class="far fa-star"></i></li>
+                                                <li><i class="far fa-star"></i></li>
+                                                <li><i class="far fa-star"></i></li>
+                                                <li><i class="far fa-star"></i></li>
+                                                <li><i class="far fa-star"></i></li>
+                                            </ul>
+                                            <h4 style="color: unset;font-size: 14px">Empty Data</h4>
+                                            <span>Rp0,00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -405,17 +417,23 @@
                                     <a href="#">
                                         <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
                                     <div class="stars">
-                                        <ul class="list-unstyled">&nbsp;</ul>
+                                        <ul class="list-unstyled">
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                        </ul>
                                     </div>
                                     <div class="new">
                                         <p>EMPTY</p>
                                     </div>
                                     <div class="info">
                                         <h4>
-                                            <a href="#">&nbsp;</a>
+                                            <a href="#">Empty Data</a>
                                         </h4>
                                         <div class="price">
-                                            <span>&nbsp;</span>
+                                            <span>Rp0,00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -511,17 +529,23 @@
                                     <a href="#">
                                         <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
                                     <div class="stars">
-                                        <ul class="list-unstyled">&nbsp;</ul>
+                                        <ul class="list-unstyled">
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                        </ul>
                                     </div>
                                     <div class="new">
                                         <p>EMPTY</p>
                                     </div>
                                     <div class="info">
                                         <h4>
-                                            <a href="#">&nbsp;</a>
+                                            <a href="#">Empty Data</a>
                                         </h4>
                                         <div class="price">
-                                            <span>&nbsp;</span>
+                                            <span>Rp0,00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -617,17 +641,23 @@
                                     <a href="#">
                                         <img src="{{asset('images/empty-page.gif')}}" alt="Empty Data"></a>
                                     <div class="stars">
-                                        <ul class="list-unstyled">&nbsp;</ul>
+                                        <ul class="list-unstyled">
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                            <li><i class="far fa-star"></i></li>
+                                        </ul>
                                     </div>
                                     <div class="new">
                                         <p>EMPTY</p>
                                     </div>
                                     <div class="info">
                                         <h4>
-                                            <a href="#">&nbsp;</a>
+                                            <a href="#">Empty Data</a>
                                         </h4>
                                         <div class="price">
-                                            <span>&nbsp;</span>
+                                            <span>Rp0,00</span>
                                         </div>
                                     </div>
                                 </div>
