@@ -46,7 +46,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="shop-sidebar">
+                    <div class="shop-sidebar use-nicescroll" style="max-height: 500px;overflow: auto;">
                         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
                         <ul class="shop-category">
                             @foreach($kategori as $kat)
