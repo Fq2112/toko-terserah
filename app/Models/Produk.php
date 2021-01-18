@@ -40,11 +40,13 @@ class Produk extends Model
 
     public static function getMurah()
     {
-        return Produk::orderBy(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first()->harga;
+        $data = Produk::orderBy(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first();
+        return !is_null($data) ? $data->harga : 0;
     }
 
     public static function getMahal()
     {
-        return Produk::orderByDesc(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first()->harga;
+        $data = Produk::orderByDesc(DB::raw("IF(is_diskon=0, harga, harga_diskon)"))->first();
+        return !is_null($data) ? $data->harga : 0;
     }
 }
