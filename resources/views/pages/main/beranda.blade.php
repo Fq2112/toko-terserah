@@ -45,7 +45,7 @@
         @endif
         <div class="container">
             <div class="row">
-                <div class="col-md-3 use-nicescroll2" style="max-height: 520px;overflow-y: scroll;">
+                <div class="col-md-3">
                     <div class="shop-sidebar">
                         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
                         <ul class="shop-category">
