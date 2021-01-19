@@ -62,12 +62,12 @@
                                                             <ul class="{{count($sub->getProduk) > 0 ? 'mb-4' : ''}}">
                                                                 <li><h2><a href="{{route('cari', ['kat' =>$sub->id])}}"
                                                                            data-toggle="tooltip" title="{{$sub->nama}}">
-                                                                            {{\Illuminate\Support\Str::words($sub->nama,4,'...')}}</a></h2></li>
+                                                                            {{\Illuminate\Support\Str::words($sub->nama,3,'...')}}</a></h2></li>
                                                                 @foreach(\App\Models\Produk::where('sub_kategori_id', $sub->id)->orderBy('nama')->get() as $produk)
                                                                     <li>
                                                                         <a href="{{route('produk', ['produk' => $produk->permalink])}}"
                                                                            data-toggle="tooltip" title="{{$produk->nama}}">
-                                                                            {{\Illuminate\Support\Str::words($produk->nama,4,'...')}}</a></li>
+                                                                            {{\Illuminate\Support\Str::words($produk->nama,3,'...')}}</a></li>
                                                                 @endforeach
                                                             </ul>
                                                         </div>
