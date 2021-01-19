@@ -77,9 +77,17 @@ class MidtransController extends Controller
             ];
         }
 
-        $arr_ship_disc = [];
+        $arr_pack_ship_disc = [];
+
+        $arr_pack_ship_disc[count($arr_items)] = [
+            'id' => 'PACK-' . $request->code,
+            'price' => !is_null($request->packing) ? ceil($request->packing) : 0,
+            'quantity' => 1,
+            'name' => 'Biaya Packing'
+        ];
+
         if (!is_null($request->discount_price)) {
-            $arr_ship_disc[count($arr_items)] = [
+            $arr_pack_ship_disc[count($arr_items) + 1] = [
                 'id' => 'DISC-' . $request->code,
                 'price' => ceil($request->discount_price * -1),
                 'quantity' => 1,
@@ -87,12 +95,13 @@ class MidtransController extends Controller
             ];
         }
 
-        $arr_ship_disc[!is_null($request->discount_price) ? count($arr_items) + 1 : count($arr_items)] = [
+        $arr_pack_ship_disc[!is_null($request->discount_price) ? count($arr_items) + 2 : count($arr_items) + 1] = [
             'id' => 'SHIP-' . $request->code,
             'price' => ceil($request->ongkir),
             'quantity' => 1,
             'name' => 'Ongkir'
         ];
+
         $keranjang_ids = explode(',', $request->cart_ids);
         foreach ($keranjang_ids as $i => $dt) {
             $keranjang_ids[$i] = "$dt";
@@ -106,6 +115,7 @@ class MidtransController extends Controller
                 'pengiriman_id' => $request->pengiriman_id,
                 'penagihan_id' => $request->penagihan_id,
                 'uni_code' => $request->code,
+                'packing_price' => $request->packing != "" ? $request->packing : 0,
                 'ongkir' => $request->ongkir != "" ? $request->ongkir : 0,
                 'durasi_pengiriman' => $request->durasi_pengiriman != "" ? $request->durasi_pengiriman : 'N/A',
                 'berat_barang' => $request->weight,
@@ -153,7 +163,7 @@ class MidtransController extends Controller
                     'country_code' => 'IDN'
                 ],
             ],
-            'item_details' => array_merge($arr_items, $arr_ship_disc),
+            'item_details' => array_merge($arr_items, $arr_pack_ship_disc),
         ]);
     }
 

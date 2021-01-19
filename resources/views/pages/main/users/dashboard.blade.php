@@ -294,12 +294,9 @@
                                                             kg</b>
                                                     </li>
                                                     <li class="list-group-item border-none">
-                                                        Ongkir
-                                                        <b class="float-right show-ongkir">Rp{{number_format($row->ongkir,2,',','.')}}</b>
-                                                    </li>
-                                                    <li class="list-group-item border-none">
-                                                        Durasi Pengiriman
-                                                        <b class="float-right show-delivery text-lowercase">{!! $str_etd !!}</b>
+                                                        Biaya Packing
+                                                        <b class="float-right show-packing">
+                                                            Rp{{number_format($row->packing_price,2,',','.')}}</b>
                                                     </li>
                                                     @if($row->is_discount == true)
                                                         <li id="discount" class="list-group-item border-none">
@@ -307,6 +304,14 @@
                                                             <b class="float-right">-Rp{{number_format($row->discount,2,',','.')}}</b>
                                                         </li>
                                                     @endif
+                                                    <li class="list-group-item border-none">
+                                                        Ongkir
+                                                        <b class="float-right show-ongkir">Rp{{number_format($row->ongkir,2,',','.')}}</b>
+                                                    </li>
+                                                    <li class="list-group-item border-none">
+                                                        Durasi Pengiriman
+                                                        <b class="float-right show-delivery text-lowercase">{!! $str_etd !!}</b>
+                                                    </li>
                                                 </ul>
                                                 <hr class="my-2">
                                                 <ul class="list-group list-group-flush mb-0">

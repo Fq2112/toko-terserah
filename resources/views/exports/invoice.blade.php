@@ -185,12 +185,12 @@
             <td class="right">Rp{{number_format($subtotal,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
-            <td class="right uppercase" colspan="4">Diskon</td>
-            <td class="right">{{'-Rp'.number_format($discount_price,2,',','.')}}</td>
+            <td class="right uppercase" colspan="4">Biaya Packing</td>
+            <td class="right">Rp{{number_format($data->packing_price,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
-            <td class="right uppercase" colspan="4">Packing</td>
-            <td class="right">Rp{{number_format($data->packing_price,2,',','.')}}</td>
+            <td class="right uppercase" colspan="4">Diskon</td>
+            <td class="right">{{'-Rp'.number_format($discount_price,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
             <td class="right uppercase" colspan="4">Ongkir</td>

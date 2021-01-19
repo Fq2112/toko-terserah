@@ -460,6 +460,19 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
+                                                                        <div><b>Biaya Packing</b></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>&emsp;</div>
+                                                                    </td>
+                                                                    <td align="right">
+                                                                        <div>
+                                                                            <b>-Rp{{number_format($data->packing_price,2,',','.')}}</b>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
                                                                         <div><b>Diskon</b></div>
                                                                     </td>
                                                                     <td>
