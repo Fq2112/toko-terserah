@@ -84,6 +84,7 @@ class SettingController extends Controller
             'min_pembelian' => $request->min_pembelian,
             'min_transaction' => $request->min_transaction,
             'packing' => $request->packing,
+            'packing_desc' => $request->packing_desc,
 
         ]);
 

@@ -36,6 +36,14 @@
                 >
             </div>
         </div>
+
+        <div class="form-group row align-items-center">
+            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Deskripsi Packing</label>
+            <div class="col-sm-6 col-md-9">
+                <input type="text" name="packing_desc" class="form-control" id="site-title" required placeholder="in percent" value="{{$data->packing_desc}}"
+                >
+            </div>
+        </div>
     </div>
     <div class="card-footer bg-whitesmoke text-md-right">
         <button class="btn btn-primary" id="save-btn">Save Changes</button>
