@@ -223,6 +223,10 @@
                 <small>gr </small></td>
         </tr>
         <tr>
+            <td align="right" colspan="2"><strong>Biaya Packing :</strong></td>
+            <td align="center">Rp {{number_format($data->packing_price)}}</td>
+        </tr>
+        <tr>
             <td align="right" colspan="2"><strong>Kurir / Jenis :</strong></td>
             <td align="center">{{$data->nama_kurir}} /{{$data->layanan_kurir}}
 
@@ -233,6 +237,8 @@
             <td align="right" colspan="2"><strong>Biaya Kirim :</strong></td>
             <td align="center">Rp {{number_format($data->ongkir)}}</td>
         </tr>
+
+
         </tfoot>
     </table>
 

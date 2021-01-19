@@ -189,12 +189,16 @@
             <td class="right">{{'-Rp'.number_format($discount_price,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
+            <td class="right uppercase" colspan="4">Packing</td>
+            <td class="right">Rp{{number_format($data->packing_price,2,',','.')}}</td>
+        </tr>
+        <tr class="ttl">
             <td class="right uppercase" colspan="4">Ongkir</td>
             <td class="right">Rp{{number_format($data->ongkir,2,',','.')}}</td>
         </tr>
         <tr class="ttl">
             <td class="right" colspan="4">GRAND TOTAL</td>
-            <td class="right">Rp{{number_format($subtotal - $discount_price + $data->ongkir,2,',','.')}}</td>
+            <td class="right">Rp{{number_format($subtotal - $discount_price + $data->ongkir + $data->packing_price,2,',','.')}}</td>
         </tr>
         </tbody>
     </table>
