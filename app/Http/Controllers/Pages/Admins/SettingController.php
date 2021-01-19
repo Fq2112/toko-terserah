@@ -82,6 +82,9 @@ class SettingController extends Controller
         $data->update([
             'harga_pengiriman' => $request->harga_pengiriman,
             'min_pembelian' => $request->min_pembelian,
+            'min_transaction' => $request->min_transaction,
+            'packing' => $request->packing,
+
         ]);
 
         return back()->with('success', 'Berhasil Update Data');
