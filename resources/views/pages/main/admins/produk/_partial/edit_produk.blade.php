@@ -218,7 +218,7 @@
                                             <label for="title">Stock</label>
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="stock" max="9999"
-                                                       min="1"
+
                                                        class="form-control" value="{{$data->stock}}"
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
@@ -230,7 +230,7 @@
                                             <label for="title">Berat per Pcs</label>
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="berat" max="99999"
-                                                       min="1"
+
                                                        class="form-control" value="{{$data->berat}}"
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
@@ -241,7 +241,7 @@
                                         <div class="col-4 has-feedback">
                                             <label for="min_qty">Minimal Pembelian Kuantiti Grosir</label>
                                             <div class="input-group mb-2">
-                                                <input id="min_qty" type="number" name="min_qty" max="99999" min="1"
+                                                <input id="min_qty" type="number" name="min_qty" max="99999"
                                                        class="form-control"  value="{{$data->min_qty}}"
                                                        placeholder="1xxxxxx" >
                                                 <div class="input-group-prepend">
