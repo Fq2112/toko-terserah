@@ -198,7 +198,7 @@
         </tr>
         <tr class="ttl">
             <td class="right" colspan="4">GRAND TOTAL</td>
-            <td class="right">Rp{{number_format($subtotal - $discount_price + $data->ongkir + $data->packing_price,2,',','.')}}</td>
+            <td class="right">Rp{{number_format($subtotal - $discount_price + $data->ongkir + $data->packing_price ?? 0,2,',','.')}}</td>
         </tr>
         </tbody>
     </table>
