@@ -51,7 +51,8 @@
                         <ul class="shop-category">
                             @foreach($kategori as $kat)
                                 <li class="category-dropdown">
-                                    <a href="javascript:void(0)">{{$kat->nama}} <i class="fa fa-caret-right"></i></a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" title="{{$kat->nama}}">
+                                        {{\Illuminate\Support\Str::words($kat->nama,4,'...')}} <i class="fa fa-caret-right"></i></a>
                                     <div class="shop-dropdown-content">
                                         <div class="row">
                                             <div class="col-md-8">
@@ -59,12 +60,14 @@
                                                     @foreach(\App\Models\SubKategori::where('kategori_id', $kat->id)->orderBy('nama')->get() as $i => $sub)
                                                         <div class="col-md-6{{$i >= 2 ? ' pt-3' : ''}}">
                                                             <ul class="{{count($sub->getProduk) > 0 ? 'mb-4' : ''}}">
-                                                                <li><h2><a href="{{route('cari', ['kat' =>$sub->id])}}">
-                                                                            {{$sub->nama}}</a></h2></li>
+                                                                <li><h2><a href="{{route('cari', ['kat' =>$sub->id])}}"
+                                                                           data-toggle="tooltip" title="{{$sub->nama}}">
+                                                                            {{\Illuminate\Support\Str::words($sub->nama,3,'...')}}</a></h2></li>
                                                                 @foreach(\App\Models\Produk::where('sub_kategori_id', $sub->id)->orderBy('nama')->get() as $produk)
                                                                     <li>
-                                                                        <a href="{{route('produk', ['produk' => $produk->permalink])}}">
-                                                                            {{$produk->nama}}</a></li>
+                                                                        <a href="{{route('produk', ['produk' => $produk->permalink])}}"
+                                                                           data-toggle="tooltip" title="{{$produk->nama}}">
+                                                                            {{\Illuminate\Support\Str::words($produk->nama,3,'...')}}</a></li>
                                                                 @endforeach
                                                             </ul>
                                                         </div>
