@@ -110,7 +110,8 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-header-form">
-                                <a id="btn_create" class="btn btn-primary text-uppercase" href="{{route('admin.show.produk.tambah')}}">
+                                <a id="btn_create" class="btn btn-primary text-uppercase"
+                                   href="{{route('admin.show.produk.tambah')}}">
                                     <strong><i class="fas fa-plus mr-2"></i>Tambah Produk</strong>
                                 </a>
                             </div>
@@ -158,7 +159,11 @@
                                                 {{$item->nama}}
                                             </td>
                                             <td>
-                                                {{$item->getSubkategori->nama}}
+                                                @if(!empty($item->sub_kategori_id ))
+                                                    {{$item->getSubkategori->nama}}
+                                                @else
+                                                    -
+                                                @endif
                                             </td>
                                             <td class="text-center" width="10%">
                                                 {{$item->diskon ?? '0'}} %
@@ -187,18 +192,22 @@
                                             </td>
                                             <td class="text-center" width="15%">
                                                 <p id="stock-{{$item->id}}">{{$item->stock}}</p>
-                                                <form action="{{route('admin.show.produk.stock')}}" method="post" style="display: none"
+                                                <form action="{{route('admin.show.produk.stock')}}" method="post"
+                                                      style="display: none"
                                                       id="form_{{$item->id}}">
                                                     {{csrf_field()}}
                                                     <input type="hidden" name="id_produk" id="" value="{{$item->id}}"
                                                            required>
                                                     <div class="input-group">
-                                                    <input type="number" name="stock_produk" id="" class="form-control" min="{{$item->stock == 0 ? 1:$item->stock}}"
-                                                           value="{{$item->stock}}" required>
+                                                        <input type="number" name="stock_produk" id=""
+                                                               class="form-control"
+                                                               min="{{$item->stock == 0 ? 1:$item->stock}}"
+                                                               value="{{$item->stock}}" required>
                                                         <div class="input-group-append">
                                                             <button data-placement="right" data-toggle="tooltip"
                                                                     title="Tambah Data"
-                                                                    type="submit" class="btn btn-primary" style="height: 2.25rem">
+                                                                    type="submit" class="btn btn-primary"
+                                                                    style="height: 2.25rem">
                                                                 <i class="fa fa-plus"></i></button>
                                                         </div>
                                                     </div>
@@ -209,9 +218,11 @@
                                                     <a href="javascript:void(0)" class="btn btn-success"
                                                        data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
                                                        title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
-                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>$item->kode_barang])}}" class="btn btn-info" data-toggle="tooltip"
+                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>$item->kode_barang])}}"
+                                                       class="btn btn-info" data-toggle="tooltip"
                                                        title="Sunting Barang"><i class="fa fa-edit"></i> </a>
-                                                    <a href="{{route('delete.produk',['id' => $item->id])}}" class="btn btn-danger  delete-data" data-toggle="tooltip"
+                                                    <a href="{{route('delete.produk',['id' => $item->id])}}"
+                                                       class="btn btn-danger  delete-data" data-toggle="tooltip"
                                                        title="Hapus Barang"><i class="fa fa-trash"></i> </a>
                                                 </div>
                                             </td>

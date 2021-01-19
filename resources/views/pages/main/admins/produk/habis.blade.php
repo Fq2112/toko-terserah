@@ -158,7 +158,11 @@
                                                 {{$item->nama}}
                                             </td>
                                             <td>
-                                                {{$item->getSubkategori->nama}}
+                                                @if(!empty($item->sub_kategori_id ))
+                                                    {{$item->getSubkategori->nama}}
+                                                @else
+                                                    -
+                                                @endif
                                             </td>
                                             <td class="text-center" width="10%">
                                                 {{$item->diskon ?? '0'}} %

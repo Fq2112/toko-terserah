@@ -64,6 +64,11 @@
                                     <td> 	&nbsp;: 	&nbsp; </td>
                                     <td>Rp {{number_format($data->ongkir)}}</td>
                                 </tr>
+                                <tr>
+                                    <td>Biaya Packing</td>
+                                    <td> 	&nbsp;: 	&nbsp; </td>
+                                    <td>Rp {{number_format($data->packing_price)}}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -88,7 +93,7 @@
                                         <th width="20%">Qty</th>
                                         <th>Harga Satuan </th>
                                         <th class="text-center" width="15%">Harga Total</th>
-                                        <th class="text-center" width="15%">Total Berat</th>
+                                        <th class="text-center" width="15%">Total Berat (gr)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -324,9 +329,6 @@
                                 columns: [0, 2, 3, 4]
                             },
                             className: 'btn btn-info assets-select-btn export-print'
-                        }, {
-                            text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
-                            className: 'btn btn-danger btn_massDelete'
                         }
                     ],
                     fnDrawCallback: function (oSettings) {
