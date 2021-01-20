@@ -20,7 +20,7 @@ class UserAdminSeeder extends Seeder
             'email' => 'fiqy_a@icloud.com',
             'password' => bcrypt('Fiqy2112'),
             'role' => \App\Support\Role::ROOT,
-            'facebook' => 'FqNkk',
+            'facebook' => 'fq2112',
             'twitter' => 'Fq2112',
             'instagram' => 'fq_whysoserious',
             'whatsapp' => '+6281356598237',

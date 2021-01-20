@@ -944,18 +944,25 @@
                                 <b class="float-right">{{number_format($total_weight,2,',','.')}} kg</b>
                             </li>
                             <li class="list-group-item border-none">
-                                Ongkir
-                                <b class="float-right show-ongkir">&ndash;</b>
-                            </li>
-                            <li class="list-group-item border-none">
-                                Durasi Pengiriman
-                                <b class="float-right show-delivery text-lowercase">&ndash;</b>
+                                Biaya Packing
+                                <i class="fa fa-info-circle ml-1" data-toggle="popover" data-placement="top"
+                                   title="PERHATIAN!" data-content="{{$setting->packing_desc}}"
+                                   style="cursor: help;float: none;margin: 0"></i>
+                                <b class="float-right show-packing">{{$subtotal < $setting->min_transaction ? 'Rp'.number_format($setting->packing,2,',','.') : '–'}}</b>
                             </li>
                             <li id="discount" class="list-group-item border-none" style="display: none">
                                 Diskon
                                 <i class="fa fa-trash-alt ml-1" data-toggle="tooltip" data-placement="right"
                                    title="HAPUS" style="cursor:pointer;float:none"></i>
                                 <b class="float-right"></b>
+                            </li>
+                            <li class="list-group-item border-none">
+                                Ongkir
+                                <b class="float-right show-ongkir">&ndash;</b>
+                            </li>
+                            <li class="list-group-item border-none">
+                                Durasi Pengiriman
+                                <b class="float-right show-delivery text-lowercase">&ndash;</b>
                             </li>
                         </ul>
                         <div class="card-content py-2">
@@ -966,7 +973,7 @@
                         <ul class="list-group list-group-flush mb-0">
                             <li class="list-group-item border-none">
                                 TOTAL<b class="float-right show-total" style="font-size: large">
-                                    Rp{{number_format($subtotal,2,',','.')}}</b>
+                                    Rp{{number_format($subtotal < $setting->min_transaction ? $subtotal + $setting->packing : $subtotal,2,',','.')}}</b>
                             </li>
                         </ul>
                         <div id="summary-alert" class="card-content py-2">
@@ -991,11 +998,14 @@
                 <input type="hidden" name="subtotal" value="{{$subtotal}}">
                 <input id="total_weight" type="hidden" name="weight" value="{{ceil($total_weight * 1000)}}">
                 <input type="hidden" name="discount_price">
+                <input id="packing" type="hidden" name="packing"
+                       value="{{$subtotal < $setting->min_transaction ? $setting->packing : null}}">
                 <input id="ongkir" type="hidden" name="ongkir">
                 <input id="durasi_pengiriman" type="hidden" name="durasi_pengiriman">
                 <input type="hidden" name="nama_kurir">
                 <input type="hidden" name="layanan_kurir">
-                <input type="hidden" name="total" value="{{$subtotal}}">
+                <input type="hidden" name="total"
+                       value="{{$subtotal < $setting->min_transaction ? $subtotal + $setting->packing : $subtotal}}">
                 <input type="hidden" name="code" value="{{$code}}">
                 <input type="hidden" name="transaction_id">
                 <input type="hidden" name="pdf_url">
@@ -1015,9 +1025,10 @@
 
     <script>
         var collapse = $('.panel-collapse'), upload_input = $("#file"), link_input = $("#link"), check_file = null,
-            btn_pay = $("#btn_pay"), opsi = $("input[name=opsi]"), kode_kurir = $("#kode_kurir"),
-            layanan_kurir = $("#layanan_kurir"), min_transaksi = 10000,
-            harga_diskon = 0, ongkir = 0, etd = '', str_etd = '', unit = '', total = parseInt('{{$subtotal}}');
+            btn_pay = $("#btn_pay"), opsi = $("input[name=opsi]"), kode_kurir = $("#kode_kurir"), layanan_kurir = $("#layanan_kurir"),
+            min_transaksi = parseInt('{{$setting->min_transaction}}'), biaya_packing = parseInt('{{$setting->packing}}'),
+            harga_diskon = 0, ongkir = 0, etd = '', str_etd = '', unit = '',
+            total = parseInt('{{$subtotal < $setting->min_transaction ? $subtotal + $setting->packing : $subtotal}}');
 
         $(function () {
             collapse.on('show.bs.collapse', function () {
@@ -1237,6 +1248,7 @@
                                                     }
                                                     $(".show-total").text("Rp" + number_format(total, 2, ',', '.'));
                                                 }
+
                                             }.bind(this), 800);
 
                                             $("#heading-billing").parent().show();
@@ -1367,7 +1379,7 @@
             clearTimeout(this.delay);
             this.delay = setTimeout(function () {
                 $.ajax({
-                    url: "{!! route('get.cari-promo.cart',['subtotal' => $subtotal])!!}&ongkir=" + ongkir + "&kode=" + code,
+                    url: "{!! route('get.cari-promo.cart',['subtotal' => $subtotal < $setting->min_transaction ? $subtotal + $setting->packing : $subtotal])!!}&ongkir=" + ongkir + "&kode=" + code,
                     type: "GET",
                     beforeSend: function () {
                         $('#preload-summary').show();
@@ -1426,6 +1438,17 @@
             $("#form-pembayaran input[name=total]").val(parseInt(total) + parseInt(ongkir) - parseInt(harga_diskon));
         }
 
+        function check_transaction(total_transaction) {
+            var input_total = $("#form-pembayaran input[name=total]");
+            if (total_transaction < min_transaksi) {
+                $(".show-packing").text('Rp'+number_format(biaya_packing, 2, ',', '.'));
+                $("#packing").val(biaya_packing);
+
+                $(".show-total").text('Rp'+number_format(parseInt(input_total.val()) + biaya_packing, 2, ',', '.'));
+                input_total.val(parseInt(input_total.val()) + biaya_packing);
+            }
+        }
+
         btn_pay.on("click", function () {
             if (!$('input[name=opsi]:checked').val()) {
                 swal('PERHATIAN!', 'Field opsi pengiriman tidak boleh dikosongi!', 'warning');
@@ -1433,10 +1456,10 @@
                 if ($('input[name=opsi]:checked').val() == 'logistik' && (!kode_kurir.val() || !layanan_kurir.val())) {
                     swal('PERHATIAN!', 'Field logistik dan jenis layanannya tidak boleh dikosongi!', 'warning');
                 } else {
-                    if (parseInt($("#form-pembayaran input[name=total]").val()) < parseInt(min_transaksi)) {
+                    if (parseInt($("#form-pembayaran input[name=total]").val()) < 10000) {
                         swal('PERHATIAN!', 'Maaf saat ini Anda tidak bisa melanjutkan proses checkout, ' +
                             'karena total transaksi pembelian Anda masih kurang dari ' +
-                            'Rp' + number_format(parseInt(min_transaksi), 2, ',', '.') + ' :(', 'warning');
+                            'Rp' + number_format(10000, 2, ',', '.') + ' :(', 'warning');
                     } else {
                         clearTimeout(this.delay);
                         this.delay = setTimeout(function () {
