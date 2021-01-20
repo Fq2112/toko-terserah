@@ -147,6 +147,11 @@ Route::group(['namespace' => 'API'], function () {
 
             });
 
+            Route::get('get_rule', [
+                'uses' => 'CheckoutController@get_rule',
+                'as' => 'get.checkout.promo'
+            ]);
+
             Route::get('promo', [
                 'uses' => 'CheckoutController@promo',
                 'as' => 'get.checkout.promo'
