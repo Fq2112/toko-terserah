@@ -38,7 +38,7 @@ class CheckoutController extends Controller
     public function get_rule()
     {
         try {
-            $data = \App\Models\Setting::query()->where('id', '!=', 0)->select('packing','min_transaction','harga_pengiriman')->first();
+            $data = \App\Models\Setting::query()->where('id', '!=', 0)->select('packing','min_transaction','harga_pengiriman','packing_desc')->first();
 
             return response()->json([
                 'error' => false,
