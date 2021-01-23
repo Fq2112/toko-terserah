@@ -49,9 +49,9 @@ class ProdukController extends Controller
     {
 
         $check = Produk::where('kode_barang', $request->kode_barang)->first();
-        if (!empty($check)) {
-            return back()->with('error', 'Kode Barang ' . $request->kode_barang . ' Telah Ada Silahkan Gunakan Kode Lain');
-        }
+//        if (!empty($check)) {
+//            return back()->with('error', 'Kode Barang ' . $request->kode_barang . ' Telah Ada Silahkan Gunakan Kode Lain');
+//        }
 
         $file = $request->file('gambar');
         $filename = uniqid() . $file->getClientOriginalName();
@@ -130,11 +130,15 @@ class ProdukController extends Controller
 
     public function edit($kode_barang)
     {
-        $data = Produk::where('kode_barang', $kode_barang)->first();
+        try {
+        $data = Produk::query()->findOrFail(decrypt($kode_barang));
 
         return view('pages.main.admins.produk._partial.edit_produk', [
             'data' => $data
         ]);
+        }catch (\Exception $exception){
+            return redirect()->route('admin.show.produk')->with('error' ,'Kode Tidak Ditemukan');
+        }
     }
 
     public function update_produk(Request $request)

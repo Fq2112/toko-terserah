@@ -168,7 +168,7 @@
                                                 {{$item->diskon ?? '0'}} %
                                             </td>
                                             <td class="text-center" width="10%">
-                                                @if($item->is_diskon == 1)
+                                                @if($item->isDiskonGrosir == 1)
                                                     <strike> {{number_format($item->harga)}}</strike><br>
                                                     <span
                                                         class="text-danger">  {{number_format($item->harga_diskon)}}</span>
@@ -202,7 +202,7 @@
                                                     <a href="javascript:void(0)" class="btn btn-success"
                                                        data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
                                                        title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
-                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>$item->kode_barang])}}" class="btn btn-info" data-toggle="tooltip"
+                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>encrypt($item->id)])}}" class="btn btn-info" data-toggle="tooltip"
                                                        title="Sunting Barang"><i class="fa fa-edit"></i> </a>
                                                     <a href="{{route('delete.produk',['id' => $item->id])}}" class="btn btn-danger  delete-data" data-toggle="tooltip"
                                                        title="Hapus Barang"><i class="fa fa-trash"></i> </a>
