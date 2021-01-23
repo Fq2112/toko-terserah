@@ -21,7 +21,6 @@ class keranjangController extends Controller
             $id = explode(',', $id);
         }
 
-
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
