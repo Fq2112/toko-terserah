@@ -112,7 +112,7 @@
             <td>
                 <img src="{{public_path('images/logotype.png')}}" alt="logo">
                 <div id="co-left">
-                    {{env('APP_NAME')}}<br>Jl. Raya Lontar No. 46<br>
+                    PT.  Penta Surya Pratama <br>Jl. Raya Lontar No. 46<br>
                     Surabaya, Jawa Timur &ndash; 60216<br>
                     Telepon: +62 811-3191-081<br>
                     {{env('APP_URL')}}<br>{{env('MAIL_USERNAME')}}
@@ -221,7 +221,7 @@
                             @if($payment['type'] == 'credit_card' || $payment['type'] == 'bank_transfer' || $payment['type'] == 'cstore')
                                 <br>{{$payment['account']}}
                                 @if($payment['type'] == 'bank_transfer')
-                                    <br>a/n {{env('APP_NAME')}}
+                                    <br>a/n PT. Penta Surya Pratama
                                 @endif
                             @endif
                         </td>
