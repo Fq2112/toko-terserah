@@ -222,7 +222,7 @@
                                                        class="form-control" value="{{$data->stock}}"
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text">Pcs</div>
+                                                    <div class="input-group-text">Pcs/dus</div>
                                                 </div>
                                             </div>
                                         </div>
