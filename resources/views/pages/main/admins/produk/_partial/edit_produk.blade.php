@@ -231,12 +231,13 @@
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="berat" max="99999"
 
-                                                       class="form-control" value="{{$data->berat}}"
+                                                       class="form-control" value="{{$data->actual_weight ?? $data->berat}}"
                                                        placeholder="1xxxxxx" required>
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">gram</div>
                                                 </div>
                                             </div>
+                                            <small class="text-danger">Berat akan ditambahkan {{\App\Models\Setting::where('id', '!=', 0)->first()->percent_weight}} % dari berat awal</small>
                                         </div>
                                         <div class="col-4 has-feedback">
                                             <label for="min_qty">Minimal Pembelian Kuantiti Grosir</label>

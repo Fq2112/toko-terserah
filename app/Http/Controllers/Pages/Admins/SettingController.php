@@ -85,7 +85,7 @@ class SettingController extends Controller
             'min_transaction' => $request->min_transaction,
             'packing' => $request->packing,
             'packing_desc' => $request->packing_desc,
-
+            'percent_weight' => $request->percent_weight,
         ]);
 
         return back()->with('success', 'Berhasil Update Data');

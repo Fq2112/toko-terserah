@@ -205,6 +205,7 @@
                                                     <div class="input-group-text">gram</div>
                                                 </div>
                                             </div>
+                                            <small class="text-danger">Berat akan ditambahkan {{\App\Models\Setting::where('id', '!=', 0)->first()->percent_weight}} % dari berat awal</small>
                                         </div>
                                         <div class="col-4 has-feedback">
                                             <label for="min_qty">Minimal Pembelian Kuantiti Grosir</label>

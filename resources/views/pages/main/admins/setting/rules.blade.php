@@ -44,6 +44,15 @@
                 >
             </div>
         </div>
+
+        <div class="form-group row align-items-center">
+            <label for="site-title" class="form-control-label col-sm-3 text-md-right">Presentase Penambahan Berat (%)</label>
+            <div class="col-sm-6 col-md-9">
+                <input type="number" name="percent_weight" class="form-control" id="site-title" min="1" max="99" required placeholder="in percent" value="{{$data->percent_weight}}"
+                >
+            </div>
+        </div>
+
     </div>
     <div class="card-footer bg-whitesmoke text-md-right">
         <button class="btn btn-primary" id="save-btn">Save Changes</button>

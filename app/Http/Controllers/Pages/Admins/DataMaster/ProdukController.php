@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages\Admins\DataMaster;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -49,6 +50,7 @@ class ProdukController extends Controller
     {
 
         $check = Produk::where('kode_barang', $request->kode_barang)->first();
+       $setting = Setting::query()->where('id', '!=', 0)->first();
 //        if (!empty($check)) {
 //            return back()->with('error', 'Kode Barang ' . $request->kode_barang . ' Telah Ada Silahkan Gunakan Kode Lain');
 //        }
@@ -66,7 +68,8 @@ class ProdukController extends Controller
             'detail' => $request->detail,
             'harga' => $request->harga,
             'stock' => $request->stock,
-            'berat' => $request->berat,
+            'actual_weight' => $request->berat,
+            'berat' => $request->berat + ( $request->berat * ($setting->percent_weight / 100)),
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'harga_grosir' => $request->harga_grosir,
             'galeri' => []
@@ -131,19 +134,21 @@ class ProdukController extends Controller
     public function edit($kode_barang)
     {
         try {
-        $data = Produk::query()->findOrFail(decrypt($kode_barang));
+            $data = Produk::query()->findOrFail(decrypt($kode_barang));
 
-        return view('pages.main.admins.produk._partial.edit_produk', [
-            'data' => $data
-        ]);
-        }catch (\Exception $exception){
-            return redirect()->route('admin.show.produk')->with('error' ,'Kode Tidak Ditemukan');
+            return view('pages.main.admins.produk._partial.edit_produk', [
+                'data' => $data
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->route('admin.show.produk')->with('error', 'Kode Tidak Ditemukan');
         }
     }
 
     public function update_produk(Request $request)
     {
         $data = Produk::find($request->id);
+        $setting = Setting::query()->where('id', '!=', 0)->first();
+
         $data->update([
             'nama' => $request->nama,
             'kode_barang' => $request->kode_barang,
@@ -153,7 +158,8 @@ class ProdukController extends Controller
             'detail' => $request->detail,
             'harga' => $request->harga,
             'stock' => $request->stock,
-            'berat' => $request->berat,
+            'actual_weight' => $request->berat,
+            'berat' => $request->berat + ( $request->berat * ($setting->percent_weight / 100)),
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'is_diskon' => false,
             'harga_diskon' => 0,
