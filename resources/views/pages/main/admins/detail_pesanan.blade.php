@@ -116,7 +116,7 @@
                                                 <strong>{{$produk->getProduk->nama}}</strong>
                                             </td>
                                             <td style="vertical-align: middle">
-                                                {{$produk->qty}} pcs
+                                                {{$produk->qty}} {{$produk->getProduk->isGrosir == true ? 'Kardus' : 'Pcs'}}
                                             </td>
                                             <td style="vertical-align: middle">
                                                 {{number_format($produk->getProduk->harga)}}

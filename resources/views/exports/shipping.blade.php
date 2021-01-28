@@ -208,7 +208,7 @@
             ?>
             <tr>
                 <td>{{$produk->getProduk->nama}}</td>
-                <td align="center">{{$produk->qty}} pcs</td>
+                <td align="center">{{$produk->qty}} {{$produk->isGrosir == true ? 'Kardus' : 'Pcs'}}</td>
                 <td align="center">{{$produk->berat}} </td>
             </tr>
             <?

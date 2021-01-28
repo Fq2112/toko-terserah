@@ -227,7 +227,7 @@
                                             </div>
                                         </div>
                                         <div class="col-4 has-feedback">
-                                            <label for="title">Berat per Pcs</label>
+                                            <label for="title">Berat </label>
                                             <div class="input-group mb-2">
                                                 <input id="discount" type="number" name="berat" max="99999"
 
