@@ -122,7 +122,7 @@
                                             </div>
                                         </div>
                                         <span class="label label-{{$row->getProduk->stock > 0 ? 'success' : 'danger'}}">
-                                                Tersedia: <b>{{$row->getProduk->stock}}</b> pcs</span>
+                                                Tersedia: <b>{{$row->getProduk->stock}}</b> {{$row->getProduk->isGrosir ? 'kardus' : 'pcs'}}</span>
                                         <br><a
                                             href="{{route('produk', ['produk' => $row->getProduk->permalink])}}"><b>{{$row->getProduk->nama}}</b></a>
                                         <p>{{$row->getProduk->deskripsi}}</p>

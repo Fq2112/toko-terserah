@@ -391,7 +391,7 @@
                                                                             <li class="list-group-item border-none">
                                                                                 Qty.
                                                                                 <b class="float-right">{{$row->qty}}
-                                                                                    pcs</b>
+                                                                                    {{$produk->isGrosir == true ? 'kardus' : 'pcs'}}</b>
                                                                             </li>
                                                                             <li class="list-group-item border-none">
                                                                                 Harga /pcs

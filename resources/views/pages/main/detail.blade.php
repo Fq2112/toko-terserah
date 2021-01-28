@@ -152,10 +152,10 @@
                                             <div class="single-rating">
                                                 <span>{!! $stars !!}</span>
                                                 <span><a href="javascript:ulasan()"><b>{{count($produk->getUlasan)}}</b> ulasan</a></span>
-                                                <p>Tersedia: <span style="margin-right: 0;color: {{$produk->stock > 0 ? '':'#a94442'}}"><b>{{$produk->stock}}</b> pcs</span>&ensp;|&ensp;Berat:
+                                                <p>Tersedia: <span style="margin-right: 0;color: {{$produk->stock > 0 ? '':'#a94442'}}"><b>{{$produk->stock}}</b> {{$produk->isGrosir ? 'kardus' : 'pcs'}}</span>&ensp;|&ensp;Berat:
                                                     @if($produk->isGrosir == true)
                                                         <span style="margin-right: 0;color: #f89406"><b>{{number_format($produk->berat / 1000,2,',','.')}}</b> kg</span>
-                                                        &nbsp;|&ensp;Pembelian minimal: <span style="color: #dc3545"><b>{{$produk->min_qty}}</b> pcs</span>
+                                                        &nbsp;|&ensp;Pembelian minimal: <span style="color: #dc3545"><b>{{$produk->min_qty}}</b> kardus</span>
                                                     @else
                                                         <span style="color: #f89406"><b>{{number_format($produk->berat / 1000,2,',','.')}}</b> kg</span>
                                                     @endif
