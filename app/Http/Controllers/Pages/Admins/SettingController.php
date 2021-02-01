@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Banner;
+use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Template;
 use Illuminate\Http\Request;
@@ -87,6 +88,17 @@ class SettingController extends Controller
             'packing_desc' => $request->packing_desc,
             'percent_weight' => $request->percent_weight,
         ]);
+
+        foreach (Produk::all() as $item){
+            if ($item->actual_weight == null){
+                $item->update([
+                    'actual_weight' => $item->berat  ,
+                ]);
+            }
+            $item->update([
+                'berat' => $item->actual_weight + ( $item->actual_weight * ($data->percent_weight / 100)),
+            ]);
+        }
 
         return back()->with('success', 'Berhasil Update Data');
     }
