@@ -97,7 +97,7 @@ class ProductController extends Controller
                     } elseif ($request->jenis == 'grosir') {
                         $q->where('isGrosir', true);
                     }
-                })
+                })->where('stock', '>', 0)
                 ->orderBy('nama')->get()
                 ->take($request->get('limit') ?? 8)->toArray();
 
