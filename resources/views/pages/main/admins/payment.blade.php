@@ -231,7 +231,8 @@
                                                 @if($item->is_kurir_terserah)
                                                     <div class="badge badge-success" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Barang Dikirim Via Toko Terserah"><i class="fa fa-shipping-fast"></i></div>
+                                                         title="Barang Dikirim Via Toko Terserah"><i
+                                                            class="fa fa-shipping-fast"></i></div>
                                                 @else
                                                     @if($item->isAmbil)
                                                         <div class="badge badge-info" data-placement="top"
@@ -257,27 +258,30 @@
                                                 ?>
                                                 @if($item->isLunas == 1)
                                                     <div class="btn-group">
-                                                        @if($item->isAmbil)
-
+                                                        @if($item->is_kurir_terserah)
                                                         @else
-                                                            @if($item->resi == null | $item->resi == "")
-                                                                <button type="button" class="btn btn-warning"
-                                                                        data-toggle="tooltip"
-                                                                        onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
-                                                                        title="Tambahkan Resi" data-html="true"
-                                                                        data-placement="top"><i
-                                                                        class="fa fa-shipping-fast"></i>
-                                                                </button>
-                                                            @else
-                                                                <button type="button" class="btn btn-light"
-                                                                        data-toggle="tooltip"
-                                                                        onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
-                                                                        title="Sunting Resi" data-html="true"
-                                                                        data-placement="top"><i
-                                                                        class="fa fa-edit"></i>
-                                                                </button>
-                                                            @endif
+                                                            @if($item->isAmbil)
 
+                                                            @else
+                                                                @if($item->resi == null | $item->resi == "")
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-toggle="tooltip"
+                                                                            onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
+                                                                            title="Tambahkan Resi" data-html="true"
+                                                                            data-placement="top"><i
+                                                                            class="fa fa-shipping-fast"></i>
+                                                                    </button>
+                                                                @else
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="tooltip"
+                                                                            onclick="openModalEdit('{{$item->id}}','{{$item->uni_code}}','{{$item->resi}}')"
+                                                                            title="Sunting Resi" data-html="true"
+                                                                            data-placement="top"><i
+                                                                            class="fa fa-edit"></i>
+                                                                    </button>
+                                                                @endif
+
+                                                            @endif
                                                         @endif
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle"
