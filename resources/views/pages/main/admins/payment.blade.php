@@ -206,7 +206,8 @@
                                             </td>
                                             <td width="15%" align="center">
                                                 @if($item->is_kurir_terserah)
-                                                    <img src="{{asset('images/logotype.png')}}" alt="" width="50px"> <br>
+                                                    <img src="{{asset('images/logotype.png')}}" alt="" width="50px">
+                                                    <br>
                                                     Kurir Toko Terserah
                                                 @else
                                                     <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
@@ -227,20 +228,26 @@
                                                 @endif
                                             </td>
                                             <td class="text-center" width="10%">
-                                                @if($item->isAmbil)
-                                                    <div class="badge badge-info" data-placement="top"
+                                                @if($item->is_kurir_terserah)
+                                                    <div class="badge badge-success" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Pelanggan Ambil Sendiri"><i
-                                                            class="fa fa-shopping-basket"></i></div>
+                                                         title="Barang Dikirim Via Toko Terserah"><i class="fa fa-shipping-fast"></i></div>
                                                 @else
-                                                    @if($item->resi == null | $item->resi == "")
-
-                                                        <div class="badge badge-danger" data-placement="top"
+                                                    @if($item->isAmbil)
+                                                        <div class="badge badge-info" data-placement="top"
                                                              data-toggle="tooltip"
-                                                             title="Resi Belum Terpasang"><i
-                                                                class="fa fa-window-close"></i></div>
+                                                             title="Pelanggan Ambil Sendiri"><i
+                                                                class="fa fa-shopping-basket"></i></div>
                                                     @else
-                                                        {{$item->resi}}
+                                                        @if($item->resi == null | $item->resi == "")
+
+                                                            <div class="badge badge-danger" data-placement="top"
+                                                                 data-toggle="tooltip"
+                                                                 title="Resi Belum Terpasang"><i
+                                                                    class="fa fa-window-close"></i></div>
+                                                        @else
+                                                            {{$item->resi}}
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </td>
