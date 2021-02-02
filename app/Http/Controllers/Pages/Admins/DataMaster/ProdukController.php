@@ -72,7 +72,8 @@ class ProdukController extends Controller
             'berat' => $request->berat + ( $request->berat * ($setting->percent_weight / 100)),
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'harga_grosir' => $request->harga_grosir,
-            'galeri' => []
+            'galeri' => [],
+            'min_qty' => $request->min_qty,
         ]);
 
         if ($request->harga_grosir > 0) {
