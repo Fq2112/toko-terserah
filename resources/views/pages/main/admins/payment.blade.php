@@ -231,8 +231,8 @@
                                                 @if($item->is_kurir_terserah)
                                                     <div class="badge badge-info" data-placement="top"
                                                          data-toggle="tooltip"
-                                                         title="Barang Dikirim Via Toko Terserah"><i
-                                                            class="fa fa-shipping-fast"></i></div>
+                                                         title="Resi Tidak Tersedia Untuk Kurir Terserah"><i
+                                                            class="fa fa-info-circle"></i></div>
                                                 @else
                                                     @if($item->isAmbil)
                                                         <div class="badge badge-info" data-placement="top"
