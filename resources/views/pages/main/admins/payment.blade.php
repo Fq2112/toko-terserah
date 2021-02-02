@@ -205,8 +205,13 @@
                                                 ( {{$item->getUser->getBio->phone}} )
                                             </td>
                                             <td width="15%" align="center">
-                                                <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
-                                                {{strtoupper($item->kode_kurir)}}
+                                                @if($item->is_kurir_terserah)
+                                                    <img src="{{asset('images/logotype.png')}}" alt="" width="50px"> <br>
+                                                    Kurir Toko Terserah
+                                                @else
+                                                    <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
+                                                    {{strtoupper($item->kode_kurir)}}
+                                                @endif
                                             </td>
 
                                             <td class="text-center" width="10%">{{$item->updated_at}}</td>
