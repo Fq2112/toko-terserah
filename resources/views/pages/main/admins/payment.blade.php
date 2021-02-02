@@ -276,7 +276,7 @@
                                                                             onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
                                                                             title="Tambahkan Resi" data-html="true"
                                                                             data-placement="top"><i
-                                                                            class="fa fa-ticket" aria-hidden="true"></i>
+                                                                            class="fa fa-plus-square" aria-hidden="true"></i>
                                                                     </button>
                                                                 @else
                                                                     <button type="button" class="btn btn-light"
