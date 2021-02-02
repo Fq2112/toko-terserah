@@ -80,7 +80,7 @@ class ProductController extends Controller
                     });
                 })
                 ->when($request->get('name'), function ($q) use ($request) {
-                    $q->where('nama', 'LIKE', '%green grosir%');
+                    $q->where('nama', 'LIKE', '%' . $request->get('name') . '%');
                 })->when($request->get('sub_kategori'), function ($q) use ($request) {
                     $q->whereHas('getSubkategori', function ($q) use ($request) {
                         $q->whereIn('id', $request->sub_kategori);
