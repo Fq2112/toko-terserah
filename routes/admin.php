@@ -78,6 +78,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
             'as' => 'order.resi'
         ]);
 
+        Route::get('tgl_berangkat', [
+            'uses' => 'OrderController@update_tgl_pengririman_toko_terserah',
+            'as' => 'order.berangkat'
+        ]);
+
         Route::post('resi/update', [
             'uses' => 'OrderController@update_resi_',
             'as' => 'order.resi.update'

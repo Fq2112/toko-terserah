@@ -73,6 +73,19 @@ class OrderController extends Controller
         }
     }
 
+    public function update_tgl_pengririman_toko_terserah(Request $request)
+    {
+        try {
+            $data = Pesanan::find($request->id);
+            $data->update([
+                'tgl_pengiriman' => Carbon::now()
+            ]);
+            return back()->with('success', 'Pesanan ' . $data->uni_code . 'Berhasil Diperbarui');
+        } catch (\Exception $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
+    }
+
     public function update_resi_(Request $request)
     {
         try {

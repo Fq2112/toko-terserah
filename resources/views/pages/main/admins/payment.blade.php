@@ -259,6 +259,13 @@
                                                 @if($item->isLunas == 1)
                                                     <div class="btn-group">
                                                         @if($item->is_kurir_terserah)
+                                                            @if($item->tgl_pengiriman == null)
+                                                                <a href="{{route('order.berangkat',['id' => $item->id])}}"
+                                                                   class="btn btn-success  delete-data"
+                                                                   data-toggle="tooltip"
+                                                                   title="Tandai Order Telah Dikirm"><i
+                                                                        class="fa fa-shipping-fast"></i> </a>
+                                                            @endif
                                                         @else
                                                             @if($item->isAmbil)
 
@@ -269,7 +276,7 @@
                                                                             onclick="openModal('{{$item->id}}','{{$item->uni_code}}')"
                                                                             title="Tambahkan Resi" data-html="true"
                                                                             data-placement="top"><i
-                                                                            class="fa fa-shipping-fast"></i>
+                                                                            class="fa fa-ticket"></i>
                                                                     </button>
                                                                 @else
                                                                     <button type="button" class="btn btn-light"
