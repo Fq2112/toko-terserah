@@ -183,6 +183,7 @@
                                         <th class="text-center" width="10%">Status Pembayaran</th>
                                         <th class="text-center" width="10%">Resi</th>
                                         <th class="text-center" width="10%">Tgl Pengiriman</th>
+                                        <th class="text-center" width="10%">Tgl Diterima</th>
                                         <th width="25%" align="center">
                                             <center>Action</center>
                                         </th>
@@ -256,6 +257,9 @@
                                             <td class="text-center" width="10%">
                                                 {{$item->tgl_pengiriman}}
                                             </td>
+                                            <td class="text-center" width="10%">
+                                                {{$item->tgl_diterima}}
+                                            </td>
                                             <td width="25%" align="center">
                                                 <?php
                                                 $order = \App\Models\Pesanan::where('uni_code', $item->uni_code)->get()
@@ -270,11 +274,11 @@
                                                                    title="Tandai Order Telah Dikirm"><i
                                                                         class="fa fa-shipping-fast"></i> </a>
                                                                 @else
-                                                                <a href="{{route('order.berangkat',['id' => encrypt( $item->id)])}}"
+                                                                <a href="{{route('order.diterima',['id' => encrypt( $item->id)])}}"
                                                                    class="btn btn-warning  delete-data"
                                                                    data-toggle="tooltip"
                                                                    title="Tandai Order Telah Diterima"><i
-                                                                        class="fa fa-hands"></i> </a>
+                                                                        class="fa fa-check"></i> </a>
                                                             @endif
                                                         @else
                                                             @if($item->isAmbil)
