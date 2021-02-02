@@ -274,11 +274,13 @@
                                                                    title="Tandai Order Telah Dikirm"><i
                                                                         class="fa fa-shipping-fast"></i> </a>
                                                                 @else
+                                                                @if($item->tgl_diterima == null)
                                                                 <a href="{{route('order.diterima',['id' => encrypt( $item->id)])}}"
                                                                    class="btn btn-warning  delete-data"
                                                                    data-toggle="tooltip"
                                                                    title="Tandai Order Telah Diterima"><i
                                                                         class="fa fa-check"></i> </a>
+                                                                    @endif
                                                             @endif
                                                         @else
                                                             @if($item->isAmbil)
