@@ -210,7 +210,7 @@
                                                     <br>
                                                     Kurir Toko Terserah
                                                 @else
-                                                    <img src="{{asset($item->rate_logo)}}" alt="" width="50px"> <br>
+                                                    <img src="{{asset('images/kurir/'.$item->rate_logo)}}" alt="" width="50px"> <br>
                                                     {{strtoupper($item->kode_kurir)}}
                                                 @endif
                                             </td>
