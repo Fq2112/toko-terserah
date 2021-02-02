@@ -182,6 +182,7 @@
                                         <th class="text-center" width="10%">Tanggal Pesanan</th>
                                         <th class="text-center" width="10%">Status Pembayaran</th>
                                         <th class="text-center" width="10%">Resi</th>
+                                        <th class="text-center" width="10%">Tgl Pengiriman</th>
                                         <th width="25%" align="center">
                                             <center>Action</center>
                                         </th>
@@ -251,6 +252,9 @@
                                                         @endif
                                                     @endif
                                                 @endif
+                                            </td>
+                                            <td class="text-center" width="10%">
+                                                {{$item->tgl_pengiriman}}
                                             </td>
                                             <td width="25%" align="center">
                                                 <?php
