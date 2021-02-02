@@ -269,6 +269,12 @@
                                                                    data-toggle="tooltip"
                                                                    title="Tandai Order Telah Dikirm"><i
                                                                         class="fa fa-shipping-fast"></i> </a>
+                                                                @else
+                                                                <a href="{{route('order.berangkat',['id' => encrypt( $item->id)])}}"
+                                                                   class="btn btn-warning  delete-data"
+                                                                   data-toggle="tooltip"
+                                                                   title="Tandai Order Telah Diterima"><i
+                                                                        class="fa fa-hands"></i> </a>
                                                             @endif
                                                         @else
                                                             @if($item->isAmbil)
