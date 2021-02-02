@@ -229,7 +229,7 @@
                                             </td>
                                             <td class="text-center" width="10%">
                                                 @if($item->is_kurir_terserah)
-                                                    <div class="badge badge-success" data-placement="top"
+                                                    <div class="badge badge-info" data-placement="top"
                                                          data-toggle="tooltip"
                                                          title="Barang Dikirim Via Toko Terserah"><i
                                                             class="fa fa-shipping-fast"></i></div>
