@@ -62,7 +62,7 @@ class OrderController extends Controller
     public function update_resi(Request $request)
     {
         try {
-            $data = Pesanan::find($request->id);
+            $data = Pesanan::find(decrypt($request->id));
             $data->update([
                 'resi' => $request->resi,
                 'tgl_pengiriman' => Carbon::now()

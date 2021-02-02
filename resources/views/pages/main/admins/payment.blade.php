@@ -264,7 +264,7 @@
                                                     <div class="btn-group">
                                                         @if($item->is_kurir_terserah)
                                                             @if($item->tgl_pengiriman == null)
-                                                                <a href="{{route('order.berangkat',['id' => $item->id])}}"
+                                                                <a href="{{route('order.berangkat',['id' => encrypt( $item->id)])}}"
                                                                    class="btn btn-success  delete-data"
                                                                    data-toggle="tooltip"
                                                                    title="Tandai Order Telah Dikirm"><i
