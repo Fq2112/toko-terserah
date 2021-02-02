@@ -255,10 +255,10 @@
                                                 @endif
                                             </td>
                                             <td class="text-center" width="10%">
-                                                {{$item->tgl_pengiriman}}
+                                                {{$item->tgl_pengiriman ?? ' - '}}
                                             </td>
                                             <td class="text-center" width="10%">
-                                                {{$item->tgl_diterima}}
+                                                {{$item->tgl_diterima ?? ' - '}}
                                             </td>
                                             <td width="25%" align="center">
                                                 <?php
