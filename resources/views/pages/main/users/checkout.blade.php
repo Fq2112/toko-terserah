@@ -618,7 +618,7 @@
                                                                        name="opsi" value="logistik">
                                                                 <div class="card card-input text-center m-0 p-4"
                                                                      style="color: #333">
-                                                                    <b>Logistik ( JNE / POS / TIKI )</b>
+                                                                    <b>Logistik ( J&T / POS / TIKI )</b>
                                                                 </div>
                                                             </label>
                                                         </div>
@@ -1182,11 +1182,18 @@
                                                 $(".list-group-flush, #summary-alert").css('opacity', '1');
 
                                                 if ($(this).val() != "") {
+                                                    var nilai = $(this).val();
                                                     layanan_kurir.removeAttr('disabled').empty().append('<option></option>');
-                                                    $.each(logistic[$("option[value=" + $(this).val() + "]", this).attr('data-index')]['costs'], function (i, val) {
+                                                    $.each(logistic[$("option[value='" + nilai + "']", this).attr('data-index')]['costs'], function (i, val) {
+
+                                                        var etd = val.cost[0].etd;
+                                                        if(etd == null || etd == ""){
+                                                            etd = "2-3 ";
+                                                        }
+
                                                         layanan_kurir.append('<option value="' + val.service + '" ' +
                                                             'data-kode="' + kode_kurir.val() + '" ' +
-                                                            'data-etd="' + val.cost[0].etd + '" ' +
+                                                            'data-etd="' + etd + '" ' +
                                                             'data-ongkir="' + val.cost[0].value + '">' + val.service + '</option>');
                                                     });
 
