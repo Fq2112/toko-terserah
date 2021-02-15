@@ -12,7 +12,8 @@ class ProdukController extends Controller
 {
     public function show(Request $request)
     {
-        $data = Produk::all();
+        $data = Produk::query()
+            ->get(['id','barcode','nama','harga','stock','is_diskon','harga_diskon','isGrosir','harga_grosir','isDiskonGrosir','diskonGrosir','sub_kategori_id']);
 
         return view('pages.main.admins.produk.produk', [
             'data' => $data
@@ -21,7 +22,8 @@ class ProdukController extends Controller
 
     public function habis(Request $request)
     {
-        $data = Produk::query()->where('stock', '<=', 10)->get();
+        $data = Produk::query()->where('stock', '<=', 10)
+            ->get(['id','barcode','nama','harga','stock','is_diskon','harga_diskon','isGrosir','harga_grosir','isDiskonGrosir','diskonGrosir','sub_kategori_id']);
         return view('pages.main.admins.produk.habis', [
             'data' => $data
         ]);
