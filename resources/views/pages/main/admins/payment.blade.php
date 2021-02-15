@@ -167,15 +167,9 @@
                                 <table class="table table-striped" id="dt-buttons">
                                     <thead>
                                     <tr>
-                                        <th class="text-center" width="10%">
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" class="custom-control-input" id="cb-all">
-                                                <label for="cb-all" class="custom-control-label">#</label>
-                                            </div>
-                                        </th>
-                                        <th class="text-center">ID</th>
+                                        <th>#</th>
                                         <th width="15%">Kode</th>
-                                        <th width="15%">Customer</th>
+                                        <th width="20%">Customer</th>
                                         <th width="15%">
                                             <center>Kurir</center>
                                         </th>
@@ -193,18 +187,12 @@
                                     @php $no = 1; @endphp
                                     @foreach($data as $item)
                                         <tr>
-                                            <td style="vertical-align: middle" align="center">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" id="cb-{{$item->id}}"
-                                                           class="custom-control-input dt-checkboxes">
-                                                    <label for="cb-{{$item->id}}"
-                                                           class="custom-control-label">{{$no++}}</label>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">ID</td>
-                                            <td width="15%">{{ucfirst($item->uni_code)}}</td>
-                                            <td width="15%">{{$item->getUser->name}} <br>
-                                                ( {{$item->getUser->getBio->phone}} )
+                                            <td>{{$loop->iteration}}</td>
+                                            <td width="15%"  data-placement="top"
+                                                data-toggle="tooltip"
+                                                title="{{ucfirst($item->uni_code)}}">{{\Illuminate\Support\Str::limit(ucfirst($item->uni_code),15,'...')}}</td>
+                                            <td width="20%">{{$item->getUser->name}} <br>
+                                                <a  href="tel:{{$item->getUser->getBio->phone}}" class="text-primary">{{$item->getUser->getBio->phone}} </a>
                                             </td>
                                             <td width="15%" align="center">
                                                 @if($item->is_kurir_terserah)
@@ -525,8 +513,7 @@
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                         "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     columnDefs: [
-                        {sortable: false, targets: 6},
-                        {targets: 1, visible: false, searchable: false}
+                        {sortable: false, targets: 8},
                     ],
                     buttons: [
                         {
