@@ -250,7 +250,7 @@
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                         "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     columnDefs: [
-                        {sortable: false, targets: 7},
+                        {sortable: false, targets: 6},
 
                     ],
                     buttons: [
