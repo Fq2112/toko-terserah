@@ -214,6 +214,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'as' => 'admin.show.produk.habis'
             ]);
 
+            Route::post('show_barcode', [
+                'uses' => 'ProdukController@show_barcode',
+                'as' => 'admin.show.produk.barcode'
+            ]);
+
 
             Route::get('tambah', [
                 'uses' => 'ProdukController@add_product_page',

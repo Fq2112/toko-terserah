@@ -123,7 +123,6 @@
                                     <tr>
 
                                         <th class="text-center">ID</th>
-                                        <th width="15%">Kode Produk</th>
                                         <th width="15%">Nama Produk</th>
                                         <th width="15%">
                                             Jenis
@@ -141,13 +140,7 @@
                                         <tr>
 
                                             <td class="text-center">{{$loop->iteration}}</td>
-                                            <td>
-                                                <button class="btn btn-warning"
-                                                        data-html="true"
-                                                        data-toggle="popover"
-                                                        data-trigger="focus"
-                                                        title="<b>Barcode Code</b> -  {{$item->nama}}"
-                                                        data-content="{{DNS1D::getBarcodeHTML($item->barcode, 'C39')}}"><span class="fa fa-barcode"></span></button></td>
+
                                             <td>
                                                 {{$item->nama}}
                                             </td>
@@ -193,6 +186,10 @@
                                             </td>
                                             <td class="text-center" width="10%">
                                                 <div class="btn-group">
+                                                    <button class="btn btn-warning"
+                                                            data-toggle="tooltip" title="Barcode Produk"
+                                                            onclick="show_barcode_product('{{$item->id}}')">
+                                                        <span class="fa fa-barcode"></span></button>
                                                     <a href="javascript:void(0)" class="btn btn-success"
                                                        data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
                                                        title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
@@ -221,7 +218,22 @@
             </div>
         </div>
     </section>
+    <div class="modal fade " id="modal_barcode" tabindex="-1" role="dialog"
+         aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-light" id="produk_title"> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="barcode_place">
 
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @push("scripts")
@@ -282,6 +294,20 @@
                     },
                 });
         });
+
+        function show_barcode_product(code) {
+
+            $.post('{{route('admin.show.produk.barcode')}}', {
+                    _token: '{{csrf_token()}}',
+                    id: code
+                },
+                function (data) {
+                    $('#produk_title').text("Barcode Produk ");
+                    $('#barcode_place').html(data);
+
+                });
+            $('#modal_barcode').modal({backdrop: 'static', keyboard: false})
+        }
 
         function openModal(code, url_action, title) {
             console.log(code);

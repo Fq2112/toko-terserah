@@ -34,6 +34,20 @@ class ProdukController extends Controller
         return view('pages.main.admins.produk._partial.tambah_produk');
     }
 
+    public function show_barcode(Request $request)
+    {
+        try {
+            $data = Produk::query()->select(['barcode','nama'])->findOrFail($request->id);
+            return view('pages.main.admins.produk._partial.barcode',[
+                'data' => $data
+            ]);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ],500);
+        }
+    }
+
     public function add_stock(Request $request)
     {
         try {
