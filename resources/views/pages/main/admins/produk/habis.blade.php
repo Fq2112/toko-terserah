@@ -142,7 +142,12 @@
 
                                             <td class="text-center">{{$loop->iteration}}</td>
                                             <td>
-                                               </td>
+                                                <button class="btn btn-warning"
+                                                        data-html="true"
+                                                        data-toggle="popover"
+                                                        data-trigger="focus"
+                                                        title="<b>Barcode Code</b> -  {{$item->nama}}"
+                                                        data-content="{{DNS1D::getBarcodeHTML($item->barcode, 'C39')}}"><span class="fa fa-barcode"></span></button></td>
                                             <td>
                                                 {{$item->nama}}
                                             </td>
