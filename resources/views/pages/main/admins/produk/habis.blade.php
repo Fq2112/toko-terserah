@@ -121,7 +121,12 @@
                                 <table class="table table-striped" id="dt-buttons">
                                     <thead>
                                     <tr>
-
+                                        <th class="text-center" width="5%">
+                                            <div class="custom-checkbox custom-control">
+                                                <input type="checkbox" class="custom-control-input" id="cb-all">
+                                                <label for="cb-all" class="custom-control-label">#</label>
+                                            </div>
+                                        </th>
                                         <th class="text-center">ID</th>
                                         <th width="15%">Kode Produk</th>
                                         <th width="15%">Nama Produk</th>
@@ -139,15 +144,16 @@
                                     @php $no = 1; @endphp
                                     @foreach($data as $item)
                                         <tr>
-
-                                            <td class="text-center">{{$loop->iteration}}</td>
-                                            <td>
-                                                <button class="btn btn-warning"
-                                                        data-html="true"
-                                                        data-toggle="popover"
-                                                        data-trigger="focus"
-                                                        title="<b>Barcode Code</b> -  {{$item->nama}}"
-                                                        data-content="{{DNS1D::getBarcodeHTML($item->barcode, 'C39')}}"><span class="fa fa-barcode"></span></button></td>
+                                            <td style="vertical-align: middle" align="center">
+                                                <div class="custom-checkbox custom-control">
+                                                    <input type="checkbox" id="cb-{{$item->id}}"
+                                                           class="custom-control-input dt-checkboxes">
+                                                    <label for="cb-{{$item->id}}"
+                                                           class="custom-control-label">{{$no++}}</label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">{{$item->id}}</td>
+                                            <td>{!! DNS1D::getBarcodeHTML($item->barcode, 'C39') !!}</td>
                                             <td>
                                                 {{$item->nama}}
                                             </td>
@@ -238,8 +244,8 @@
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                         "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     columnDefs: [
-                        {sortable: false, targets: 7},
-
+                        {sortable: false, targets: 6},
+                        {targets: 1, visible: false, searchable: false}
                     ],
                     buttons: [
 
