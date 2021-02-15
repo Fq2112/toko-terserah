@@ -236,7 +236,7 @@
     </section>
     <div class="modal fade " id="modal_barcode" tabindex="-1" role="dialog"
          aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width: 600px">
+        <div class="modal-dialog" role="document" style="width: 900px">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title text-light" id="produk_title"> </h5>
