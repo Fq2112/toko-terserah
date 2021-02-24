@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="toko_terserah@localhost" uuid="590f95c4-2283-4f6c-8813-9c5ae275bf72">
-      <driver-ref>mysql</driver-ref>
+    <data-source source="LOCAL" name="toter@localhost" uuid="382c802f-6390-4351-9185-cb27a002d6f3">
+      <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/toko_terserah</jdbc-url>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3306/toter</jdbc-url>
     </data-source>
   </component>
 </project>

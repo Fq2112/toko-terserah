@@ -218,7 +218,7 @@
             </div>
         </div>
     </section>
-    <div class="modal fade " id="modal_barcode" tabindex="-1" role="dialog"
+    <div class="modal  fade " id="modal_barcode" tabindex="-1" role="dialog"
          aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="width: 900px">
             <div class="modal-content">
@@ -228,7 +228,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="barcode_place">
+                <div class="modal-body" id="barcode_place" style="width: 1200px">
 
                 </div>
             </div>
