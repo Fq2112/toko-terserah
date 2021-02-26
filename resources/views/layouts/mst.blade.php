@@ -320,7 +320,9 @@
                                     Jl. Raya Lontar No. 46 Surabaya – 60216
                                 </li>
                                 <li><a href="tel:+628113191081"><i class="fa fa-phone fa-flip-horizontal"
-                                                                   style="padding-right: 0;padding-left: 10px;"></i> +62 811-3191-081</a></li>
+                                                                   style="padding-right: 0;padding-left: 10px;"></i>
+                                        {{\App\Models\Setting::query()->where('id','!=',0)->first()->phone}}
+                                    </a></li>
                                 <li><a href="mailto:{{env('MAIL_USERNAME')}}"><i class="fa fa-envelope"></i>
                                         {{env('MAIL_USERNAME')}}</a></li>
                             </ul>
