@@ -150,7 +150,7 @@
                 <div id="co-left" style="margin-top: 0">
                     PT. Penta Surya Pratama<br>Jl. Raya Lontar No. 46 Surabaya – 60216<br>
                     Surabaya, Jawa Timur &ndash; 60216<br>
-                    Phone: +62 811-3191-081<br>
+                    Phone:  {{\App\Models\Setting::query()->where('id','!=',0)->first()->phone}}<br>
                 </div>
                 <br>
                 <div class="uppercase" style="
