@@ -135,88 +135,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @php $no = 1; @endphp
-                                    @foreach($data as $item)
-                                        <tr>
-                                            <td class="text-center">{{$loop->iteration}}</td>
 
-                                            <td>
-                                                {{$item->nama}}
-                                            </td>
-                                            <td>
-                                                @if(!empty($item->sub_kategori_id ))
-                                                    {{$item->getSubkategori->nama}}
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                {{$item->diskon ?? '0'}} %
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                @if($item->is_diskon == 1)
-                                                    <strike> {{number_format($item->harga)}}</strike><br>
-                                                    <span
-                                                        class="text-danger">  {{number_format($item->harga_diskon)}}</span>
-                                                @else
-                                                    {{number_format($item->harga)}}
-                                                @endif
-                                            </td>
-
-                                            <td class="text-center" width="10%">
-                                                {{$item->diskonGrosir ?? '0'}} %
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                @if($item->isDiskonGrosir == 1)
-                                                    <strike> {{number_format($item->harga_grosir)}}</strike><br>
-                                                    <span
-                                                        class="text-danger">  {{number_format($item->harga_diskon_grosir)}}</span>
-                                                @else
-                                                    {{number_format($item->harga_grosir)}}
-                                                @endif
-                                            </td>
-                                            <td class="text-center" width="15%">
-                                                <p id="stock-{{$item->id}}">{{$item->stock}}</p>
-                                                <form action="{{route('admin.show.produk.stock')}}" method="post"
-                                                      style="display: none"
-                                                      id="form_{{$item->id}}">
-                                                    {{csrf_field()}}
-                                                    <input type="hidden" name="id_produk" id="" value="{{$item->id}}"
-                                                           required>
-                                                    <div class="input-group">
-                                                        <input type="number" name="stock_produk" id=""
-                                                               class="form-control"
-                                                               min="{{$item->stock == 0 ? 1:$item->stock}}"
-                                                               value="{{$item->stock}}" required>
-                                                        <div class="input-group-append">
-                                                            <button data-placement="right" data-toggle="tooltip"
-                                                                    title="Tambah Data"
-                                                                    type="submit" class="btn btn-primary"
-                                                                    style="height: 2.25rem">
-                                                                <i class="fa fa-plus"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-warning"
-                                                            data-toggle="tooltip" title="Barcode Produk"
-                                                            onclick="show_barcode_product('{{$item->id}}')">
-                                                        <span class="fa fa-barcode"></span></button>
-                                                    <a href="javascript:void(0)" class="btn btn-success"
-                                                       data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
-                                                       title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
-                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>encrypt($item->id)])}}"
-                                                       class="btn btn-info" data-toggle="tooltip"
-                                                       title="Sunting Barang"><i class="fa fa-edit"></i> </a>
-                                                    <a href="{{route('delete.produk',['id' => $item->id])}}"
-                                                       class="btn btn-danger  delete-data" data-toggle="tooltip"
-                                                       title="Hapus Barang"><i class="fa fa-trash"></i> </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
                                     </tbody>
                                 </table>
                                 <form method="post" id="form-mass">
@@ -236,7 +155,7 @@
     </section>
     <div class="modal fade " id="modal_barcode" tabindex="-1" role="dialog"
          aria-labelledby="blogCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width: 900px">
+        <div class="modal-dialog" role="document" style="width: 1200px">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title text-light" id="produk_title"> </h5>
@@ -263,41 +182,21 @@
         $(function () {
             var export_filename = 'Blog Categories Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
-                    dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
-                        "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    columnDefs: [
-                        {sortable: false, targets: 8},
+                    processing: true,
+                    serverSide: true,
+                    ajax: '{{route('admin.ajax.produk')}}',
+                    columns: [
+                        {data: 'id'},
+                        {data: 'nama'},
+                        {data: 'kategori'},
+                        {data: 'diskon_percent'},
+                        {data: 'harga_diskon'},
+                        {data: 'diskon_percent_grosir'},
+                        {data: 'harga_diskon_grosir'},
+                        {data: 'stock_sec'},
+                        {data: 'action', sClass: 'text-center', orderable: false, searchable: false}
                     ],
-                    buttons: [
-                        {
-                            text: '<strong class="text-uppercase"><i class="far fa-clipboard mr-2"></i>Copy</strong>',
-                            extend: 'copy',
-                            exportOptions: {
-                                columns: [0, 2, 3, 4]
-                            },
-                            className: 'btn btn-warning assets-export-btn export-copy ttip'
-                        }, {
-                            text: '<strong class="text-uppercase"><i class="far fa-file-excel mr-2"></i>Excel</strong>',
-                            extend: 'excel',
-                            exportOptions: {
-                                columns: [0, 2, 3, 4]
-                            },
-                            className: 'btn btn-success assets-export-btn export-xls ttip',
-                            title: export_filename,
-                            extension: '.xls'
-                        }, {
-                            text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Print</strong>',
-                            extend: 'print',
-                            exportOptions: {
-                                columns: [0, 2, 3, 4]
-                            },
-                            className: 'btn btn-info assets-select-btn export-print'
-                        },
-                        // {
-                        //     text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
-                        //     className: 'btn btn-danger btn_massDelete'
-                        // }
-                    ],
+
                     fnDrawCallback: function (oSettings) {
                         $('.use-nicescroll').getNiceScroll().resize();
                         $('[data-toggle="tooltip"]').tooltip();

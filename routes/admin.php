@@ -209,6 +209,11 @@ Route::group(['namespace' => 'Pages\Admins'], function () {
                 'as' => 'admin.show.produk'
             ]);
 
+            Route::get('get-data', [
+                'uses' => 'ProdukController@getProduk',
+                'as' => 'admin.ajax.produk'
+            ]);
+
             Route::get('/akan_habis', [
                 'uses' => 'ProdukController@habis',
                 'as' => 'admin.show.produk.habis'

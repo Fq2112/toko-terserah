@@ -5,28 +5,129 @@ namespace App\Http\Controllers\Pages\Admins\DataMaster;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class ProdukController extends Controller
 {
     public function show(Request $request)
     {
-        $data = Produk::query()
-            ->get(['id','barcode','nama','harga','stock','is_diskon','harga_diskon','isGrosir','harga_grosir','isDiskonGrosir','diskonGrosir','sub_kategori_id']);
+        return view('pages.main.admins.produk.produk');
+    }
 
-        return view('pages.main.admins.produk.produk', [
-            'data' => $data
-        ]);
+    public function getProduk()
+    {
+        $data = Produk::query()
+            ->get(['id', 'barcode', 'nama', 'harga', 'stock', 'is_diskon', 'harga_diskon', 'isGrosir', 'harga_grosir', 'isDiskonGrosir', 'diskonGrosir', 'sub_kategori_id']);
+
+        $datatable = DataTables::of($data)
+            ->addColumn('kategori', function ($data) {
+                if (!empty($data->sub_kategori_id)) {
+                    $kategori = $data->getSubkategori->nama;
+                } else {
+                    $kategori = "-";
+                }
+                return $kategori;
+            })
+            ->addColumn('diskon_percent', function ($data) {
+                return $data->diskon ?? '0';
+            })
+            ->addColumn('harga_diskon', function ($data) {
+                if ($data->is_diskon == 1) {
+                    $show = '<strike>' . number_format($data->harga) . '</strike><br>
+                                <span class="text-danger">' . number_format($data->harga_diskon) . '</span>';
+                } else {
+                    $show = number_format($data->harga);
+                }
+                return $show;
+            })->addColumn('diskon_percent_grosir', function ($data) {
+                return $data->diskonGrosir ?? '0';
+            })->addColumn('harga_diskon_grosir', function ($data) {
+                if ($data->isDiskonGrosir == 1) {
+                    $show = '<strike>' . number_format($data->harga_grosir) . '</strike><br>
+                                <span class="text-danger">' . number_format($data->harga_diskon_grosir) . '</span>';
+                } else {
+                    $show = number_format($data->harga_grosir);
+                }
+                return $show;
+            })->addColumn('stock_sec', function ($data) {
+                $action = view('pages.main.admins.produk.stock', [
+                    'item' => $data
+                ]);
+                return $action;
+            })
+            ->addColumn('action', function ($data) {
+                $action = view('pages.main.admins.produk.button_action', [
+                    'item' => $data,
+                ]);
+                return $action;
+            })
+            ->rawColumns(['harga_diskon', 'harga_diskon_grosir', 'stock_sec', 'action']);;
+
+//            dd($datatable);
+
+        return $datatable->make(true);
     }
 
     public function habis(Request $request)
     {
-        $data = Produk::query()->where('stock', '<=', 10)
-            ->get(['id','barcode','nama','harga','stock','is_diskon','harga_diskon','isGrosir','harga_grosir','isDiskonGrosir','diskonGrosir','sub_kategori_id']);
-        return view('pages.main.admins.produk.habis', [
-            'data' => $data
-        ]);
+        if($request->ajax()){
+            $data = Produk::query()->where('stock', '<=', 10)
+                ->get(['id', 'barcode', 'nama', 'harga', 'stock', 'is_diskon', 'harga_diskon', 'isGrosir', 'harga_grosir', 'isDiskonGrosir', 'diskonGrosir', 'sub_kategori_id']);
+
+            $datatable = DataTables::of($data)
+                ->addColumn('kategori', function ($data) {
+                    if (!empty($data->sub_kategori_id)) {
+                        $kategori = $data->getSubkategori->nama;
+                    } else {
+                        $kategori = "-";
+                    }
+                    return $kategori;
+                })
+                ->addColumn('diskon_percent', function ($data) {
+                    return $data->diskon ?? '0';
+                })
+                ->addColumn('harga_diskon', function ($data) {
+                    if ($data->is_diskon == 1) {
+                        $show = '<strike>' . number_format($data->harga) . '</strike><br>
+                                <span class="text-danger">' . number_format($data->harga_diskon) . '</span>';
+                    } else {
+                        $show = number_format($data->harga);
+                    }
+                    return $show;
+                })->addColumn('diskon_percent_grosir', function ($data) {
+                    return $data->diskonGrosir ?? '0';
+                })->addColumn('harga_diskon_grosir', function ($data) {
+                    if ($data->isDiskonGrosir == 1) {
+                        $show = '<strike>' . number_format($data->harga_grosir) . '</strike><br>
+                                <span class="text-danger">' . number_format($data->harga_diskon_grosir) . '</span>';
+                    } else {
+                        $show = number_format($data->harga_grosir);
+                    }
+                    return $show;
+                })->addColumn('stock_sec', function ($data) {
+                    $action = view('pages.main.admins.produk.stock', [
+                        'item' => $data
+                    ]);
+                    return $action;
+                })
+                ->addColumn('action', function ($data) {
+                    $action = view('pages.main.admins.produk.button_action', [
+                        'item' => $data,
+                    ]);
+                    return $action;
+                })
+                ->rawColumns(['harga_diskon', 'harga_diskon_grosir', 'stock_sec', 'action']);;
+
+//            dd($datatable);
+
+            return $datatable->make(true);
+        }
+
+        return view('pages.main.admins.produk.habis');
     }
 
     public function add_product_page()
@@ -37,14 +138,14 @@ class ProdukController extends Controller
     public function show_barcode(Request $request)
     {
         try {
-            $data = Produk::query()->select(['barcode','nama'])->findOrFail($request->id);
-            return view('pages.main.admins.produk._partial.barcode',[
+            $data = Produk::query()->select(['barcode', 'nama'])->findOrFail($request->id);
+            return view('pages.main.admins.produk._partial.barcode', [
                 'data' => $data
             ]);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage()
-            ],500);
+            ], 500);
         }
     }
 
@@ -66,7 +167,7 @@ class ProdukController extends Controller
     {
 
         $check = Produk::where('kode_barang', $request->kode_barang)->first();
-       $setting = Setting::query()->where('id', '!=', 0)->first();
+        $setting = Setting::query()->where('id', '!=', 0)->first();
 //        if (!empty($check)) {
 //            return back()->with('error', 'Kode Barang ' . $request->kode_barang . ' Telah Ada Silahkan Gunakan Kode Lain');
 //        }
@@ -85,7 +186,7 @@ class ProdukController extends Controller
             'harga' => $request->harga,
             'stock' => $request->stock,
             'actual_weight' => $request->berat,
-            'berat' => $request->berat + ( $request->berat * ($setting->percent_weight / 100)),
+            'berat' => $request->berat + ($request->berat * ($setting->percent_weight / 100)),
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'harga_grosir' => $request->harga_grosir,
             'galeri' => [],
@@ -176,7 +277,7 @@ class ProdukController extends Controller
             'harga' => $request->harga,
             'stock' => $request->stock,
             'actual_weight' => $request->berat,
-            'berat' => $request->berat + ( $request->berat * ($setting->percent_weight / 100)),
+            'berat' => $request->berat + ($request->berat * ($setting->percent_weight / 100)),
             'permalink' => preg_replace("![^a-z0-9]+!i", "-", strtolower($request->nama)),
             'is_diskon' => false,
             'harga_diskon' => 0,

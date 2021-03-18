@@ -129,78 +129,14 @@
                                         </th>
                                         <th class="text-center" width="10%">Diskon</th>
                                         <th class="text-center" width="10%">Harga</th>
-
+                                        <th class="text-center" width="10%">diskon Grosir</th>
+                                        <th class="text-center" width="10%">harga Grosir</th>
                                         <th class="text-center" width="10%">Stok</th>
                                         <th class="text-center" width="10%">Aksi</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @php $no = 1; @endphp
-                                    @foreach($data as $item)
-                                        <tr>
 
-                                            <td class="text-center">{{$loop->iteration}}</td>
-
-                                            <td>
-                                                {{$item->nama}}
-                                            </td>
-                                            <td>
-                                                @if(!empty($item->sub_kategori_id ))
-                                                    {{$item->getSubkategori->nama}}
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                {{$item->diskon ?? '0'}} %
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                @if($item->isDiskonGrosir == 1)
-                                                    <strike> {{number_format($item->harga)}}</strike><br>
-                                                    <span
-                                                        class="text-danger">  {{number_format($item->harga_diskon)}}</span>
-                                                @else
-                                                    {{number_format($item->harga)}}
-                                                @endif
-                                            </td>
-
-
-                                            <td class="text-center" width="15%">
-                                                <p id="stock-{{$item->id}}">{{$item->stock}}</p>
-                                                <form action="{{route('admin.show.produk.stock')}}" method="post" style="display: none"
-                                                      id="form_{{$item->id}}">
-                                                    {{csrf_field()}}
-                                                    <input type="hidden" name="id_produk" id="" value="{{$item->id}}"
-                                                           required>
-                                                    <div class="input-group">
-                                                    <input type="number" name="stock_produk" id="" class="form-control" min="{{$item->stock == 0 ? 1:$item->stock}}"
-                                                           value="{{$item->stock}}" required>
-                                                        <div class="input-group-append">
-                                                            <button data-placement="right" data-toggle="tooltip"
-                                                                    title="Tambah Data"
-                                                                    type="submit" class="btn btn-primary" style="height: 2.25rem">
-                                                                <i class="fa fa-plus"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-warning"
-                                                            data-toggle="tooltip" title="Barcode Produk"
-                                                            onclick="show_barcode_product('{{$item->id}}')">
-                                                        <span class="fa fa-barcode"></span></button>
-                                                    <a href="javascript:void(0)" class="btn btn-success"
-                                                       data-toggle="tooltip" onclick="show_input('{{$item->id}}')"
-                                                       title="Tambah Stok Barang"><i class="fa fa-plus-square"></i> </a>
-                                                    <a href="{{route('admin.show.produk.edit',['kode_barang'=>encrypt($item->id)])}}" class="btn btn-info" data-toggle="tooltip"
-                                                       title="Sunting Barang"><i class="fa fa-edit"></i> </a>
-                                                    <a href="{{route('delete.produk',['id' => $item->id])}}" class="btn btn-danger  delete-data" data-toggle="tooltip"
-                                                       title="Hapus Barang"><i class="fa fa-trash"></i> </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
                                     </tbody>
                                 </table>
                                 <form method="post" id="form-mass">
@@ -247,19 +183,21 @@
         $(function () {
             var export_filename = 'Blog Categories Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
-                    dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
-                        "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    columnDefs: [
-                        {sortable: false, targets: 6},
-
+                    processing: true,
+                    serverSide: true,
+                    ajax: '{{route('admin.show.produk.habis')}}',
+                    columns: [
+                        {data: 'id'},
+                        {data: 'nama'},
+                        {data: 'kategori'},
+                        {data: 'diskon_percent'},
+                        {data: 'harga_diskon'},
+                        {data: 'diskon_percent_grosir'},
+                        {data: 'harga_diskon_grosir'},
+                        {data: 'stock_sec'},
+                        {data: 'action', sClass: 'text-center', orderable: false, searchable: false}
                     ],
-                    buttons: [
 
-                        // {
-                        //     text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
-                        //     className: 'btn btn-danger btn_massDelete'
-                        // }
-                    ],
                     fnDrawCallback: function (oSettings) {
                         $('.use-nicescroll').getNiceScroll().resize();
                         $('[data-toggle="tooltip"]').tooltip();

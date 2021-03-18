@@ -19,7 +19,8 @@
         "laravel/ui": "^2.0",
         "midtrans/midtrans-php": "^2.3",
         "milon/barcode": "^7.0",
-        "tymon/jwt-auth": "dev-develop"
+        "tymon/jwt-auth": "dev-develop",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
